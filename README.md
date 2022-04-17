@@ -1,1 +1,3 @@
-# BlazorCRUD_UIGenerator
+# Blazor CRUD UI Generator
+
+![](wwwroot/images/DynamicCRUD.png)
