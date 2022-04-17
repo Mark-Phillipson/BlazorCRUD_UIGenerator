@@ -1,0 +1,70 @@
+﻿<#@ template debug="true" hostspecific="false" language="C#" #>
+
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+using Ardalis.GuardClauses;
+using AutoMapper;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+
+
+
+namespace <#=Namespace#>
+{
+    public class <#=ModelName#>DataService : I<#=ModelName#>DataService
+    {
+        private readonly I<#=ModelName#>Repository _<#=ModelNameCamelCase#>Repository;
+
+        public <#=ModelName#>DataService(I<#=ModelName#>Repository <#=ModelNameCamelCase#>Repository)
+        {
+            this._<#=ModelNameCamelCase#>Repository = <#=ModelNameCamelCase#>Repository;
+        }
+        public async Task<List<<#=ModelName#>DTO>> GetAll<#=PluralTablename#>Async()
+        {
+            var <#=PluralTablename#> = await _<#=ModelNameCamelCase#>Repository.GetAll<#=PluralTablename#>Async(300);
+            return <#=PluralTablename#>.ToList();
+        }
+
+        public async Task<<#=ModelName#>DTO?> Get<#=ModelName#>ById(<#=PrimaryKeyDataType#> <#=PrimaryKeyName#>)
+        {
+            var <#=ModelNameCamelCase#> = await _<#=ModelNameCamelCase#>Repository.Get<#=ModelName#>ByIdAsync(<#=PrimaryKeyName#>);
+            return <#=ModelNameCamelCase#>;
+        }
+
+        public async Task<<#=ModelName#>DTO?> Add<#=ModelName#>(<#=ModelName#>DTO <#=ModelNameCamelCase#>DTO)
+        {
+            Guard.Against.Null(<#=ModelNameCamelCase#>DTO);
+            var result = await _<#=ModelNameCamelCase#>Repository.Add<#=ModelName#>Async(<#=ModelNameCamelCase#>DTO);
+            if (result == null)
+            {
+                throw new Exception($"Add of <#=ModelNameCamelCase#> failed ID: {<#=ModelNameCamelCase#>DTO.<#=PrimaryKeyName#>}");
+            }
+            return result;
+        }
+
+        public async Task<<#=ModelName#>DTO> Update<#=ModelName#>(<#=ModelName#>DTO <#=ModelNameCamelCase#>DTO, string? username)
+        {
+            Guard.Against.Null(<#=ModelNameCamelCase#>DTO);
+            Guard.Against.Null(username);
+            var result = await _<#=ModelNameCamelCase#>Repository.Update<#=ModelName#>Async(<#=ModelNameCamelCase#>DTO);
+            if (result == null)
+            {
+                throw new Exception($"Update of <#=ModelNameCamelCase#> failed ID: {<#=ModelNameCamelCase#>DTO.<#=PrimaryKeyName#>}");
+            }
+            return result;
+        }
+
+        public async Task Delete<#=ModelName#>(<#=PrimaryKeyDataType#> <#=PrimaryKeyName#>)
+        {
+            await _<#=ModelNameCamelCase#>Repository.Delete<#=ModelName#>Async(<#=PrimaryKeyName#>);
+        }
+    }
+}

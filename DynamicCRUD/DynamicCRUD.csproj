@@ -1,0 +1,119 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Ardalis.GuardClauses" Version="4.0.1" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="4.1.0" />
+    <PackageReference Include="System.CodeDom" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="T4Templates\GenericAddEdit.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>GenericAddEdit.cs</LastGenOutput>
+    </None>
+    <None Update="T4Templates\GenericAddEditCodeBehind.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>GenericAddEditCodeBehind.cs</LastGenOutput>
+    </None>
+    <None Update="T4Templates\GenericDataService.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>GenericDataService.cs</LastGenOutput>
+    </None>
+    <None Update="T4Templates\GenericDTO.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>GenericDTO.cs</LastGenOutput>
+    </None>
+    <None Update="T4Templates\GenericIDataService.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>GenericIDataService.cs</LastGenOutput>
+    </None>
+    <None Update="T4Templates\GenericIRepository.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>GenericIRepository.cs</LastGenOutput>
+    </None>
+    <None Update="T4Templates\GenericModel.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>GenericModel.cs</LastGenOutput>
+    </None>
+    <None Update="T4Templates\GenericRepository.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>GenericRepository.cs</LastGenOutput>
+    </None>
+    <None Update="T4Templates\GenericTable.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>GenericTable.cs</LastGenOutput>
+    </None>
+    <None Update="T4Templates\GenericTableCodeBehind.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>GenericTableCodeBehind.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="T4Templates\GenericAddEdit.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>GenericAddEdit.tt</DependentUpon>
+    </Compile>
+    <Compile Update="T4Templates\GenericAddEditCodeBehind.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>GenericAddEditCodeBehind.tt</DependentUpon>
+    </Compile>
+    <Compile Update="T4Templates\GenericDataService.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>GenericDataService.tt</DependentUpon>
+    </Compile>
+    <Compile Update="T4Templates\GenericDTO.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>GenericDTO.tt</DependentUpon>
+    </Compile>
+    <Compile Update="T4Templates\GenericIDataService.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>GenericIDataService.tt</DependentUpon>
+    </Compile>
+    <Compile Update="T4Templates\GenericIRepository.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>GenericIRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="T4Templates\GenericModel.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>GenericModel.tt</DependentUpon>
+    </Compile>
+    <Compile Update="T4Templates\GenericRepository.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>GenericRepository.tt</DependentUpon>
+    </Compile>
+    <Compile Update="T4Templates\GenericTable.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>GenericTable.tt</DependentUpon>
+    </Compile>
+    <Compile Update="T4Templates\GenericTableCodeBehind.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>GenericTableCodeBehind.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="AutoGenClasses\" />
+  </ItemGroup>
+
+</Project>

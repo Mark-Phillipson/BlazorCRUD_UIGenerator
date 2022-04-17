@@ -1,0 +1,102 @@
+﻿<#@ template debug="true" hostspecific="false" language="C#" #>
+<#@ assembly name="System" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.CodeDom.Compiler" #>
+<#@ assembly name="System.CodeDom" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".razor" #>
+<#  int cols= 12;
+    if (DatabaseColumns.Count()>7) {cols= 6;} 
+    if (DatabaseColumns.Count()>14) {cols= 4;}
+    if (DatabaseColumns.Count()>21) {cols= 3;}
+#>
+@page "/<#=ModelName#>"
+<div style="min-width:80vw">
+    <EditForm Model="@<#=ModelName#>DTO" OnValidSubmit="@HandleValidSubmit">
+        <DataAnnotationsValidator />
+        @*<ValidationSummary />*@
+<#      if (PrimaryKeyDataType=="int") {
+#>
+        @if (<#=ModelName#>DTO.<#=PrimaryKeyName#> > 0)
+<#      } else {
+#>
+        @if (<#=ModelName#>DTO.<#=PrimaryKeyName#>!= null )
+<#      }
+#>
+        {
+            <span class="text-info">@<#=ModelName#>DTO.<#=PrimaryKeyName#></span>
+        }
+        <div class="row">
+            <div class="col-<#=cols#>">
+<# 
+            var counter=0;
+            foreach (var property in DatabaseColumns.Where(w => w.IsAutoIncrement==false))  {
+                counter++;
+                if (counter==8 || counter== 15 || counter== 22 ) {
+#>             </div>
+               <div class="col-<#=cols#>">
+<#
+                }
+                if (property.DataType=="nvarchar" && property.ColumnSize< 51) {
+#>
+                <div class="form-group">
+                    <label for="<#=property.PropertyName#>"><#=property.Label#>:</label><#
+                    if (property.Required) {
+#> <i class="text-danger fa">*</i>
+<#                  }
+#>
+
+                    <InputText id="<#=property.PropertyName#>" class="form-control" @bind-Value="@<#=ModelName#>DTO.<#=property.PropertyName#>"
+                               placeholder="Enter <#=property.Label#>"></InputText>
+                    <ValidationMessage For="@(() => <#=ModelName#>DTO.<#=property.PropertyName#>)" />
+                </div>
+<#              } else if (property.DataType=="int") {
+#>
+                <div class="form-group">
+                    <label for="<#=property.PropertyName#>"><#=property.Label#>: </label><#
+                    if (property.Required) {
+#> <i class="text-danger fa">*</i>
+<#                  }
+#>
+                    <InputNumber id="<#=property.PropertyName#>" class="form-control" @bind-Value="@<#=ModelName#>DTO.<#=property.PropertyName#>"
+                                 placeholder="Enter <#=property.Label#>"></InputNumber>
+                    <ValidationMessage For="@(() => <#=ModelName#>DTO.<#=property.PropertyName#>)" />
+                </div>
+<#              } else if (property.DataType=="bit") {
+#>
+                <div class="form-group">
+                    <label for="<#=property.PropertyName#>"><#=property.Label#>: </label>
+                    <InputCheckbox id="<#=property.PropertyName#>" class="form-checkbox" @bind-Value="@<#=ModelName#>DTO.<#=property.PropertyName#>">
+                    </InputCheckbox>
+                    <ValidationMessage For="@(() => <#=ModelName#>DTO.<#=property.PropertyName#>)" />
+                </div>
+<#              } else if (property.DataType=="nvarchar"  && property.ColumnSize> 50) {
+#>
+                <div class="form-group">
+                    <label for="<#=property.PropertyName#>"><#=property.Label#>: </label><#
+                    if (property.Required) {
+#> <i class="text-danger fa">*</i>
+<#                  }
+#>
+                    <InputTextArea rows="2" id="<#=property.PropertyName#>" class="form-control" @bind-Value="@<#=ModelName#>DTO.<#=property.PropertyName#>"
+                               placeholder="Enter <#=property.Label#>"></InputTextArea>
+                    <ValidationMessage For="@(() => <#=ModelName#>DTO.<#=property.PropertyName#>)" />
+                </div>
+<#               }
+            }
+#>
+            </div>
+            <div class="col-<#=cols#>">
+                 @* Move here for the next display column if required *@
+            </div>
+        </div>
+        <hr>
+        <div class="btn-group" style="float:right">
+            <a accesskey="c" class="btn btn-outline-primary" @onclick="@Close"><u>C</u>ancel</a>
+            <button disabled="@TaskRunning" accesskey="s" type="submit" class="btn btn-primary"><u>S</u>ave Record</button>
+        </div>
+    </EditForm>
+</div>
+

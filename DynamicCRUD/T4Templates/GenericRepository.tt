@@ -1,0 +1,97 @@
+﻿<#@ template debug="true" hostspecific="false" language="C#" #>
+
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+
+using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using Ardalis.GuardClauses;
+using BostonAcademic.Client.Models;
+
+namespace <#=Namespace#>
+{
+    public class <#=ModelName#>Repository : I<#=ModelName#>Repository
+    {
+        private readonly IDbContextFactory<BostonAcademicDbContext> _contextFactory;
+        private readonly IMapper _mapper;
+
+        public <#=ModelName#>Repository(IDbContextFactory<BostonAcademicDbContext> contextFactory,IMapper mapper)
+        {
+            _contextFactory = contextFactory;
+            this._mapper = mapper;
+        }
+        public async Task<IEnumerable<<#=ModelName#>DTO>> GetAll<#=PluralTablename#>Async(int maxRows= 400)
+        {
+            using var context = _contextFactory.CreateDbContext();
+            var <#=PluralTablename#>= await context.<#=PluralTablename#>
+                //.Where(v => v.?==?)
+                //.OrderBy(v => v.?)
+                .Take(maxRows)
+                .ToListAsync();
+            IEnumerable<<#=ModelName#>DTO> <#=PluralTablename#>DTO = _mapper.Map<List<<#=ModelName#>>, IEnumerable<<#=ModelName#>DTO>>(<#=PluralTablename#>);
+            return <#=PluralTablename#>DTO;
+        }
+
+        public async Task<<#=ModelName#>DTO?> Get<#=ModelName#>ByIdAsync(<#=PrimaryKeyDataType#> <#=PrimaryKeyName#>)
+        {
+            using var context = _contextFactory.CreateDbContext();
+            var result =await context.<#=PluralTablename#>.AsNoTracking()
+              .FirstOrDefaultAsync(c => c.<#=PrimaryKeyName#> == <#=PrimaryKeyName#>);
+            if (result == null) return null;
+            <#=ModelName#>DTO <#=ModelNameCamelCase#>DTO=_mapper.Map<<#=ModelName#>,<#=ModelName#>DTO>(result);
+            return <#=ModelNameCamelCase#>DTO;
+        }
+
+        public async Task<<#=ModelName#>DTO?> Add<#=ModelName#>Async(<#=ModelName#>DTO <#=ModelNameCamelCase#>DTO)
+        {
+            using var context = _contextFactory.CreateDbContext();
+            <#=ModelName#> <#=ModelNameCamelCase#> = _mapper.Map<<#=ModelName#>DTO, <#=ModelName#>>(<#=ModelNameCamelCase#>DTO);
+            var addedEntity = context.<#=PluralTablename#>.Add(<#=ModelNameCamelCase#>);
+            try
+            {
+                await context.SaveChangesAsync();
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+                return null;
+            }
+            <#=ModelName#>DTO resultDTO=_mapper.Map<<#=ModelName#>, <#=ModelName#>DTO>(<#=ModelNameCamelCase#>);
+            return resultDTO;
+        }
+
+        public async Task<<#=ModelName#>DTO?> Update<#=ModelName#>Async(<#=ModelName#>DTO <#=ModelNameCamelCase#>DTO)
+        {
+            <#=ModelName#> <#=ModelNameCamelCase#>=_mapper.Map<<#=ModelName#>DTO, <#=ModelName#>>(<#=ModelNameCamelCase#>DTO);
+            using (var context = _contextFactory.CreateDbContext())
+            {
+                var found<#=ModelName#> = await context.<#=PluralTablename#>.AsNoTracking().FirstOrDefaultAsync(e => e.<#=PrimaryKeyName#> == <#=ModelNameCamelCase#>.<#=PrimaryKeyName#>);
+
+                if (found<#=ModelName#> != null)
+                {
+                    var mapped<#=ModelName#> = _mapper.Map<<#=ModelName#>>(<#=ModelNameCamelCase#>);
+                    context.<#=PluralTablename#>.Update(mapped<#=ModelName#>);
+                    await context.SaveChangesAsync();
+                    <#=ModelName#>DTO resultDTO = _mapper.Map<<#=ModelName#>, <#=ModelName#>DTO>(mapped<#=ModelName#>);
+                    return resultDTO;
+                }
+            }
+            return null;
+        }
+        public async Task Delete<#=ModelName#>Async(<#=PrimaryKeyDataType#> <#=PrimaryKeyName#>)
+        {
+            using var context = _contextFactory.CreateDbContext();
+            var found<#=ModelName#> = context.<#=PluralTablename#>.FirstOrDefault(e => e.<#=PrimaryKeyName#> == <#=PrimaryKeyName#>);
+            if (found<#=ModelName#> == null)
+            {
+                return;
+            }
+            context.<#=PluralTablename#>.Remove(found<#=ModelName#>);
+            await context.SaveChangesAsync();
+        }
+    }
+}

@@ -1,0 +1,137 @@
+﻿<#@ template debug="true" hostspecific="false" language="C#" #>
+
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
+using System.Net.Http;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.Components.Routing;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Components.Web.Virtualization;
+using Microsoft.JSInterop;
+using Blazored.Modal;
+using Blazored.Modal.Services;
+using Blazored.Toast;
+using Blazored.Toast.Services;
+using System.Security.Claims;
+
+namespace <#=Namespace#>
+{
+    public partial class <#=ModelName#>AddEdit
+    {
+        [CascadingParameter] BlazoredModalInstance? ModalInstance { get; set; }
+        [Inject] public IJSRuntime? JSRuntime { get; set; }
+        [Parameter] public ClaimsPrincipal? User { get; set; }
+        [Parameter] public <#=PrimaryKeyDataType#>? <#=PrimaryKeyName#> { get; set; }
+
+        public <#=ModelName#>DTO <#=ModelName#>DTO { get; set; } = new <#=ModelName#>DTO();//{ Set Default Field values here};
+        [Inject] public I<#=ModelName#>DataService? <#=ModelName#>DataService { get; set; }
+        [Inject] public IToastService? ToastService { get; set; }
+        bool TaskRunning = false;   
+        protected override async Task OnInitializedAsync()
+        {
+            if (<#=ModelName#>DataService == null)
+            {
+                return;
+            }
+<#          if (PrimaryKeyDataType=="int") {
+#>
+            if (<#=PrimaryKeyName#> > 0)
+            {
+                var result = await <#=ModelName#>DataService.Get<#=ModelName#>ById((int)<#=PrimaryKeyName#>);
+                if (result != null)
+                {
+                    <#=ModelName#>DTO = result;
+                }
+<#          } else {
+#>
+            if (<#=PrimaryKeyName#>!= null )
+            {
+                var result = await <#=ModelName#>DataService.Get<#=ModelName#>ById((string)<#=PrimaryKeyName#>);
+                if (result != null)
+                {
+                    <#=ModelName#>DTO = result;
+                }
+<#          }
+#>
+            }
+            else
+            {
+                //<#=ModelName#>DTO.ParentId = ParentId;
+            }
+            if (User?.Identity?.Name != null)
+            {
+            }
+        }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
+            {
+                try
+                {
+                    if (JSRuntime != null)
+                    {
+                        await JSRuntime.InvokeVoidAsync("window.setFocus", "<#=DefaultSortColumn#>");
+                    }
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception.Message);
+                }
+            }
+        }
+        public void Close()
+        {
+            if (ModalInstance != null)
+                ModalInstance.CancelAsync();
+        }
+
+        protected async Task HandleValidSubmit()
+        {
+            TaskRunning = true;
+<#          if (PrimaryKeyDataType=="int") {
+#>
+            if ((<#=PrimaryKeyName#> == 0 || <#=PrimaryKeyName#> == null) && <#=ModelName#>DataService != null)
+<#          } else {
+#>
+            if ((string.IsNullOrWhiteSpace(<#=PrimaryKeyName#>) || <#=PrimaryKeyName#> == null) && <#=ModelName#>DataService != null)
+<#          }
+#>
+            {
+                <#=ModelName#>DTO? result = await <#=ModelName#>DataService.Add<#=ModelName#>(<#=ModelName#>DTO);
+                if (result == null)
+                {
+                    ToastService?.ShowError("<#=ModelName#> failed to add, please investigate", "Error Adding New <#=ModelName#>");
+                    return;
+                }
+                ToastService?.ShowSuccess("<#=ModelName#> added successfully", "SUCCESS");
+            }
+            else
+            {
+                if (<#=ModelName#>DataService != null && User?.Identity?.Name != null)
+                {
+                    await <#=ModelName#>DataService!.Update<#=ModelName#>(<#=ModelName#>DTO, User!.Identity!.Name);
+                    ToastService?.ShowSuccess("The <#=ModelName#> updated successfully", "SUCCESS");
+                }
+            }
+            if (ModalInstance != null)
+            {
+                await ModalInstance.CloseAsync(ModalResult.Ok(true));
+            }
+            TaskRunning = false;
+        }
+
+    }
+}

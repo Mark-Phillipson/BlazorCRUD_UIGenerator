@@ -1,0 +1,86 @@
+﻿@using Microsoft.AspNetCore.Components.Web
+@namespace DynamicCRUD.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="~/" />
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    <link href="css/site.css" rel="stylesheet" />
+    <link href="DynamicCRUD.styles.css" rel="stylesheet" />
+    <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
+</head>
+<body>
+    @RenderBody()
+
+    <div id="blazor-error-ui">
+        <environment include="Staging,Production">
+            An error has occurred. This application may no longer respond until reloaded.
+        </environment>
+        <environment include="Development">
+            An unhandled exception has occurred. See browser dev tools for details.
+        </environment>
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+
+    <script src="_framework/blazor.server.js"></script>
+    <script>
+        /* Get the documentElement (<html>) to display the page in fullscreen */
+        var elem = document.documentElement;
+
+        /* View in fullscreen */
+        function openFullscreen() {
+          if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+          } else if (elem.mozRequestFullScreen) { /* Firefox */
+            elem.mozRequestFullScreen();
+          } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+            elem.webkitRequestFullscreen();
+          } else if (elem.msRequestFullscreen) { /* IE/Edge */
+            elem.msRequestFullscreen();
+           }
+        }
+
+        /* Close fullscreen */
+        function closeFullscreen() {
+          if (document.exitFullscreen) {
+            document.exitFullscreen();
+          } else if (document.mozCancelFullScreen) { /* Firefox */
+            document.mozCancelFullScreen();
+          } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+            document.webkitExitFullscreen();
+          } else if (document.msExitFullscreen) { /* IE/Edge */
+            document.msExitFullscreen();
+          }
+        }
+        function CallChange(elementId) {
+            var element = document.getElementById(elementId);
+            if (element) {
+                var event = new Event('change');
+                element.dispatchEvent(event);
+            }
+        }
+        window.setFocus = (elementId) => {
+            setTimeout(internalFocus, 10, elementId);
+        };
+        function internalFocus(elementId) {
+            var element = document.getElementById(elementId);
+            if (element == null) {
+                setTimeout(internalFocus, 10, elementId);
+                return;
+            }
+            element.focus();
+            element.select();
+        }
+        window.myJsFunctions = {
+            focusElement: function (element) {
+                element.focus();
+            }
+        }
+    </script>
+</body>
+</html>

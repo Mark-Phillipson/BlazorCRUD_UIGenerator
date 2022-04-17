@@ -1,0 +1,121 @@
+﻿@using DynamicCRUD.T4Templates
+@page "/blazorcrudgeneration"
+<div class="row">
+    <div class="col-6 my-2">
+        <div class="form-group">
+            <label class=control-label><u>T</u>able Filter </label>
+            <input accesskey="t" class="form-control" type="text" @bind="SearchString" id="SearchString" @oninput="@(e => CallChangeAsync("SearchString"))" />
+        </div>
+		<div class="row">
+			<div class="col-10">
+					<label class="form-label">Select a Table</label>
+					<select id="tables" class="form-select border border-warning" @bind="@Tablename">
+						@foreach (var databaseTable in databaseTables)
+						{
+							<option value="@databaseTable.Tablename">@databaseTable.Tablename</option>
+						}
+					</select>
+			</div>
+			<div class="col-2">
+			@if (Tablename != null)
+{
+			<label></label>
+				<button class="btn btn-sm btn-primary" type="button" @onclick="@( ( ) => PopulateColumns() )">Populate Columns</button>
+}
+			</div>
+		</div>
+    </div>
+    <div class="col-6">
+        <div class="form-group">
+            <label class=control-label>Model Name <span class="text-danger">(Please Check! @ModelName)</span></label>
+            <input class="form-control" type="text" @bind="ModelName" id="ModelName" @oninput="@(e => CallChangeAsync("ModelName"))" />
+        </div>
+        <div class="form-group">
+            <label class=control-label>Plura Name <span class="text-danger">(Please Check! @PluralName)</span></label>
+            <input class="form-control" type="text" @bind="PluralName" id="PluralName" @oninput="@(e => CallChangeAsync("PluralName"))" />
+        </div>
+        <br>
+    </div>
+
+    <div class="col-6">
+    </div>
+    @if (Columns != null)
+    {
+        <div class="col-12">
+            <table style="font-size:x-small" class="table table-sm table-bordered table-striped" id="table1">
+                <thead>
+                    <tr>
+                        <th>Column Name</th>
+                        <th>Label</th>
+                        <th>Data Type</th>
+                        <th>Size</th>
+                        <th>Required</th>
+                        <th>Is Auto Increment</th>
+                        <th>Is Identity</th>
+                        <th>Is Key</th>
+                        <th>Filter?</th>
+                        <th>Sort?</th>
+                        <th>PK Override</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var column in Columns)
+                    {
+                        <tr>
+                            <td>@column.ColumnName</td>
+                            <td><input type="text" class="form-control-sm" @bind="@column.Label" /></td>
+                            <td>@column.DataType</td>
+                            <td>@column.ColumnSize</td>
+                            <td>@column.Required</td>
+                            <td>@column.IsAutoIncrement</td>
+                            <td>@column.IsIdentity</td>
+                            <td>@column.IsKey</td>
+                            <td><input type="checkbox" class="form-checkbox" @bind="@column.Filter" /></td>
+                            <td><input type="checkbox" class="form-checkbox" @bind="@column.Sort" /></td>
+                            <td><input type="checkbox" class="form-checkbox" @bind="@column.PrimaryKeyOverride" /></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    <div class="col-3">
+        <div class="btn-group">
+            <button class="btn btn-success" type="button" @onclick="@( ( ) => GenerateClasses(  ) )">
+                Generate C# Classes
+            </button>
+        </div>
+    </div>
+    @if (!string.IsNullOrWhiteSpace(Message))
+    {
+        <div class="col-9">
+            <div class="text-danger">@Message</div>
+        </div>
+    }
+    @if (ShowInstructions)
+    {
+        <div class="col-9">
+            <p>If this is the 1st time the table has been set up, please carry out the following tasks to complete the process:</p>
+            <ul>
+                <li>Inspect the generated files at BostonAcademic.Client.AutoGenClasses, </li>
+                <li>Add the following line of code into the application DB context (BostonAcademicDbContext)</li>
+                <li><code>public virtual DbSet&lt;@ModelName&gt; @PluralName { get; set; } </code> </li>
+                <li>Add the following 2 lines of code to the mapper profile class:</li>
+                <li>
+                    <code>
+                        CreateMap&lt;@ModelName, @(ModelName)DTO&gt;();
+                        CreateMap&lt;@(ModelName)DTO, @ModelName&gt;();
+                    </code>
+                </li>
+                <li>In the <code>Program.cs</code> file register both the Repository and Data Service as others have been registered, for dependency injection using the AddScoped method</li>
+                <li>
+                    <code>
+                        builder.Services.AddScoped&lt;I@(ModelName)Repository, @(ModelName)Repository>();
+                        builder.Services.AddScoped&lt;I@(ModelName)DataService, @(ModelName)DataService>();
+                    </code>
+                </li>
+            </ul>
+        </div>
+    }
+
+</div>
