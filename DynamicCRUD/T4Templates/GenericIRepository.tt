@@ -13,7 +13,16 @@ namespace <#=Namespace#>
     {
         Task<<#=ModelName#>DTO?> Add<#=ModelName#>Async(<#=ModelName#>DTO <#=ModelNameCamelCase#>DTO);
         Task Delete<#=ModelName#>Async(<#=PrimaryKeyDataType#> <#=PrimaryKeyName#>);
+<#
+		if (!string.IsNullOrEmpty(ForeignKeyName)) {
+#>
+		Task<IEnumerable<<#=ModelName#>DTO>> GetAll<#=PluralTablename#>Async(<#=ForeignKeyDataType#> <#=ForeignKeyName#>);
+<#
+		} else {
+#>
         Task<IEnumerable<<#=ModelName#>DTO>> GetAll<#=PluralTablename#>Async(int maxRows);
+<#      }
+#>
         Task<<#=ModelName#>DTO?> Get<#=ModelName#>ByIdAsync(<#=PrimaryKeyDataType#> <#=PrimaryKeyName#>);
         Task<<#=ModelName#>DTO?> Update<#=ModelName#>Async(<#=ModelName#>DTO <#=ModelNameCamelCase#>DTO);
     }

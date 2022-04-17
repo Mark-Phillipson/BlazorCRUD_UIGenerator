@@ -1,5 +1,4 @@
 ﻿<#@ template debug="true" hostspecific="false" language="C#" #>
-
 <#@ assembly name="System.Core" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
@@ -38,6 +37,7 @@ namespace <#=Namespace#>
         [Inject] public IToastService? ToastService { get; set; }
         [CascadingParameter] public IModalService? Modal { get; set; }
         public string Title { get; set; } = "<#=ModelName#> Items (<#=PluralTablename#>)";
+        public <#=ForeignKeyDataType#> <#=ForeignKeyName#> { get; set; }
         public List<<#=ModelName#>DTO>? <#=ModelName#>DTO { get; set; }
         public List<<#=ModelName#>DTO>? Filtered<#=ModelName#>DTO { get; set; }
         protected <#=ModelName#>AddEdit? <#=ModelName#>AddEdit { get; set; }
@@ -62,7 +62,7 @@ namespace <#=Namespace#>
             {
                 if (User?.Identity?.Name != null && <#=ModelName#>DataService != null)
                 {
-                    var result = (await <#=ModelName#>DataService.GetAll<#=PluralTablename#>Async());
+                    var result = (await <#=ModelName#>DataService.GetAll<#=PluralTablename#>Async(<#=ForeignKeyName#>));
 
                     if (result != null)
                     {
@@ -98,13 +98,11 @@ namespace <#=Namespace#>
                 }
             }
         }
-
-
         protected async Task AddNew<#=ModelName#>Async()
         {
             var parameters = new ModalParameters();
             parameters.Add(nameof(User), User);
-            //parameters.Add(nameof(ParentId), ParentId);
+            //parameters.Add(nameof(<#=ForeignKeyName#>), <#=ForeignKeyName#>);
             var formModal = Modal?.Show<<#=ModelName#>AddEdit>("Add <#=ModelName#>", parameters);
             if (formModal != null)
             {
@@ -171,7 +169,6 @@ namespace <#=Namespace#>
 <#          }
 #>
         }
-
         async Task Delete<#=ModelName#>Async(<#=PrimaryKeyDataType#> <#=PrimaryKeyName#>)
         {
             //Optionally remove child records here or warn about their existence

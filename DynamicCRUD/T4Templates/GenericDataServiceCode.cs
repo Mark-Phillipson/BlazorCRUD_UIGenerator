@@ -18,7 +18,10 @@ namespace DynamicCRUD.T4Templates
         string Namespace { get; set; } = "";
         string ModelNameCamelCase { get; }
         string PrimaryKeyName { get; set; } = "";
-        public GenericDataService(IEnumerable<ClientDatabaseColumn> databaseColumns, string modelName, string modelNameCamelCase, string pluralTablename, string primaryKeyName, string primaryKeyDataType, string Namespace)
+        string ForeignKeyName { get; set; } = "";
+        string ForeignKeyDataType { get; set; }= "";
+
+        public GenericDataService(IEnumerable<ClientDatabaseColumn> databaseColumns, string modelName, string modelNameCamelCase, string pluralTablename, string primaryKeyName, string primaryKeyDataType, string Namespace,string foreignKeyName, string foreignKeyDataType)
         {
             this.Namespace = Namespace;
             DatabaseColumns = databaseColumns;
@@ -27,6 +30,8 @@ namespace DynamicCRUD.T4Templates
             PluralTablename = pluralTablename;
             PrimaryKeyName = primaryKeyName;
             PrimaryKeyDataType = primaryKeyDataType;
+			ForeignKeyName = foreignKeyName;
+			ForeignKeyDataType = foreignKeyDataType;
         }
 
     }

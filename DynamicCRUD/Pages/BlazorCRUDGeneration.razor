@@ -1,38 +1,53 @@
 ﻿@using DynamicCRUD.T4Templates
 @page "/blazorcrudgeneration"
 <div class="row">
-    <div class="col-6 my-2">
-        <div class="form-group">
-            <label class=control-label><u>T</u>able Filter </label>
-            <input accesskey="t" class="form-control" type="text" @bind="SearchString" id="SearchString" @oninput="@(e => CallChangeAsync("SearchString"))" />
+    <div class="col-6">
+        <div class="row">
+            <div class="col-3">
+                <div class="form-group">
+                    <label class="col-form-label col-form-label-sm"><u>T</u>able Filter </label>
+                    <input accesskey="t" class="form-control form-control-sm" type="text" @bind="SearchString" id="SearchString" @oninput="@(e => CallChangeAsync("SearchString"))" />
+                </div>
+            </div>
+            <div class="col-7">
+                <label class="col-form-label col-form-label-sm">Select a Table</label>
+                <select id="tables" class="form-select form-select-sm border border-warning" @bind="@Tablename">
+                    <option value="">-</option>
+                    @foreach (var databaseTable in databaseTables)
+                    {
+                        <option value="@databaseTable.Tablename">@databaseTable.Tablename</option>
+                    }
+                </select>
+            </div>
+            <div class="col-2">
+                @if (Tablename != null)
+                {
+                    <label></label>
+                    <button class="btn btn-sm btn-primary" type="button" @onclick="@( ( ) => PopulateColumns() )">@PopulateColumnsCaption</button>
+                }
+            </div>
         </div>
-		<div class="row">
-			<div class="col-10">
-					<label class="form-label">Select a Table</label>
-					<select id="tables" class="form-select border border-warning" @bind="@Tablename">
-						@foreach (var databaseTable in databaseTables)
-						{
-							<option value="@databaseTable.Tablename">@databaseTable.Tablename</option>
-						}
-					</select>
-			</div>
-			<div class="col-2">
-			@if (Tablename != null)
-{
-			<label></label>
-				<button class="btn btn-sm btn-primary" type="button" @onclick="@( ( ) => PopulateColumns() )">Populate Columns</button>
-}
-			</div>
-		</div>
     </div>
     <div class="col-6">
-        <div class="form-group">
-            <label class=control-label>Model Name <span class="text-danger">(Please Check! @ModelName)</span></label>
-            <input class="form-control" type="text" @bind="ModelName" id="ModelName" @oninput="@(e => CallChangeAsync("ModelName"))" />
-        </div>
-        <div class="form-group">
-            <label class=control-label>Plura Name <span class="text-danger">(Please Check! @PluralName)</span></label>
-            <input class="form-control" type="text" @bind="PluralName" id="PluralName" @oninput="@(e => CallChangeAsync("PluralName"))" />
+        <div class="row">
+            <div class="col-4">
+                <div class="form-group">
+                    <label class="col-form-label col-form-label-sm">Destination Project</label>
+                    <input class="form-control form-control-sm" type="text" @bind="DestinationProjectName" id="DestinationProjectName" @oninput="@(e => CallChangeAsync("DestinationProjectName"))" />
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label class="col-form-label col-form-label-sm">Model Name</label>
+                    <input class="form-control form-control-sm" type="text" @bind="ModelName" id="ModelName" @oninput="@(e => CallChangeAsync("ModelName"))" />
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label class="col-form-label col-form-label-sm">Plural Name</label>
+                    <input class="form-control form-control-sm" type="text" @bind="PluralName" id="PluralName" @oninput="@(e => CallChangeAsync("PluralName"))" />
+                </div>
+            </div>
         </div>
         <br>
     </div>
@@ -56,6 +71,7 @@
                         <th>Filter?</th>
                         <th>Sort?</th>
                         <th>PK Override</th>
+                        <th>Foreign Key?</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -63,7 +79,7 @@
                     {
                         <tr>
                             <td>@column.ColumnName</td>
-                            <td><input type="text" class="form-control-sm" @bind="@column.Label" /></td>
+                            <td style="font-size:xx-small"><input type="text" class="form-control-sm border border-warning" @bind="@column.Label" /></td>
                             <td>@column.DataType</td>
                             <td>@column.ColumnSize</td>
                             <td>@column.Required</td>
@@ -73,6 +89,7 @@
                             <td><input type="checkbox" class="form-checkbox" @bind="@column.Filter" /></td>
                             <td><input type="checkbox" class="form-checkbox" @bind="@column.Sort" /></td>
                             <td><input type="checkbox" class="form-checkbox" @bind="@column.PrimaryKeyOverride" /></td>
+                            <td><input type="checkbox" class="form-checkbox" @bind="@column.ForeignKey" /></td>
                         </tr>
                     }
                 </tbody>
@@ -80,11 +97,14 @@
         </div>
     }
     <div class="col-3">
-        <div class="btn-group">
-            <button class="btn btn-success" type="button" @onclick="@( ( ) => GenerateClasses(  ) )">
-                Generate C# Classes
-            </button>
-        </div>
+        @if (ModelName != null)
+        {
+            <div class="btn-group">
+                <button class="btn btn-success" type="button" @onclick="@( ( ) => GenerateClasses(  ) )">
+                    Generate C# Classes
+                </button>
+            </div>
+        }
     </div>
     @if (!string.IsNullOrWhiteSpace(Message))
     {

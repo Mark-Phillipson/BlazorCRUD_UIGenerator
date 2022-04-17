@@ -24,6 +24,20 @@ namespace <#=Namespace#>
             _contextFactory = contextFactory;
             this._mapper = mapper;
         }
+		<#
+		if (!string.IsNullOrEmpty(ForeignKeyName)) {
+#>
+        public async Task<IEnumerable<<#=ModelName#>DTO>> GetAll<#=PluralTablename#>Async(<#=ForeignKeyDataType#> <#=ForeignKeyName#>)
+        {
+            using var context = _contextFactory.CreateDbContext();
+            var <#=PluralTablename#>= await context.<#=PluralTablename#>
+                .Where(v => v.<#=ForeignKeyName#>==<#=ForeignKeyName#>)
+                //.OrderBy(v => v.?)
+                .ToListAsync();
+            IEnumerable<<#=ModelName#>DTO> <#=PluralTablename#>DTO = _mapper.Map<List<<#=ModelName#>>, IEnumerable<<#=ModelName#>DTO>>(<#=PluralTablename#>);
+            return <#=PluralTablename#>DTO;
+        }
+<#      } else { #>
         public async Task<IEnumerable<<#=ModelName#>DTO>> GetAll<#=PluralTablename#>Async(int maxRows= 400)
         {
             using var context = _contextFactory.CreateDbContext();
@@ -35,6 +49,7 @@ namespace <#=Namespace#>
             IEnumerable<<#=ModelName#>DTO> <#=PluralTablename#>DTO = _mapper.Map<List<<#=ModelName#>>, IEnumerable<<#=ModelName#>DTO>>(<#=PluralTablename#>);
             return <#=PluralTablename#>DTO;
         }
+<#      } #>
 
         public async Task<<#=ModelName#>DTO?> Get<#=ModelName#>ByIdAsync(<#=PrimaryKeyDataType#> <#=PrimaryKeyName#>)
         {

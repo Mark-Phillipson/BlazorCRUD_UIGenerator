@@ -18,7 +18,10 @@ namespace DynamicCRUD.T4Templates
         string Namespace { get; set; } = "";
         string ModelNameCamelCase { get; }
         string PrimaryKeyName { get; set; } = "";
-        public GenericRepository(IEnumerable<ClientDatabaseColumn> databaseColumns, string modelName, string modelNameCamelCase, string pluralTablename, string primaryKeyName, string primaryKeyDataType, string Namespace = "ARM.Data.AutoGenClasses")
+        string ForeignKeyName { get; set; } = "";
+        string ForeignKeyDataType { get; set; }= "";
+
+        public GenericRepository(IEnumerable<ClientDatabaseColumn> databaseColumns, string modelName, string modelNameCamelCase, string pluralTablename, string primaryKeyName, string primaryKeyDataType, string Namespace ,string foreignKeyName, string foreignKeyDataType)
         {
             this.Namespace = Namespace;
             DatabaseColumns = databaseColumns;
@@ -27,6 +30,9 @@ namespace DynamicCRUD.T4Templates
             PluralTablename = pluralTablename;
             PrimaryKeyDataType = primaryKeyDataType;
             PrimaryKeyName = primaryKeyName;
+						ForeignKeyName = foreignKeyName;
+			ForeignKeyDataType = foreignKeyDataType;
+
         }
 
     }
