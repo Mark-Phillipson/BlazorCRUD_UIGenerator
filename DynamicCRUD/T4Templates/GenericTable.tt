@@ -7,14 +7,15 @@
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".razor" #>
-
-@page "/<#=ModelName.ToLower()#>"
-
+@page "/<#=PluralTablename.ToLower()#>/{<#=ForeignKeyName#>:int}"
 
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-7">
         <h5 class="page-title m-1">@Title</h5>
     </div>
+    <div class="col-md-1">
+        <a class="btn btn-primary btn-sm m-2" href="/client/@<#=ForeignKeyName#>"><i class="fas fa-arrow-left"></i></a>
+   </div>
     <div class="col-md-4">
         <input @ref="SearchInput" accesskey="i" class="form-control my-1" style="float:right" @bind="@SearchTerm" 
         @bind:event="oninput" id="SearchInput" name="SearchTerm" placeholder="Filter by <#=FilterColumns#> (Alt+I)" />
@@ -23,7 +24,7 @@
 
 @if (Filtered<#=ModelName#>DTO == null && _loadFailed == true)
 {
-    <h1 class="text-danger">The data failed to load please try again in a little while..</h1>
+    <h2 class="text-danger">The data failed to load please try again in a little while..</h2>
     <button class="btn btn-danger" type="button" @onclick="@( () => LoadData() )">Reload</button>
     <h6 class="text-danger">@ExceptionMessage</h6>
 }
@@ -33,7 +34,7 @@ else if (Filtered<#=ModelName#>DTO == null)
 }
 else if (Filtered<#=ModelName#>DTO.Count == 0)
 {
-    <p>No <#=PluralTablename#> match the criteria</p>
+    <p>No <#=ModelNameWithSpaces#> match the criteria</p>
     <button @onclick="AddNew<#=ModelName#>Async" class="btn btn-success">Add Record <i class="fas fa-plus"></i></button>
 }
 else

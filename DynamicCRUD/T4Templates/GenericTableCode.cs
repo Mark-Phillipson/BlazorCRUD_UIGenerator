@@ -14,21 +14,27 @@ namespace DynamicCRUD.T4Templates
         private readonly IEnumerable<ClientDatabaseColumn> DatabaseColumns;
         string PrimaryKeyDataType { get; set; }
         string ModelName { get; set; }
+		public string ModelNameWithSpaces { get; set; }="";
         string PluralTablename { get; set; }
         string Namespace { get; set; } = "";
         string ModelNameCamelCase { get; }
         string PrimaryKeyName { get; set; } = "";
         string FilterColumns { get; set; }
-        public GenericTable(IEnumerable<ClientDatabaseColumn> databaseColumns, string modelName, string modelNameCamelCase, string pluralTablename, string primaryKeyName, string primaryKeyDataType, string Namespace, string filterColumns)
+        public string ForeignKeyName { get; set; } = "";
+        public string ForeignKeyDataType { get; set; } = "";
+        public GenericTable(IEnumerable<ClientDatabaseColumn> databaseColumns, string modelName, string modelNameCamelCase, string pluralTablename, string primaryKeyName, string primaryKeyDataType, string Namespace, string filterColumns,string foreignKeyName,string foreignKeyDataType)
         {
             this.Namespace = Namespace;
             DatabaseColumns = databaseColumns;
             ModelName = modelName;
+			ModelNameWithSpaces=StringHelperService.AddSpacesToSentence(modelName);
             ModelNameCamelCase = modelNameCamelCase;
             PluralTablename = pluralTablename;
             PrimaryKeyName = primaryKeyName;
             PrimaryKeyDataType = primaryKeyDataType;
             FilterColumns = filterColumns;
+            ForeignKeyName = foreignKeyName;
+            ForeignKeyDataType = foreignKeyDataType;
         }
 
     }

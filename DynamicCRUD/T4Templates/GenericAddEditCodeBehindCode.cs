@@ -18,9 +18,13 @@ namespace DynamicCRUD.T4Templates
         string Namespace { get; set; } = "";
         string ModelNameCamelCase { get; }
         string PrimaryKeyName { get; set; } = "";
-        public string? DefaultSortColumn { get; set; }
+        public string? DefaultSortColumn { get; set; }="DefaultSortColumn";
+		public string? ModelNameWithSpaces { get; set; }="ModelNameWithSpaces";
+		public string? PrimaryKeyNameCamelCase { get; set; }="";
+		public string ForeignKeyName { get; set; }="";
+		public string ForeignKeyDataType { get; set; }="";
 
-        public GenericAddEditCodeBehind(IEnumerable<ClientDatabaseColumn> databaseColumns, string modelName, string modelNameCamelCase, string pluralTablename, string primaryKeyName, string primaryKeyDataType, string Namespace)
+        public GenericAddEditCodeBehind(IEnumerable<ClientDatabaseColumn> databaseColumns, string modelName, string modelNameCamelCase, string pluralTablename, string primaryKeyName, string primaryKeyDataType, string Namespace,string foreignKeyName,string foreignKeyDataType)
         {
             this.Namespace = Namespace;
             DatabaseColumns = databaseColumns;
@@ -29,6 +33,10 @@ namespace DynamicCRUD.T4Templates
             PluralTablename = pluralTablename;
             PrimaryKeyName = primaryKeyName;
             PrimaryKeyDataType = primaryKeyDataType;
+			ModelNameWithSpaces=StringHelperService.AddSpacesToSentence(modelName);
+			PrimaryKeyNameCamelCase=StringHelperService.GetCamelCase(primaryKeyName);
+			ForeignKeyName=foreignKeyName;
+			ForeignKeyDataType=foreignKeyDataType;
             var result = databaseColumns.FirstOrDefault(c => c.Sort == true);
             if (result != null && result.PropertyName != null)
             {

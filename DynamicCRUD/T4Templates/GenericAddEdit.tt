@@ -12,7 +12,7 @@
     if (DatabaseColumns.Count()>14) {cols= 4;}
     if (DatabaseColumns.Count()>21) {cols= 3;}
 #>
-@page "/<#=ModelName#>"
+@page "/<#=ModelName.ToLower()#>"
 <div style="min-width:80vw">
     <EditForm Model="@<#=ModelName#>DTO" OnValidSubmit="@HandleValidSubmit">
         <DataAnnotationsValidator />
@@ -26,7 +26,7 @@
 <#      }
 #>
         {
-            <span class="text-info">@<#=ModelName#>DTO.<#=PrimaryKeyName#></span>
+            <span class="text-info m-1">@<#=ModelName#>DTO.<#=PrimaryKeyName#></span>
         }
         <div class="row">
             <div class="col-<#=cols#>">
@@ -79,8 +79,7 @@
                     if (property.Required) {
 #> <i class="text-danger fa">*</i>
 <#                  }
-#>
-                    <InputTextArea rows="2" id="<#=property.PropertyName#>" class="form-control" @bind-Value="@<#=ModelName#>DTO.<#=property.PropertyName#>"
+#>                    <InputTextArea rows="2" id="<#=property.PropertyName#>" class="form-control" @bind-Value="@<#=ModelName#>DTO.<#=property.PropertyName#>"
                                placeholder="Enter <#=property.Label#>"></InputTextArea>
                     <ValidationMessage For="@(() => <#=ModelName#>DTO.<#=property.PropertyName#>)" />
                 </div>
@@ -94,9 +93,8 @@
         </div>
         <hr>
         <div class="btn-group" style="float:right">
-            <a accesskey="c" class="btn btn-outline-primary" @onclick="@Close"><u>C</u>ancel</a>
-            <button disabled="@TaskRunning" accesskey="s" type="submit" class="btn btn-primary"><u>S</u>ave Record</button>
+            <a accesskey="c" class="btn btn-lg btn-outline-primary" @onclick="@Close"><u>C</u>ancel</a>
+            <button @TaskRunning accesskey="s" type="submit" class="btn btn-lg btn-primary"><u>S</u>ave Record</button>
         </div>
     </EditForm>
 </div>
-

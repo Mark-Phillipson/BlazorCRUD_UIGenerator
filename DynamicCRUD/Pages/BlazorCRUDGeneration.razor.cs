@@ -88,7 +88,7 @@ public partial class BlazorCRUDGeneration :ComponentBase
             foreignKeyName = columnForeignKey.ColumnName;
             foreignKeyDataType = columnForeignKey.DataType;
         }
-        var namespaceString = $"{DestinationProjectName}.AutoGenClasses";
+        var namespaceString = $"{DestinationProjectName}";
         var tablename = Tablename.Replace($"{SchemaName}.", "").Replace("/", "");
         string locationBlazor, locationModels, locationRepository;
         PrepareLocations(out locationBlazor, out locationModels, out locationRepository);
@@ -106,7 +106,7 @@ public partial class BlazorCRUDGeneration :ComponentBase
         File.WriteAllText($"{locationModels}AutoGenClasses\\{ModelName}DTO.cs", content);
 
         var camelTablename = StringHelperService.GetCamelCase(ModelName);
-        namespaceString = $"{DestinationProjectName}.AutoGenClasses";
+        namespaceString = $"{DestinationProjectName}";
 
         GenericIRepository genericIRepository = new(Columns, ModelName, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, foreignKeyName, foreignKeyDataType);
         content = genericIRepository.TransformText();
@@ -116,7 +116,7 @@ public partial class BlazorCRUDGeneration :ComponentBase
         content = genericRepository.TransformText();
         File.WriteAllText($"{locationRepository}AutoGenClasses\\{ModelName}Repository.cs", content);
 
-        namespaceString = "BostonAcademic.Client.AutoGenClasses";
+        namespaceString = $"{DestinationProjectName}";
 
         GenericIDataService genericIDataService = new(Columns, ModelName, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, foreignKeyName ?? "", foreignKeyDataType ?? "");
         content = genericIDataService.TransformText();
@@ -126,7 +126,7 @@ public partial class BlazorCRUDGeneration :ComponentBase
         content = genericDataService.TransformText();
         File.WriteAllText($"{locationBlazor}AutoGenClasses\\{ModelName}DataService.cs", content);
 
-        GenericTable genericTable = new(Columns, ModelName, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, filterColumns);
+        GenericTable genericTable = new(Columns, ModelName, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, filterColumns,foreignKeyName ?? "",foreignKeyDataType ?? "");
         content = genericTable.TransformText();
         File.WriteAllText($"{locationBlazor}AutoGenClasses\\{ModelName}Table.razor", content);
 
@@ -134,11 +134,11 @@ public partial class BlazorCRUDGeneration :ComponentBase
         content = genericTableCodeBehind.TransformText();
         File.WriteAllText($"{locationBlazor}AutoGenClasses\\{ModelName}Table.razor.cs", content);
 
-        GenericAddEdit genericAddEdit = new(Columns, ModelName, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, filterColumns);
+        GenericAddEdit genericAddEdit = new(Columns, ModelName, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, filterColumns,foreignKeyName ?? "",foreignKeyDataType ?? "");
         content = genericAddEdit.TransformText();
         File.WriteAllText($"{locationBlazor}AutoGenClasses\\{ModelName}AddEdit.razor", content);
 
-        GenericAddEditCodeBehind genericAddEditCodeBehind = new(Columns, ModelName, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString);
+        GenericAddEditCodeBehind genericAddEditCodeBehind = new(Columns, ModelName, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, foreignKeyName ?? "", foreignKeyDataType ?? "");
         content = genericAddEditCodeBehind.TransformText();
         File.WriteAllText($"{locationBlazor}AutoGenClasses\\{ModelName}AddEdit.razor.cs", content);
 
@@ -202,8 +202,10 @@ public partial class BlazorCRUDGeneration :ComponentBase
         }
         PluralName = $"{tablename}";
         PluralName = PluralName.Replace($"{SchemaName}.", "").Replace("_", "");
+		PluralName = StringHelperService.RemoveUnsupportedCharacters(PluralName);
         ModelName = $"{tablename}";
         ModelName = ModelName.Replace($"{SchemaName}.", "").Replace("_", "");
+		ModelName = StringHelperService.RemoveUnsupportedCharacters(ModelName);
         Columns = DatabaseMetaDataService.GetColumnNames(ConnectionString, Tablename, SchemaName);
         PopulateColumnsCaption = "Populate Columns";
     }

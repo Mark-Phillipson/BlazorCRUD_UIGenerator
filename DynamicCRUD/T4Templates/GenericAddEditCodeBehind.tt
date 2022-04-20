@@ -1,12 +1,10 @@
 ﻿<#@ template debug="true" hostspecific="false" language="C#" #>
-
 <#@ assembly name="System.Core" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Reflection" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".cs" #>
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,17 +23,22 @@ using Blazored.Modal.Services;
 using Blazored.Toast;
 using Blazored.Toast.Services;
 using System.Security.Claims;
+using <#=Namespace#>.DTOs;
+using <#=Namespace#>.Services;
 
-namespace <#=Namespace#>
+namespace <#=Namespace#>.Pages
 {
-    public partial class <#=ModelName#>AddEdit
+    public partial class <#=ModelName#>AddEdit : ComponentBase
     {
         [CascadingParameter] BlazoredModalInstance? ModalInstance { get; set; }
         [Inject] public IJSRuntime? JSRuntime { get; set; }
         [Parameter] public ClaimsPrincipal? User { get; set; }
         [Parameter] public <#=PrimaryKeyDataType#>? <#=PrimaryKeyName#> { get; set; }
-
-        public <#=ModelName#>DTO <#=ModelName#>DTO { get; set; } = new <#=ModelName#>DTO();//{ Set Default Field values here};
+<#
+	if (!string.IsNullOrEmpty(ForeignKeyName)) {
+#>      [Parameter] public <#=ForeignKeyDataType#> <#=ForeignKeyName#> { get; set; }
+<#	} #>
+        public <#=ModelName#>DTO <#=ModelName#>DTO { get; set; } = new <#=ModelName#>DTO();//{ };
         [Inject] public I<#=ModelName#>DataService? <#=ModelName#>DataService { get; set; }
         [Inject] public IToastService? ToastService { get; set; }
         bool TaskRunning = false;   
@@ -68,7 +71,10 @@ namespace <#=Namespace#>
             }
             else
             {
-                //<#=ModelName#>DTO.ParentId = ParentId;
+<#          if (!string.IsNullOrEmpty(ForeignKeyName)) {
+#>			
+                <#=ModelName#>DTO.<#=ForeignKeyName#> = <#=ForeignKeyName#>;
+<#          } #>
             }
             if (User?.Identity?.Name != null)
             {
@@ -113,17 +119,17 @@ namespace <#=Namespace#>
                 <#=ModelName#>DTO? result = await <#=ModelName#>DataService.Add<#=ModelName#>(<#=ModelName#>DTO);
                 if (result == null)
                 {
-                    ToastService?.ShowError("<#=ModelName#> failed to add, please investigate", "Error Adding New <#=ModelName#>");
+                    ToastService?.ShowError("<#=ModelNameWithSpaces#> failed to add, please investigate", "Error Adding New <#=ModelNameWithSpaces#>");
                     return;
                 }
-                ToastService?.ShowSuccess("<#=ModelName#> added successfully", "SUCCESS");
+                ToastService?.ShowSuccess("<#=ModelNameWithSpaces#> added successfully", "SUCCESS");
             }
             else
             {
                 if (<#=ModelName#>DataService != null && User?.Identity?.Name != null)
                 {
                     await <#=ModelName#>DataService!.Update<#=ModelName#>(<#=ModelName#>DTO, User!.Identity!.Name);
-                    ToastService?.ShowSuccess("The <#=ModelName#> updated successfully", "SUCCESS");
+                    ToastService?.ShowSuccess("The <#=ModelNameWithSpaces#> updated successfully", "SUCCESS");
                 }
             }
             if (ModalInstance != null)
@@ -132,6 +138,5 @@ namespace <#=Namespace#>
             }
             TaskRunning = false;
         }
-
     }
 }
