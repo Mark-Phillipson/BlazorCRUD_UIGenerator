@@ -28,7 +28,7 @@ using <#=Namespace#>.Shared;
 using <#=Namespace#>.Services;
 using <#=Namespace#>.DTOs;
 
-namespace <#=Namespace#>
+namespace <#=Namespace#>.Pages
 {
     public partial class <#=ModelName#>Table : ComponentBase
     {
@@ -118,6 +118,7 @@ namespace <#=Namespace#>
                 }
             }
         }
+
         private void ApplyFilter()
         {
             if (Filtered<#=ModelName#>DTO == null || <#=ModelName#>DTO == null)

@@ -70,6 +70,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>GenericAddEditCodeBehind.tt</DependentUpon>
     </Compile>
+    <Compile Update="T4Templates\GenericDataService.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>GenericDataService.tt</DependentUpon>
+    </Compile>
     <Compile Update="T4Templates\GenericDTO.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

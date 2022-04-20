@@ -5,8 +5,9 @@
 <#@ import namespace="System.Reflection" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".cs" #>
+using <#=Namespace#>.DTOs;
 
-namespace <#=Namespace#>
+namespace <#=Namespace#>.Services
 {
     public interface I<#=ModelName#>DataService
     {

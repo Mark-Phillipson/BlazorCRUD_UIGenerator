@@ -29,15 +29,21 @@ namespace DynamicCRUD.T4Templates
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("\r\n");
-            this.Write("\r\nnamespace ");
+            this.Write("using ");
+            
+            #line 8 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericIRepository.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Namespace));
+            
+            #line default
+            #line hidden
+            this.Write(".DTOs\r\n\r\nnamespace ");
             
             #line 10 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericIRepository.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Namespace));
             
             #line default
             #line hidden
-            this.Write("\r\n{\r\n    public interface I");
+            this.Write(".Repositories\r\n{\r\n    public interface I");
             
             #line 12 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericIRepository.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
