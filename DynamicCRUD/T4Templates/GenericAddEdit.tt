@@ -14,7 +14,7 @@
 #>
 @page "/<#=ModelName.ToLower()#>"
 <div style="min-width:80vw">
-    <EditForm Model="@<#=ModelName#>DTO" OnValidSubmit="@HandleValidSubmit">
+    <EditForm Model="@<#=ModelName#>DTO" OnValidSubmit="HandleValidSubmit">
         <DataAnnotationsValidator />
         @*<ValidationSummary />*@
 <#      if (PrimaryKeyDataType=="int") {

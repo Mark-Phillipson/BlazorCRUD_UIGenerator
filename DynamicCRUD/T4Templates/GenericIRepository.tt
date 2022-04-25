@@ -5,7 +5,7 @@
 <#@ import namespace="System.Reflection" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".cs" #>
-using <#=Namespace#>.DTOs
+using <#=Namespace#>.DTOs;
 
 namespace <#=Namespace#>.Repositories
 {
