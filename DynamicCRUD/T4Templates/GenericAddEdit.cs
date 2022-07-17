@@ -52,8 +52,8 @@ namespace DynamicCRUD.T4Templates
             
             #line default
             #line hidden
-            this.Write("DTO\" OnValidSubmit=\"@HandleValidSubmit\">\r\n        <DataAnnotationsValidator />\r\n " +
-                    "       @*<ValidationSummary />*@\r\n");
+            this.Write("DTO\" OnValidSubmit=\"HandleValidSubmit\">\r\n        <DataAnnotationsValidator />\r\n  " +
+                    "      @*<ValidationSummary />*@\r\n");
             
             #line 20 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
       if (PrimaryKeyDataType=="int") {

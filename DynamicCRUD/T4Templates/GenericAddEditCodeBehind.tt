@@ -1,4 +1,5 @@
 ﻿<#@ template debug="true" hostspecific="false" language="C#" #>
+
 <#@ assembly name="System.Core" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
@@ -31,8 +32,8 @@ namespace <#=Namespace#>.Pages
     public partial class <#=ModelName#>AddEdit : ComponentBase
     {
         [CascadingParameter] BlazoredModalInstance? ModalInstance { get; set; }
+        [CascadingParameter] public ClaimsPrincipal? User { get; set; }
         [Inject] public IJSRuntime? JSRuntime { get; set; }
-        [Parameter] public ClaimsPrincipal? User { get; set; }
         [Parameter] public <#=PrimaryKeyDataType#>? <#=PrimaryKeyName#> { get; set; }
 <#
 	if (!string.IsNullOrEmpty(ForeignKeyName)) {
@@ -41,7 +42,7 @@ namespace <#=Namespace#>.Pages
         public <#=ModelName#>DTO <#=ModelName#>DTO { get; set; } = new <#=ModelName#>DTO();//{ };
         [Inject] public I<#=ModelName#>DataService? <#=ModelName#>DataService { get; set; }
         [Inject] public IToastService? ToastService { get; set; }
-        bool TaskRunning = false;   
+        string TaskRunning = "";
         protected override async Task OnInitializedAsync()
         {
             if (<#=ModelName#>DataService == null)
@@ -106,7 +107,7 @@ namespace <#=Namespace#>.Pages
 
         protected async Task HandleValidSubmit()
         {
-            TaskRunning = true;
+            TaskRunning = "disabled";
 <#          if (PrimaryKeyDataType=="int") {
 #>
             if ((<#=PrimaryKeyName#> == 0 || <#=PrimaryKeyName#> == null) && <#=ModelName#>DataService != null)
@@ -136,7 +137,7 @@ namespace <#=Namespace#>.Pages
             {
                 await ModalInstance.CloseAsync(ModalResult.Ok(true));
             }
-            TaskRunning = false;
+            TaskRunning = "";
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿<#@ template debug="true" hostspecific="false" language="C#" #>
+
 <#@ assembly name="System" #>
 <#@ assembly name="System.Core" #>
 <#@ assembly name="System.CodeDom.Compiler" #>
@@ -13,9 +14,11 @@
     <div class="col-md-7">
         <h5 class="page-title m-1">@Title</h5>
     </div>
+<#if (!string.IsNullOrWhiteSpace(ForeignKeyName)) {#>
     <div class="col-md-1">
         <a class="btn btn-primary btn-sm m-2" href="/client/@<#=ForeignKeyName#>"><i class="fas fa-arrow-left"></i></a>
    </div>
+<#} #>
     <div class="col-md-4">
         <input @ref="SearchInput" accesskey="i" class="form-control my-1" style="float:right" @bind="@SearchTerm" 
         @bind:event="oninput" id="SearchInput" name="SearchTerm" placeholder="Filter by <#=FilterColumns#> (Alt+I)" />

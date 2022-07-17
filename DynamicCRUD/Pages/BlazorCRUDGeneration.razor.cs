@@ -1,30 +1,18 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
-using System.Net.Http;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Components.Routing;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Components.Web.Virtualization;
-using Microsoft.JSInterop;
-
 using System.Reflection;
+using DynamicCRUD.Services;
 // using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
 using DynamicCRUD.T4Templates;
-using DynamicCRUD.Services;
+using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 namespace DynamicCRUD.Pages;
 
-public partial class BlazorCRUDGeneration :ComponentBase
+public partial class BlazorCRUDGeneration : ComponentBase
 {
-    public string? Tablename { get => tablename; set { tablename = value; } }
-    public string? ModelName { get; set; }
-    public string SchemaName { get; set; } = "Access";// Usually dbo
-    public string? PluralName { get; set; }
+	public string? Tablename { get => tablename; set { tablename = value; } }
+	public string? ModelName { get; set; }
+	public string SchemaName { get; set; } = "dbo";// Usually dbo
+	public string? PluralName { get; set; }
     [Inject] public IJSRuntime? JSRuntime { get; set; }
     [Inject] DatabaseMetaDataService? DatabaseMetaDataService { get; set; }
     [Inject] IConfiguration? Configuration { get; set; }
