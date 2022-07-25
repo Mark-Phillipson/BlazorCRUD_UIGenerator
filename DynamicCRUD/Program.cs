@@ -1,4 +1,4 @@
-using DynamicCRUD.Data;
+
 using DynamicCRUD.Services;
 
 using Microsoft.AspNetCore.Components;
@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<WeatherForecastService>();
+
 builder.Services.AddScoped<DatabaseMetaDataService>();
 
 var app = builder.Build();

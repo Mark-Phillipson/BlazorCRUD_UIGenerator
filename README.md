@@ -2,37 +2,37 @@
 
 ![](DynamicCRUD/wwwroot/images/DynamicCRUD.png)
 
-This project can be used to create the classes and Blazor components to provide rudimentary CRUD functionality for any table in a SQL Server.
+This project can be used to create the classes and Blazor components to provide rudimentary CRUD functionality for any table in SQL Server Database.
 
 The classes are all created within the project under a folder called AutoGenClasses, with the intention of moving them into your project.
 
-## Quick Start — How to Use
+## Quick Start ï¿½ How to Use
 
-1. Edit the appsettings.json file in the root of the project. To make the DefaultConnection point to your database in SQL Server.
+1. Edit the appsettings.json file in the root of this project. To make the "DefaultConnection" point to your database in SQL Server.
 
 2. Run the application (Do not run watch).
 
 3. Enter a search term to filter down to a particular table, then select the table in the drop-down list.
 
-4. Then click on Populate Columns button.
+4. Click on Populate Columns button.
 
-5. Then enter the destination project, this is used to build the namespace for the classes.
+5. Enter the destination project, this is used to build the namespace for the classes.
 
 6. Enter a singular model name and a plural name. Note the model should already exist in the destination project and be entered in the DB Context.
 
 7. The list of columns should now be displayed.  Check the filter checkboxes for each column that you wish to filter on. Also check each sort column that you wish to sort by.
 
-8. If the primary key is set up correctly the PK Override should not be necessary.  However if the primary key has not been set up correctly it may be necessary to use the override.
+8. If the primary key is set up correctly the PK Override should not be necessary.  However if the primary key has not been set up correctly it may be necessary to use the override.  In any case a primary key is definitely required.
 
 9. If the table has a parent, you can select a foreign key (One only).
 
 10. Then click Generate C# Classes button.
 
-11. The classes should now exist in the AutoGenClasses folder.  Noted they will not compile in this project.
+11. The classes should now exist in the AutoGenClasses folder.  Note they will not compile in this project.
 
-12. Copy the code that is displayed red in the webpage into your project. 
+12. Copy the code that is displayed red in the webpage into your project, where applicable. 
 
-13. Move each file to the required location in your project.  Taking care to make sure the namespaces are correct
+13. Move each file to the required location in your project.  Taking care to make sure the namespaces are correct.  Build your project and troubleshoot any errors as necessary.
 
 ## Dependencies
 
@@ -42,25 +42,27 @@ The classes are all created within the project under a folder called AutoGenClas
 4. When deleting a record created classes will try to call a Blazor component called BlazoredModalConfirmDialog. This can be found in the project under Shared folder.
 5. Each model will need to exist in your project along with the DB context with the DbSet already added.
 6. The Blazor components are set up to use Bootstrap 5.
+7. Entity Framework.
 
 ## Files Created
 
 * Model DTO
 * Interface and Repository Class
-* Interface and Service Class
+* Interface and Data Service Class
 * Model Table Blazor Page Component and Code Behind
 * Model Add Edit Blazor Component and Code Behind
 
 ## T4 Templates
 
-In order to make any enhancements or changes, there are T4 Templates for each of the files listed above.
+In order to make any enhancements or changes to the code or user interface, there are T4 Templates for each of the files listed above.
 
 ## Please Note
 
 Only tested with:
 * Blazor Server (Not Blazor Client)
 * SQL Server Database
-* .net 6
+* .Net 6
+* General datatypes like int, bool (bit), DateTime, string (nvarchar) and decimal.
 
 
 
