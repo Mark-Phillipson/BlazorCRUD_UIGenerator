@@ -55,7 +55,12 @@ The classes are all created within the project under a folder called AutoGenClas
 
 In order to make any enhancements or changes, there are T4 Templates for each of the files listed above.
 
+## Please Note
 
+Only tested with:
+* Blazor Server (Not Blazor Client)
+* SQL Server Database
+* .net 6
 
 
 
