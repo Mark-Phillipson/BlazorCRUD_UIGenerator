@@ -10,23 +10,23 @@ The classes are all created within the project under a folder called AutoGenClas
 
 1. Edit the appsettings.json file in the root of this project. To make the "DefaultConnection" point to your database in SQL Server.
 
-2. Run the application (Do not run watch).
+2. Run the application (Do not run watch). As the project will crash when it cannot compile the new created classes.
 
 3. Enter a search term to filter down to a particular table, then select the table in the drop-down list.
 
 4. Click on Populate Columns button.
 
-5. Enter the destination project, this is used to build the namespace for the classes.
+5. The list of columns should now be displayed.  Check the filter checkboxes for each column that you wish to filter on. Also check each sort column that you wish to sort by.
 
-6. Enter a singular model name and a plural name. Note the model should already exist in the destination project and be entered in the DB Context.
+6. Enter the namespace, this is used to build the namespace for the classes.
 
-7. The list of columns should now be displayed.  Check the filter checkboxes for each column that you wish to filter on. Also check each sort column that you wish to sort by.
+7. Enter the singular model name and a plural name. Note the model should already exist in the destination project and be entered in the DB Context.
 
 8. If the primary key is set up correctly the PK Override should not be necessary.  However if the primary key has not been set up correctly it may be necessary to use the override.  In any case a primary key is definitely required.
 
 9. If the table has a parent, you can select a foreign key (One only).
 
-10. Then click Generate C# Classes button.
+10. Then click Generate C# Classes button, at the bottom of the webpage.
 
 11. The classes should now exist in the AutoGenClasses folder.  Note they will not compile in this project.
 
@@ -42,7 +42,7 @@ The classes are all created within the project under a folder called AutoGenClas
 4. When deleting a record created classes will try to call a Blazor component called BlazoredModalConfirmDialog. This can be found in the project under Shared folder.
 5. Each model will need to exist in your project along with the DB context with the DbSet already added.
 6. The Blazor components are set up to use Bootstrap 5.
-7. Entity Framework.
+7. Entity Framework Core.
 
 ## Files Created
 
@@ -54,7 +54,7 @@ The classes are all created within the project under a folder called AutoGenClas
 
 ## T4 Templates
 
-In order to make any enhancements or changes to the code or user interface, there are T4 Templates for each of the files listed above.
+In order to make any enhancements or changes to the code or user interface, there are 9 T4 Templates for each of the files listed above.
 
 ## Please Note
 
@@ -62,7 +62,5 @@ Only tested with:
 * Blazor Server (Not Blazor Client)
 * SQL Server Database
 * .Net 6
-* General datatypes like int, bool (bit), DateTime, string (nvarchar) and decimal.
-
-
+* General datatypes like int, long (bigint), bool (bit), DateTime, string (nvarchar) and decimal.
 
