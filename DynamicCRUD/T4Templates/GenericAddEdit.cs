@@ -45,7 +45,21 @@ namespace DynamicCRUD.T4Templates
             
             #line default
             #line hidden
-            this.Write("\"\r\n<div style=\"min-width:80vw\">\r\n    <EditForm Model=\"@");
+            this.Write("{");
+            
+            #line 15 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(PrimaryKeyName));
+            
+            #line default
+            #line hidden
+            this.Write(":");
+            
+            #line 15 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(PrimaryKeyDataType));
+            
+            #line default
+            #line hidden
+            this.Write("?}\"\r\n<div style=\"min-width:80vw\">\r\n    <EditForm Model=\"@");
             
             #line 17 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));

@@ -16,10 +16,10 @@ namespace <#=Namespace#>.Repositories
 {
     public class <#=ModelName#>Repository : I<#=ModelName#>Repository
     {
-        private readonly IDbContextFactory<BostonAcademicDbContext> _contextFactory;
+        private readonly IDbContextFactory<<#=DbContextName#>> _contextFactory;
         private readonly IMapper _mapper;
 
-        public <#=ModelName#>Repository(IDbContextFactory<BostonAcademicDbContext> contextFactory,IMapper mapper)
+        public <#=ModelName#>Repository(IDbContextFactory<<#=DbContextName#>> contextFactory,IMapper mapper)
         {
             _contextFactory = contextFactory;
             this._mapper = mapper;

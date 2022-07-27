@@ -8,8 +8,11 @@
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".razor" #>
+<#     if (!string.IsNullOrWhiteSpace(ForeignKeyName)) {#>
 @page "/<#=PluralTablename.ToLower()#>/{<#=ForeignKeyName#>:int}"
-
+<#     } else { #>
+@page "/<#=PluralTablename.ToLower()#>"
+<# }#>
 <div class="row">
     <div class="col-md-7">
         <h5 class="page-title m-1">@Title</h5>

@@ -42,7 +42,9 @@ namespace <#=Namespace#>.Pages
         public <#=ModelName#>DTO <#=ModelName#>DTO { get; set; } = new <#=ModelName#>DTO();//{ };
         [Inject] public I<#=ModelName#>DataService? <#=ModelName#>DataService { get; set; }
         [Inject] public IToastService? ToastService { get; set; }
+#pragma warning disable 414, 649
         string TaskRunning = "";
+#pragma warning restore 414, 649
         protected override async Task OnInitializedAsync()
         {
             if (<#=ModelName#>DataService == null)
@@ -127,7 +129,7 @@ namespace <#=Namespace#>.Pages
             }
             else
             {
-                if (<#=ModelName#>DataService != null && User?.Identity?.Name != null)
+                if (<#=ModelName#>DataService != null)
                 {
                     await <#=ModelName#>DataService!.Update<#=ModelName#>(<#=ModelName#>DTO, User!.Identity!.Name);
                     ToastService?.ShowSuccess("The <#=ModelNameWithSpaces#> updated successfully", "SUCCESS");

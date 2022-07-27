@@ -1,7 +1,7 @@
 ﻿@using DynamicCRUD.T4Templates
 @page "/blazorcrudgeneration"
 <div class="row">
-    <div class="col-6">
+    <div class="col-5">
         <div class="row">
             <div class="col-3">
                 <div class="form-group">
@@ -28,24 +28,30 @@
             </div>
         </div>
     </div>
-    <div class="col-6">
+    <div class="col-7">
         <div class="row">
-            <div class="col-4">
+            <div class="col-3">
                 <div class="form-group">
-                    <label class="col-form-label col-form-label-sm">Destination Project</label>
-                    <input class="form-control form-control-sm" type="text" @bind="DestinationProjectName" id="DestinationProjectName" @oninput="@(e => CallChangeAsync("DestinationProjectName"))" />
+                    <label class="col-form-label col-form-label-sm">Namespace</label>
+                    <input class="form-control form-control-sm" type="text" @bind="NamespaceName" id="DestinationProjectName" @oninput="@(e => CallChangeAsync("DestinationProjectName"))" />
                 </div>
             </div>
-            <div class="col-4">
+            <div class="col-3">
                 <div class="form-group">
                     <label class="col-form-label col-form-label-sm">Model Name</label>
                     <input class="form-control form-control-sm" type="text" @bind="ModelName" id="ModelName" @oninput="@(e => CallChangeAsync("ModelName"))" />
                 </div>
             </div>
-            <div class="col-4">
+            <div class="col-3">
                 <div class="form-group">
                     <label class="col-form-label col-form-label-sm">Plural Name</label>
                     <input class="form-control form-control-sm" type="text" @bind="PluralName" id="PluralName" @oninput="@(e => CallChangeAsync("PluralName"))" />
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="form-group">
+                    <label class="col-form-label col-form-label-sm">Db Context Name</label>
+                    <input required class="form-control form-control-sm" type="text" @bind="DbContextName" id="DbContextName" @oninput="@(e => CallChangeAsync("DbContextName"))" />
                 </div>
             </div>
         </div>
@@ -86,10 +92,10 @@
                             <td>@column.IsAutoIncrement</td>
                             <td>@column.IsIdentity</td>
                             <td>@column.IsKey</td>
-                            <td><input type="checkbox" class="form-checkbox" @bind="@column.Filter" /></td>
-                            <td><input type="checkbox" class="form-checkbox" @bind="@column.Sort" /></td>
-                            <td><input type="checkbox" class="form-checkbox" @bind="@column.PrimaryKeyOverride" /></td>
-                            <td><input type="checkbox" class="form-checkbox" @bind="@column.ForeignKey" /></td>
+                            <td style="text-align:center"><input type="checkbox" class="form-checkbox" @bind="@column.Filter" /></td>
+                            <td style="text-align:center"><input type="checkbox" class="form-checkbox" @bind="@column.Sort" /></td>
+                            <td style="text-align:center"><input type="checkbox" class="form-checkbox" @bind="@column.PrimaryKeyOverride" /></td>
+                            <td style="text-align:center"><input type="checkbox" class="form-checkbox" @bind="@column.ForeignKey" /></td>
                         </tr>
                     }
                 </tbody>

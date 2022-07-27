@@ -13,6 +13,7 @@ public partial class BlazorCRUDGeneration : ComponentBase
 	public string? ModelName { get; set; }
 	public string SchemaName { get; set; } = "dbo";// Usually dbo
 	public string? PluralName { get; set; }
+    public string? DbContextName { get; set; } = "MyDbContext";
     [Inject] public IJSRuntime? JSRuntime { get; set; }
     [Inject] DatabaseMetaDataService? DatabaseMetaDataService { get; set; }
     [Inject] IConfiguration? Configuration { get; set; }
@@ -24,7 +25,7 @@ public partial class BlazorCRUDGeneration : ComponentBase
     string? ConnectionString { get; set; }
     public string SearchString { get; private set; } = "";
     public string PopulateColumnsCaption { get; set; } = "Populate Columns";
-    public string DestinationProjectName { get; set; } = "BostonAcademic.Client";
+    public string NamespaceName { get; set; } = "BlazorApp.Client";
 
     protected override async Task OnInitializedAsync()
     {
@@ -65,6 +66,11 @@ public partial class BlazorCRUDGeneration : ComponentBase
             Message = "Please indicate the primary key and try again! Note it has to be an int or nvarchar";
             return;
         }
+        if (!Columns.Any(c => c.Sort==true))
+        {
+            Message = "Please select at least one column to sort by! ";
+            return;
+        }
         string primaryKeyName = ""; string primaryKeyDatatype = "";
         GetPrimaryKeyDetails(ref primaryKeyName, ref primaryKeyDatatype);
         string filterColumns = "";
@@ -75,8 +81,12 @@ public partial class BlazorCRUDGeneration : ComponentBase
         {
             foreignKeyName = columnForeignKey.ColumnName;
             foreignKeyDataType = columnForeignKey.DataType;
+            if (foreignKeyDataType== "nvarchar")
+            {
+                foreignKeyDataType = "string";
+            }
         }
-        var namespaceString = $"{DestinationProjectName}";
+        var namespaceString = $"{NamespaceName}";
         var tablename = Tablename.Replace($"{SchemaName}.", "").Replace("/", "");
         string locationBlazor, locationModels, locationRepository;
         PrepareLocations(out locationBlazor, out locationModels, out locationRepository);
@@ -94,17 +104,17 @@ public partial class BlazorCRUDGeneration : ComponentBase
         File.WriteAllText($"{locationModels}AutoGenClasses\\{ModelName}DTO.cs", content);
 
         var camelTablename = StringHelperService.GetCamelCase(ModelName);
-        namespaceString = $"{DestinationProjectName}";
+        namespaceString = $"{NamespaceName}";
 
         GenericIRepository genericIRepository = new(Columns, ModelName, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, foreignKeyName, foreignKeyDataType);
         content = genericIRepository.TransformText();
         File.WriteAllText($"{locationRepository}AutoGenClasses\\I{ModelName}Repository.cs", content);
 
-        GenericRepository genericRepository = new(Columns, ModelName, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, foreignKeyName ?? "", foreignKeyDataType ?? "");
+        GenericRepository genericRepository = new(Columns, ModelName, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, foreignKeyName ?? "", foreignKeyDataType ?? "",DbContextName ?? "BostonAcademicDbContext");
         content = genericRepository.TransformText();
         File.WriteAllText($"{locationRepository}AutoGenClasses\\{ModelName}Repository.cs", content);
 
-        namespaceString = $"{DestinationProjectName}";
+        namespaceString = $"{NamespaceName}";
 
         GenericIDataService genericIDataService = new(Columns, ModelName, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, foreignKeyName ?? "", foreignKeyDataType ?? "");
         content = genericIDataService.TransformText();

@@ -12,7 +12,7 @@
     if (DatabaseColumns.Count()>14) {cols= 4;}
     if (DatabaseColumns.Count()>21) {cols= 3;}
 #>
-@page "/<#=ModelName.ToLower()#>"
+@page "/<#=ModelName.ToLower()#>{<#=PrimaryKeyName#>:<#=PrimaryKeyDataType#>?}"
 <div style="min-width:80vw">
     <EditForm Model="@<#=ModelName#>DTO" OnValidSubmit="HandleValidSubmit">
         <DataAnnotationsValidator />

@@ -51,6 +51,7 @@ namespace <#=Namespace#>.Pages
         private string? searchTerm = null;
 #pragma warning restore 414, 649
         public string? SearchTerm { get => searchTerm; set { searchTerm = value; ApplyFilter(); } }
+        [Parameter] public string? ServerSearchTerm { get; set; }
         public string ExceptionMessage { get; set; } = String.Empty;
         public List<string>? PropertyInfo { get; set; }
         [CascadingParameter] public ClaimsPrincipal? User { get; set; }
@@ -64,10 +65,10 @@ namespace <#=Namespace#>.Pages
         {
             try
             {
-                if (User?.Identity?.Name != null && <#=ModelName#>DataService != null)
+                if (<#=ModelName#>DataService != null && <#=ForeignKeyName#> != null )
                 {
-                    var result = (await <#=ModelName#>DataService.GetAll<#=PluralTablename#>Async(<#=ForeignKeyName#>));
-
+                    var result = await <#=ModelName#>DataService!.GetAll<#=PluralTablename#>Async(<#=ForeignKeyName#>);
+                    //var result = await <#=ModelName#>DataService.Search<#=PluralTablename#>Async(ServerSearchTerm);
                     if (result != null)
                     {
                         <#=ModelName#>DTO = result.ToList();

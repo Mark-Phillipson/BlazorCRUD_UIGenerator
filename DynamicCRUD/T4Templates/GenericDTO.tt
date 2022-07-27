@@ -33,9 +33,12 @@ namespace <#=Namespace#>.DTOs
 <#
         }
 #>        public<# 
-            if (property.DataType.ToLower()=="int"||property.DataType.ToLower()=="bigint") { 
+            if (property.DataType.ToLower()=="int") { 
 #> int<# 
             }
+            else if (property.DataType.ToLower()=="bigint") {
+#> long<#
+            } 
             else if (property.DataType.ToLower()=="nvarchar") {
 #> string<#
             } 
@@ -51,7 +54,7 @@ namespace <#=Namespace#>.DTOs
 
 #>
 <# 
-        if (!property.Required  && property.DataType.ToLower()!="bit") {
+        if (!property.Required && property.DataType.ToLower()!="bit") {
 #>? <#
         }
         else
@@ -63,7 +66,9 @@ namespace <#=Namespace#>.DTOs
 #> { get; set; }<# 
         if (property.DataType.ToLower()=="nvarchar" && property.IsKey==false && property.Required) {
 #> ="";
-<# 
+<#      } else if (property.Required || property.IsKey==true) { 
+#> = null!;
+<#
         } else {
 #>
 

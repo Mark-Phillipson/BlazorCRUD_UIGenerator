@@ -66,18 +66,29 @@ namespace DynamicCRUD.T4Templates
             
             #line default
             #line hidden
-            this.Write("Repository\r\n    {\r\n        private readonly IDbContextFactory<BostonAcademicDbCon" +
-                    "text> _contextFactory;\r\n        private readonly IMapper _mapper;\r\n\r\n        pub" +
-                    "lic ");
+            this.Write("Repository\r\n    {\r\n        private readonly IDbContextFactory<");
+            
+            #line 19 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericRepository.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(DbContextName));
+            
+            #line default
+            #line hidden
+            this.Write("> _contextFactory;\r\n        private readonly IMapper _mapper;\r\n\r\n        public ");
             
             #line 22 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericRepository.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
-            this.Write("Repository(IDbContextFactory<BostonAcademicDbContext> contextFactory,IMapper mapp" +
-                    "er)\r\n        {\r\n            _contextFactory = contextFactory;\r\n            this." +
-                    "_mapper = mapper;\r\n        }\r\n\t\t");
+            this.Write("Repository(IDbContextFactory<");
+            
+            #line 22 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericRepository.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(DbContextName));
+            
+            #line default
+            #line hidden
+            this.Write("> contextFactory,IMapper mapper)\r\n        {\r\n            _contextFactory = contex" +
+                    "tFactory;\r\n            this._mapper = mapper;\r\n        }\r\n\t\t");
             
             #line 27 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericRepository.tt"
 
