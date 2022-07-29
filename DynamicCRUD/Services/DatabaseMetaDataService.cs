@@ -63,19 +63,6 @@ namespace DynamicCRUD.Services
             //https://docs.microsoft.com/en-us/dotnet/api/microsoft.data.sqlclient.sqldatareader.getschematable?f1url=%3FappId%3DDev16IDEF1%26l%3DEN-US%26k%3Dk(Microsoft.Data.SqlClient.SqlDataReader.GetSchemaTable);k(DevLang-csharp)%26rd%3Dtrue&view=sqlclient-dotnet-standard-4.1
             return columns; //.OrderBy(o => o.ColumnName).ToList();
         }
-        public int GetRecordCount(string conStr, string tableName, string schemaName)
-        {
-            using (var sqlCon = new SqlConnection(conStr))
-            {
-                sqlCon.Open();
-                var sqlCmd = sqlCon.CreateCommand();
-                tableName = IncludeSquareBrackets(tableName, schemaName);
-                var sqlText = $"select Count (*) from {tableName}";
-                sqlCmd.CommandType = CommandType.Text;
-                int rows = (int)sqlCmd.ExecuteScalar();
-                return rows;
-            }
-        }
         public DataTable GetData(string conStr, string tableName, int maxRows, string? searchTerm = null, string schemaName = "dbo")
         {
             using (var sqlCon = new SqlConnection(conStr))

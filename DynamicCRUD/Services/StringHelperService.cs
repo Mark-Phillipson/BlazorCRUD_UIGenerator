@@ -10,19 +10,7 @@ using Ardalis.GuardClauses;
 namespace DynamicCRUD.Services
 {
     public static class StringHelperService
-    {
-        public static string RemoveDomain(string name)
-        {
-            Guard.Against.Null(name);
-            if (name.Contains(@"\"))
-            {
-                var position = name.IndexOf(@"\");
-                name = name.Substring(position, name.Length - position);
-            }
-            return name.Replace(@"\", "");
-        }
-
-        public static string GetCamelCase(string value)
+    {        public static string GetCamelCase(string value)
         {
             return $"{value.Substring(0, 1).ToLower()}{value.Substring(1)}";
         }
