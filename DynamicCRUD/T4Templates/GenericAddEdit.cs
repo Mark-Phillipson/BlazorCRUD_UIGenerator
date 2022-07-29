@@ -45,7 +45,7 @@ namespace DynamicCRUD.T4Templates
             
             #line default
             #line hidden
-            this.Write("{");
+            this.Write("/{");
             
             #line 15 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PrimaryKeyName));

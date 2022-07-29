@@ -13,6 +13,7 @@ namespace <#=Namespace#>.Services
     public interface I<#=ModelName#>DataService
     {
         Task<List<<#=ModelName#>DTO>> GetAll<#=PluralTablename#>Async(<#=ForeignKeyDataType#> <#=ForeignKeyName#>);
+        Task<List<<#=ModelName#>DTO>> Search<#=PluralTablename#>Async(string serverSearchTerm);
         Task<<#=ModelName#>DTO?> Add<#=ModelName#>(<#=ModelName#>DTO <#=ModelNameCamelCase#>DTO);
         Task<<#=ModelName#>DTO?> Get<#=ModelName#>ById(<#=PrimaryKeyDataType#> <#=PrimaryKeyName#>);
         Task<<#=ModelName#>DTO> Update<#=ModelName#>(<#=ModelName#>DTO <#=ModelNameCamelCase#>DTO, string? username);

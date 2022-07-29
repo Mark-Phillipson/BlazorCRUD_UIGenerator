@@ -50,6 +50,19 @@ namespace <#=Namespace#>.Repositories
             return <#=PluralTablename#>DTO;
         }
 <#      } #>
+        public async Task<IEnumerable<<#=ModelName#>DTO>> Search<#=PluralTablename#>Async(string serverSearchTerm)
+        {
+            using var context = _contextFactory.CreateDbContext();
+            var <#=PluralTablename#>= await context.<#=PluralTablename#>
+                //.Where(v => v.Property!= null  && v.Property.ToLower().Contains(serverSearchTerm.ToLower())
+                //||v.Property!= null  && v.Property.ToLower().Contains(serverSearchTerm.ToLower())
+                //)
+                //.OrderBy(v => v.?)
+                .Take(1000)
+                .ToListAsync();
+            IEnumerable<<#=ModelName#>DTO> <#=PluralTablename#>DTO = _mapper.Map<List<<#=ModelName#>>, IEnumerable<<#=ModelName#>DTO>>(<#=PluralTablename#>);
+            return <#=PluralTablename#>DTO;
+        }
 
         public async Task<<#=ModelName#>DTO?> Get<#=ModelName#>ByIdAsync(<#=PrimaryKeyDataType#> <#=PrimaryKeyName#>)
         {

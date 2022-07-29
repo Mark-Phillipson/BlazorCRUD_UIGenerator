@@ -43,6 +43,12 @@ namespace <#=Namespace#>.Services
         }
 <#      }
 #>
+        public async Task<List<<#=ModelName#>DTO>> Search<#=PluralTablename#>Async(string serverSearchTerm)
+        {
+            var <#=PluralTablename#> = await _<#=ModelNameCamelCase#>Repository.Search<#=PluralTablename#>Async(serverSearchTerm);
+            return <#=PluralTablename#>.ToList();
+        }
+
         public async Task<<#=ModelName#>DTO?> Get<#=ModelName#>ById(<#=PrimaryKeyDataType#> <#=PrimaryKeyName#>)
         {
             var <#=ModelNameCamelCase#> = await _<#=ModelNameCamelCase#>Repository.Get<#=ModelName#>ByIdAsync(<#=PrimaryKeyName#>);
