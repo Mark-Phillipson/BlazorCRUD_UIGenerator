@@ -32,7 +32,6 @@ namespace <#=Namespace#>.Pages
     public partial class <#=ModelName#>AddEdit : ComponentBase
     {
         [CascadingParameter] BlazoredModalInstance? ModalInstance { get; set; }
-        [CascadingParameter] public ClaimsPrincipal? User { get; set; }
         [Inject] public IJSRuntime? JSRuntime { get; set; }
         [Parameter] public <#=PrimaryKeyDataType#>? <#=PrimaryKeyName#> { get; set; }
 <#
@@ -78,9 +77,6 @@ namespace <#=Namespace#>.Pages
 #>			
                 <#=ModelName#>DTO.<#=ForeignKeyName#> = <#=ForeignKeyName#>;
 <#          } #>
-            }
-            if (User?.Identity?.Name != null)
-            {
             }
         }
 
@@ -131,7 +127,7 @@ namespace <#=Namespace#>.Pages
             {
                 if (<#=ModelName#>DataService != null)
                 {
-                    await <#=ModelName#>DataService!.Update<#=ModelName#>(<#=ModelName#>DTO, User!.Identity!.Name);
+                    await <#=ModelName#>DataService!.Update<#=ModelName#>(<#=ModelName#>DTO, "");
                     ToastService?.ShowSuccess("The <#=ModelNameWithSpaces#> updated successfully", "SUCCESS");
                 }
             }

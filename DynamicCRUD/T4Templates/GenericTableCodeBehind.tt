@@ -65,7 +65,7 @@ namespace <#=Namespace#>.Pages
         {
             try
             {
-                if (<#=ModelName#>DataService != null && <#=ForeignKeyName#> != null )
+                if (<#=ModelName#>DataService != null)
                 {
                     var result = await <#=ModelName#>DataService!.GetAll<#=PluralTablename#>Async(<#=ForeignKeyName#>);
                     //var result = await <#=ModelName#>DataService.Search<#=PluralTablename#>Async(ServerSearchTerm);
@@ -106,7 +106,6 @@ namespace <#=Namespace#>.Pages
         protected async Task AddNew<#=ModelName#>Async()
         {
             var parameters = new ModalParameters();
-            parameters.Add(nameof(User), User);
 <#           if (!string.IsNullOrEmpty(ForeignKeyName)) {#>			
             parameters.Add(nameof(<#=ForeignKeyName#>), <#=ForeignKeyName#>);
 <#           }#>
@@ -211,7 +210,6 @@ namespace <#=Namespace#>.Pages
         {
             var parameters = new ModalParameters();
             parameters.Add("<#=PrimaryKeyName#>", <#=PrimaryKeyName#>);
-            parameters.Add(nameof(User), User);
             var formModal = Modal?.Show<<#=ModelName#>AddEdit>("Edit <#=ModelNameWithSpaces#>", parameters);
             if (formModal != null)
             {

@@ -231,7 +231,6 @@ namespace DynamicCRUD.T4Templates
             
             #line default
             #line hidden
-            this.Write(" = null!;\r\n");
             
             #line 71 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
 

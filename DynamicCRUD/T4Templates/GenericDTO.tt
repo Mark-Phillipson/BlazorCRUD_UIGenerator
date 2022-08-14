@@ -67,7 +67,7 @@ namespace <#=Namespace#>.DTOs
         if (property.DataType.ToLower()=="nvarchar" && property.IsKey==false && property.Required) {
 #> ="";
 <#      } else if (property.Required || property.IsKey==true) { 
-#> = null!;
+#>
 <#
         } else {
 #>
