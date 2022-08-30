@@ -6,7 +6,7 @@ This project can be used to create the classes and Blazor components to provide 
 
 The classes are all created within the project under a folder called AutoGenClasses, with the intention of moving them into your project.
 
-## Quick Start � How to Use
+## Quick Start - How to Use
 
 1. Edit the appsettings.json file in the root of this project. To make the "DefaultConnection" point to your database in SQL Server.
 
