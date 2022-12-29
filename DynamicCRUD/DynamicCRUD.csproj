@@ -118,4 +118,10 @@
     </Compile>
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="wwwroot\images\DynamicCRUD.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>
