@@ -1,6 +1,6 @@
 # Blazor CRUD UI Generator
 
-![](DynamicCRUD/wwwroot/images/DynamicCRUD.png)
+![screenshot](DynamicCRUD/wwwroot/images/DynamicCRUD.png)
 
 This project can be used to create the classes and Blazor components to provide rudimentary CRUD functionality for any table in SQL Server Database.
 
