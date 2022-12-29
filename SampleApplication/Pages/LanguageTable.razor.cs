@@ -24,17 +24,17 @@ using SampleApplication.DTOs;
 
 namespace SampleApplication.Pages
 {
-    public partial class GeneralLookupTable : ComponentBase
+    public partial class LanguageTable : ComponentBase
     {
-        [Inject] public IGeneralLookupDataService? GeneralLookupDataService { get; set; }
+        [Inject] public ILanguageDataService? LanguageDataService { get; set; }
         [Inject] public NavigationManager? NavigationManager { get; set; }
-        [Inject] public ILogger<GeneralLookupTable>? Logger { get; set; }
+        [Inject] public ILogger<LanguageTable>? Logger { get; set; }
         [Inject] public IToastService? ToastService { get; set; }
         [CascadingParameter] public IModalService? Modal { get; set; }
-        public string Title { get; set; } = "GeneralLookup Items (GeneralLookups)";
-        public List<GeneralLookupDTO>? GeneralLookupDTO { get; set; }
-        public List<GeneralLookupDTO>? FilteredGeneralLookupDTO { get; set; }
-        protected GeneralLookupAddEdit? GeneralLookupAddEdit { get; set; }
+        public string Title { get; set; } = "Language Items (Languages)";
+        public List<LanguageDTO>? LanguageDTO { get; set; }
+        public List<LanguageDTO>? FilteredLanguageDTO { get; set; }
+        protected LanguageAddEdit? LanguageAddEdit { get; set; }
         ElementReference SearchInput;
 #pragma warning disable 414, 649
         private bool _loadFailed = false;
@@ -55,13 +55,13 @@ namespace SampleApplication.Pages
         {
             try
             {
-                if (GeneralLookupDataService != null)
+                if (LanguageDataService != null)
                 {
-                    var result = await GeneralLookupDataService!.GetAllGeneralLookupsAsync();
-                    //var result = await GeneralLookupDataService.SearchGeneralLookupsAsync(ServerSearchTerm);
+                    var result = await LanguageDataService!.GetAllLanguagesAsync();
+                    //var result = await LanguageDataService.SearchLanguagesAsync(ServerSearchTerm);
                     if (result != null)
                     {
-                        GeneralLookupDTO = result.ToList();
+                        LanguageDTO = result.ToList();
                     }
                 }
 
@@ -72,8 +72,8 @@ namespace SampleApplication.Pages
                 _loadFailed = true;
                 ExceptionMessage = e.Message;
             }
-            FilteredGeneralLookupDTO = GeneralLookupDTO;
-            Title = $"General Lookup ({FilteredGeneralLookupDTO?.Count})";
+            FilteredLanguageDTO = LanguageDTO;
+            Title = $"Language ({FilteredLanguageDTO?.Count})";
 
         }
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -93,10 +93,10 @@ namespace SampleApplication.Pages
                 }
             }
         }
-        protected async Task AddNewGeneralLookupAsync()
+        protected async Task AddNewLanguageAsync()
         {
             var parameters = new ModalParameters();
-            var formModal = Modal?.Show<GeneralLookupAddEdit>("Add General Lookup", parameters);
+            var formModal = Modal?.Show<LanguageAddEdit>("Add Language", parameters);
             if (formModal != null)
             {
                 var result = await formModal.Result;
@@ -109,95 +109,94 @@ namespace SampleApplication.Pages
 
         private void ApplyFilter()
         {
-            if (FilteredGeneralLookupDTO == null || GeneralLookupDTO == null)
+            if (FilteredLanguageDTO == null || LanguageDTO == null)
             {
                 return;
             }
             if (string.IsNullOrEmpty(SearchTerm))
             {
-                FilteredGeneralLookupDTO = GeneralLookupDTO.OrderBy(v => v.ItemValue).ToList();
-                Title = $"All General Lookup ({FilteredGeneralLookupDTO.Count})";
+                FilteredLanguageDTO = LanguageDTO.OrderBy(v => v.LanguageName).ToList();
+                Title = $"All Language ({FilteredLanguageDTO.Count})";
             }
             else
             {
                 var temporary = SearchTerm.ToLower().Trim();
-                FilteredGeneralLookupDTO = GeneralLookupDTO
+                FilteredLanguageDTO = LanguageDTO
                     .Where(v => 
-                    (v.ItemValue!= null  && v.ItemValue.ToLower().Contains(temporary))
-                     || (v.Category!= null  &&  v.Category.ToLower().Contains(temporary))
-                     || (v.DisplayValue!= null  &&  v.DisplayValue.ToLower().Contains(temporary))
+                    (v.LanguageName != null  && v.LanguageName.ToLower().Contains(temporary))
+                     || (v.Colour!= null  &&  v.Colour.ToLower().Contains(temporary))
                     )
                     .ToList();
-                Title = $"Filtered General Lookups ({FilteredGeneralLookupDTO.Count})";
+                Title = $"Filtered Languages ({FilteredLanguageDTO.Count})";
             }
         }
-        protected void SortGeneralLookup(string sortColumn)
+        protected void SortLanguage(string sortColumn)
         {
             Guard.Against.Null(sortColumn, nameof(sortColumn));
-                        if (FilteredGeneralLookupDTO == null)
+                        if (FilteredLanguageDTO == null)
             {
                 return;
             }
-            if (sortColumn == "ItemValue")
+            if (sortColumn == "Language")
             {
-                FilteredGeneralLookupDTO = FilteredGeneralLookupDTO.OrderBy(v => v.ItemValue).ToList();
+                FilteredLanguageDTO = FilteredLanguageDTO.OrderBy(v => v.LanguageName).ToList();
             }
-            else if (sortColumn == "ItemValue Desc")
+            else if (sortColumn == "Language Desc")
             {
-                FilteredGeneralLookupDTO = FilteredGeneralLookupDTO.OrderByDescending(v => v.ItemValue).ToList();
+                FilteredLanguageDTO = FilteredLanguageDTO.OrderByDescending(v => v.LanguageName).ToList();
             }
-            if (sortColumn == "Category")
+            if (sortColumn == "Active")
             {
-                FilteredGeneralLookupDTO = FilteredGeneralLookupDTO.OrderBy(v => v.Category).ToList();
+                FilteredLanguageDTO = FilteredLanguageDTO.OrderBy(v => v.Active).ToList();
             }
-            else if (sortColumn == "Category Desc")
+            else if (sortColumn == "Active Desc")
             {
-                FilteredGeneralLookupDTO = FilteredGeneralLookupDTO.OrderByDescending(v => v.Category).ToList();
+                FilteredLanguageDTO = FilteredLanguageDTO.OrderByDescending(v => v.Active).ToList();
             }
-            if (sortColumn == "SortOrder")
+            if (sortColumn == "Colour")
             {
-                FilteredGeneralLookupDTO = FilteredGeneralLookupDTO.OrderBy(v => v.SortOrder).ToList();
+                FilteredLanguageDTO = FilteredLanguageDTO.OrderBy(v => v.Colour).ToList();
             }
-            else if (sortColumn == "SortOrder Desc")
+            else if (sortColumn == "Colour Desc")
             {
-                FilteredGeneralLookupDTO = FilteredGeneralLookupDTO.OrderByDescending(v => v.SortOrder).ToList();
+                FilteredLanguageDTO = FilteredLanguageDTO.OrderByDescending(v => v.Colour).ToList();
             }
         }
-        async Task DeleteGeneralLookupAsync(int Id)
+        async Task DeleteLanguageAsync(int Id)
         {
             //Optionally remove child records here or warn about their existence
-            //var ? = await ?DataService.GetAllGeneralLookup(Id);
+            //var ? = await ?DataService.GetAllLanguage(Id);
             //if (? != null)
             //{
-            //	ToastService.ShowWarning($"It is not possible to delete a generalLookup that is linked to one or more companies! You would have to delete the companys first. {?.Count()}");
+            //	ToastService.ShowWarning($"It is not possible to delete a language that is linked to one or more companies! You would have to delete the companys first. {?.Count()}");
             //	return;
             //}
             var parameters = new ModalParameters();
-            if (GeneralLookupDataService != null)
+            if (LanguageDataService != null)
             {
-                var generalLookup = await GeneralLookupDataService.GetGeneralLookupById(Id);
-                parameters.Add("Title", "Please Confirm, Delete General Lookup");
-                parameters.Add("Message", $"ItemValue: {generalLookup?.ItemValue}");
+                var language = await LanguageDataService.GetLanguageById(Id);
+                parameters.Add("Title", "Please Confirm, Delete Language");
+                parameters.Add("Message", $"Language: {language?.LanguageName}");
                 parameters.Add("ButtonColour", "danger");
                 parameters.Add("Icon", "fa fa-trash");
-                var formModal = Modal?.Show<BlazoredModalConfirmDialog>($"Delete  General Lookup ({generalLookup?.ItemValue})?", parameters);
+                var formModal = Modal?.Show<BlazoredModalConfirmDialog>($"Delete  Language ({language?.LanguageName})?", parameters);
                 if (formModal != null)
                 {
                     var result = await formModal.Result;
                     if (!result.Cancelled)
                     {
-                        await GeneralLookupDataService.DeleteGeneralLookup(Id);
-                        ToastService?.ShowSuccess(" General Lookup deleted successfully", "SUCCESS");
+                        await LanguageDataService.DeleteLanguage(Id);
+                        ToastService?.ShowSuccess(" Language deleted successfully", "SUCCESS");
                         await LoadData();
                     }
                 }
             }
         }
-        async Task EditGeneralLookupAsync(int Id)
+        async Task EditLanguageAsync(int Id)
         {
             var parameters = new ModalParameters();
             parameters.Add("Id", Id);
-            var formModal = Modal?.Show<GeneralLookupAddEdit>("Edit General Lookup", parameters);
+            var formModal = Modal?.Show<LanguageAddEdit>("Edit Language", parameters);
             if (formModal != null)
             {
                 var result = await formModal.Result;

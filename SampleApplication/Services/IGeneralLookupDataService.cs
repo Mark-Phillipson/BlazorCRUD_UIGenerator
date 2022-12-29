@@ -5,7 +5,7 @@ namespace SampleApplication.Services
 {
     public interface IGeneralLookupDataService
     {
-        Task<List<GeneralLookupDTO>> GetAllGeneralLookupsAsync();
+        Task<List<GeneralLookupDTO>> GetAllGeneralLookupsAsync( );
         Task<List<GeneralLookupDTO>> SearchGeneralLookupsAsync(string serverSearchTerm);
         Task<GeneralLookupDTO?> AddGeneralLookup(GeneralLookupDTO generalLookupDTO);
         Task<GeneralLookupDTO?> GetGeneralLookupById(int Id);

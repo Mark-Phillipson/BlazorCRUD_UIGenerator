@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SampleApplication.Models;
 
-[Index("Language1", Name = "IX_Languages", IsUnique = true)]
+[Index("LanguageName", Name = "IX_Languages", IsUnique = true)]
 public partial class Language
 {
     [Key]
@@ -15,7 +15,7 @@ public partial class Language
 
     [Column("Language")]
     [StringLength(25)]
-    public string Language1 { get; set; } = null!;
+    public string LanguageName { get; set; } = null!;
 
     public bool Active { get; set; }
 

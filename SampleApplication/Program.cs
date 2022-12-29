@@ -21,6 +21,8 @@ builder.Services.AddDbContextFactory<MyDbContext>(options => options.UseSqlServe
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddBlazoredModal();
 builder.Services.AddBlazoredToast();
+builder.Services.AddScoped<ILanguageRepository, LanguageRepository>(); 
+builder.Services.AddScoped<ILanguageDataService, LanguageDataService>();
 builder.Services.AddScoped<IGeneralLookupRepository, GeneralLookupRepository>(); 
 builder.Services.AddScoped<IGeneralLookupDataService, GeneralLookupDataService>();
 

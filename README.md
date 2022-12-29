@@ -2,6 +2,9 @@
 
 ![screenshot](DynamicCRUD/wwwroot/images/DynamicCRUD.png)
 
+Demo Video: https://youtu.be/5Q4Z7Z8Z3qo
+
+
 This project can be used to create the classes and Blazor components to provide rudimentary CRUD functionality for any table in SQL Server Database.
 
 The classes are all created within this project under a folder called AutoGenClasses, with the intention of moving them into your project.
