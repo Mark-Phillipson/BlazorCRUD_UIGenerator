@@ -123,8 +123,8 @@
         <div class="col-9">
             <p>If this is the 1st time the table has been set up, please carry out the following tasks to complete the process:</p>
             <ul>
-                <li>Inspect the generated files at BostonAcademic.Client.AutoGenClasses, </li>
-                <li>Add the following line of code into the application DB context (BostonAcademicDbContext)</li>
+                <li>Inspect the generated files at @(NamespaceName).AutoGenClasses, </li>
+                <li>Add the following line of code into the application DB context (@(DbContextName))</li>
                 <li><code>public virtual DbSet&lt;@ModelName&gt; @PluralName { get; set; } </code> </li>
                 <li>Add the following 2 lines of code to the mapper profile class:</li>
                 <li>

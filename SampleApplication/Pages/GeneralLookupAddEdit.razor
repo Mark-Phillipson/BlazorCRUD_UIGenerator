@@ -1,0 +1,45 @@
+@page "/generallookup/{Id:int?}"
+<div style="min-width:80vw">
+    <EditForm Model="@GeneralLookupDTO" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        @*<ValidationSummary />*@
+        @if (GeneralLookupDTO.Id > 0)
+        {
+            <span class="text-info m-1">@GeneralLookupDTO.Id</span>
+        }
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <label for="ItemValue">Item Value: </label> <i class="text-danger fa">*</i>
+                    <InputTextArea rows="2" id="ItemValue" class="form-control" @bind-Value="@GeneralLookupDTO.ItemValue"
+                               placeholder="Enter Item Value"></InputTextArea>
+                    <ValidationMessage For="@(() => GeneralLookupDTO.ItemValue)" />
+                </div>
+                <div class="form-group">
+                    <label for="Category">Category: </label> <i class="text-danger fa">*</i>
+                    <InputTextArea rows="2" id="Category" class="form-control" @bind-Value="@GeneralLookupDTO.Category"
+                               placeholder="Enter Category"></InputTextArea>
+                    <ValidationMessage For="@(() => GeneralLookupDTO.Category)" />
+                </div>
+                <div class="form-group">
+                    <label for="SortOrder">Sort Order: </label>                    <InputNumber id="SortOrder" class="form-control" @bind-Value="@GeneralLookupDTO.SortOrder"
+                                 placeholder="Enter Sort Order"></InputNumber>
+                    <ValidationMessage For="@(() => GeneralLookupDTO.SortOrder)" />
+                </div>
+                <div class="form-group">
+                    <label for="DisplayValue">Display Value: </label>                    <InputTextArea rows="2" id="DisplayValue" class="form-control" @bind-Value="@GeneralLookupDTO.DisplayValue"
+                               placeholder="Enter Display Value"></InputTextArea>
+                    <ValidationMessage For="@(() => GeneralLookupDTO.DisplayValue)" />
+                </div>
+            </div>
+            <div class="col-12">
+                 @* Move here for the next display column if required *@
+            </div>
+        </div>
+        <hr>
+        <div class="btn-group" style="float:right">
+            <a accesskey="c" class="btn btn-lg btn-outline-primary" @onclick="@Close"><u>C</u>ancel</a>
+            <button @TaskRunning accesskey="s" type="submit" class="btn btn-lg btn-primary"><u>S</u>ave Record</button>
+        </div>
+    </EditForm>
+</div>

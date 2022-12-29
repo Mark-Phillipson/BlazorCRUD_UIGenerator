@@ -66,3 +66,22 @@ a, .btn-link {
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
+
+
+.size-medium-custom {
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.blazored-modal-custom {
+    color: black;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 4px;
+    border: 1px solid #fff;
+    padding: 1.5rem;
+    box-shadow: 0 2px 2px rgba(0,0,0,.25);
+    margin: 1.75rem;
+}

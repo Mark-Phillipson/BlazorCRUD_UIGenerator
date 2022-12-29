@@ -1,0 +1,94 @@
+
+@page "/generallookups"
+<div class="row">
+    <div class="col-md-7">
+        <h5 class="page-title m-1">@Title</h5>
+    </div>
+    <div class="col-md-4">
+        <input @ref="SearchInput" accesskey="i" class="form-control my-1" style="float:right" @bind="@SearchTerm" 
+        @bind:event="oninput" id="SearchInput" name="SearchTerm" placeholder="Filter by Item Value/Category/Display Value (Alt+I)" />
+    </div> 
+</div>
+
+@if (FilteredGeneralLookupDTO == null && _loadFailed == true)
+{
+    <h2 class="text-danger">The data failed to load please try again in a little while..</h2>
+    <button class="btn btn-danger" type="button" @onclick="@( () => LoadData() )">Reload</button>
+    <h6 class="text-danger">@ExceptionMessage</h6>
+}
+else if (FilteredGeneralLookupDTO == null)
+{
+    <div style="display:normal;margin:auto" class="loader"></div>
+}
+else if (FilteredGeneralLookupDTO.Count == 0)
+{
+    <p>No General Lookup match the criteria</p>
+    <button @onclick="AddNewGeneralLookupAsync" class="btn btn-success">Add Record <i class="fas fa-plus"></i></button>
+}
+else
+{
+    <table style="font-size:small" class="table table-bordered table-striped table-sm table-responsive-sm">
+        <thead>
+            <tr>
+              <th>ID</th>
+              <th>
+                    <button class="btn btn-sm" @onclick="@(() => SortGeneralLookup("ItemValue"))">
+                        <i class="fas fa-sort-alpha-up"></i>
+                    </button>
+                    <button class="btn btn-sm" @onclick="@(() => SortGeneralLookup("ItemValue Desc"))">
+                        <i class="fas fa-sort-alpha-up-alt"></i>
+                    </button>
+                    Item Value
+                </th>
+              <th>
+                    <button class="btn btn-sm" @onclick="@(() => SortGeneralLookup("Category"))">
+                        <i class="fas fa-sort-alpha-up"></i>
+                    </button>
+                    <button class="btn btn-sm" @onclick="@(() => SortGeneralLookup("Category Desc"))">
+                        <i class="fas fa-sort-alpha-up-alt"></i>
+                    </button>
+                    Category
+                </th>
+              <th>
+                    <button class="btn btn-sm" @onclick="@(() => SortGeneralLookup("SortOrder"))">
+                        <i class="fas fa-sort-alpha-up"></i>
+                    </button>
+                    <button class="btn btn-sm" @onclick="@(() => SortGeneralLookup("SortOrder Desc"))">
+                        <i class="fas fa-sort-alpha-up-alt"></i>
+                    </button>
+                    Sort Order
+                </th>
+              <th>Display Value</th>
+                <th>
+                    <button accesskey="+" @onclick="AddNewGeneralLookupAsync" class="btn btn-success btn-sm">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var generalLookup in FilteredGeneralLookupDTO)
+            {
+                <tr>
+                    <td>
+                        <a href="#" class="btn btn-sm btn-link" @onclick="@(() => EditGeneralLookupAsync(generalLookup.Id))">
+                            @generalLookup.Id
+                        </a>
+                    </td>
+                    <td>@generalLookup.ItemValue</td>
+                    <td>@generalLookup.Category</td>
+                    <td>@generalLookup.SortOrder</td>
+                    <td>@generalLookup.DisplayValue</td>
+                    <td class="btn-group-vertical">
+                        <button class="btn btn-sm btn-warning" @onclick="@(() => EditGeneralLookupAsync(generalLookup.Id))">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger" @onclick="@(() => DeleteGeneralLookupAsync(generalLookup.Id))">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

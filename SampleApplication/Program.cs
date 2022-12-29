@@ -1,7 +1,14 @@
+using Blazored.Modal;
+using Blazored.Toast;
+
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.EntityFrameworkCore;
 
 using SampleApplication.Data;
+using SampleApplication.Models;
+using SampleApplication.Repositories;
+using SampleApplication.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +16,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContextFactory<MyDbContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddBlazoredModal();
+builder.Services.AddBlazoredToast();
+builder.Services.AddScoped<IGeneralLookupRepository, GeneralLookupRepository>(); 
+builder.Services.AddScoped<IGeneralLookupDataService, GeneralLookupDataService>();
 
 var app = builder.Build();
 

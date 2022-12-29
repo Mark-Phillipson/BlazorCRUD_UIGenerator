@@ -18,6 +18,7 @@ Your project would require the following to be set up:
 6. The Blazor components are set up to use Bootstrap 5.
 7. Entity Framework Core.
 
+Please see the sample application project which contains these dependencies, for more information.
 
 ## Quick Start - How to Use
 
