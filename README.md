@@ -1,6 +1,6 @@
 # Blazor CRUD UI Generator
 
-![screenshot](DynamicCRUD/wwwroot/images/DynamicCRUD.png)
+![screenshot](DynamicCRUD/wwwroot/images/Screenshot.png)
 
 Demo Video: https://youtu.be/5Q4Z7Z8Z3qo
 
