@@ -2,7 +2,7 @@
 
 ![screenshot](DynamicCRUD/wwwroot/images/Screenshot.png)
 
-Demo Video: https://youtu.be/5Q4Z7Z8Z3qo
+Demo Video: https://youtu.be/rJrNwR4Mf7A
 
 
 This project can be used to create the classes and Blazor components to provide rudimentary CRUD functionality for any table in SQL Server Database.
