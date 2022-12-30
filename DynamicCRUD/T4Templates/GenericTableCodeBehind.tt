@@ -36,12 +36,15 @@ namespace <#=Namespace#>.Pages
         [Inject] public I<#=ModelName#>DataService? <#=ModelName#>DataService { get; set; }
         [Inject] public NavigationManager? NavigationManager { get; set; }
         [Inject] public ILogger<<#=ModelName#>Table>? Logger { get; set; }
-        [Inject] public IToastService? ToastService { get; set; }
+        //[Inject] public IToastService? ToastService { get; set; }
+        [Inject] public ApplicationState? ApplicationState { get; set; }
         [CascadingParameter] public IModalService? Modal { get; set; }
         public string Title { get; set; } = "<#=ModelName#> Items (<#=PluralTablename#>)";
+        public string EditTitle { get; set; } = "Edit <#=ModelName#> Item (<#=PluralTablename#>)";
 <#      if (!string.IsNullOrEmpty(ForeignKeyName)) {#>		
         [Parameter] public <#=ForeignKeyDataType#> <#=ForeignKeyName#> { get; set; }
 <#      }#>
+        [Parameter] public int ParentId { get; set; }
         public List<<#=ModelName#>DTO>? <#=ModelName#>DTO { get; set; }
         public List<<#=ModelName#>DTO>? Filtered<#=ModelName#>DTO { get; set; }
         protected <#=ModelName#>AddEdit? <#=ModelName#>AddEdit { get; set; }
@@ -56,6 +59,8 @@ namespace <#=Namespace#>.Pages
         public List<string>? PropertyInfo { get; set; }
         [CascadingParameter] public ClaimsPrincipal? User { get; set; }
         [Inject] public IJSRuntime? JSRuntime { get; set; }
+        public bool ShowEdit { get; set; } = false;
+        private bool ShowDeleteConfirm { get; set; }
         protected override async Task OnInitializedAsync()
         {
             await LoadData();
@@ -105,19 +110,22 @@ namespace <#=Namespace#>.Pages
         }
         protected async Task AddNew<#=ModelName#>Async()
         {
-            var parameters = new ModalParameters();
+//            var parameters = new ModalParameters();
 <#           if (!string.IsNullOrEmpty(ForeignKeyName)) {#>			
-            parameters.Add(nameof(<#=ForeignKeyName#>), <#=ForeignKeyName#>);
+//            parameters.Add(nameof(<#=ForeignKeyName#>), <#=ForeignKeyName#>);
 <#           }#>
-            var formModal = Modal?.Show<<#=ModelName#>AddEdit>("Add <#=ModelNameWithSpaces#>", parameters);
-            if (formModal != null)
-            {
-                var result = await formModal.Result;
-                if (!result.Cancelled)
-                {
-                    await LoadData();
-                }
-            }
+//            var formModal = Modal?.Show<<#=ModelName#>AddEdit>("Add <#=ModelNameWithSpaces#>", parameters);
+//            if (formModal != null)
+//            {
+//                var result = await formModal.Result;
+//                if (!result.Cancelled)
+//                {
+//                    await LoadData();
+//                }
+//            }
+            <#=ModelName#>Id=0
+            EditTitle = "Add <#=ModelNameWithSpaces#>";
+            ShowEdit = true;
         }
 
         private void ApplyFilter()
@@ -185,40 +193,74 @@ namespace <#=Namespace#>.Pages
             //	ToastService.ShowWarning($"It is not possible to delete a <#=ModelNameCamelCase#> that is linked to one or more companies! You would have to delete the companys first. {?.Count()}");
             //	return;
             //}
-            var parameters = new ModalParameters();
-            if (<#=ModelName#>DataService != null)
-            {
-                var <#=ModelNameCamelCase#> = await <#=ModelName#>DataService.Get<#=ModelName#>ById(<#=PrimaryKeyName#>);
-                parameters.Add("Title", "Please Confirm, Delete <#=ModelNameWithSpaces#>");
-                parameters.Add("Message", $"<#=DefaultSortColumn#>: {<#=ModelNameCamelCase#>?.<#=DefaultSortColumn#>}");
-                parameters.Add("ButtonColour", "danger");
-                parameters.Add("Icon", "fa fa-trash");
-                var formModal = Modal?.Show<BlazoredModalConfirmDialog>($"Delete  <#=ModelNameWithSpaces#> ({<#=ModelNameCamelCase#>?.<#=DefaultSortColumn#>})?", parameters);
-                if (formModal != null)
-                {
-                    var result = await formModal.Result;
-                    if (!result.Cancelled)
-                    {
-                        await <#=ModelName#>DataService.Delete<#=ModelName#>(<#=PrimaryKeyName#>);
-                        ToastService?.ShowSuccess(" <#=ModelNameWithSpaces#> deleted successfully", "SUCCESS");
-                        await LoadData();
-                    }
-                }
+//            var parameters = new ModalParameters();
+//            if (<#=ModelName#>DataService != null)
+//            {
+//                var <#=ModelNameCamelCase#> = await <#=ModelName#>DataService.Get<#=ModelName#>ById(<#=PrimaryKeyName#>);
+//                parameters.Add("Title", "Please Confirm, Delete <#=ModelNameWithSpaces#>");
+//                parameters.Add("Message", $"<#=DefaultSortColumn#>: {<#=ModelNameCamelCase#>?.<#=DefaultSortColumn#>}");
+//                parameters.Add("ButtonColour", "danger");
+//                parameters.Add("Icon", "fa fa-trash");
+//                var formModal = Modal?.Show<BlazoredModalConfirmDialog>($"Delete  <#=ModelNameWithSpaces#> ({<#=ModelNameCamelCase#>?.<#=DefaultSortColumn#>})?", parameters);
+//                if (formModal != null)
+//                {
+//                    var result = await formModal.Result;
+//                    if (!result.Cancelled)
+//                    {
+//                        await <#=ModelName#>DataService.Delete<#=ModelName#>(<#=PrimaryKeyName#>);
+//                        ToastService?.ShowSuccess(" <#=ModelNameWithSpaces#> deleted successfully", "SUCCESS");
+//                        await LoadData();
+//                    }
+//                }
+               <#=ModelName#>Id = <#=PrimaryKeyName#>;
+               ShowDeleteConfirm=true;
             }
         }
         async Task Edit<#=ModelName#>Async(<#=PrimaryKeyDataType#> <#=PrimaryKeyName#>)
         {
-            var parameters = new ModalParameters();
-            parameters.Add("<#=PrimaryKeyName#>", <#=PrimaryKeyName#>);
-            var formModal = Modal?.Show<<#=ModelName#>AddEdit>("Edit <#=ModelNameWithSpaces#>", parameters);
-            if (formModal != null)
+//            var parameters = new ModalParameters();
+            //parameters.Add("<#=PrimaryKeyName#>", <#=PrimaryKeyName#>);
+            //var formModal = Modal?.Show<<#=ModelName#>AddEdit>("Edit <#=ModelNameWithSpaces#>", parameters);
+            //if (formModal != null)
+            //{
+                //var result = await formModal.Result;
+                //if (!result.Cancelled)
+                //{
+                //    await LoadData();
+                //}
+            //}
+            <#=ModelName#>Id = <#=PrimaryKeyName#>;
+            EditTitle = "Edit <#=ModelNameWithSpaces#>";
+            ShowEdit = true;
+        }
+        private void ToggleModal()
+        {
+            ShowEdit = !ShowEdit;
+        }
+        public async Task CloseModalAsync(bool close)
+        {
+            if (close)
             {
-                var result = await formModal.Result;
-                if (!result.Cancelled)
-                {
-                    await LoadData();
-                }
+                ShowEdit = false;
+                await LoadData();
             }
         }
+        private async void CloseConfirmDeletion(bool confirmation)
+        {
+            ShowDeleteConfirm = false;
+            if (<#=ModelName#>DataService == null) return;
+            if (confirmation)
+            {
+                await <#=ModelName#>DataService.Delete<#=ModelName#>(<#=ModelName#>Id);
+                if (ApplicationState != null)
+                {
+                    ApplicationState.Message = $"{<#=ModelName#>Id} <#=ModelNameWithSpaces#> item has been deleted successfully";
+                    ApplicationState.MessageType = "success";
+                }
+                await LoadData();
+                StateHasChanged();
+            }
+        }
+
     }
 }
