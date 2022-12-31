@@ -69,4 +69,4 @@ Only tested with:
 * SQL Server Database
 * .NET 6/7
 * General datatypes like int, long (bigint), bool (bit), DateTime, string (nvarchar) and decimal.
-
+* Now works in a MVC application that uses Blazor project as well. 
