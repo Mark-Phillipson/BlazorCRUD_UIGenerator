@@ -61,6 +61,7 @@ namespace <#=Namespace#>.Pages
         [Inject] public IJSRuntime? JSRuntime { get; set; }
         public bool ShowEdit { get; set; } = false;
         private bool ShowDeleteConfirm { get; set; }
+        private <#=PrimaryKeyDataType#> <#=ModelName#>Id  { get; set; }
         protected override async Task OnInitializedAsync()
         {
             await LoadData();
@@ -108,7 +109,7 @@ namespace <#=Namespace#>.Pages
                 }
             }
         }
-        protected async Task AddNew<#=ModelName#>Async()
+        private void AddNew<#=ModelName#>()
         {
 //            var parameters = new ModalParameters();
 <#           if (!string.IsNullOrEmpty(ForeignKeyName)) {#>			
@@ -123,7 +124,7 @@ namespace <#=Namespace#>.Pages
 //                    await LoadData();
 //                }
 //            }
-            <#=ModelName#>Id=0
+            <#=ModelName#>Id=0;
             EditTitle = "Add <#=ModelNameWithSpaces#>";
             ShowEdit = true;
         }
@@ -184,7 +185,7 @@ namespace <#=Namespace#>.Pages
 <#          }
 #>
         }
-        async Task Delete<#=ModelName#>Async(<#=PrimaryKeyDataType#> <#=PrimaryKeyName#>)
+        private void Delete<#=ModelName#>(<#=PrimaryKeyDataType#> <#=PrimaryKeyName#>)
         {
             //Optionally remove child records here or warn about their existence
             //var ? = await ?DataService.GetAll<#=ModelName#>(<#=PrimaryKeyName#>);
@@ -214,9 +215,8 @@ namespace <#=Namespace#>.Pages
 //                }
                <#=ModelName#>Id = <#=PrimaryKeyName#>;
                ShowDeleteConfirm=true;
-            }
         }
-        async Task Edit<#=ModelName#>Async(<#=PrimaryKeyDataType#> <#=PrimaryKeyName#>)
+        private void  Edit<#=ModelName#>(<#=PrimaryKeyDataType#> <#=PrimaryKeyName#>)
         {
 //            var parameters = new ModalParameters();
             //parameters.Add("<#=PrimaryKeyName#>", <#=PrimaryKeyName#>);
@@ -236,6 +236,10 @@ namespace <#=Namespace#>.Pages
         private void ToggleModal()
         {
             ShowEdit = !ShowEdit;
+        }
+        private void ToggleShowDeleteConfirm()
+        {
+            ShowDeleteConfirm = !ShowDeleteConfirm;
         }
         public async Task CloseModalAsync(bool close)
         {

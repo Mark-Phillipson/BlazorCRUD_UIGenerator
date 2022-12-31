@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.EntityFrameworkCore;
 
+using SampleApplication;
 using SampleApplication.Data;
 using SampleApplication.Models;
 using SampleApplication.Repositories;
@@ -21,10 +22,12 @@ builder.Services.AddDbContextFactory<MyDbContext>(options => options.UseSqlServe
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddBlazoredModal();
 builder.Services.AddBlazoredToast();
-builder.Services.AddScoped<ILanguageRepository, LanguageRepository>(); 
-builder.Services.AddScoped<ILanguageDataService, LanguageDataService>();
-builder.Services.AddScoped<IGeneralLookupRepository, GeneralLookupRepository>(); 
+builder.Services.AddScoped<ApplicationState>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>(); 
+builder.Services.AddScoped<ICategoryDataService, CategoryDataService>();
+builder.Services.AddScoped<IGeneralLookupRepository, GeneralLookupRepository>();
 builder.Services.AddScoped<IGeneralLookupDataService, GeneralLookupDataService>();
+
 
 var app = builder.Build();
 

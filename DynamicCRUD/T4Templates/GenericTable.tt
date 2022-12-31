@@ -22,7 +22,7 @@
         {
             <div class="alert alert-@ApplicationState.MessageType alert-dismissible fade show" role="alert">
                 <strong>Note!</strong> @ApplicationState.Message @DateTime.Now.ToShortTimeString()
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                @*<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>*@
             </div>
         }
     </div>
@@ -50,7 +50,7 @@ else if (Filtered<#=ModelName#>DTO == null)
 else if (Filtered<#=ModelName#>DTO.Count == 0)
 {
     <p>No <#=ModelNameWithSpaces#> match the criteria</p>
-    <button @onclick="AddNew<#=ModelName#>Async" class="btn btn-outline-success">Add Record <i class="fas fa-plus"></i></button>
+    <button @onclick="AddNew<#=ModelName#>" class="btn btn-outline-success">Add Record <i class="fas fa-plus"></i></button>
 }
 else
 {
@@ -79,7 +79,7 @@ else
             }
 #>
                 <th>
-                    <button accesskey="+" @onclick="AddNew<#=ModelName#>Async" class="btn btn-success btn-sm">
+                    <button accesskey="+" @onclick="AddNew<#=ModelName#>" class="btn btn-outline-success btn-sm">
                         <i class="fas fa-plus"></i>
                     </button>
                 </th>
@@ -96,9 +96,9 @@ else
                 if (property.PropertyName==PrimaryKeyName) {
 #>
                     <td>
-                        <a href="#" class="btn btn-sm btn-link" @onclick="@(() => Edit<#=ModelName#>Async(<#=ModelNameCamelCase#>.<#=PrimaryKeyName#>))">
+                        <button class="btn btn-sm btn-link" @onclick="@(() => Edit<#=ModelName#>(<#=ModelNameCamelCase#>.<#=PrimaryKeyName#>))">
                             @<#=ModelNameCamelCase#>.<#=PrimaryKeyName#>
-                        </a>
+                        </button>
                     </td>
 <#              } else {
 #>
@@ -107,10 +107,10 @@ else
              }
 #>
                     <td class="btn-group-vertical">
-                        <button class="btn btn-sm btn-outline-warning" @onclick="@(() => Edit<#=ModelName#>Async(<#=ModelNameCamelCase#>.<#=PrimaryKeyName#>))">
+                        <button class="btn btn-sm btn-outline-warning" @onclick="@(() => Edit<#=ModelName#>(<#=ModelNameCamelCase#>.<#=PrimaryKeyName#>))">
                             <i class="fas fa-edit"></i>
                         </button>
-                        <button class="btn btn-sm btn-outline-danger" @onclick="@(() => Delete<#=ModelName#>Async(<#=ModelNameCamelCase#>.<#=PrimaryKeyName#>))">
+                        <button class="btn btn-sm btn-outline-danger" @onclick="@(() => Delete<#=ModelName#>(<#=ModelNameCamelCase#>.<#=PrimaryKeyName#>))">
                             <i class="fas fa-trash"></i>
                         </button>
                     </td>
@@ -123,9 +123,9 @@ else
 {
     <dialog open="true" style="position:absolute;left: 0px;top: 200px;z-index: 900" class="border border-danger">
         <button class="btn btn-outline-secondary m-2" style="float:right" type="submit" @onclick="@( ( ) => ToggleModal(  ) )">x</button>
-        <div><AddEdit<#=ModelName#> Title="@EditTitle" <#=ModelName#>Id="@<#=ModelName#>Id" CloseModal="@CloseModalAsync" ParentId="@ParentId" Username="@Username" /></div>
-        <form method="dialog">
-        </form>
+        <div>
+        <<#=ModelName#>AddEdit Title="@EditTitle" Id="@<#=ModelName#>Id" CloseModal="@CloseModalAsync" ParentId="@ParentId" />
+        </div>
     </dialog>
 
 }
@@ -133,7 +133,7 @@ else
 @if (ShowDeleteConfirm)
 {
     <dialog open="true" style="position:absolute;left: 0px;top: 200px;z-index: 900" class="border border-danger">
-        <button class="btn btn-outline-secondary m-2" style="float:right" type="submit" @onclick="@( ( ) => ToggleModal(  ) )">x</button>
+        <button class="btn btn-outline-secondary m-2" style="float:right" type="submit" @onclick="@( ( ) => ToggleShowDeleteConfirm(  ) )">x</button>
         <BlazoredModalConfirmDialog Confirm="@CloseConfirmDeletion" ButtonColour="danger" Icon="fa fa-trash" Message="Please confirm that you wish to delete a record." Title="Deletion Confirmation <#=ModelNameWithSpaces#> Table" />
         <form method="dialog">
         </form>

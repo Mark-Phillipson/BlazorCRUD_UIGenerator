@@ -1,0 +1,47 @@
+@page "/category/{Id:int?}"
+<div style="min-width:80vw">
+    <h1>@Title</h1>
+    <EditForm Model="@CategoryDTO" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        @*<ValidationSummary />*@
+        @if (CategoryDTO.Id > 0)
+        {
+            <span class="text-info m-1">@CategoryDTO.Id</span>
+        }
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <label for="Category">Category:</label>
+                    <InputText id="Category" class="form-control" @bind-Value="@CategoryDTO.CategoryName"
+                               placeholder="Enter Category"></InputText>
+                    <ValidationMessage For="@(() => CategoryDTO.CategoryName)" />
+                </div>
+                <div class="form-group">
+                    <label for="CategoryType">Category Type: </label>                    <InputTextArea rows="2" id="CategoryType" class="form-control" @bind-Value="@CategoryDTO.CategoryType"
+                               placeholder="Enter Category Type"></InputTextArea>
+                    <ValidationMessage For="@(() => CategoryDTO.CategoryType)" />
+                </div>
+                <div class="form-group">
+                    <label for="Sensitive">Sensitive: </label>
+                    <InputCheckbox id="Sensitive" class="form-checkbox" @bind-Value="@CategoryDTO.Sensitive">
+                    </InputCheckbox>
+                    <ValidationMessage For="@(() => CategoryDTO.Sensitive)" />
+                </div>
+                <div class="form-group">
+                    <label for="Colour">Colour:</label>
+                    <InputText id="Colour" class="form-control" @bind-Value="@CategoryDTO.Colour"
+                               placeholder="Enter Colour"></InputText>
+                    <ValidationMessage For="@(() => CategoryDTO.Colour)" />
+                </div>
+            </div>
+            <div class="col-12">
+                 @* Move here for the next display column if required *@
+            </div>
+        </div>
+        <hr>
+        <div class="btn-group" style="float:right">
+            <a accesskey="c" class="btn btn-lg btn-outline-primary" @onclick="@CloseAsync"><u>C</u>ancel</a>
+            <button @TaskRunning accesskey="s" type="submit" class="btn btn-lg btn-primary"><u>S</u>ave Record</button>
+        </div>
+    </EditForm>
+</div>

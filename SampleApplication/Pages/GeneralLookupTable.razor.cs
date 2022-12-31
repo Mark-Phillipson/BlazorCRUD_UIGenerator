@@ -29,9 +29,12 @@ namespace SampleApplication.Pages
         [Inject] public IGeneralLookupDataService? GeneralLookupDataService { get; set; }
         [Inject] public NavigationManager? NavigationManager { get; set; }
         [Inject] public ILogger<GeneralLookupTable>? Logger { get; set; }
-        [Inject] public IToastService? ToastService { get; set; }
+        //[Inject] public IToastService? ToastService { get; set; }
+        [Inject] public ApplicationState? ApplicationState { get; set; }
         [CascadingParameter] public IModalService? Modal { get; set; }
         public string Title { get; set; } = "GeneralLookup Items (GeneralLookups)";
+        public string EditTitle { get; set; } = "Edit GeneralLookup Item (GeneralLookups)";
+        [Parameter] public int ParentId { get; set; }
         public List<GeneralLookupDTO>? GeneralLookupDTO { get; set; }
         public List<GeneralLookupDTO>? FilteredGeneralLookupDTO { get; set; }
         protected GeneralLookupAddEdit? GeneralLookupAddEdit { get; set; }
@@ -46,6 +49,9 @@ namespace SampleApplication.Pages
         public List<string>? PropertyInfo { get; set; }
         [CascadingParameter] public ClaimsPrincipal? User { get; set; }
         [Inject] public IJSRuntime? JSRuntime { get; set; }
+        public bool ShowEdit { get; set; } = false;
+        private bool ShowDeleteConfirm { get; set; }
+        private int GeneralLookupId  { get; set; }
         protected override async Task OnInitializedAsync()
         {
             await LoadData();
@@ -93,18 +99,21 @@ namespace SampleApplication.Pages
                 }
             }
         }
-        protected async Task AddNewGeneralLookupAsync()
+        private void AddNewGeneralLookup()
         {
-            var parameters = new ModalParameters();
-            var formModal = Modal?.Show<GeneralLookupAddEdit>("Add General Lookup", parameters);
-            if (formModal != null)
-            {
-                var result = await formModal.Result;
-                if (!result.Cancelled)
-                {
-                    await LoadData();
-                }
-            }
+//            var parameters = new ModalParameters();
+//            var formModal = Modal?.Show<GeneralLookupAddEdit>("Add General Lookup", parameters);
+//            if (formModal != null)
+//            {
+//                var result = await formModal.Result;
+//                if (!result.Cancelled)
+//                {
+//                    await LoadData();
+//                }
+//            }
+            GeneralLookupId=0;
+            EditTitle = "Add General Lookup";
+            ShowEdit = true;
         }
 
         private void ApplyFilter()
@@ -162,8 +171,16 @@ namespace SampleApplication.Pages
             {
                 FilteredGeneralLookupDTO = FilteredGeneralLookupDTO.OrderByDescending(v => v.SortOrder).ToList();
             }
+            if (sortColumn == "DisplayValue")
+            {
+                FilteredGeneralLookupDTO = FilteredGeneralLookupDTO.OrderBy(v => v.DisplayValue).ToList();
+            }
+            else if (sortColumn == "DisplayValue Desc")
+            {
+                FilteredGeneralLookupDTO = FilteredGeneralLookupDTO.OrderByDescending(v => v.DisplayValue).ToList();
+            }
         }
-        async Task DeleteGeneralLookupAsync(int Id)
+        private void DeleteGeneralLookup(int Id)
         {
             //Optionally remove child records here or warn about their existence
             //var ? = await ?DataService.GetAllGeneralLookup(Id);
@@ -172,40 +189,77 @@ namespace SampleApplication.Pages
             //	ToastService.ShowWarning($"It is not possible to delete a generalLookup that is linked to one or more companies! You would have to delete the companys first. {?.Count()}");
             //	return;
             //}
-            var parameters = new ModalParameters();
-            if (GeneralLookupDataService != null)
-            {
-                var generalLookup = await GeneralLookupDataService.GetGeneralLookupById(Id);
-                parameters.Add("Title", "Please Confirm, Delete General Lookup");
-                parameters.Add("Message", $"ItemValue: {generalLookup?.ItemValue}");
-                parameters.Add("ButtonColour", "danger");
-                parameters.Add("Icon", "fa fa-trash");
-                var formModal = Modal?.Show<BlazoredModalConfirmDialog>($"Delete  General Lookup ({generalLookup?.ItemValue})?", parameters);
-                if (formModal != null)
-                {
-                    var result = await formModal.Result;
-                    if (!result.Cancelled)
-                    {
-                        await GeneralLookupDataService.DeleteGeneralLookup(Id);
-                        ToastService?.ShowSuccess(" General Lookup deleted successfully", "SUCCESS");
-                        await LoadData();
-                    }
-                }
-            }
+//            var parameters = new ModalParameters();
+//            if (GeneralLookupDataService != null)
+//            {
+//                var generalLookup = await GeneralLookupDataService.GetGeneralLookupById(Id);
+//                parameters.Add("Title", "Please Confirm, Delete General Lookup");
+//                parameters.Add("Message", $"ItemValue: {generalLookup?.ItemValue}");
+//                parameters.Add("ButtonColour", "danger");
+//                parameters.Add("Icon", "fa fa-trash");
+//                var formModal = Modal?.Show<BlazoredModalConfirmDialog>($"Delete  General Lookup ({generalLookup?.ItemValue})?", parameters);
+//                if (formModal != null)
+//                {
+//                    var result = await formModal.Result;
+//                    if (!result.Cancelled)
+//                    {
+//                        await GeneralLookupDataService.DeleteGeneralLookup(Id);
+//                        ToastService?.ShowSuccess(" General Lookup deleted successfully", "SUCCESS");
+//                        await LoadData();
+//                    }
+//                }
+               GeneralLookupId = Id;
+               ShowDeleteConfirm=true;
         }
-        async Task EditGeneralLookupAsync(int Id)
+        private void  EditGeneralLookup(int Id)
         {
-            var parameters = new ModalParameters();
-            parameters.Add("Id", Id);
-            var formModal = Modal?.Show<GeneralLookupAddEdit>("Edit General Lookup", parameters);
-            if (formModal != null)
+//            var parameters = new ModalParameters();
+            //parameters.Add("Id", Id);
+            //var formModal = Modal?.Show<GeneralLookupAddEdit>("Edit General Lookup", parameters);
+            //if (formModal != null)
+            //{
+                //var result = await formModal.Result;
+                //if (!result.Cancelled)
+                //{
+                //    await LoadData();
+                //}
+            //}
+            GeneralLookupId = Id;
+            EditTitle = "Edit General Lookup";
+            ShowEdit = true;
+        }
+        private void ToggleModal()
+        {
+            ShowEdit = !ShowEdit;
+        }
+        private void ToggleShowDeleteConfirm()
+        {
+            ShowDeleteConfirm = !ShowDeleteConfirm;
+        }
+        public async Task CloseModalAsync(bool close)
+        {
+            if (close)
             {
-                var result = await formModal.Result;
-                if (!result.Cancelled)
-                {
-                    await LoadData();
-                }
+                ShowEdit = false;
+                await LoadData();
             }
         }
+        private async void CloseConfirmDeletion(bool confirmation)
+        {
+            ShowDeleteConfirm = false;
+            if (GeneralLookupDataService == null) return;
+            if (confirmation)
+            {
+                await GeneralLookupDataService.DeleteGeneralLookup(GeneralLookupId);
+                if (ApplicationState != null)
+                {
+                    ApplicationState.Message = $"{GeneralLookupId} General Lookup item has been deleted successfully";
+                    ApplicationState.MessageType = "success";
+                }
+                await LoadData();
+                StateHasChanged();
+            }
+        }
+
     }
 }

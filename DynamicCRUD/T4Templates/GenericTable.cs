@@ -79,7 +79,7 @@ namespace DynamicCRUD.T4Templates
         {
             <div class=""alert alert-@ApplicationState.MessageType alert-dismissible fade show"" role=""alert"">
                 <strong>Note!</strong> @ApplicationState.Message @DateTime.Now.ToShortTimeString()
-                <button type=""button"" class=""btn-close"" data-bs-dismiss=""alert"" aria-label=""Close""></button>
+                @*<button type=""button"" class=""btn-close"" data-bs-dismiss=""alert"" aria-label=""Close""></button>*@
             </div>
         }
     </div>
@@ -156,10 +156,9 @@ else if (Filtered");
             
             #line default
             #line hidden
-            this.Write("Async\" class=\"btn btn-outline-success\">Add Record <i class=\"fas fa-plus\"></i></bu" +
-                    "tton>\r\n}\r\nelse\r\n{\r\n    <table style=\"font-size:small\" class=\"table table-bordere" +
-                    "d table-striped table-sm table-responsive-sm\">\r\n        <thead>\r\n            <tr" +
-                    ">\r\n");
+            this.Write("\" class=\"btn btn-outline-success\">Add Record <i class=\"fas fa-plus\"></i></button>" +
+                    "\r\n}\r\nelse\r\n{\r\n    <table style=\"font-size:small\" class=\"table table-bordered tab" +
+                    "le-striped table-sm table-responsive-sm\">\r\n        <thead>\r\n            <tr>\r\n");
             
             #line 60 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
  
@@ -248,9 +247,9 @@ else if (Filtered");
             
             #line default
             #line hidden
-            this.Write("Async\" class=\"btn btn-success btn-sm\">\r\n                        <i class=\"fas fa-" +
-                    "plus\"></i>\r\n                    </button>\r\n                </th>\r\n            </" +
-                    "tr>\r\n        </thead>\r\n        <tbody>\r\n            @foreach (var ");
+            this.Write("\" class=\"btn btn-outline-success btn-sm\">\r\n                        <i class=\"fas " +
+                    "fa-plus\"></i>\r\n                    </button>\r\n                </th>\r\n           " +
+                    " </tr>\r\n        </thead>\r\n        <tbody>\r\n            @foreach (var ");
             
             #line 89 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameCamelCase));
@@ -281,15 +280,15 @@ else if (Filtered");
             
             #line default
             #line hidden
-            this.Write("                    <td>\r\n                        <a href=\"#\" class=\"btn btn-sm b" +
-                    "tn-link\" @onclick=\"@(() => Edit");
+            this.Write("                    <td>\r\n                        <button class=\"btn btn-sm btn-l" +
+                    "ink\" @onclick=\"@(() => Edit");
             
             #line 99 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
-            this.Write("Async(");
+            this.Write("(");
             
             #line 99 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameCamelCase));
@@ -317,7 +316,7 @@ else if (Filtered");
             
             #line default
             #line hidden
-            this.Write("\r\n                        </a>\r\n                    </td>\r\n");
+            this.Write("\r\n                        </button>\r\n                    </td>\r\n");
             
             #line 103 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
               } else {
@@ -356,7 +355,7 @@ else if (Filtered");
             
             #line default
             #line hidden
-            this.Write("Async(");
+            this.Write("(");
             
             #line 110 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameCamelCase));
@@ -379,7 +378,7 @@ else if (Filtered");
             
             #line default
             #line hidden
-            this.Write("Async(");
+            this.Write("(");
             
             #line 113 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameCamelCase));
@@ -406,30 +405,23 @@ else if (Filtered");
 {
     <dialog open=""true"" style=""position:absolute;left: 0px;top: 200px;z-index: 900"" class=""border border-danger"">
         <button class=""btn btn-outline-secondary m-2"" style=""float:right"" type=""submit"" @onclick=""@( ( ) => ToggleModal(  ) )"">x</button>
-        <div><AddEdit");
+        <div>
+        <");
             
-            #line 126 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
+            #line 127 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
-            this.Write(" Title=\"@EditTitle\" ");
+            this.Write("AddEdit Title=\"@EditTitle\" Id=\"@");
             
-            #line 126 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
+            #line 127 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
-            this.Write("Id=\"@");
-            
-            #line 126 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
-            
-            #line default
-            #line hidden
-            this.Write(@"Id"" CloseModal=""@CloseModalAsync"" ParentId=""@ParentId"" Username=""@Username"" /></div>
-        <form method=""dialog"">
-        </form>
+            this.Write(@"Id"" CloseModal=""@CloseModalAsync"" ParentId=""@ParentId"" />
+        </div>
     </dialog>
 
 }
@@ -437,7 +429,7 @@ else if (Filtered");
 @if (ShowDeleteConfirm)
 {
     <dialog open=""true"" style=""position:absolute;left: 0px;top: 200px;z-index: 900"" class=""border border-danger"">
-        <button class=""btn btn-outline-secondary m-2"" style=""float:right"" type=""submit"" @onclick=""@( ( ) => ToggleModal(  ) )"">x</button>
+        <button class=""btn btn-outline-secondary m-2"" style=""float:right"" type=""submit"" @onclick=""@( ( ) => ToggleShowDeleteConfirm(  ) )"">x</button>
         <BlazoredModalConfirmDialog Confirm=""@CloseConfirmDeletion"" ButtonColour=""danger"" Icon=""fa fa-trash"" Message=""Please confirm that you wish to delete a record."" Title=""Deletion Confirmation ");
             
             #line 137 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"

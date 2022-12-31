@@ -22,7 +22,7 @@ public partial class BlazorCRUDGeneration : ComponentBase
     private string? tablename;
     public string? Message { get; set; }
     public bool ShowInstructions { get; set; }
-    string? ConnectionString { get; set; }
+    string ConnectionString { get; set; } = null!;
     public string SearchString { get; private set; } = "";
     public string PopulateColumnsCaption { get; set; } = "Populate Columns";
     public string NamespaceName { get; set; } = "BlazorApp.Client";
@@ -31,7 +31,7 @@ public partial class BlazorCRUDGeneration : ComponentBase
     {
         if (DatabaseMetaDataService != null && Configuration != null)
         {
-            ConnectionString = Configuration.GetConnectionString("DefaultConnection");
+            ConnectionString = Configuration.GetConnectionString("DefaultConnection") ?? "";
             databaseTables = DatabaseMetaDataService.GetDatabaseList(ConnectionString).Where(w => w.Tablename != null && w.Tablename.ToLower().Contains(SearchString.ToLower()));
         }
         await base.OnInitializedAsync();

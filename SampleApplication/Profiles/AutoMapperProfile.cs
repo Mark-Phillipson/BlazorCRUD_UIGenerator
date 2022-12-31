@@ -16,10 +16,8 @@ namespace SampleApplication.Profiles
     {
         public AutoMapperProfile()
         {
-            CreateMap<Language, LanguageDTO>();
-            CreateMap<LanguageDTO, Language>();
-            CreateMap<GeneralLookup, GeneralLookupDTO>(); 
-            CreateMap<GeneralLookupDTO, GeneralLookup>();
+            CreateMap<Category, CategoryDTO>(); CreateMap<CategoryDTO, Category>();
+            CreateMap<GeneralLookup, GeneralLookupDTO>(); CreateMap<GeneralLookupDTO, GeneralLookup>();
         }
     }
 }

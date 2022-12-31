@@ -1,0 +1,115 @@
+
+@page "/categories"
+<div class="row">
+    <div class="col-md-4">
+        <h5 class="page-title m-1">@Title</h5>
+    </div>
+    <div class="col-md-4">
+        @if (ApplicationState!= null &&  !string.IsNullOrWhiteSpace(ApplicationState.Message))
+        {
+            <div class="alert alert-@ApplicationState.MessageType alert-dismissible fade show" role="alert">
+                <strong>Note!</strong> @ApplicationState.Message @DateTime.Now.ToShortTimeString()
+                @*<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>*@
+            </div>
+        }
+    </div>
+    <div class="col-md-4">
+        <input @ref="SearchInput" accesskey="i" class="form-control my-1" style="float:right" @bind="@SearchTerm" 
+        @bind:event="oninput" id="SearchInput" name="SearchTerm" placeholder="Filter by Category/Category Type (Alt+I)" />
+    </div> 
+</div>
+
+@if (FilteredCategoryDTO == null && _loadFailed == true)
+{
+    <h2 class="text-danger">The data failed to load please try again in a little while..</h2>
+    <button class="btn btn-danger" type="button" @onclick="@( () => LoadData() )">Reload</button>
+    <h6 class="text-danger">@ExceptionMessage</h6>
+}
+else if (FilteredCategoryDTO == null)
+{
+    <div style="display:normal;margin:auto" class="loader"></div>
+}
+else if (FilteredCategoryDTO.Count == 0)
+{
+    <p>No Category match the criteria</p>
+    <button @onclick="AddNewCategory" class="btn btn-outline-success">Add Record <i class="fas fa-plus"></i></button>
+}
+else
+{
+    <table style="font-size:small" class="table table-bordered table-striped table-sm table-responsive-sm">
+        <thead>
+            <tr>
+              <th>ID</th>
+              <th>
+                    <button class="btn btn-sm" @onclick="@(() => SortCategory("Category"))">
+                        <i class="fas fa-sort-alpha-up"></i>
+                    </button>
+                    <button class="btn btn-sm" @onclick="@(() => SortCategory("Category Desc"))">
+                        <i class="fas fa-sort-alpha-up-alt"></i>
+                    </button>
+                    Category
+                </th>
+              <th>
+                    <button class="btn btn-sm" @onclick="@(() => SortCategory("CategoryType"))">
+                        <i class="fas fa-sort-alpha-up"></i>
+                    </button>
+                    <button class="btn btn-sm" @onclick="@(() => SortCategory("CategoryType Desc"))">
+                        <i class="fas fa-sort-alpha-up-alt"></i>
+                    </button>
+                    Category Type
+                </th>
+              <th>Sensitive</th>
+              <th>Colour</th>
+                <th>
+                    <button accesskey="+" @onclick="AddNewCategory" class="btn btn-success btn-sm">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var category in FilteredCategoryDTO)
+            {
+                <tr>
+                    <td>
+                        <a href="#" class="btn btn-sm btn-link" @onclick="@(() => EditCategory(category.Id))">
+                            @category.Id
+                        </a>
+                    </td>
+                    <td>@category.CategoryName</td>
+                    <td>@category.CategoryType</td>
+                    <td>@category.Sensitive</td>
+                    <td>@category.Colour</td>
+                    <td class="btn-group-vertical">
+                        <button class="btn btn-sm btn-outline-warning" @onclick="@(() => EditCategory(category.Id))">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger" @onclick="@(() => DeleteCategory(category.Id))">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@if (ShowEdit)
+{
+    <dialog open="true" style="position:absolute;left: 0px;top: 200px;z-index: 900" class="border border-danger">
+        <button class="btn btn-outline-secondary m-2" style="float:right" type="submit" @onclick="@( ( ) => ToggleModal(  ) )">x</button>
+        <div>
+            <CategoryAddEdit Title="@EditTitle" Id="@CategoryId" CloseModal="@CloseModalAsync" ParentId="@ParentId" />
+            </div>
+    </dialog>
+
+}
+
+@if (ShowDeleteConfirm)
+{
+    <dialog open="true" style="position:absolute;left: 0px;top: 200px;z-index: 900" class="border border-danger">
+        <button class="btn btn-outline-secondary m-2" style="float:right" type="submit" @onclick="@( ( ) => ToggleShowDeleteConfirm(  ) )">x</button>
+        <BlazoredModalConfirmDialog Confirm="@CloseConfirmDeletion" ButtonColour="danger" Icon="fa fa-trash" Message="Please confirm that you wish to delete a record." Title="Deletion Confirmation Category Table" />
+        <form method="dialog">
+        </form>
+    </dialog>
+}

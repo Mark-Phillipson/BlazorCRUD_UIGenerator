@@ -22,16 +22,16 @@ using SampleApplication.Services;
 
 namespace SampleApplication.Pages
 {
-    public partial class GeneralLookupAddEdit : ComponentBase
+    public partial class CategoryAddEdit : ComponentBase
     {
-        [Parameter] public EventCallback<bool> CloseModal { get; set; } 
-        [Parameter] public string? Title { get; set; }
-        [Inject] public ILogger<GeneralLookupAddEdit>? Logger { get; set; }
+        [Parameter] public EventCallback<bool> CloseModal { get; set; }
+        [Parameter]  public  string? Title { get; set; }
+        [Inject] public ILogger<CategoryAddEdit>? Logger { get; set; }
         [CascadingParameter] BlazoredModalInstance? ModalInstance { get; set; }
         [Inject] public IJSRuntime? JSRuntime { get; set; }
         [Parameter] public int? Id { get; set; }
-        public GeneralLookupDTO GeneralLookupDTO { get; set; } = new GeneralLookupDTO();//{ };
-        [Inject] public IGeneralLookupDataService? GeneralLookupDataService { get; set; }
+        public CategoryDTO CategoryDTO { get; set; } = new CategoryDTO();//{ };
+        [Inject] public ICategoryDataService? CategoryDataService { get; set; }
         //[Inject] public IToastService? ToastService { get; set; }
         [Inject] public ApplicationState? ApplicationState { get; set; }
         [Parameter] public int ParentId { get; set; }
@@ -40,16 +40,16 @@ namespace SampleApplication.Pages
 #pragma warning restore 414, 649
         protected override async Task OnInitializedAsync()
         {
-            if (GeneralLookupDataService == null)
+            if (CategoryDataService == null)
             {
                 return;
             }
             if (Id > 0)
             {
-                var result = await GeneralLookupDataService.GetGeneralLookupById((int)Id);
+                var result = await CategoryDataService.GetCategoryById((int)Id);
                 if (result != null)
                 {
-                    GeneralLookupDTO = result;
+                    CategoryDTO = result;
                 }
             }
             else
@@ -65,7 +65,7 @@ namespace SampleApplication.Pages
                 {
                     if (JSRuntime != null)
                     {
-                        await JSRuntime.InvokeVoidAsync("window.setFocus", "ItemValue");
+                        await JSRuntime.InvokeVoidAsync("window.setFocus", "Category");
                     }
                 }
                 catch (Exception exception)
@@ -88,27 +88,27 @@ namespace SampleApplication.Pages
                 return;
             }
             TaskRunning = true;
-            if ((Id == 0 || Id == null) && GeneralLookupDataService != null)
+            if ((Id == 0 || Id == null) && CategoryDataService != null)
             {
-                GeneralLookupDTO? result = await GeneralLookupDataService.AddGeneralLookup(GeneralLookupDTO);
-                if (result == null && Logger!= null)
-                {
-                    Logger.LogError("General Lookup failed to add, please investigate Error Adding New General Lookup");
-                    ApplicationState.Message = "General Lookup failed to add, please investigate Error Adding New General Lookup";
+                CategoryDTO? result = await CategoryDataService.AddCategory(CategoryDTO);
+                if (result == null && Logger!=null)
+{
+                    Logger.LogError("Category failed to add, please investigate Error Adding New Category");
+                    ApplicationState.Message = "Category failed to add, please investigate Error Adding New Category";
                     ApplicationState.MessageType = "danger";
                     return;
                 }
-                //ToastService?.ShowSuccess("General Lookup added successfully", "SUCCESS");
-                ApplicationState.Message = "General Lookup Added successfully";
+                //ToastService?.ShowSuccess("Category added successfully", "SUCCESS");
+                ApplicationState.Message = "Category Added successfully";
                 ApplicationState.MessageType = "success";
 
             }
             else
             {
-                if (GeneralLookupDataService != null)
+                if (CategoryDataService != null)
                 {
-                    await GeneralLookupDataService!.UpdateGeneralLookup(GeneralLookupDTO, "");
-                    //ToastService?.ShowSuccess("The General Lookup updated successfully", "SUCCESS");
+                    await CategoryDataService!.UpdateCategory(CategoryDTO, "");
+                    //ToastService?.ShowSuccess("The Category updated successfully", "SUCCESS");
                     ApplicationState.Message="The A Menu updated successfully";
                     ApplicationState.MessageType = "success";
                 }

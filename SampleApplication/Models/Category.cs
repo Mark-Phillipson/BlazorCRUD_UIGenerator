@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SampleApplication.Models;
 
-[Index("Category1", "CategoryType", Name = "IX_Categories", IsUnique = true)]
+[Index("CategoryName", "CategoryType", Name = "IX_Categories", IsUnique = true)]
 public partial class Category
 {
     [Key]
@@ -15,7 +15,7 @@ public partial class Category
 
     [Column("Category")]
     [StringLength(30)]
-    public string? Category1 { get; set; }
+    public string? CategoryName { get; set; }
 
     [Column("Category_Type")]
     [StringLength(255)]

@@ -32,7 +32,8 @@ namespace <#=Namespace#>.Pages
     public partial class <#=ModelName#>AddEdit : ComponentBase
     {
         [Parameter] public EventCallback<bool> CloseModal { get; set; } 
-        [Inject] public ILogger<AddEditAMenu>? Logger { get; set; }
+        [Parameter] public string? Title { get; set; }
+        [Inject] public ILogger<<#=ModelName#>AddEdit>? Logger { get; set; }
         [CascadingParameter] BlazoredModalInstance? ModalInstance { get; set; }
         [Inject] public IJSRuntime? JSRuntime { get; set; }
         [Parameter] public <#=PrimaryKeyDataType#>? <#=PrimaryKeyName#> { get; set; }
@@ -101,7 +102,7 @@ namespace <#=Namespace#>.Pages
                 }
             }
         }
-        public void Close()
+        public async Task CloseAsync()
         {
 //            if (ModalInstance != null)
 //                ModalInstance.CancelAsync();
@@ -114,7 +115,7 @@ namespace <#=Namespace#>.Pages
             {
                 return;
             }
-            TaskRunning = "disabled";
+            TaskRunning = true;
 <#          if (PrimaryKeyDataType=="int") {
 #>
             if ((<#=PrimaryKeyName#> == 0 || <#=PrimaryKeyName#> == null) && <#=ModelName#>DataService != null)
@@ -125,15 +126,17 @@ namespace <#=Namespace#>.Pages
 #>
             {
                 <#=ModelName#>DTO? result = await <#=ModelName#>DataService.Add<#=ModelName#>(<#=ModelName#>DTO);
-                if (result == null)
+                if (result == null && Logger!= null)
                 {
-                    Logger.LogError("<#ModelNameWithSpaces#> failed to add, please investigate Error Adding New <#ModelNameWithSpaces#>");
-                    ApplicationState.Message = "<#ModelNameWithSpaces#> failed to add, please investigate Error Adding New <#ModelNameWithSpaces#>";
+                    Logger.LogError("<#=ModelNameWithSpaces#> failed to add, please investigate Error Adding New <#=ModelNameWithSpaces#>");
+                    ApplicationState.Message = "<#=ModelNameWithSpaces#> failed to add, please investigate Error Adding New <#=ModelNameWithSpaces#>";
                     ApplicationState.MessageType = "danger";
                     return;
                 }
-                ToastService?.ShowSuccess("<#=ModelNameWithSpaces#> added successfully", "SUCCESS");
-                
+                //ToastService?.ShowSuccess("<#=ModelNameWithSpaces#> added successfully", "SUCCESS");
+                ApplicationState.Message = "<#=ModelNameWithSpaces#> Added successfully";
+                ApplicationState.MessageType = "success";
+
             }
             else
             {
