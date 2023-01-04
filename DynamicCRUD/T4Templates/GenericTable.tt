@@ -124,7 +124,7 @@ else
     <dialog open="true" style="position:absolute;left: 0px;top: 200px;z-index: 900" class="border border-danger">
         <button class="btn btn-outline-secondary m-2" style="float:right" type="submit" @onclick="@( ( ) => ToggleModal(  ) )">x</button>
         <div>
-        <<#=ModelName#>AddEdit Title="@EditTitle" Id="@<#=ModelName#>Id" CloseModal="@CloseModalAsync" ParentId="@ParentId" />
+        <<#=ModelName#>AddEdit Title="@EditTitle" <#=PrimaryKeyName#>="@<#=ModelName#>Id" CloseModal="@CloseModalAsync" ParentId="@ParentId" />
         </div>
     </dialog>
 

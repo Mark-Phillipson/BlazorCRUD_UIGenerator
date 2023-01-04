@@ -413,7 +413,14 @@ else if (Filtered");
             
             #line default
             #line hidden
-            this.Write("AddEdit Title=\"@EditTitle\" Id=\"@");
+            this.Write("AddEdit Title=\"@EditTitle\" ");
+            
+            #line 127 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(PrimaryKeyName));
+            
+            #line default
+            #line hidden
+            this.Write("=\"@");
             
             #line 127 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
