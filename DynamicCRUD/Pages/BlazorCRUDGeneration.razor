@@ -58,8 +58,6 @@
         <br>
     </div>
 
-    <div class="col-6">
-    </div>
     @if (Columns != null)
     {
         <div class="col-12">
@@ -102,19 +100,23 @@
             </table>
         </div>
     }
-    <div class="col-3">
-        @if (ModelName != null)
-        {
+    @if (ModelName != null)
+    {
+        <div class="col-6">
+            <input type="checkbox" @bind-value="@UseBlazored" /><span>  </span>
+            <label class="control-label">Use Blazored Modal and Toast </label>
+        </div>
+        <div class="col-6">
             <div class="btn-group">
                 <button class="btn btn-success" type="button" @onclick="@( ( ) => GenerateClasses(  ) )">
                     Generate C# Classes
                 </button>
             </div>
-        }
-    </div>
+        </div>
+    }
     @if (!string.IsNullOrWhiteSpace(Message))
     {
-        <div class="col-9">
+        <div class="col-12">
             <div class="text-danger">@Message</div>
         </div>
     }

@@ -3,6 +3,7 @@ using DynamicCRUD.Services;
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,8 +23,9 @@ namespace DynamicCRUD.T4Templates
         string ForeignKeyName { get; set; } = "";
         string ForeignKeyDataType { get; set; }= "";
 		public string ModelNameWithSpaces { get; set; }="";
+        public bool UseBlazored { get; set; } = true;
 
-        public GenericTableCodeBehind(IEnumerable<ClientDatabaseColumn> databaseColumns, string modelName, string modelNameCamelCase, string pluralTablename, string primaryKeyName, string primaryKeyDataType, string Namespace,string foreignKeyName, string foreignKeyDataType)
+        public GenericTableCodeBehind(IEnumerable<ClientDatabaseColumn> databaseColumns, string modelName, string modelNameCamelCase, string pluralTablename, string primaryKeyName, string primaryKeyDataType, string Namespace,string foreignKeyName, string foreignKeyDataType,bool useBlazored)
         {
             this.Namespace = Namespace;
             DatabaseColumns = databaseColumns;
@@ -34,7 +36,8 @@ namespace DynamicCRUD.T4Templates
             PrimaryKeyDataType = primaryKeyDataType;
 			ForeignKeyName = foreignKeyName;
 			ForeignKeyDataType = foreignKeyDataType;
-			ModelNameWithSpaces=StringHelperService.AddSpacesToSentence(modelName);
+            UseBlazored = useBlazored;
+            ModelNameWithSpaces =StringHelperService.AddSpacesToSentence(modelName);
             var result = databaseColumns.FirstOrDefault(c => c.Sort == true);
             if (result != null && result.PropertyName != null)
             {

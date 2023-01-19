@@ -1,19 +1,22 @@
-using System.Reflection;
 using DynamicCRUD.Services;
 // using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
 using DynamicCRUD.T4Templates;
+
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+
+using System.Reflection;
 
 namespace DynamicCRUD.Pages;
 
 public partial class BlazorCRUDGeneration : ComponentBase
 {
-	public string? Tablename { get => tablename; set { tablename = value; } }
-	public string? ModelName { get; set; }
-	public string SchemaName { get; set; } = "dbo";// Usually dbo
-	public string? PluralName { get; set; }
+    public string? Tablename { get => tablename; set { tablename = value; } }
+    public string? ModelName { get; set; }
+    public string SchemaName { get; set; } = "dbo";// Usually dbo
+    public string? PluralName { get; set; }
     public string? DbContextName { get; set; } = "MyDbContext";
+    private bool UseBlazored { get; set; } = true;
     [Inject] public IJSRuntime? JSRuntime { get; set; }
     [Inject] DatabaseMetaDataService? DatabaseMetaDataService { get; set; }
     [Inject] IConfiguration? Configuration { get; set; }
@@ -66,7 +69,7 @@ public partial class BlazorCRUDGeneration : ComponentBase
             Message = "Please indicate the primary key and try again! Note it has to be an int or nvarchar";
             return;
         }
-        if (!Columns.Any(c => c.Sort==true))
+        if (!Columns.Any(c => c.Sort == true))
         {
             Message = "Please select at least one column to sort by! ";
             return;
@@ -81,7 +84,7 @@ public partial class BlazorCRUDGeneration : ComponentBase
         {
             foreignKeyName = columnForeignKey.ColumnName;
             foreignKeyDataType = columnForeignKey.DataType;
-            if (foreignKeyDataType== "nvarchar")
+            if (foreignKeyDataType == "nvarchar")
             {
                 foreignKeyDataType = "string";
             }
@@ -110,7 +113,7 @@ public partial class BlazorCRUDGeneration : ComponentBase
         content = genericIRepository.TransformText();
         File.WriteAllText($"{locationRepository}AutoGenClasses\\I{ModelName}Repository.cs", content);
 
-        GenericRepository genericRepository = new(Columns, ModelName, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, foreignKeyName ?? "", foreignKeyDataType ?? "",DbContextName ?? "BostonAcademicDbContext");
+        GenericRepository genericRepository = new(Columns, ModelName, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, foreignKeyName ?? "", foreignKeyDataType ?? "", DbContextName ?? "BostonAcademicDbContext");
         content = genericRepository.TransformText();
         File.WriteAllText($"{locationRepository}AutoGenClasses\\{ModelName}Repository.cs", content);
 
@@ -124,15 +127,15 @@ public partial class BlazorCRUDGeneration : ComponentBase
         content = genericDataService.TransformText();
         File.WriteAllText($"{locationBlazor}AutoGenClasses\\{ModelName}DataService.cs", content);
 
-        GenericTable genericTable = new(Columns, ModelName, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, filterColumns,foreignKeyName ?? "",foreignKeyDataType ?? "");
+        GenericTable genericTable = new(Columns, ModelName, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, filterColumns, foreignKeyName ?? "", foreignKeyDataType ?? "",UseBlazored);
         content = genericTable.TransformText();
         File.WriteAllText($"{locationBlazor}AutoGenClasses\\{ModelName}Table.razor", content);
 
-        GenericTableCodeBehind genericTableCodeBehind = new(Columns, ModelName, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, foreignKeyName ?? "", foreignKeyDataType ?? "");
+        GenericTableCodeBehind genericTableCodeBehind = new(Columns, ModelName, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored);
         content = genericTableCodeBehind.TransformText();
         File.WriteAllText($"{locationBlazor}AutoGenClasses\\{ModelName}Table.razor.cs", content);
 
-        GenericAddEdit genericAddEdit = new(Columns, ModelName, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, filterColumns,foreignKeyName ?? "",foreignKeyDataType ?? "");
+        GenericAddEdit genericAddEdit = new(Columns, ModelName, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, filterColumns, foreignKeyName ?? "", foreignKeyDataType ?? "");
         content = genericAddEdit.TransformText();
         File.WriteAllText($"{locationBlazor}AutoGenClasses\\{ModelName}AddEdit.razor", content);
 
@@ -200,10 +203,10 @@ public partial class BlazorCRUDGeneration : ComponentBase
         }
         PluralName = $"{tablename}";
         PluralName = PluralName.Replace($"{SchemaName}.", "").Replace("_", "");
-		PluralName = StringHelperService.RemoveUnsupportedCharacters(PluralName);
+        PluralName = StringHelperService.RemoveUnsupportedCharacters(PluralName);
         ModelName = $"{tablename}";
         ModelName = ModelName.Replace($"{SchemaName}.", "").Replace("_", "");
-		ModelName = StringHelperService.RemoveUnsupportedCharacters(ModelName);
+        ModelName = StringHelperService.RemoveUnsupportedCharacters(ModelName);
         Columns = DatabaseMetaDataService.GetColumnNames(ConnectionString, Tablename, SchemaName);
         PopulateColumnsCaption = "Populate Columns";
     }

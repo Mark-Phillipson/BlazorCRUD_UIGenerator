@@ -15,7 +15,7 @@
 <# }#>
 <div class="row">
     <div class="col-md-4">
-        <h5 class="page-title m-1">@Title</h5>
+        <h5 class="m-1">@Title</h5>
     </div>
     <div class="col-md-4">
         @if (ApplicationState!= null &&  !string.IsNullOrWhiteSpace(ApplicationState.Message))
