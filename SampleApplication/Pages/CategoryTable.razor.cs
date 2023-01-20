@@ -29,7 +29,7 @@ namespace SampleApplication.Pages
         [Inject] public ICategoryDataService? CategoryDataService { get; set; }
         [Inject] public NavigationManager? NavigationManager { get; set; }
         [Inject] public ILogger<CategoryTable>? Logger { get; set; }
-        //[Inject] public IToastService? ToastService { get; set; }
+        [Inject] public IToastService? ToastService { get; set; }
         [Inject] public ApplicationState? ApplicationState { get; set; }
         [CascadingParameter] public IModalService? Modal { get; set; }
         public string Title { get; set; } = "Category Items (Categories)";

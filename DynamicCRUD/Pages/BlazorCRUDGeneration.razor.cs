@@ -28,7 +28,7 @@ public partial class BlazorCRUDGeneration : ComponentBase
     string ConnectionString { get; set; } = null!;
     public string SearchString { get; private set; } = "";
     public string PopulateColumnsCaption { get; set; } = "Populate Columns";
-    public string NamespaceName { get; set; } = "BlazorApp.Client";
+    public string NamespaceName { get; set; } = "SampleApplication";
 
     protected override async Task OnInitializedAsync()
     {
