@@ -24,10 +24,10 @@ namespace SampleApplication.Pages
 {
     public partial class ExampleAddEdit : ComponentBase
     {
+        [Inject] IToastService? ToastService { get; set; }
         [Parameter] public string? Title { get; set; }
         [Inject] public ILogger<ExampleAddEdit>? Logger { get; set; }
         [CascadingParameter] BlazoredModalInstance? ModalInstance { get; set; }
-        [Inject] public IToastService? ToastService { get; set; }
         [Inject] public IJSRuntime? JSRuntime { get; set; }
         [Parameter] public int? Id { get; set; }
         public ExampleDTO ExampleDTO { get; set; } = new ExampleDTO();//{ };

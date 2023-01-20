@@ -100,12 +100,12 @@
             </table>
         </div>
     }
+    <div class="col-6">
+        <input disabled type="checkbox" @bind="@UseBlazored" />
+        <label class="control-label">Use Blazored Modal and Toast</label>
+    </div>
     @if (ModelName != null)
     {
-        <div class="col-6">
-            <input type="checkbox" @bind-value="@UseBlazored" /><span>  </span>
-            <label class="control-label">Use Blazored Modal and Toast </label>
-        </div>
         <div class="col-6">
             <div class="btn-group">
                 <button class="btn btn-success" type="button" @onclick="@( ( ) => GenerateClasses(  ) )">

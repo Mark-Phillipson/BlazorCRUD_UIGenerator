@@ -37,6 +37,7 @@ public partial class BlazorCRUDGeneration : ComponentBase
             ConnectionString = Configuration.GetConnectionString("DefaultConnection") ?? "";
             databaseTables = DatabaseMetaDataService.GetDatabaseList(ConnectionString).Where(w => w.Tablename != null && w.Tablename.ToLower().Contains(SearchString.ToLower()));
         }
+        UseBlazored = true;
         await base.OnInitializedAsync();
     }
     protected override async Task OnAfterRenderAsync(bool firstRender)

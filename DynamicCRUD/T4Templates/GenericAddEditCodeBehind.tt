@@ -35,6 +35,8 @@ namespace <#=Namespace#>.Pages
     {
 <#           if (!UseBlazored) {#>
         [Parameter] public EventCallback<bool> CloseModal { get; set; } 
+<#           } else {#>
+        [Inject] IToastService? ToastService { get; set; }
 <#           }#>
         [Parameter] public string? Title { get; set; }
         [Inject] public ILogger<<#=ModelName#>AddEdit>? Logger { get; set; }
@@ -47,7 +49,6 @@ namespace <#=Namespace#>.Pages
 <#	} #>
         public <#=ModelName#>DTO <#=ModelName#>DTO { get; set; } = new <#=ModelName#>DTO();//{ };
         [Inject] public I<#=ModelName#>DataService? <#=ModelName#>DataService { get; set; }
-        //[Inject] public IToastService? ToastService { get; set; }
         [Inject] public ApplicationState? ApplicationState { get; set; }
         [Parameter] public int ParentId { get; set; }
 #pragma warning disable 414, 649

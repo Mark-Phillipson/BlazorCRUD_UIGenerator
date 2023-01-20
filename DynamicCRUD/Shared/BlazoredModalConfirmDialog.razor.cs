@@ -11,14 +11,12 @@ using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
 using Microsoft.JSInterop;
-using BostonAcademic.Client;
-using BostonAcademic.Client.Shared;
 using Blazored.Modal;
 using Blazored.Modal.Services;
 using Blazored.Toast;
 using Blazored.Toast.Services;
 
-namespace BostonAcademic.Client.Shared
+namespace DynamicCRUD.Shared
 {
     public partial class BlazoredModalConfirmDialog : ComponentBase
     {
