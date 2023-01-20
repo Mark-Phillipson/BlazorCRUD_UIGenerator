@@ -1,0 +1,48 @@
+@page "/example/{Id:int?}"
+<div style="min-width:80vw">
+<h1>@Title</h1>
+    <EditForm Model="@ExampleDTO" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        @*<ValidationSummary />*@
+        @if (ExampleDTO.Id > 0)
+        {
+            <span class="text-info m-1">@ExampleDTO.Id</span>
+        }
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <label for="NumberValue">Number Value: </label> <i class="text-danger fa">*</i>
+                    <InputNumber id="NumberValue" class="form-control" @bind-Value="@ExampleDTO.NumberValue"
+                                 placeholder="Enter Number Value"></InputNumber>
+                    <ValidationMessage For="@(() => ExampleDTO.NumberValue)" />
+                </div>
+                <div class="form-group">
+                    <label for="Text">Text: </label> <i class="text-danger fa">*</i>
+                    <InputTextArea rows="2" id="Text" class="form-control" @bind-Value="@ExampleDTO.Text"
+                               placeholder="Enter Text"></InputTextArea>
+                    <ValidationMessage For="@(() => ExampleDTO.Text)" />
+                </div>
+                <div class="form-group">
+                    <label for="LargeText">Large Text: </label> <i class="text-danger fa">*</i>
+                    <InputTextArea rows="2" id="LargeText" class="form-control" @bind-Value="@ExampleDTO.LargeText"
+                               placeholder="Enter Large Text"></InputTextArea>
+                    <ValidationMessage For="@(() => ExampleDTO.LargeText)" />
+                </div>
+                <div class="form-group">
+                    <label for="Boolean">Boolean: </label>
+                    <InputCheckbox id="Boolean" class="form-checkbox" @bind-Value="@ExampleDTO.Boolean">
+                    </InputCheckbox>
+                    <ValidationMessage For="@(() => ExampleDTO.Boolean)" />
+                </div>
+            </div>
+            <div class="col-12">
+                 @* Move here for the next display column if required *@
+            </div>
+        </div>
+        <hr>
+        <div class="btn-group" style="float:right">
+            <a accesskey="c" class="btn btn-lg btn-outline-primary" @onclick="@CloseAsync"><u>C</u>ancel</a>
+            <button @TaskRunning accesskey="s" type="submit" class="btn btn-lg btn-primary"><u>S</u>ave Record</button>
+        </div>
+    </EditForm>
+</div>

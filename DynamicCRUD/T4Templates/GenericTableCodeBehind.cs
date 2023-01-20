@@ -307,10 +307,17 @@ using ");
             
             #line default
             #line hidden
+            this.Write("DTO = result.ToList();\r\n                        Filtered");
+            
+            #line 84 "C:\Users\MPhil\Source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
+            
+            #line default
+            #line hidden
             this.Write(@"DTO = result.ToList();
+                        StateHasChanged();
                     }
                 }
-
             }
             catch (Exception e)
             {
@@ -320,28 +327,28 @@ using ");
             }
             Filtered");
             
-            #line 94 "C:\Users\MPhil\Source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 95 "C:\Users\MPhil\Source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("DTO = ");
             
-            #line 94 "C:\Users\MPhil\Source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 95 "C:\Users\MPhil\Source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("DTO;\r\n            Title = $\"");
             
-            #line 95 "C:\Users\MPhil\Source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 96 "C:\Users\MPhil\Source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameWithSpaces));
             
             #line default
             #line hidden
             this.Write(" ({Filtered");
             
-            #line 95 "C:\Users\MPhil\Source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 96 "C:\Users\MPhil\Source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
@@ -368,13 +375,19 @@ using ");
         }
 ");
             
-            #line 115 "C:\Users\MPhil\Source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 116 "C:\Users\MPhil\Source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
            if (UseBlazored) {
             
             #line default
             #line hidden
-            this.Write("        private async Task AddNewExamplesAsync()\r\n        {\r\n        \r\n          " +
-                    "    var parameters = new ModalParameters();\r\n");
+            this.Write("        private async Task AddNew");
+            
+            #line 117 "C:\Users\MPhil\Source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
+            
+            #line default
+            #line hidden
+            this.Write("()\r\n        {\r\n              var parameters = new ModalParameters();\r\n");
             
             #line 120 "C:\Users\MPhil\Source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
            if (!string.IsNullOrEmpty(ForeignKeyName)) {
@@ -727,9 +740,9 @@ using ");
             
             #line default
             #line hidden
-            this.Write(")\r\n        {\r\n            //Optionally remove child records here or warn about th" +
-                    "eir existence\r\n              var parameters = new ModalParameters();\r\n          " +
-                    "    if (");
+            this.Write(")\r\n        {\r\n            //TODO Optionally remove child records here or warn abo" +
+                    "ut their existence\r\n              var parameters = new ModalParameters();\r\n     " +
+                    "         if (");
             
             #line 205 "C:\Users\MPhil\Source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
@@ -794,7 +807,7 @@ using ");
             #line hidden
             this.Write("}\");\r\n                  parameters.Add(\"ButtonColour\", \"danger\");\r\n              " +
                     "    parameters.Add(\"Icon\", \"fa fa-trash\");\r\n                  var formModal = Mo" +
-                    "dal?.Show<BlazoredModalConfirmDialog>($\"Delete  ");
+                    "dal?.Show<BlazoredModalConfirmDialog>($\"Delete ");
             
             #line 212 "C:\Users\MPhil\Source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameWithSpaces));
@@ -839,7 +852,7 @@ using ");
             
             #line default
             #line hidden
-            this.Write(");\r\n                          ToastService?.ShowSuccess(\" ");
+            this.Write(");\r\n                          ToastService?.ShowSuccess(\"");
             
             #line 219 "C:\Users\MPhil\Source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameWithSpaces));
@@ -917,7 +930,6 @@ using ");
             
             #line default
             #line hidden
-            this.Write("               \r\n");
             
             #line 234 "C:\Users\MPhil\Source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
            if (UseBlazored) {
@@ -1114,7 +1126,7 @@ using ");
             
             #line default
             #line hidden
-            this.Write("\r\n    }\r\n}");
+            this.Write("    }\r\n}");
             return this.GenerationEnvironment.ToString();
         }
     }

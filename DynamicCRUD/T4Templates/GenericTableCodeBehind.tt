@@ -81,6 +81,8 @@ namespace <#=Namespace#>.Pages
                     if (result != null)
                     {
                         <#=ModelName#>DTO = result.ToList();
+                        Filtered<#=ModelName#>DTO = result.ToList();
+                        StateHasChanged();
                     }
                 }
             }
@@ -112,7 +114,7 @@ namespace <#=Namespace#>.Pages
             }
         }
 <#           if (UseBlazored) {#>
-        private async Task AddNewExamplesAsync()
+        private async Task AddNew<#=ModelName#>()
         {
               var parameters = new ModalParameters();
 <#           if (!string.IsNullOrEmpty(ForeignKeyName)) {#>			

@@ -18,6 +18,7 @@
         <h5 class="m-1">@Title</h5>
     </div>
     <div class="col-md-4">
+<#           if (!UseBlazored) {#>>
         @if (ApplicationState!= null &&  !string.IsNullOrWhiteSpace(ApplicationState.Message))
         {
             <div class="alert alert-@ApplicationState.MessageType alert-dismissible fade show" role="alert">
@@ -25,6 +26,7 @@
                 @*<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>*@
             </div>
         }
+<#           }#>
     </div>
 <#if (!string.IsNullOrWhiteSpace(ForeignKeyName)) {#>
 @*    <div class="col-md-1">
@@ -119,6 +121,7 @@ else
         </tbody>
     </table>
 }
+<#           if (!UseBlazored) {#>
 @if (ShowEdit)
 {
     <dialog open="true" style="position:absolute;left: 0px;top: 200px;z-index: 900" class="border border-danger">
@@ -139,3 +142,4 @@ else
         </form>
     </dialog>
 }
+<#           }#>

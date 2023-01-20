@@ -27,6 +27,8 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryDataService, CategoryDataService>();
 builder.Services.AddScoped<IGeneralLookupRepository, GeneralLookupRepository>();
 builder.Services.AddScoped<IGeneralLookupDataService, GeneralLookupDataService>();
+builder.Services.AddScoped<IExampleRepository, ExampleRepository>();
+builder.Services.AddScoped<IExampleDataService, ExampleDataService>();
 
 
 var app = builder.Build();

@@ -19,10 +19,12 @@ using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
 using Microsoft.JSInterop;
+<#           if (UseBlazored) {#>
 using Blazored.Modal;
 using Blazored.Modal.Services;
 using Blazored.Toast;
 using Blazored.Toast.Services;
+<#           }#>
 using System.Security.Claims;
 using <#=Namespace#>.DTOs;
 using <#=Namespace#>.Services;
@@ -31,7 +33,9 @@ namespace <#=Namespace#>.Pages
 {
     public partial class <#=ModelName#>AddEdit : ComponentBase
     {
+<#           if (!UseBlazored) {#>
         [Parameter] public EventCallback<bool> CloseModal { get; set; } 
+<#           }#>
         [Parameter] public string? Title { get; set; }
         [Inject] public ILogger<<#=ModelName#>AddEdit>? Logger { get; set; }
         [CascadingParameter] BlazoredModalInstance? ModalInstance { get; set; }
@@ -102,19 +106,27 @@ namespace <#=Namespace#>.Pages
                 }
             }
         }
+<#           if (UseBlazored) {#>
         public async Task CloseAsync()
         {
-//            if (ModalInstance != null)
-//                ModalInstance.CancelAsync();
+              if (ModalInstance != null)
+                  await ModalInstance.CancelAsync();
+        }
+<#           }#>
+<#           if (!UseBlazored) {#>
+        public async Task CloseAsync()
+        {
               await CloseModal.InvokeAsync(true);
         }
-
+<#           }#>
         protected async Task HandleValidSubmit()
         {
+<#           if (!UseBlazored) {#>
             if (ApplicationState== null )
             {
                 return;
             }
+<#           }#>
             TaskRunning = true;
 <#          if (PrimaryKeyDataType=="int") {
 #>
@@ -129,30 +141,42 @@ namespace <#=Namespace#>.Pages
                 if (result == null && Logger!= null)
                 {
                     Logger.LogError("<#=ModelNameWithSpaces#> failed to add, please investigate Error Adding New <#=ModelNameWithSpaces#>");
+<#           if (UseBlazored) {#>
+                    ToastService?.ShowError("<#=ModelNameWithSpaces#> failed to add, please investigate Error Adding New <#=ModelNameWithSpaces#>");
+<#           } else {#>
                     ApplicationState.Message = "<#=ModelNameWithSpaces#> failed to add, please investigate Error Adding New <#=ModelNameWithSpaces#>";
                     ApplicationState.MessageType = "danger";
+<#           }#>
                     return;
                 }
-                //ToastService?.ShowSuccess("<#=ModelNameWithSpaces#> added successfully", "SUCCESS");
+<#           if (UseBlazored) {#>
+                ToastService?.ShowSuccess("<#=ModelNameWithSpaces#> added successfully", "SUCCESS");
+<#           } else {#>
                 ApplicationState.Message = "<#=ModelNameWithSpaces#> Added successfully";
                 ApplicationState.MessageType = "success";
-
+<#           }#>
             }
             else
             {
                 if (<#=ModelName#>DataService != null)
                 {
                     await <#=ModelName#>DataService!.Update<#=ModelName#>(<#=ModelName#>DTO, "");
-                    //ToastService?.ShowSuccess("The <#=ModelNameWithSpaces#> updated successfully", "SUCCESS");
+<#           if (UseBlazored) {#>
+                    ToastService?.ShowSuccess("The <#=ModelNameWithSpaces#> updated successfully", "SUCCESS");
+<#           } else {#>
                     ApplicationState.Message="The A Menu updated successfully";
                     ApplicationState.MessageType = "success";
+<#           }#>
                 }
             }
-            //if (ModalInstance != null)
-            //{
-            //    await ModalInstance.CloseAsync(ModalResult.Ok(true));
-            //}
+<#          if (UseBlazored) {#>
+            if (ModalInstance != null)
+            {
+                await ModalInstance.CloseAsync(ModalResult.Ok(true));
+            }
+<#          } else {#>
             await CloseModal.InvokeAsync(true);
+<#          }#>
             TaskRunning = false;
         }
     }

@@ -135,11 +135,11 @@ public partial class BlazorCRUDGeneration : ComponentBase
         content = genericTableCodeBehind.TransformText();
         File.WriteAllText($"{locationBlazor}AutoGenClasses\\{ModelName}Table.razor.cs", content);
 
-        GenericAddEdit genericAddEdit = new(Columns, ModelName, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, filterColumns, foreignKeyName ?? "", foreignKeyDataType ?? "");
+        GenericAddEdit genericAddEdit = new(Columns, ModelName, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, filterColumns, foreignKeyName ?? "", foreignKeyDataType ?? "",UseBlazored);
         content = genericAddEdit.TransformText();
         File.WriteAllText($"{locationBlazor}AutoGenClasses\\{ModelName}AddEdit.razor", content);
 
-        GenericAddEditCodeBehind genericAddEditCodeBehind = new(Columns, ModelName, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, foreignKeyName ?? "", foreignKeyDataType ?? "");
+        GenericAddEditCodeBehind genericAddEditCodeBehind = new(Columns, ModelName, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored);
         content = genericAddEditCodeBehind.TransformText();
         File.WriteAllText($"{locationBlazor}AutoGenClasses\\{ModelName}AddEdit.razor.cs", content);
 
