@@ -12,10 +12,6 @@ using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
 using Microsoft.JSInterop;
-using Blazored.Modal;
-using Blazored.Modal.Services;
-using Blazored.Toast;
-using Blazored.Toast.Services;
 using System.Security.Claims;
 using SampleApplication.DTOs;
 using SampleApplication.Services;
@@ -24,15 +20,13 @@ namespace SampleApplication.Pages
 {
     public partial class ExampleAddEdit : ComponentBase
     {
-        [Inject] IToastService? ToastService { get; set; }
+        [Parameter] public EventCallback<bool> CloseModal { get; set; } 
         [Parameter] public string? Title { get; set; }
         [Inject] public ILogger<ExampleAddEdit>? Logger { get; set; }
-        [CascadingParameter] BlazoredModalInstance? ModalInstance { get; set; }
         [Inject] public IJSRuntime? JSRuntime { get; set; }
         [Parameter] public int? Id { get; set; }
         public ExampleDTO ExampleDTO { get; set; } = new ExampleDTO();//{ };
         [Inject] public IExampleDataService? ExampleDataService { get; set; }
-        //[Inject] public IToastService? ToastService { get; set; }
         [Inject] public ApplicationState? ApplicationState { get; set; }
         [Parameter] public int ParentId { get; set; }
 #pragma warning disable 414, 649
@@ -76,11 +70,14 @@ namespace SampleApplication.Pages
         }
         public async Task CloseAsync()
         {
-              if (ModalInstance != null)
-                  await ModalInstance.CancelAsync();
+              await CloseModal.InvokeAsync(true);
         }
         protected async Task HandleValidSubmit()
         {
+            if (ApplicationState== null )
+            {
+                return;
+            }
             TaskRunning = true;
             if ((Id == 0 || Id == null) && ExampleDataService != null)
             {
@@ -88,23 +85,23 @@ namespace SampleApplication.Pages
                 if (result == null && Logger!= null)
                 {
                     Logger.LogError("Example failed to add, please investigate Error Adding New Example");
-                    ToastService?.ShowError("Example failed to add, please investigate Error Adding New Example");
+                    ApplicationState.Message = "Example failed to add, please investigate Error Adding New Example";
+                    ApplicationState.MessageType = "danger";
                     return;
                 }
-                ToastService?.ShowSuccess("Example added successfully", "SUCCESS");
+                ApplicationState.Message = "Example Added successfully";
+                ApplicationState.MessageType = "success";
             }
             else
             {
                 if (ExampleDataService != null)
                 {
                     await ExampleDataService!.UpdateExample(ExampleDTO, "");
-                    ToastService?.ShowSuccess("The Example updated successfully", "SUCCESS");
+                    ApplicationState.Message="The A Menu updated successfully";
+                    ApplicationState.MessageType = "success";
                 }
             }
-            if (ModalInstance != null)
-            {
-                await ModalInstance.CloseAsync(ModalResult.Ok(true));
-            }
+            await CloseModal.InvokeAsync(true);
             TaskRunning = false;
         }
     }

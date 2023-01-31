@@ -37,10 +37,10 @@ namespace <#=Namespace#>.Pages
         [Parameter] public EventCallback<bool> CloseModal { get; set; } 
 <#           } else {#>
         [Inject] IToastService? ToastService { get; set; }
+        [CascadingParameter] BlazoredModalInstance? ModalInstance { get; set; }
 <#           }#>
         [Parameter] public string? Title { get; set; }
         [Inject] public ILogger<<#=ModelName#>AddEdit>? Logger { get; set; }
-        [CascadingParameter] BlazoredModalInstance? ModalInstance { get; set; }
         [Inject] public IJSRuntime? JSRuntime { get; set; }
         [Parameter] public <#=PrimaryKeyDataType#>? <#=PrimaryKeyName#> { get; set; }
 <#

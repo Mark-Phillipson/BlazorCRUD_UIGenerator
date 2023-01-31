@@ -246,11 +246,12 @@ namespace <#=Namespace#>.Pages
                 }
             }
             <#=ModelName#>Id = <#=PrimaryKeyName#>;
-<#           }#>            
         }
+<#           }#>            
 <#           if (!UseBlazored) {#>        
         private void Edit<#=ModelName#>(<#=PrimaryKeyDataType#> <#=PrimaryKeyName#>)
         {
+            <#=ModelName#>Id=<#=PrimaryKeyName#>;
             EditTitle = "Edit <#=ModelNameWithSpaces#>";
             ShowEdit = true;
         }

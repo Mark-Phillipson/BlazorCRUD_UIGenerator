@@ -18,7 +18,7 @@
         <h5 class="m-1">@Title</h5>
     </div>
     <div class="col-md-4">
-<#           if (!UseBlazored) {#>>
+<#           if (!UseBlazored) {#>
         @if (ApplicationState!= null &&  !string.IsNullOrWhiteSpace(ApplicationState.Message))
         {
             <div class="alert alert-@ApplicationState.MessageType alert-dismissible fade show" role="alert">
@@ -137,7 +137,7 @@ else
 {
     <dialog open="true" style="position:absolute;left: 0px;top: 200px;z-index: 900" class="border border-danger">
         <button class="btn btn-outline-secondary m-2" style="float:right" type="submit" @onclick="@( ( ) => ToggleShowDeleteConfirm(  ) )">x</button>
-        <BlazoredModalConfirmDialog Confirm="@CloseConfirmDeletion" ButtonColour="danger" Icon="fa fa-trash" Message="Please confirm that you wish to delete a record." Title="Deletion Confirmation <#=ModelNameWithSpaces#> Table" />
+        <BlazoredModalConfirmDialogMVC Confirm="@CloseConfirmDeletion" ButtonColour="danger" Icon="fa fa-trash" Message="Please confirm that you wish to delete a record." Title="Deletion Confirmation <#=ModelNameWithSpaces#> Table" />
         <form method="dialog">
         </form>
     </dialog>
