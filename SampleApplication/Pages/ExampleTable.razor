@@ -1,22 +1,21 @@
-
 @page "/examples"
 <div class="row">
-    <div class="col-md-4">
-        <h5 class="m-1">@Title</h5>
-    </div>
-    <div class="col-md-4">
-        @if (ApplicationState!= null &&  !string.IsNullOrWhiteSpace(ApplicationState.Message))
+    <div class="col-md-12">
+        @if (ApplicationState != null && !string.IsNullOrWhiteSpace(ApplicationState.Message))
         {
             <div class="alert alert-@ApplicationState.MessageType alert-dismissible fade show" role="alert">
                 <strong>Note!</strong> @ApplicationState.Message @DateTime.Now.ToShortTimeString()
-                @*<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>*@
+                <button type="button" class="btn-close" @onclick="@(() => HideMessage())" aria-label="Close"></button>
             </div>
         }
     </div>
     <div class="col-md-4">
-        <input @ref="SearchInput" accesskey="i" class="form-control my-1" style="float:right" @bind="@SearchTerm" 
-        @bind:event="oninput" id="SearchInput" name="SearchTerm" placeholder="Filter by Text (Alt+I)" />
-    </div> 
+        <h5 class="m-1">@Title</h5>
+    </div>
+    <div class="col-md-4">
+        <input @ref="SearchInput" accesskey="i" class="form-control my-1" style="float:right" @bind="@SearchTerm"
+               @bind:event="oninput" id="SearchInput" name="SearchTerm" placeholder="Filter by Text (Alt+I)" />
+    </div>
 </div>
 
 @if (FilteredExampleDTO == null && _loadFailed == true)
@@ -39,9 +38,9 @@ else
     <table style="font-size:small" class="table table-bordered table-striped table-sm table-responsive-sm">
         <thead>
             <tr>
-              <th>ID</th>
-              <th>Number Value</th>
-              <th>
+                <th>ID</th>
+                <th>Number Value</th>
+                <th>
                     <button class="btn btn-sm" @onclick="@(() => SortExample("Text"))">
                         <i class="fas fa-sort-alpha-up"></i>
                     </button>
@@ -50,9 +49,9 @@ else
                     </button>
                     Text
                 </th>
-              <th>Large Text</th>
-              <th>Boolean</th>
-              <th>Date Value</th>
+                <th>Large Text</th>
+                <th>Boolean</th>
+                <th>Date Value</th>
                 <th>
                     <button accesskey="+" @onclick="AddNewExample" class="btn btn-outline-success btn-sm">
                         <i class="fas fa-plus"></i>
@@ -92,7 +91,7 @@ else
     <dialog open="true" style="position:absolute;left: 0px;top: 200px;z-index: 900" class="border border-danger">
         <button class="btn btn-outline-secondary m-2" style="float:right" type="submit" @onclick="@( ( ) => ToggleModal(  ) )">x</button>
         <div>
-        <ExampleAddEdit Title="@EditTitle" Id="@ExampleId" CloseModal="@CloseModalAsync" ParentId="@ParentId" />
+            <ExampleAddEdit Title="@EditTitle" Id="@ExampleId" CloseModal="@CloseModalAsync" ParentId="@ParentId" />
         </div>
     </dialog>
 

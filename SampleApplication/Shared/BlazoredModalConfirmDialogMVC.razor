@@ -1,6 +1,6 @@
-﻿<hr>
+﻿
 <div class="dialog-title">
-    <h3>@Title</h3>
+    <h4>@Title</h4>
 </div>
 <hr>
 <form class="dialog-body">
@@ -13,11 +13,11 @@
     <div class="dialog-buttons">
         <i class="@Icon text-@ButtonColour" style="font-size:xx-large"></i>
         <div class="btn-group" style="float:right">
-            <button accesskey="n" @ref="CancelButton" class="btn btn-info btn-lg mr-auto"
+            <button accesskey="n" @ref="CancelButton" class="btn btn-outline-secondary btn-lg mr-auto"
             @onclick="@OnCancel">
                 Ca<u>n</u>cel
             </button>
-            <button accesskey="m" class="btn btn-@ButtonColour btn-lg ml-auto" @onclick="@OnConfirm">Confir<u>m</u></button>
+            <button accesskey="m" class="btn btn-outline-@ButtonColour btn-lg ml-auto" @onclick="@OnConfirm">Confir<u>m</u></button>
         </div>
     </div>
 </div>

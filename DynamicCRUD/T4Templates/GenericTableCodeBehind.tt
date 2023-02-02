@@ -249,6 +249,13 @@ namespace <#=Namespace#>.Pages
         }
 <#           }#>            
 <#           if (!UseBlazored) {#>        
+        private void HideMessage()
+        {
+            if (ApplicationState != null )
+            {
+                ApplicationState.Message = null; 
+            }
+        }
         private void Edit<#=ModelName#>(<#=PrimaryKeyDataType#> <#=PrimaryKeyName#>)
         {
             <#=ModelName#>Id=<#=PrimaryKeyName#>;

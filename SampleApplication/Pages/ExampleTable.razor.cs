@@ -153,9 +153,16 @@ namespace SampleApplication.Pages
         }
             
         
+        private void HideMessage()
+        {
+            if (ApplicationState != null )
+            {
+                ApplicationState.Message = null; 
+            }
+        }
         private void EditExample(int Id)
         {
-            ExampleId = Id;
+            ExampleId=Id;
             EditTitle = "Edit Example";
             ShowEdit = true;
         }

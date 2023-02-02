@@ -97,7 +97,7 @@ namespace SampleApplication.Pages
                 if (ExampleDataService != null)
                 {
                     await ExampleDataService!.UpdateExample(ExampleDTO, "");
-                    ApplicationState.Message="The A Menu updated successfully";
+                    ApplicationState.Message="The Example updated successfully";
                     ApplicationState.MessageType = "success";
                 }
             }

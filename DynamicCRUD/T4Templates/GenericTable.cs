@@ -70,10 +70,9 @@ namespace DynamicCRUD.T4Templates
             
             #line default
             #line hidden
-            this.Write("<div class=\"row\">\r\n    <div class=\"col-md-4\">\r\n        <h5 class=\"m-1\">@Title</h5" +
-                    ">\r\n    </div>\r\n    <div class=\"col-md-4\">\r\n");
+            this.Write("<div class=\"row\">\r\n<div class=\"col-md-12\">\r\n");
             
-            #line 21 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
+            #line 18 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
            if (!UseBlazored) {
             
             #line default
@@ -82,17 +81,18 @@ namespace DynamicCRUD.T4Templates
         {
             <div class=""alert alert-@ApplicationState.MessageType alert-dismissible fade show"" role=""alert"">
                 <strong>Note!</strong> @ApplicationState.Message @DateTime.Now.ToShortTimeString()
-                @*<button type=""button"" class=""btn-close"" data-bs-dismiss=""alert"" aria-label=""Close""></button>*@
+                <button type=""button"" class=""btn-close"" @onclick=""@(() => HideMessage())"" aria-label=""Close""></button>
             </div>
         }
 ");
             
-            #line 29 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
+            #line 26 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
            }
             
             #line default
             #line hidden
-            this.Write("    </div>\r\n");
+            this.Write("    </div>\r\n    <div class=\"col-md-4\">\r\n        <h5 class=\"m-1\">@Title</h5>\r\n    " +
+                    "</div>\r\n");
             
             #line 31 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
 if (!string.IsNullOrWhiteSpace(ForeignKeyName)) {

@@ -30,7 +30,7 @@ Please see the sample application project which contains these dependencies, for
 
 2. Run the application (Do not run watch as the project will crash when it cannot compile the newly created c# classes).
 
-3. Enter a search term to filter down to a particular table, then select the table in the drop-down list.
+3. Optionally, enter a search term to filter down to a particular table, then select the table in the drop-down list.
 
 4. Click on Populate Columns button.
 

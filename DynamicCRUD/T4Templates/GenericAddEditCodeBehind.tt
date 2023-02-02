@@ -165,7 +165,7 @@ namespace <#=Namespace#>.Pages
 <#           if (UseBlazored) {#>
                     ToastService?.ShowSuccess("The <#=ModelNameWithSpaces#> updated successfully", "SUCCESS");
 <#           } else {#>
-                    ApplicationState.Message="The A Menu updated successfully";
+                    ApplicationState.Message="The <#=ModelNameWithSpaces#> updated successfully";
                     ApplicationState.MessageType = "success";
 <#           }#>
                 }

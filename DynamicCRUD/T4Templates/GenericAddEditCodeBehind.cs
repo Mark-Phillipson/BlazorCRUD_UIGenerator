@@ -648,8 +648,15 @@ using Microsoft.JSInterop;
             
             #line default
             #line hidden
-            this.Write("                    ApplicationState.Message=\"The A Menu updated successfully\";\r\n" +
-                    "                    ApplicationState.MessageType = \"success\";\r\n");
+            this.Write("                    ApplicationState.Message=\"The ");
+            
+            #line 168 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEditCodeBehind.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameWithSpaces));
+            
+            #line default
+            #line hidden
+            this.Write(" updated successfully\";\r\n                    ApplicationState.MessageType = \"succ" +
+                    "ess\";\r\n");
             
             #line 170 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEditCodeBehind.tt"
            }
