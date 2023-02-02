@@ -91,7 +91,7 @@ namespace DynamicCRUD.T4Templates
             
             #line default
             #line hidden
-            this.Write("    </div>\r\n    <div class=\"col-md-4\">\r\n        <h5 class=\"m-1\">@Title</h5>\r\n    " +
+            this.Write("    </div>\r\n    <div class=\"col-md-8\">\r\n        <h5 class=\"m-1\">@Title</h5>\r\n    " +
                     "</div>\r\n");
             
             #line 31 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"

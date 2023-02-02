@@ -25,7 +25,7 @@
         }
 <#           }#>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-8">
         <h5 class="m-1">@Title</h5>
     </div>
 <#if (!string.IsNullOrWhiteSpace(ForeignKeyName)) {#>

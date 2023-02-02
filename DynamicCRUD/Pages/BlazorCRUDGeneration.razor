@@ -101,7 +101,7 @@
         </div>
     }
     <div class="col-6">
-        <input  type="checkbox" @bind="@UseBlazored" />
+        <input type="checkbox" @bind="@UseBlazored" />
         <label class="control-label">Use Blazored Modal and Toast</label>
     </div>
     @if (ModelName != null)
@@ -122,27 +122,32 @@
     }
     @if (ShowInstructions)
     {
-        <div class="col-9">
+        <div class="col-12">
             <p>If this is the 1st time the table has been set up, please carry out the following tasks to complete the process:</p>
-            <ul>
-                <li>Inspect the generated files at @(NamespaceName).AutoGenClasses, </li>
-                <li>Add the following line of code into the application DB context (@(DbContextName))</li>
-                <li><code>public virtual DbSet&lt;@ModelName&gt; @PluralName { get; set; } </code> </li>
-                <li>Add the following 2 lines of code to the mapper profile class:</li>
-                <li>
-                    <code>
-                        CreateMap&lt;@ModelName, @(ModelName)DTO&gt;();
-                        CreateMap&lt;@(ModelName)DTO, @ModelName&gt;();
-                    </code>
-                </li>
-                <li>In the <code>Program.cs</code> file register both the Repository and Data Service as others have been registered, for dependency injection using the AddScoped method</li>
-                <li>
-                    <code>
-                        builder.Services.AddScoped&lt;I@(ModelName)Repository, @(ModelName)Repository>();
-                        builder.Services.AddScoped&lt;I@(ModelName)DataService, @(ModelName)DataService>();
-                    </code>
-                </li>
-            </ul>
+                <p>Inspect the generated files at DynamicCRUD.AutoGenClasses and move them to your project.</p>
+                <p>The following line of code, should already exist the destination project DB context (@(DbContextName))</p>
+                <p><code>public virtual DbSet&lt;@ModelName&gt; @PluralName { get; set; } </code> </p>
+                <p>Add the following code to the mapper profile class:</p>
+                <div class="row">
+                    <div class="col-10">
+                        <input class="form-control" type="text" @bind="AutoMapperCode" />
+                    </div>
+                    <div class="col-2">
+                        <button class="btn btn-outline-primary" type="button" @onclick="@( ( ) => CopyAsync( AutoMapperCode) )">Copy</button>
+                    </div>
+                </div>
+                <p>In the <code>Program.cs</code> file register both the Repository and Data Service as others have been registered, for dependency injection using the AddScoped method</p>
+                <p>
+                <div class="row">
+                    <div class="col-10">
+                        <input class="form-control" type="text" @bind="DependencyInjectionCode" />
+                    </div>
+                    <div class="col-2">
+                        <button class="btn btn-outline-primary" type="button" @onclick="@( ( ) => CopyAsync( DependencyInjectionCode) )">Copy</button>
+                    </div>
+                </div>
+                </p>
+
         </div>
     }
 

@@ -1,3 +1,4 @@
+using Blazored.Toast.Services;
 using DynamicCRUD.Services;
 // using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
 using DynamicCRUD.T4Templates;
@@ -16,8 +17,11 @@ public partial class BlazorCRUDGeneration : ComponentBase
     public string SchemaName { get; set; } = "dbo";// Usually dbo
     public string? PluralName { get; set; }
     public string? DbContextName { get; set; } = "MyDbContext";
+    public string? AutoMapperCode { get; set; } = "";
+    public string? DependencyInjectionCode { get; set; } = "";
     private bool UseBlazored { get; set; } = true;
     [Inject] public IJSRuntime? JSRuntime { get; set; }
+    [Inject] IToastService? ToastService { get; set; }
     [Inject] DatabaseMetaDataService? DatabaseMetaDataService { get; set; }
     [Inject] IConfiguration? Configuration { get; set; }
     IEnumerable<ClientDatabaseTable> databaseTables = new List<ClientDatabaseTable>();
@@ -70,11 +74,20 @@ public partial class BlazorCRUDGeneration : ComponentBase
             Message = "Please indicate the primary key and try again! Note it has to be an int or nvarchar";
             return;
         }
+        if (ModelName != null && ModelName.ToLower().EndsWith("s"))
+        {
+            Message = "Please make sure the model name is not plural and try again.";
+            return;
+        }
         if (!Columns.Any(c => c.Sort == true))
         {
             Message = "Please select at least one column to sort by! ";
             return;
         }
+        AutoMapperCode = $"CreateMap<{ModelName}, {ModelName}DTO>();\r\n" +
+            $"CreateMap<{ModelName}DTO, {ModelName}>();";
+        DependencyInjectionCode = $"builder.Services.AddScoped<I{ModelName}Repository, {ModelName}Repository>();\r\n " +
+            $"builder.Services.AddScoped<I{ModelName}DataService, {ModelName}DataService>();";
         string primaryKeyName = ""; string primaryKeyDatatype = "";
         GetPrimaryKeyDetails(ref primaryKeyName, ref primaryKeyDatatype);
         string filterColumns = "";
@@ -128,7 +141,7 @@ public partial class BlazorCRUDGeneration : ComponentBase
         content = genericDataService.TransformText();
         File.WriteAllText($"{locationBlazor}AutoGenClasses\\{ModelName}DataService.cs", content);
 
-        GenericTable genericTable = new(Columns, ModelName, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, filterColumns, foreignKeyName ?? "", foreignKeyDataType ?? "",UseBlazored);
+        GenericTable genericTable = new(Columns, ModelName, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, filterColumns, foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored);
         content = genericTable.TransformText();
         File.WriteAllText($"{locationBlazor}AutoGenClasses\\{ModelName}Table.razor", content);
 
@@ -136,7 +149,7 @@ public partial class BlazorCRUDGeneration : ComponentBase
         content = genericTableCodeBehind.TransformText();
         File.WriteAllText($"{locationBlazor}AutoGenClasses\\{ModelName}Table.razor.cs", content);
 
-        GenericAddEdit genericAddEdit = new(Columns, ModelName, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, filterColumns, foreignKeyName ?? "", foreignKeyDataType ?? "",UseBlazored);
+        GenericAddEdit genericAddEdit = new(Columns, ModelName, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, filterColumns, foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored);
         content = genericAddEdit.TransformText();
         File.WriteAllText($"{locationBlazor}AutoGenClasses\\{ModelName}AddEdit.razor", content);
 
@@ -218,7 +231,18 @@ public partial class BlazorCRUDGeneration : ComponentBase
             await JSRuntime.InvokeVoidAsync("CallChange", elementId);
         }
     }
+    public async Task CopyAsync(string value)
+    {
+        if (JSRuntime == null)
+        {
+            return;
+        }
+        await JSRuntime.InvokeVoidAsync(
+"clipboardCopy.copyText", value);
+        var message = $"Copied Successfully: '{value}'";
+        ToastService!.ShowSuccess(message, "Copy Commandline");
 
+    }
     private void ReverseEngineerTable()
     {
         //Turns out this is not viable as it will only create a new DB context not add to an existing one
