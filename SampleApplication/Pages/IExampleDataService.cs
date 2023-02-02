@@ -5,7 +5,7 @@ namespace SampleApplication.Services
 {
     public interface IExampleDataService
     {
-        Task<List<ExampleDTO>> GetAllExamplesAsync( );
+        Task<List<ExampleDTO>> GetAllExamplesAsync(int NumberValue);
         Task<List<ExampleDTO>> SearchExamplesAsync(string serverSearchTerm);
         Task<ExampleDTO?> AddExample(ExampleDTO exampleDTO);
         Task<ExampleDTO?> GetExampleById(int Id);

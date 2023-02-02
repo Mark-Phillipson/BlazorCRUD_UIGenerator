@@ -30,7 +30,8 @@ namespace SampleApplication.Pages
         [Inject] public NavigationManager? NavigationManager { get; set; }
         [Inject] public ILogger<ExampleTable>? Logger { get; set; }
         
-        [Inject] public ApplicationState? ApplicationState { get; set; }
+        [Inject] public IToastService? ToastService { get; set; }
+        [CascadingParameter] public IModalService? Modal { get; set; }
         public string Title { get; set; } = "Example Items (Examples)";
         public string EditTitle { get; set; } = "Edit Example Item (Examples)";
         [Parameter] public int ParentId { get; set; }
@@ -99,12 +100,21 @@ namespace SampleApplication.Pages
                 }
             }
         }
-
-        private void AddNewExample()
+        private async Task AddNewExample()
         {
-            EditTitle = "Add Example";
-            ShowEdit = true;
+              var parameters = new ModalParameters();
+              var formModal = Modal?.Show<ExampleAddEdit>("Add Example", parameters);
+              if (formModal != null)
+              {
+                  var result = await formModal.Result;
+                  if (!result.Cancelled)
+                  {
+                      await LoadData();
+                  }
+              }
+              ExampleId=0;
         }
+
 
         private void ApplyFilter()
         {
@@ -144,59 +154,47 @@ namespace SampleApplication.Pages
                 FilteredExampleDTO = FilteredExampleDTO.OrderByDescending(v => v.Text).ToList();
             }
         }
-                  
-               
-        private void DeleteExample(int Id)
+        private async Task DeleteExample(int Id)
         {
+            //TODO Optionally remove child records here or warn about their existence
+              var parameters = new ModalParameters();
+              if (ExampleDataService != null)
+              {
+                  var example = await ExampleDataService.GetExampleById(Id);
+                  parameters.Add("Title", "Please Confirm, Delete Example");
+                  parameters.Add("Message", $"Text: {example?.Text}");
+                  parameters.Add("ButtonColour", "danger");
+                  parameters.Add("Icon", "fa fa-trash");
+                  var formModal = Modal?.Show<BlazoredModalConfirmDialog>($"Delete Example ({example?.Text})?", parameters);
+                  if (formModal != null)
+                  {
+                      var result = await formModal.Result;
+                      if (!result.Cancelled)
+                      {
+                          await ExampleDataService.DeleteExample(Id);
+                          ToastService?.ShowSuccess("Example deleted successfully", "SUCCESS");
+                          await LoadData();
+                      }
+                  }
+             }
+             ExampleId = Id;
+        }
+                  
+        private async void EditExample(int Id)
+        {
+            var parameters = new ModalParameters();
+            parameters.Add("Id", Id);
+            var formModal = Modal?.Show<ExampleAddEdit>("Edit Example", parameters);
+            if (formModal != null)
+            {
+                var result = await formModal.Result;
+                if (!result.Cancelled)
+                {
+                    await LoadData();
+                }
+            }
             ExampleId = Id;
-            ShowDeleteConfirm=true;
         }
             
-        
-        private void HideMessage()
-        {
-            if (ApplicationState != null )
-            {
-                ApplicationState.Message = null; 
-            }
-        }
-        private void EditExample(int Id)
-        {
-            ExampleId=Id;
-            EditTitle = "Edit Example";
-            ShowEdit = true;
-        }
-        private void ToggleModal()
-        {
-            ShowEdit = !ShowEdit;
-        }
-        private void ToggleShowDeleteConfirm()
-        {
-            ShowDeleteConfirm = !ShowDeleteConfirm;
-        }
-        public async Task CloseModalAsync(bool close)
-        {
-            if (close)
-            {
-                ShowEdit = false;
-                await LoadData();
-            }
-        }
-        private async void CloseConfirmDeletion(bool confirmation)
-        {
-            ShowDeleteConfirm = false;
-            if (ExampleDataService == null) return;
-            if (confirmation)
-            {
-                await ExampleDataService.DeleteExample(ExampleId);
-                if (ApplicationState != null)
-                {
-                    ApplicationState.Message = $"{ExampleId} Example item has been deleted successfully";
-                    ApplicationState.MessageType = "success";
-                }
-                await LoadData();
-                StateHasChanged();
-            }
-        }
     }
 }

@@ -1,11 +1,14 @@
 
-@page "/examples"
+@page "/examples/{NumberValue:int}"
 <div class="row">
 <div class="col-md-12">
     </div>
     <div class="col-md-8">
         <h5 class="m-1">@Title</h5>
     </div>
+@*    <div class="col-md-1">
+        <a class="btn btn-primary btn-sm m-2" href="/ParentTable/@NumberValue"><i class="fas fa-arrow-left"></i></a>
+   </div>*@
     <div class="col-md-4">
         <input @ref="SearchInput" accesskey="i" class="form-control my-1" style="float:right" @bind="@SearchTerm" 
         @bind:event="oninput" id="SearchInput" name="SearchTerm" placeholder="Filter by Text (Alt+I)" />
@@ -33,7 +36,15 @@ else
         <thead>
             <tr>
               <th>ID</th>
-              <th>Number Value</th>
+              <th>
+                    <button class="btn btn-sm" @onclick="@(() => SortExample("NumberValue"))">
+                        <i class="fas fa-sort-alpha-up"></i>
+                    </button>
+                    <button class="btn btn-sm" @onclick="@(() => SortExample("NumberValue Desc"))">
+                        <i class="fas fa-sort-alpha-up-alt"></i>
+                    </button>
+                    Number Value
+                </th>
               <th>
                     <button class="btn btn-sm" @onclick="@(() => SortExample("Text"))">
                         <i class="fas fa-sort-alpha-up"></i>

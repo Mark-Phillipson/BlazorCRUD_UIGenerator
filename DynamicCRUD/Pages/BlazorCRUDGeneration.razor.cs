@@ -64,9 +64,10 @@ public partial class BlazorCRUDGeneration : ComponentBase
     private void GenerateClasses()
     {
         Message = null; ShowInstructions = false;
+        ArgumentNullException.ThrowIfNull(ModelName);
         if (string.IsNullOrWhiteSpace(Tablename) || DatabaseMetaDataService == null || ConnectionString == null || PluralName == null || ModelName == null)
         {
-            Message = "Please select a table and fill in all the details, then try again! ";
+            Message = "Please select a table and fill in all the details, then try again!";
             return;
         }
         if (!Columns.Any(c => (c.IsKey || c.PrimaryKeyOverride) && (c.DataType == "int" || c.DataType == "nvarchar")))
@@ -116,14 +117,14 @@ public partial class BlazorCRUDGeneration : ComponentBase
             // File.WriteAllText($"{locationModels}AutoGenClasses\\{ModelName}.cs", content);
         }
 
-        GenericDTO genericDTO = new(Columns, ModelName, namespaceString);
+        GenericDTO genericDTO = new(Columns, ModelName!, namespaceString);
         content = genericDTO.TransformText();
         File.WriteAllText($"{locationModels}AutoGenClasses\\{ModelName}DTO.cs", content);
 
-        var camelTablename = StringHelperService.GetCamelCase(ModelName);
+        var camelTablename = StringHelperService.GetCamelCase(ModelName!);
         namespaceString = $"{NamespaceName}";
 
-        GenericIRepository genericIRepository = new(Columns, ModelName, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, foreignKeyName, foreignKeyDataType);
+        GenericIRepository genericIRepository = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, foreignKeyName, foreignKeyDataType);
         content = genericIRepository.TransformText();
         File.WriteAllText($"{locationRepository}AutoGenClasses\\I{ModelName}Repository.cs", content);
 
@@ -220,6 +221,10 @@ public partial class BlazorCRUDGeneration : ComponentBase
         PluralName = StringHelperService.RemoveUnsupportedCharacters(PluralName);
         ModelName = $"{tablename}";
         ModelName = ModelName.Replace($"{SchemaName}.", "").Replace("_", "");
+        if (ModelName.ToLower().EndsWith("s"))
+        {
+            ModelName = ModelName.Substring(0, ModelName.Length - 1);
+        }
         ModelName = StringHelperService.RemoveUnsupportedCharacters(ModelName);
         Columns = DatabaseMetaDataService.GetColumnNames(ConnectionString, Tablename, SchemaName);
         PopulateColumnsCaption = "Populate Columns";

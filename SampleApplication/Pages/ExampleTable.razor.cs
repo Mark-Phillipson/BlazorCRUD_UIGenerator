@@ -34,6 +34,8 @@ namespace SampleApplication.Pages
         [CascadingParameter] public IModalService? Modal { get; set; }
         public string Title { get; set; } = "Example Items (Examples)";
         public string EditTitle { get; set; } = "Edit Example Item (Examples)";
+		
+        [Parameter] public int NumberValue { get; set; }
         [Parameter] public int ParentId { get; set; }
         public List<ExampleDTO>? ExampleDTO { get; set; }
         public List<ExampleDTO>? FilteredExampleDTO { get; set; }
@@ -63,7 +65,7 @@ namespace SampleApplication.Pages
             {
                 if (ExampleDataService != null)
                 {
-                    var result = await ExampleDataService!.GetAllExamplesAsync();
+                    var result = await ExampleDataService!.GetAllExamplesAsync(NumberValue);
                     //var result = await ExampleDataService.SearchExamplesAsync(ServerSearchTerm);
                     if (result != null)
                     {
@@ -103,6 +105,8 @@ namespace SampleApplication.Pages
         private async Task AddNewExample()
         {
               var parameters = new ModalParameters();
+			
+              parameters.Add(nameof(NumberValue), NumberValue);
               var formModal = Modal?.Show<ExampleAddEdit>("Add Example", parameters);
               if (formModal != null)
               {
@@ -124,7 +128,7 @@ namespace SampleApplication.Pages
             }
             if (string.IsNullOrEmpty(SearchTerm))
             {
-                FilteredExampleDTO = ExampleDTO.OrderBy(v => v.Text).ToList();
+                FilteredExampleDTO = ExampleDTO.OrderBy(v => v.NumberValue).ToList();
                 Title = $"All Example ({FilteredExampleDTO.Count})";
             }
             else
@@ -145,6 +149,14 @@ namespace SampleApplication.Pages
             {
                 return;
             }
+            if (sortColumn == "NumberValue")
+            {
+                FilteredExampleDTO = FilteredExampleDTO.OrderBy(v => v.NumberValue).ToList();
+            }
+            else if (sortColumn == "NumberValue Desc")
+            {
+                FilteredExampleDTO = FilteredExampleDTO.OrderByDescending(v => v.NumberValue).ToList();
+            }
             if (sortColumn == "Text")
             {
                 FilteredExampleDTO = FilteredExampleDTO.OrderBy(v => v.Text).ToList();
@@ -162,10 +174,10 @@ namespace SampleApplication.Pages
               {
                   var example = await ExampleDataService.GetExampleById(Id);
                   parameters.Add("Title", "Please Confirm, Delete Example");
-                  parameters.Add("Message", $"Text: {example?.Text}");
+                  parameters.Add("Message", $"NumberValue: {example?.NumberValue}");
                   parameters.Add("ButtonColour", "danger");
                   parameters.Add("Icon", "fa fa-trash");
-                  var formModal = Modal?.Show<BlazoredModalConfirmDialog>($"Delete Example ({example?.Text})?", parameters);
+                  var formModal = Modal?.Show<BlazoredModalConfirmDialog>($"Delete Example ({example?.NumberValue})?", parameters);
                   if (formModal != null)
                   {
                       var result = await formModal.Result;

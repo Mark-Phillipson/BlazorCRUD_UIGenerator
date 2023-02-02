@@ -17,13 +17,12 @@ namespace SampleApplication.Repositories
             _contextFactory = contextFactory;
             this._mapper = mapper;
         }
-		        public async Task<IEnumerable<ExampleDTO>> GetAllExamplesAsync(int maxRows= 400)
+		        public async Task<IEnumerable<ExampleDTO>> GetAllExamplesAsync(int NumberValue)
         {
             using var context = _contextFactory.CreateDbContext();
             var Examples= await context.Examples
-                //.Where(v => v.?==?)
+                .Where(v => v.NumberValue==NumberValue)
                 //.OrderBy(v => v.?)
-                .Take(maxRows)
                 .ToListAsync();
             IEnumerable<ExampleDTO> ExamplesDTO = _mapper.Map<List<Example>, IEnumerable<ExampleDTO>>(Examples);
             return ExamplesDTO;

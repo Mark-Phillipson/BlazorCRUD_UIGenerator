@@ -19,9 +19,9 @@ namespace SampleApplication.Services
         {
             this._exampleRepository = exampleRepository;
         }
-        public async Task<List<ExampleDTO>> GetAllExamplesAsync()
+        public async Task<List<ExampleDTO>> GetAllExamplesAsync(int NumberValue)
         {
-            var Examples = await _exampleRepository.GetAllExamplesAsync(300);
+            var Examples = await _exampleRepository.GetAllExamplesAsync(NumberValue);
             return Examples.ToList();
         }
         public async Task<List<ExampleDTO>> SearchExamplesAsync(string serverSearchTerm)

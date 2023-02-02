@@ -12,6 +12,10 @@ using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
 using Microsoft.JSInterop;
+using Blazored.Modal;
+using Blazored.Modal.Services;
+using Blazored.Toast;
+using Blazored.Toast.Services;
 using System.Security.Claims;
 using SampleApplication.DTOs;
 using SampleApplication.Services;
@@ -20,7 +24,8 @@ namespace SampleApplication.Pages
 {
     public partial class ExampleAddEdit : ComponentBase
     {
-        [Parameter] public EventCallback<bool> CloseModal { get; set; } 
+        [Inject] IToastService? ToastService { get; set; }
+        [CascadingParameter] BlazoredModalInstance? ModalInstance { get; set; }
         [Parameter] public string? Title { get; set; }
         [Inject] public ILogger<ExampleAddEdit>? Logger { get; set; }
         [Inject] public IJSRuntime? JSRuntime { get; set; }
@@ -70,14 +75,11 @@ namespace SampleApplication.Pages
         }
         public async Task CloseAsync()
         {
-              await CloseModal.InvokeAsync(true);
+              if (ModalInstance != null)
+                  await ModalInstance.CancelAsync();
         }
         protected async Task HandleValidSubmit()
         {
-            if (ApplicationState== null )
-            {
-                return;
-            }
             TaskRunning = true;
             if ((Id == 0 || Id == null) && ExampleDataService != null)
             {
@@ -85,23 +87,23 @@ namespace SampleApplication.Pages
                 if (result == null && Logger!= null)
                 {
                     Logger.LogError("Example failed to add, please investigate Error Adding New Example");
-                    ApplicationState.Message = "Example failed to add, please investigate Error Adding New Example";
-                    ApplicationState.MessageType = "danger";
+                    ToastService?.ShowError("Example failed to add, please investigate Error Adding New Example");
                     return;
                 }
-                ApplicationState.Message = "Example Added successfully";
-                ApplicationState.MessageType = "success";
+                ToastService?.ShowSuccess("Example added successfully", "SUCCESS");
             }
             else
             {
                 if (ExampleDataService != null)
                 {
                     await ExampleDataService!.UpdateExample(ExampleDTO, "");
-                    ApplicationState.Message="The Example updated successfully";
-                    ApplicationState.MessageType = "success";
+                    ToastService?.ShowSuccess("The Example updated successfully", "SUCCESS");
                 }
             }
-            await CloseModal.InvokeAsync(true);
+            if (ModalInstance != null)
+            {
+                await ModalInstance.CloseAsync(ModalResult.Ok(true));
+            }
             TaskRunning = false;
         }
     }
