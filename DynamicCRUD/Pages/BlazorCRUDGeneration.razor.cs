@@ -77,8 +77,7 @@ public partial class BlazorCRUDGeneration : ComponentBase
         }
         if (ModelName != null && ModelName.ToLower().EndsWith("s"))
         {
-            Message = "Please make sure the model name is not plural and try again.";
-            return;
+            Message = "Please make sure the model name is not plural!";
         }
         if (!Columns.Any(c => c.Sort == true))
         {
@@ -204,6 +203,22 @@ public partial class BlazorCRUDGeneration : ComponentBase
         }
     }
 
+    string GetNamespaceName(string connectionString)
+    {
+        if (connectionString.ToLower().Contains("arm_core"))
+        {
+            return "ARM_BlazorServer";
+        }
+        return "SampleApplication";
+    }
+    string GetDbContextName(string connectionString)
+    {
+        if (connectionString.ToLower().Contains("arm_core"))
+        {
+            return "ARMDbContext";
+        }
+        return "MyDbContext";
+    }
     private void PopulateColumns()
     {
         PopulateColumnsCaption = "Please Wait";
@@ -216,6 +231,8 @@ public partial class BlazorCRUDGeneration : ComponentBase
             Message = "System does not support table names with dots in the name!";
             return;
         }
+        NamespaceName = GetNamespaceName(ConnectionString);
+        DbContextName = GetDbContextName(ConnectionString);
         PluralName = $"{tablename}";
         PluralName = PluralName.Replace($"{SchemaName}.", "").Replace("_", "");
         PluralName = StringHelperService.RemoveUnsupportedCharacters(PluralName);
@@ -223,7 +240,7 @@ public partial class BlazorCRUDGeneration : ComponentBase
         ModelName = ModelName.Replace($"{SchemaName}.", "").Replace("_", "");
         if (ModelName.ToLower().EndsWith("s"))
         {
-            ModelName = ModelName.Substring(0, ModelName.Length - 1);
+            Message = "Please check the model is Not Plural";
         }
         ModelName = StringHelperService.RemoveUnsupportedCharacters(ModelName);
         Columns = DatabaseMetaDataService.GetColumnNames(ConnectionString, Tablename, SchemaName);

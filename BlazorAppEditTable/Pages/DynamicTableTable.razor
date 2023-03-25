@@ -1,0 +1,217 @@
+@page "/DynamicTable"
+@using System.Data
+@using BlazorAppEditTable.Services;
+@if (Show)
+{
+    <div class="row">
+        <div class="col-md-6">
+            <h5 class="page-title m-1">@Title</h5>
+        </div>
+        @if (allowFilter)
+        {
+            <div class="col-md-4">
+                <input @ref="SearchInput" accesskey="i" class="form-control my-1" style="float:right" @bind="@SearchTerm"
+                @bind:event="oninput" id="SearchInput" name="SearchTerm" placeholder="Filter (Alt+I)" />
+            </div>
+        }
+        <div class="col-md-2">
+            <button id="CloseButton" type="button" accesskey="c" class="btn btn-outline-primary btn-sm" @onclick="@Close"><i class="fa-sharp fa-solid fa-xmark"></i></button>
+        </div>
+    </div>
+
+    @if (FilteredDataTable == null && _loadFailed == true)
+    {
+        <h2 class="text-danger">The data failed to load please try again in a little while..</h2>
+        <button class="btn btn-outline-danger" type="button" @onclick="@( () => LoadData() )">Reload</button>
+        <h6 class="text-danger">@ExceptionMessage</h6>
+    }
+    else if (FilteredDataTable == null || Columns == null)
+    {
+        <div style="display:normal;margin:auto" class="loader"></div>
+    }
+    else if (FilteredDataTable.Rows.Count == 0)
+    {
+        <p>No Dynamic Table match the criteria</p>
+        <button type="button" @onclick="AddNewDynamicTableAsync" accesskey="+" class="btn btn-outline-success">Add Record <i class="fas fa-plus"></i></button>
+    }
+    else if (PrimaryKeyName == null || FilteredDataTable == null)
+    {
+        <p> Table data not loaded</p>
+    }
+    else
+    {
+        <table class="table table-bordered table-striped table-sm table-responsive-sm">
+            <thead>
+                <tr>
+                    @foreach (DynamicDatabaseColumn column in Columns.Where(v => v.DataType != null && v.Hide == false).Take(maxColumns))
+                    {
+                        <th title="@column.DataType Click to Sort" @onclick="@( ( ) => Sort( column.ColumnName ))">
+                            @column.Label
+                            @if (column.Required)
+                            {
+                                <span>&nbsp;<i class="fa-solid fa-asterisk text-danger"></i></span>
+                            }
+                        </th>
+                    }
+                    <th>
+                        <button type="button" @onclick="AddNewDynamicTableAsync" class="btn btn-outline-success btn-sm"><i class="fas fa-plus"></i></button>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    currentRow = 0;
+                }
+                @foreach (DataRow row in FilteredDataTable.Rows)
+                {
+                    currentRow++;
+                    int rowActual = currentRow;
+                    <tr>
+                        @foreach (DynamicDatabaseColumn col in Columns.Where(v => v.DataType != null && v.Hide == false).Take(maxColumns))
+                        {
+                            readOnly = false;
+                            <td>
+                                @if (col.ColumnName == PrimaryKeyName)
+                                {
+                                    readOnly = true;
+                                }
+                                @if (col != null && col?.DataType != null)
+                                {
+                                    @if (row.RowState == DataRowState.Deleted)
+                                    {
+                                        <span style="text-decoration:line-through">#deleted#</span>
+                                    }
+                                    else if (col.DataType.ToLower().Contains("nvarchar"))
+                                    {
+                                        <input class="form-control form-control-sm" type="text" style="text-align:left" name="@col.ColumnName" id="@(currentRow.ToString())_@col.ColumnName"
+                                               value="@row[col.ColumnName].ToString()" placeholder="@col.HelpText" readonly="@readOnly"
+                                               required="@col.Required"
+                                        @onchange="@((ChangeEventArgs __e) => DataTableBind(__e,@row[col.ColumnName].ToString(),rowActual,col.ColumnName))"
+                                        @oninput="@(() => CallChangeAsync(currentRow.ToString() + "_" + @col.ColumnName))" />
+                                    }
+                                    else if (col.DataType.ToLower().Contains("bit"))
+                                    {
+                                        string checkedState = "checked";
+                                        if (row[col.ColumnName].ToString()?.ToLower() != "true")
+                                        {
+                                            checkedState = "";
+                                        }
+                                        <input class="form-checkbox form-checkbox-sm" type="checkbox" name="@col.ColumnName" id="@(currentRow.ToString())_@col.ColumnName"
+                                               value="@row[col.ColumnName].ToString()" placeholder="@col.HelpText" readonly="@readOnly"
+                                               required="@col.Required" checked="@(checkedState)"
+                                        @onchange="@((ChangeEventArgs __e) => DataTableBind(__e,@row[col.ColumnName].ToString(),rowActual,col.ColumnName))"
+                                        @oninput="@(() => CallChangeAsync(currentRow.ToString() + "_" + @col.ColumnName))" />
+                                    }
+                                    else if (col.DataType.ToLower().Contains("date"))
+                                    {
+                                        string result = row[col.ColumnName].ToString() ?? "";
+                                        string rawResult = row[col.ColumnName].ToString() ?? "";
+                                        if (result?.Length == 19)//UK format?
+                                        {
+                                            result = result.Substring(6, 4) + "-" + result.Substring(3, 2) + "-" +
+                                            result.Substring(0, 2);
+                                        }
+                                        else if (result?.Length == 20)//USA format?
+                                        {
+                                            var dateParts = result.Split("/");
+                                            var year = dateParts[2].Substring(0, 4);
+                                            var month = dateParts[0].Length == 2 ? dateParts[0] : "0" + dateParts[0];
+                                            var day = dateParts[1].Length == 2 ? dateParts[1] : "0" + dateParts[1];
+                                            result = year + "-" + month + "-" + day;
+                                        }
+                                        else
+                                        {
+                                            result = "";
+                                        }
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <input class="form-control form-control-sm valid"
+                                                       type="date" name="@col.ColumnName" id="@col.ColumnName"
+                                                       value="@result"
+                                                       placeholder="@col.HelpText" readonly="@readOnly" required="@col.Required"
+                                                @onchange="@((ChangeEventArgs __e) => DataTableBind(__e,@row[col.ColumnName].ToString(),rowActual,col.ColumnName))"
+                                                @oninput="@(() => CallChangeAsync(currentRow.ToString() + "_" + @col.ColumnName))" />
+                                            </div>
+                                            <div class="col-6">
+                                                <label class="text-secondary">@rawResult</label>
+                                            </div>
+                                        </div>
+                                    }
+                                    else if (col.DataType.ToLower() == "int" || col.DataType.ToLower() == "float"
+                                    || col.DataType.ToLower() == "decimal" || col.DataType.ToLower() == "bigint"
+                                    || col.DataType.ToLower() == "smallint")
+                                    {
+                                        <input class="form-control form-control-sm" type="number"
+                                               name="@col.ColumnName" id="@(currentRow.ToString())_@col.ColumnName" style="text-align:right" value="@row[col.ColumnName].ToString()" placeholder="@col.HelpText" readonly="@readOnly" required="@col.Required"
+                                        @onchange="@((ChangeEventArgs __e) => DataTableBind(__e,@row[col.ColumnName].ToString(),rowActual,col.ColumnName))"
+                                        @oninput="@(() => CallChangeAsync(currentRow.ToString() + "_" + @col.ColumnName))" />
+                                    }
+                                }
+                            </td>
+                        }
+                        <td class="btn-group">
+                            @if (row.RowState != DataRowState.Deleted)
+                            {
+                                <button type="button" class="btn btn-sm btn-outline-primary" @onclick="@(() => CopyDynamicTableAsync(row[PrimaryKeyName]))">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-danger" @onclick="@(() => DeleteDynamicTable(row[PrimaryKeyName]))">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="row">
+            <div class="col-8">
+                @if (!string.IsNullOrWhiteSpace(Message))
+                {
+                    <div class="alert alert-info  alert-dismissible fade show" role="alert">
+                        <strong>Message</strong> <span style="font-size:xx-small">@Message</span>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+            </div>
+            <div class="col-2">
+                <button id="CloseButton" type="button" accesskey="c" class="btn btn-sm btn-outline-primary" @onclick="@Close"><u>C</u>ancel</button>
+            </div>
+            <div class="col-2">
+                <button disabled="@disableSave" accesskey="s" type="button" class="btn btn-sm btn-outline-primary" @onclick="SaveAllAsync"><u>S</u>ave All</button>
+            </div>
+        </div>
+    }
+}
+else
+{
+    @if (!string.IsNullOrWhiteSpace(ExceptionMessage))
+    {
+        <button class="btn btn-warning btn-sm" title="Toggle Error Message" type="button" @onclick="@( ( ) => ToggleExceptionMessage(  ) )"><i class="fa-solid fa-circle-exclamation"></i></button>
+        @if (showExceptionMessage)
+        {
+            <dialog open="true" style="position:absolute;left: 0px;top: 100px;z-index: 900;min-width:200px" class="border border-warning">
+                <div class="alert alert-warning  alert-dismissible fade show" role="alert">
+                    <strong>Warning!</strong> <span style="font-size:xx-small">@ExceptionMessage</span>
+                </div>
+            </dialog>
+        }
+    }
+    else
+    {
+        <button title="Edit List" type="button" @onclick="(() => ToggleShow())" class="btn btn-sm btn-outline-secondary">
+            Show @TableName Table
+        </button>
+        <div class="row">
+            <div class="col-2">
+                <label>Tablename</label>
+            </div>
+            <div class="col-4">
+                <input class="form-control" @bind="TableName" id="Tablename" @oninput="@(e => CallChangeAsync("Tablename"))" />
+            </div>
+        </div>
+
+
+    }
+
+}
