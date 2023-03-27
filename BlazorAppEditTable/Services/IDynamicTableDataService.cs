@@ -9,7 +9,8 @@ namespace BlazorAppEditTable.Services
         bool AddDynamicTable(DataRow dataRow, ApplicationState applicationState);
         Task<DataRow?> GetDynamicTableById(object id);
         bool UpdateDynamicTable(DataRow dataRow, ApplicationState applicationState);
-        bool DeleteDynamicTable(object? id,ApplicationState applicationState);
+        bool DeleteDynamicTable(object? id, ApplicationState applicationState);
         IEnumerable<DynamicDatabaseColumn>? GetColumnNames(string sql);
+        List<DynamicDatabaseTable> GetListOfTables();
     }
 }

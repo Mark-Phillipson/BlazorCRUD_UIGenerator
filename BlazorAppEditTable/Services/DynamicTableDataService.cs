@@ -7,7 +7,7 @@ using System.Data;
 
 namespace BlazorAppEditTable.Services
 {
-    public class DynamicTableDataService : BlazorAppEditTable.Services.IDynamicTableDataService
+    public class DynamicTableDataService : IDynamicTableDataService
     {
         private readonly IDynamicTableRepository _dynamicTableRepository;
 
@@ -53,6 +53,11 @@ namespace BlazorAppEditTable.Services
         public bool UpdateDynamicTable(DataRow dataRow, ApplicationState applicationState)
         {
             var result = _dynamicTableRepository.UpdateDynamicTableAsync(dataRow, applicationState);
+            return result;
+        }
+        public List<DynamicDatabaseTable> GetListOfTables()
+        {
+            var result = _dynamicTableRepository.GetListOfTables();
             return result;
         }
     }

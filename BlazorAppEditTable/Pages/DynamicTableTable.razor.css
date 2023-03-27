@@ -3,3 +3,26 @@ input {
     padding: 2px;
     margin: 0;
 }
+
+
+.layout-as-cards {
+    display: flex;
+    flex-direction: column;
+    flex-flow: wrap;
+    text-decoration: none;
+}
+
+.card {
+    box-shadow: grey 2px 2px;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+input[type="checkbox"] {
+    transform: scale(2, 2);
+    margin-top: 10px;
+    margin-right: 4px;
+    margin-left: 4px;
+}

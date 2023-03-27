@@ -19,6 +19,9 @@ namespace BlazorAppEditTable.Pages
         [Inject] public ILogger<DynamicTableTable>? Logger { get; set; }
         [Inject] public IToastService? ToastService { get; set; }
         [Inject] public ApplicationState? applicationState { get; set; }
+        private int filterField = 1;
+        private bool showDeleteConfirmation = false;
+        private object? idForDeletion = null;
         public string Title { get; set; } = "";
         private bool allowFilter = true;
         private int maxColumns = 15;
@@ -30,6 +33,7 @@ namespace BlazorAppEditTable.Pages
         private bool _loadFailed = false;
         private string? searchTerm = null;
 #pragma warning restore 414, 649
+        public string SearchTable { get; set; } = "dbo.";
         private bool disableSave = true;
         public string? SearchTerm { get => searchTerm; set { searchTerm = value; ApplyFilter(); } }
         [Parameter] public string? ServerSearchTerm { get; set; }
@@ -45,12 +49,17 @@ namespace BlazorAppEditTable.Pages
         bool readOnly = false;
         private int currentRow = 0;
         List<Dictionary<string, Microsoft.Extensions.Primitives.StringValues>> list = new List<Dictionary<string, Microsoft.Extensions.Primitives.StringValues>>();
+        private List<DynamicDatabaseTable> tables = new List<DynamicDatabaseTable>();
         protected override void OnParametersSet()
         {
             LoadData();
         }
-        protected override  void  OnInitialized()
+        protected override void OnInitialized()
         {
+            if (DynamicTableDataService != null)
+            {
+                tables = DynamicTableDataService.GetListOfTables();
+            }
             LoadData();
         }
         private void LoadData()
@@ -94,13 +103,13 @@ namespace BlazorAppEditTable.Pages
                         }
                         else
                         {
-                            ExceptionMessage = $"Unable to edit a list without a primary key from SQL: {Sql}";
+                            ExceptionMessage = $"Unable to edit a Table without a primary key from SQL: {Sql}";
                             Show = false;
                             return;
                         }
-                        Message = "After editing please refresh, so the changes are shown.  Note clicking on the delete will delete record with no warning!";
+                        Message = $"Table {TableName} Load successfully with the following SQL {Sql}";
                         Message = $"{Message}.  Loaded {DateTime.Now.ToLocalTime()}";
-
+                        ExceptionMessage = "";
                     }
                 }
             }
@@ -109,9 +118,10 @@ namespace BlazorAppEditTable.Pages
                 Logger?.LogError("Exception occurred in LoadData Method, Getting Records from the Service", e);
                 _loadFailed = true;
                 ExceptionMessage = e.Message;
+                showExceptionMessage = true;
             }
             FilteredDataTable = DataTable;
-            Title = $"List Values {TableName} ({FilteredDataTable?.Rows?.Count})";
+            Title = $"Edit {TableName} ({FilteredDataTable?.Rows?.Count})";
 
         }
 
@@ -231,18 +241,26 @@ namespace BlazorAppEditTable.Pages
             if (string.IsNullOrWhiteSpace(SearchTerm))
             {
                 LoadData();
-                Title = $"All List Values {TableName} ({FilteredDataTable?.Rows?.Count})";
+                Title = $"All Records: {TableName} ({FilteredDataTable?.Rows?.Count})";
             }
             else
             {
                 var temporary = SearchTerm.ToLower().Trim();
-                var column = DataTable.Columns[1];
+                var column = DataTable.Columns[filterField - 1];
+                var searchColumn = Columns.FirstOrDefault(c => c.ColumnName == column.ColumnName);
                 {
                     if (!string.IsNullOrWhiteSpace(column.ColumnName))
                     {
-                        var result = FilteredDataTable.AsEnumerable()
-                                .Where(v => v.Field<string>(column.ColumnName) != null && v.Field<string>(column.ColumnName)!.ToLower().Contains(temporary));
-
+                        var result = FilteredDataTable.AsEnumerable();
+                        if (searchColumn?.DataType?.ToLower() == "nvarchar")
+                        {
+                            result = result.Where(v => v.Field<string>(column.ColumnName) != null && v.Field<string>(column.ColumnName)!.ToLower().Contains(temporary));
+                        }
+                        else if (searchColumn?.DataType?.ToLower() == "int")
+                        {
+                            result = result
+                            .Where(v => v.Field<int>(column.ColumnName).ToString() == temporary);
+                        }
                         if (result.Count() > 0)
                         {
                             FilteredDataTable = result.CopyToDataTable();
@@ -255,7 +273,7 @@ namespace BlazorAppEditTable.Pages
                         }
                     }
                 }
-                Title = $"Filtered List Items {TableName} ({FilteredDataTable.Rows.Count})";
+                Title = $"Filtered Records: {TableName} ({FilteredDataTable.Rows.Count})";
             }
         }
         protected void SortDynamicTable(string sortColumn)
@@ -266,8 +284,18 @@ namespace BlazorAppEditTable.Pages
                 return;
             }
         }
-        void DeleteDynamicTable(object id)
+        void ConfirmDelete(object id)
         {
+            showDeleteConfirmation = true;
+            idForDeletion = id;
+        }
+        void DeleteDynamicTable()
+        {
+            if (idForDeletion== null )
+            {
+                return;
+            }
+            var id = idForDeletion;
             if (DynamicTableDataService != null && DataTable != null && id != null)
             {
                 DataRow? dataRow = DataTable.Rows.Find(id);
@@ -280,6 +308,7 @@ namespace BlazorAppEditTable.Pages
                 }
                 LoadData();
             }
+            showDeleteConfirmation = false;
         }
         private async Task SaveAllAsync()
         {
@@ -405,6 +434,26 @@ namespace BlazorAppEditTable.Pages
         private void ToggleExceptionMessage()
         {
             showExceptionMessage = !showExceptionMessage;
+        }
+        private void SetTable(string? table)
+        {
+            TableName = table?.Replace("dbo.", "");
+            ToggleShow();
+        }
+        private void ResetMessage()
+        {
+            Message = string.Empty;
+        }
+        private async Task UpdateRecordAsync(DataRow dataRow)
+        {
+            if (DynamicTableDataService != null && applicationState != null && dataRow != null)
+            {
+                await SaveAllAsync();
+            }
+        }
+        protected async Task HandleValidSubmit()
+        {
+            await SaveAllAsync();
         }
     }
 }

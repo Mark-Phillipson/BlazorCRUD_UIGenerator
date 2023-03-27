@@ -12,5 +12,6 @@ namespace BlazorAppEditTable.Services
         Task<DataRow?> GetDynamicTableByIdAsync(object id);
         bool UpdateDynamicTableAsync(DataRow dataRow, ApplicationState mvcApplicationState);
         IEnumerable<DynamicDatabaseColumn>? GetColumnNames(string sql);
+        List<DynamicDatabaseTable> GetListOfTables();
     }
 }

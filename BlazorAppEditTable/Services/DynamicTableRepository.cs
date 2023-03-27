@@ -68,5 +68,10 @@ namespace BlazorAppEditTable.Services
             var result = _dynamicUpdates.UpdateTable(dataRow, _mvcApplicationState);
             return result;
         }
+        public List<DynamicDatabaseTable> GetListOfTables()
+        {
+             var result=_databaseMetaDataService.GetDatabaseList();
+            return result;
+        }
     }
 }

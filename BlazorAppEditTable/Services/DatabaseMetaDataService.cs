@@ -26,6 +26,26 @@ namespace BlazorAppEditTable.Services
             _mvcApplicationState = mvcApplicationState;
             _logger = logger;
         }
+        public List<DynamicDatabaseTable> GetDatabaseList()
+        {
+            List<DynamicDatabaseTable> list = new List<DynamicDatabaseTable>();
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand("SELECT name from sys.databases", con))
+                { //List<string> tables = new List<string>();  
+                    DataTable dt = con.GetSchema("Tables");
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        string tablename = (string)row[1] + "." + (string)row[2];
+                        DynamicDatabaseTable database = new DynamicDatabaseTable();
+                        database.Tablename = tablename;
+                        list.Add(database);
+                    }
+                }
+            }
+            return list.OrderBy(o => o.Tablename).ToList();
+        }
         public IEnumerable<DynamicDatabaseColumn>? GetColumnNamesFromSql(string sql)
         {
             Guard.Against.Null(sql);
