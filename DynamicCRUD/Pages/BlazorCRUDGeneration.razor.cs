@@ -2,7 +2,7 @@ using Blazored.Toast.Services;
 using DynamicCRUD.Services;
 // using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
 using DynamicCRUD.T4Templates;
-
+using Humanizer;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
@@ -236,6 +236,7 @@ public partial class BlazorCRUDGeneration : ComponentBase
         PluralName = $"{tablename}";
         PluralName = PluralName.Replace($"{SchemaName}.", "").Replace("_", "");
         PluralName = StringHelperService.RemoveUnsupportedCharacters(PluralName);
+        PluralName = PluralName.Pluralize();
         ModelName = $"{tablename}";
         ModelName = ModelName.Replace($"{SchemaName}.", "").Replace("_", "");
         if (ModelName.ToLower().EndsWith("s"))
