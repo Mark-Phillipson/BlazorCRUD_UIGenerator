@@ -239,6 +239,7 @@ public partial class BlazorCRUDGeneration : ComponentBase
         PluralName = PluralName.Pluralize();
         ModelName = $"{tablename}";
         ModelName = ModelName.Replace($"{SchemaName}.", "").Replace("_", "");
+        ModelName = ModelName.Singularize();
         if (ModelName.ToLower().EndsWith("s"))
         {
             Message = "Please check the model is Not Plural";
