@@ -33,7 +33,7 @@ namespace <#=Namespace#>.DTOs
 <#
         }
 #>        public<# 
-            if (property.DataType.ToLower()=="int") { 
+            if (property.DataType.ToLower()=="int" || property.DataType.ToLower()=="smallint") { 
 #> int<# 
             }
             else if (property.DataType.ToLower()=="bigint") {
@@ -42,13 +42,16 @@ namespace <#=Namespace#>.DTOs
             else if (property.DataType.ToLower()=="nvarchar") {
 #> string<#
             } 
-            else if (property.DataType.ToLower()=="bit") {
+            else if (property.DataType.ToLower()=="uniqueidentifier") {
+#> Guid<#
+            }
+else if (property.DataType.ToLower()=="bit") {
 #> bool<#
             } 
             else if (property.DataType.ToLower().Contains("datetime") || property.DataType.ToLower()=="date") {
 #> DateTime<#
             } 
-            else if (property.DataType.ToLower()=="decimal") {
+            else if (property.DataType.ToLower()=="decimal" || property.DataType.ToLower()=="money") {
 #> decimal<#
             } 
 
