@@ -11,7 +11,7 @@
     <PackageReference Include="Blazored.Modal" Version="7.1.0" />
     <PackageReference Include="Blazored.Toast" Version="3.2.2" />
     <PackageReference Include="Humanizer.Core" Version="2.14.1" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.0.1" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.1" />
     <PackageReference Include="System.CodeDom" Version="7.0.0" />
   </ItemGroup>
 

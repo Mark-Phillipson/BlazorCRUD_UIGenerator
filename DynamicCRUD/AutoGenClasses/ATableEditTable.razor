@@ -1,0 +1,112 @@
+
+@page "/atableedits"
+<div class="row">
+<div class="col-md-12">
+    </div>
+    <div class="col-md-8">
+        <h5 class="m-1">@Title</h5>
+    </div>
+    <div class="col-md-4">
+        <input @ref="SearchInput" accesskey="i" class="form-control my-1" style="float:right" @bind="@SearchTerm" 
+        @bind:event="oninput" id="SearchInput" name="SearchTerm" placeholder="Filter by Table (Alt+I)" />
+    </div> 
+</div>
+
+@if (FilteredATableEditDTO == null && _loadFailed == true)
+{
+    <h2 class="text-danger">The data failed to load please try again in a little while..</h2>
+    <button class="btn btn-danger" type="button" @onclick="@( () => LoadData() )">Reload</button>
+    <h6 class="text-danger">@ExceptionMessage</h6>
+}
+else if (FilteredATableEditDTO == null)
+{
+    <div style="display:normal;margin:auto" class="loader"></div>
+}
+else if (FilteredATableEditDTO.Count == 0)
+{
+    <p>No A Table Edit match the criteria</p>
+    <button @onclick="AddNewATableEdit" class="btn btn-outline-success">Add Record <i class="fas fa-plus"></i></button>
+}
+else
+{
+    <table style="font-size:small" class="table table-bordered table-striped table-sm table-responsive-sm">
+        <thead>
+            <tr>
+              <th>Table Edit ID</th>
+              <th>
+                    <button class="btn btn-sm" @onclick="@(() => SortATableEdit("Table"))">
+                        <i class="fas fa-sort-alpha-up"></i>
+                    </button>
+                    <button class="btn btn-sm" @onclick="@(() => SortATableEdit("Table Desc"))">
+                        <i class="fas fa-sort-alpha-up-alt"></i>
+                    </button>
+                    Table
+                </th>
+              <th>Column</th>
+              <th>Label</th>
+              <th>Order</th>
+              <th>Width</th>
+              <th>Height</th>
+              <th>Initial Value</th>
+              <th>Property</th>
+              <th>Exclude</th>
+              <th>Help Text</th>
+              <th>List Col Width</th>
+              <th>Text Editor</th>
+              <th>Group</th>
+              <th>Track Change</th>
+              <th>Batch Exclude</th>
+              <th>Quick Search</th>
+              <th>Upload Exclude</th>
+              <th>Upload Criteria</th>
+              <th>Data Type</th>
+              <th>Closed List</th>
+                <th>
+                    <button accesskey="+" @onclick="AddNewATableEdit" class="btn btn-outline-success btn-sm">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var aTableEdit in FilteredATableEditDTO)
+            {
+                <tr>
+                    <td>
+                        <button class="btn btn-sm btn-link" @onclick="@(() => EditATableEdit(aTableEdit.TableEditId))">
+                            @aTableEdit.TableEditId
+                        </button>
+                    </td>
+                    <td>@aTableEdit.Table</td>
+                    <td>@aTableEdit.Column</td>
+                    <td>@aTableEdit.Label</td>
+                    <td>@aTableEdit.Order</td>
+                    <td>@aTableEdit.Width</td>
+                    <td>@aTableEdit.Height</td>
+                    <td>@aTableEdit.InitialValue</td>
+                    <td>@aTableEdit.Property</td>
+                    <td>@aTableEdit.Exclude</td>
+                    <td>@aTableEdit.HelpText</td>
+                    <td>@aTableEdit.ListColWidth</td>
+                    <td>@aTableEdit.TextEditor</td>
+                    <td>@aTableEdit.Group</td>
+                    <td>@aTableEdit.TrackChange</td>
+                    <td>@aTableEdit.BatchExclude</td>
+                    <td>@aTableEdit.QuickSearch</td>
+                    <td>@aTableEdit.UploadExclude</td>
+                    <td>@aTableEdit.UploadCriteria</td>
+                    <td>@aTableEdit.DataType</td>
+                    <td>@aTableEdit.ClosedList</td>
+                    <td class="btn-group-vertical">
+                        <button class="btn btn-sm btn-outline-warning" @onclick="@(() => EditATableEdit(aTableEdit.TableEditId))">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger" @onclick="@(() => DeleteATableEdit(aTableEdit.TableEditId))">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

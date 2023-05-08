@@ -1,0 +1,136 @@
+@page "/atableedit/{TableEditId:int?}"
+<div style="min-width:80vw">
+<h1>@Title</h1>
+    <EditForm Model="@ATableEditDTO" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        @*<ValidationSummary />*@
+        @if (ATableEditDTO.TableEditId > 0)
+        {
+            <span class="text-info m-1">@ATableEditDTO.TableEditId</span>
+        }
+        <div class="row">
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="Table">Table:</label>
+                    <InputText id="Table" class="form-control" @bind-Value="@ATableEditDTO.Table"
+                               placeholder="Enter Table"></InputText>
+                    <ValidationMessage For="@(() => ATableEditDTO.Table)" />
+                </div>
+                <div class="form-group">
+                    <label for="Column">Column:</label>
+                    <InputText id="Column" class="form-control" @bind-Value="@ATableEditDTO.Column"
+                               placeholder="Enter Column"></InputText>
+                    <ValidationMessage For="@(() => ATableEditDTO.Column)" />
+                </div>
+                <div class="form-group">
+                    <label for="Label">Label:</label>
+                    <InputText id="Label" class="form-control" @bind-Value="@ATableEditDTO.Label"
+                               placeholder="Enter Label"></InputText>
+                    <ValidationMessage For="@(() => ATableEditDTO.Label)" />
+                </div>
+                <div class="form-group">
+                    <label for="Order">Order: </label>                    <InputNumber id="Order" class="form-control" @bind-Value="@ATableEditDTO.Order"
+                                 placeholder="Enter Order"></InputNumber>
+                    <ValidationMessage For="@(() => ATableEditDTO.Order)" />
+                </div>
+                <div class="form-group">
+                    <label for="Width">Width: </label>                    <InputNumber id="Width" class="form-control" @bind-Value="@ATableEditDTO.Width"
+                                 placeholder="Enter Width"></InputNumber>
+                    <ValidationMessage For="@(() => ATableEditDTO.Width)" />
+                </div>
+                <div class="form-group">
+                    <label for="Height">Height: </label>                    <InputNumber id="Height" class="form-control" @bind-Value="@ATableEditDTO.Height"
+                                 placeholder="Enter Height"></InputNumber>
+                    <ValidationMessage For="@(() => ATableEditDTO.Height)" />
+                </div>
+                <div class="form-group">
+                    <label for="InitialValue">Initial Value: </label>                    <InputTextArea rows="2" id="InitialValue" class="form-control" @bind-Value="@ATableEditDTO.InitialValue"
+                               placeholder="Enter Initial Value"></InputTextArea>
+                    <ValidationMessage For="@(() => ATableEditDTO.InitialValue)" />
+                </div>
+             </div>
+               <div class="col-4">
+                <div class="form-group">
+                    <label for="Property">Property:</label>
+                    <InputText id="Property" class="form-control" @bind-Value="@ATableEditDTO.Property"
+                               placeholder="Enter Property"></InputText>
+                    <ValidationMessage For="@(() => ATableEditDTO.Property)" />
+                </div>
+                <div class="form-group">
+                    <label for="Exclude">Exclude: </label>
+                    <InputCheckbox id="Exclude" class="form-checkbox" @bind-Value="@ATableEditDTO.Exclude">
+                    </InputCheckbox>
+                    <ValidationMessage For="@(() => ATableEditDTO.Exclude)" />
+                </div>
+                <div class="form-group">
+                    <label for="HelpText">Help Text: </label>                    <InputTextArea rows="2" id="HelpText" class="form-control" @bind-Value="@ATableEditDTO.HelpText"
+                               placeholder="Enter Help Text"></InputTextArea>
+                    <ValidationMessage For="@(() => ATableEditDTO.HelpText)" />
+                </div>
+                <div class="form-group">
+                    <label for="ListColWidth">List Col Width:</label>
+                    <InputText id="ListColWidth" class="form-control" @bind-Value="@ATableEditDTO.ListColWidth"
+                               placeholder="Enter List Col Width"></InputText>
+                    <ValidationMessage For="@(() => ATableEditDTO.ListColWidth)" />
+                </div>
+                <div class="form-group">
+                    <label for="TextEditor">Text Editor: </label>
+                    <InputCheckbox id="TextEditor" class="form-checkbox" @bind-Value="@ATableEditDTO.TextEditor">
+                    </InputCheckbox>
+                    <ValidationMessage For="@(() => ATableEditDTO.TextEditor)" />
+                </div>
+                <div class="form-group">
+                    <label for="Group">Group: </label>                    <InputTextArea rows="2" id="Group" class="form-control" @bind-Value="@ATableEditDTO.Group"
+                               placeholder="Enter Group"></InputTextArea>
+                    <ValidationMessage For="@(() => ATableEditDTO.Group)" />
+                </div>
+                <div class="form-group">
+                    <label for="TrackChange">Track Change: </label>
+                    <InputCheckbox id="TrackChange" class="form-checkbox" @bind-Value="@ATableEditDTO.TrackChange">
+                    </InputCheckbox>
+                    <ValidationMessage For="@(() => ATableEditDTO.TrackChange)" />
+                </div>
+             </div>
+               <div class="col-4">
+                <div class="form-group">
+                    <label for="BatchExclude">Batch Exclude: </label>
+                    <InputCheckbox id="BatchExclude" class="form-checkbox" @bind-Value="@ATableEditDTO.BatchExclude">
+                    </InputCheckbox>
+                    <ValidationMessage For="@(() => ATableEditDTO.BatchExclude)" />
+                </div>
+                <div class="form-group">
+                    <label for="QuickSearch">Quick Search: </label>
+                    <InputCheckbox id="QuickSearch" class="form-checkbox" @bind-Value="@ATableEditDTO.QuickSearch">
+                    </InputCheckbox>
+                    <ValidationMessage For="@(() => ATableEditDTO.QuickSearch)" />
+                </div>
+                <div class="form-group">
+                    <label for="UploadExclude">Upload Exclude: </label>
+                    <InputCheckbox id="UploadExclude" class="form-checkbox" @bind-Value="@ATableEditDTO.UploadExclude">
+                    </InputCheckbox>
+                    <ValidationMessage For="@(() => ATableEditDTO.UploadExclude)" />
+                </div>
+                <div class="form-group">
+                    <label for="UploadCriteria">Upload Criteria: </label>
+                    <InputCheckbox id="UploadCriteria" class="form-checkbox" @bind-Value="@ATableEditDTO.UploadCriteria">
+                    </InputCheckbox>
+                    <ValidationMessage For="@(() => ATableEditDTO.UploadCriteria)" />
+                </div>
+                <div class="form-group">
+                    <label for="ClosedList">Closed List: </label>
+                    <InputCheckbox id="ClosedList" class="form-checkbox" @bind-Value="@ATableEditDTO.ClosedList">
+                    </InputCheckbox>
+                    <ValidationMessage For="@(() => ATableEditDTO.ClosedList)" />
+                </div>
+            </div>
+            <div class="col-4">
+                 @* Move here for the next display column if required *@
+            </div>
+        </div>
+        <hr>
+        <div class="btn-group" style="float:right">
+            <a accesskey="c" class="btn btn-lg btn-outline-primary" @onclick="@CloseAsync"><u>C</u>ancel</a>
+            <button @TaskRunning accesskey="s" type="submit" class="btn btn-lg btn-primary"><u>S</u>ave Record</button>
+        </div>
+    </EditForm>
+</div>

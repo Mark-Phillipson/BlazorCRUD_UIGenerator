@@ -90,7 +90,7 @@ namespace DynamicCRUD.T4Templates
             
             #line 30 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
  
-        if (property.DataType.ToLower()=="nvarchar" && property.ColumnSize<20000) {
+        if (property.DataType.ToLower().EndsWith("varchar") && property.ColumnSize<20000) {
 
             
             #line default
@@ -135,7 +135,7 @@ namespace DynamicCRUD.T4Templates
             #line 40 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
 
             } 
-            else if (property.DataType.ToLower()=="nvarchar") {
+            else if (property.DataType.ToLower().EndsWith("varchar")) {
 
             
             #line default
@@ -228,7 +228,7 @@ else if (property.DataType.ToLower()=="bit") {
             
             #line 69 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
  
-        if (property.DataType.ToLower()=="nvarchar" && property.IsKey==false && property.Required) {
+        if (property.DataType.ToLower().EndsWith("varchar") && property.IsKey==false && property.Required) {
 
             
             #line default
@@ -291,7 +291,7 @@ else if (property.DataType.ToLower()=="bit") {
         /// <summary>
         /// The string builder that generation-time code is using to assemble generated output
         /// </summary>
-        protected System.Text.StringBuilder GenerationEnvironment
+        public System.Text.StringBuilder GenerationEnvironment
         {
             get
             {
