@@ -70,7 +70,7 @@ public partial class BlazorCRUDGeneration : ComponentBase
             Message = "Please select a table and fill in all the details, then try again!";
             return;
         }
-        if (!Columns.Any(c => (c.IsKey || c.PrimaryKeyOverride) && (c.DataType == "int" || c.DataType == "nvarchar")))
+        if (!Columns.Any(c => (c.IsKey || c.PrimaryKeyOverride) && (c.DataType=="bigint" ||  c.DataType == "int" || c.DataType == "nvarchar")))
         {
             Message = "Please indicate the primary key and try again! Note it has to be an int or nvarchar";
             return;

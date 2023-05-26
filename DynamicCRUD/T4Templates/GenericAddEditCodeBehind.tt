@@ -69,6 +69,15 @@ namespace <#=Namespace#>.Pages
                 {
                     <#=ModelName#>DTO = result;
                 }
+<#          else if (PrimaryKeyDataType=="bigint") {
+#>
+            if (<#=PrimaryKeyName#> > 0)
+            {
+                var result = await <#=ModelName#>DataService.Get<#=ModelName#>ById((long)<#=PrimaryKeyName#>);
+                if (result != null)
+                {
+                    <#=ModelName#>DTO = result;
+                }
 <#          } else {
 #>
             if (<#=PrimaryKeyName#>!= null )
