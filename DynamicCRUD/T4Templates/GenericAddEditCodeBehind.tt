@@ -69,7 +69,7 @@ namespace <#=Namespace#>.Pages
                 {
                     <#=ModelName#>DTO = result;
                 }
-<#          else if (PrimaryKeyDataType=="bigint") {
+<#          } else if (PrimaryKeyDataType=="bigint") {
 #>
             if (<#=PrimaryKeyName#> > 0)
             {

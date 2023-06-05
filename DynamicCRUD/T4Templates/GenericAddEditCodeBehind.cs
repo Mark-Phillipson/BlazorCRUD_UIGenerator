@@ -257,7 +257,7 @@ using Microsoft.JSInterop;
             this.Write("DTO = result;\r\n                }\r\n");
             
             #line 72 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEditCodeBehind.tt"
-          else if (PrimaryKeyDataType=="bigint") {
+          } else if (PrimaryKeyDataType=="bigint") {
 
             
             #line default
