@@ -263,8 +263,8 @@ public partial class BlazorCRUDGeneration : ComponentBase
         }
         await JSRuntime.InvokeVoidAsync(
 "clipboardCopy.copyText", value);
-        var message = $"Copied Successfully: '{value}'";
-        ToastService!.ShowSuccess(message, "Copy Commandline");
+        var message = $"copy commandline Copied Successfully: '{value}'";
+        ToastService!.ShowSuccess(message );
 
     }
     private void ReverseEngineerTable()

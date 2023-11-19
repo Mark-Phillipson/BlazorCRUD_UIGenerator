@@ -216,7 +216,7 @@ namespace <#=Namespace#>.Pages
                       if (!result.Cancelled)
                       {
                           await <#=ModelName#>DataService.Delete<#=ModelName#>(<#=PrimaryKeyName#>);
-                          ToastService?.ShowSuccess("<#=ModelNameWithSpaces#> deleted successfully", "SUCCESS");
+                          ToastService?.ShowSuccess("<#=ModelNameWithSpaces#> deleted successfully");
                           await LoadData();
                       }
                   }

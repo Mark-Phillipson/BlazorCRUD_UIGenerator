@@ -184,7 +184,7 @@ namespace SampleApplication.Pages
                       if (!result.Cancelled)
                       {
                           await ExampleDataService.DeleteExample(Id);
-                          ToastService?.ShowSuccess("Example deleted successfully", "SUCCESS");
+                          ToastService?.ShowSuccess("Example deleted successfully");
                           await LoadData();
                       }
                   }

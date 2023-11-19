@@ -204,7 +204,7 @@ namespace SampleApplication.Pages
 //                    if (!result.Cancelled)
 //                    {
 //                        await GeneralLookupDataService.DeleteGeneralLookup(Id);
-//                        ToastService?.ShowSuccess(" General Lookup deleted successfully", "SUCCESS");
+//                        ToastService?.ShowSuccess(" General Lookup deleted successfully");
 //                        await LoadData();
 //                    }
 //                }

@@ -160,7 +160,7 @@ namespace <#=Namespace#>.Pages
                     return;
                 }
 <#           if (UseBlazored) {#>
-                ToastService?.ShowSuccess("<#=ModelNameWithSpaces#> added successfully", "SUCCESS");
+                ToastService?.ShowSuccess("<#=ModelNameWithSpaces#> added successfully");
 <#           } else {#>
                 ApplicationState.Message = "<#=ModelNameWithSpaces#> Added successfully";
                 ApplicationState.MessageType = "success";
@@ -172,7 +172,7 @@ namespace <#=Namespace#>.Pages
                 {
                     await <#=ModelName#>DataService!.Update<#=ModelName#>(<#=ModelName#>DTO, "");
 <#           if (UseBlazored) {#>
-                    ToastService?.ShowSuccess("The <#=ModelNameWithSpaces#> updated successfully", "SUCCESS");
+                    ToastService?.ShowSuccess("The <#=ModelNameWithSpaces#> updated successfully");
 <#           } else {#>
                     ApplicationState.Message="The <#=ModelNameWithSpaces#> updated successfully";
                     ApplicationState.MessageType = "success";

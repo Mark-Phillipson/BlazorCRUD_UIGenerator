@@ -98,7 +98,7 @@ namespace SampleApplication.Pages
                     ApplicationState.MessageType = "danger";
                     return;
                 }
-                //ToastService?.ShowSuccess("General Lookup added successfully", "SUCCESS");
+                //ToastService?.ShowSuccess("General Lookup added successfully");
                 ApplicationState.Message = "General Lookup Added successfully";
                 ApplicationState.MessageType = "success";
 
@@ -108,7 +108,7 @@ namespace SampleApplication.Pages
                 if (GeneralLookupDataService != null)
                 {
                     await GeneralLookupDataService!.UpdateGeneralLookup(GeneralLookupDTO, "");
-                    //ToastService?.ShowSuccess("The General Lookup updated successfully", "SUCCESS");
+                    //ToastService?.ShowSuccess("The General Lookup updated successfully");
                     ApplicationState.Message="The A Menu updated successfully";
                     ApplicationState.MessageType = "success";
                 }

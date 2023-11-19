@@ -9,6 +9,8 @@ This project can be used to create the classes and Blazor components to provide 
 
 The classes are all created within this project under a folder called AutoGenClasses, with the intention of moving them into your project.
 
+Primarily it is done this way so that your project no matter how it is configured will not affecct the running of this appllication. Unlike the MVC scaffolding that stops working if you make too many changes in a project.
+
 ## Dependencies
 
 Your project would require the following to be set up:

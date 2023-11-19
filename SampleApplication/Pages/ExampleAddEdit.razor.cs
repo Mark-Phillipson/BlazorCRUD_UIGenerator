@@ -93,14 +93,14 @@ namespace SampleApplication.Pages
                     ToastService?.ShowError("Example failed to add, please investigate Error Adding New Example");
                     return;
                 }
-                ToastService?.ShowSuccess("Example added successfully", "SUCCESS");
+                ToastService?.ShowSuccess("Example added successfully");
             }
             else
             {
                 if (ExampleDataService != null)
                 {
                     await ExampleDataService!.UpdateExample(ExampleDTO, "");
-                    ToastService?.ShowSuccess("The Example updated successfully", "SUCCESS");
+                    ToastService?.ShowSuccess("The Example updated successfully");
                 }
             }
             if (ModalInstance != null)

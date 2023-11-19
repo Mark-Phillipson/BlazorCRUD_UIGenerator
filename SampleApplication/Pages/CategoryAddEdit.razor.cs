@@ -98,17 +98,16 @@ namespace SampleApplication.Pages
                     ApplicationState.MessageType = "danger";
                     return;
                 }
-                //ToastService?.ShowSuccess("Category added successfully", "SUCCESS");
+                //ToastService?.ShowSuccess("Category added successfully");
                 ApplicationState.Message = "Category Added successfully";
                 ApplicationState.MessageType = "success";
-
             }
             else
             {
                 if (CategoryDataService != null)
                 {
                     await CategoryDataService!.UpdateCategory(CategoryDTO, "");
-                    //ToastService?.ShowSuccess("The Category updated successfully", "SUCCESS");
+                    //ToastService?.ShowSuccess("The Category updated successfully"");
                     ApplicationState.Message="The A Menu updated successfully";
                     ApplicationState.MessageType = "success";
                 }

@@ -189,7 +189,7 @@ namespace SampleApplication.Pages
             //                    if (!result.Cancelled)
             //                    {
             //                        await CategoryDataService.DeleteCategory(Id);
-            //                        ToastService?.ShowSuccess(" Category deleted successfully", "SUCCESS");
+            //                        ToastService?.ShowSuccess(" Category deleted successfully");
             //                        await LoadData();
             //                    }
             //                }
