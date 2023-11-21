@@ -226,7 +226,14 @@ using Microsoft.JSInterop;
             
             #line default
             #line hidden
-            this.Write(" > 0)\r\n            {\r\n                var result = await ");
+            this.Write(" != null && ");
+            
+            #line 65 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEditCodeBehind.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(PrimaryKeyName));
+            
+            #line default
+            #line hidden
+            this.Write(" != 0)\r\n            {\r\n                var result = await ");
             
             #line 67 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEditCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
@@ -269,7 +276,14 @@ using Microsoft.JSInterop;
             
             #line default
             #line hidden
-            this.Write(" > 0)\r\n            {\r\n                var result = await ");
+            this.Write(" != null && ");
+            
+            #line 74 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEditCodeBehind.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(PrimaryKeyName));
+            
+            #line default
+            #line hidden
+            this.Write(" != 0)\r\n            {\r\n                var result = await ");
             
             #line 76 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEditCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
@@ -620,7 +634,7 @@ using Microsoft.JSInterop;
             
             #line default
             #line hidden
-            this.Write(" added successfully\", \"SUCCESS\");\r\n");
+            this.Write(" added successfully\");\r\n");
             
             #line 164 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEditCodeBehind.tt"
            } else {
@@ -684,7 +698,7 @@ using Microsoft.JSInterop;
             
             #line default
             #line hidden
-            this.Write(" updated successfully\", \"SUCCESS\");\r\n");
+            this.Write(" updated successfully\");\r\n");
             
             #line 176 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEditCodeBehind.tt"
            } else {

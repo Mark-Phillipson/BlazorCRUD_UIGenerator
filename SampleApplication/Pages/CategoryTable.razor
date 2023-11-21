@@ -101,14 +101,13 @@ else
             <CategoryAddEdit Title="@EditTitle" Id="@CategoryId" CloseModal="@CloseModalAsync" ParentId="@ParentId" />
             </div>
     </dialog>
-
 }
 
 @if (ShowDeleteConfirm)
 {
     <dialog open="true" style="position:absolute;left: 0px;top: 200px;z-index: 900" class="border border-danger">
         <button class="btn btn-outline-secondary m-2" style="float:right" type="submit" @onclick="@( ( ) => ToggleShowDeleteConfirm(  ) )">x</button>
-        <BlazoredModalConfirmDialog Confirm="@CloseConfirmDeletion" ButtonColour="danger" Icon="fa fa-trash" Message="Please confirm that you wish to delete a record." Title="Deletion Confirmation Category Table" />
+        <BlazoredModalConfirmDialog Confirm="@( () => CloseConfirmDeletion(true) )" ButtonColour="danger" Icon="fa fa-trash" Message="Please confirm that you wish to delete a record." Title="Deletion Confirmation Category Table" />
         <form method="dialog">
         </form>
     </dialog>

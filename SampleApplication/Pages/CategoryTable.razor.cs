@@ -26,16 +26,14 @@ namespace SampleApplication.Pages
 {
     public partial class CategoryTable : ComponentBase
     {
-        [Inject] public ICategoryDataService? CategoryDataService { get; set; }
         [Inject] public NavigationManager? NavigationManager { get; set; }
+        [Inject] public ICategoryDataService? CategoryDataService { get; set; }
         [Inject] public ILogger<CategoryTable>? Logger { get; set; }
         [Inject] public IToastService? ToastService { get; set; }
         [Inject] public ApplicationState? ApplicationState { get; set; }
         [CascadingParameter] public IModalService? Modal { get; set; }
         public string Title { get; set; } = "Category Items (Categories)";
-
-        private int CategoryId;
-
+        public int CategoryId;
         public string EditTitle { get; set; } = "Edit Category Item (Categories)";
         [Parameter] public int ParentId { get; set; }
         public List<CategoryDTO>? CategoryDTO { get; set; }
@@ -76,7 +74,7 @@ namespace SampleApplication.Pages
             }
             catch (Exception e)
             {
-                Logger?.LogError("Exception occurred in LoadData Method, Getting Records from the Service", e);
+                Logger?.LogError(e, "Exception occurred in LoadData Method, Getting Records from the Service");
                 _loadFailed = true;
                 ExceptionMessage = e.Message;
             }

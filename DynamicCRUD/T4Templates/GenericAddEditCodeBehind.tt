@@ -62,7 +62,7 @@ namespace <#=Namespace#>.Pages
             }
 <#          if (PrimaryKeyDataType=="int") {
 #>
-            if (<#=PrimaryKeyName#> > 0)
+            if (<#=PrimaryKeyName#> != null && <#=PrimaryKeyName#> != 0)
             {
                 var result = await <#=ModelName#>DataService.Get<#=ModelName#>ById((int)<#=PrimaryKeyName#>);
                 if (result != null)
@@ -71,7 +71,7 @@ namespace <#=Namespace#>.Pages
                 }
 <#          } else if (PrimaryKeyDataType=="bigint") {
 #>
-            if (<#=PrimaryKeyName#> > 0)
+            if (<#=PrimaryKeyName#> != null && <#=PrimaryKeyName#> != 0)
             {
                 var result = await <#=ModelName#>DataService.Get<#=ModelName#>ById((long)<#=PrimaryKeyName#>);
                 if (result != null)
