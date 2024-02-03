@@ -57,6 +57,14 @@ namespace DynamicCRUD.Services
                     column.IsKey = row.Field<bool?>("IsKey") ?? false;
                     column.Label = StringHelperService.AddSpacesToSentence(column.ColumnName ?? "");
                     column.PropertyName = StringHelperService.RemoveUnsupportedCharacters(column.ColumnName ?? "").Replace("ID", "Id");
+                    if (column.DataType == "nvarchar" || column.DataType == "varchar" || column.DataType == "ntext" || column.DataType == "text" || column.DataType == "char" || column.DataType == "nchar")
+                    {
+                        column.Filter = true;
+                    }
+                    if (column.DataType == "datetime" || column.DataType == "date" || column.DataType == "datetime2" || column.DataType == "smalldatetime" || column.DataType == "time" || column.DataType == "datetimeoffset")
+                    {
+                        column.Sort = true;
+                    }
                     columns.Add(column);
                 }
             }

@@ -321,7 +321,7 @@ using ");
             }
             catch (Exception e)
             {
-                Logger?.LogError(""Exception occurred in LoadData Method, Getting Records from the Service"", e);
+                Logger?.LogError(""e, Exception occurred in LoadData Method, Getting Records from the Service"");
                 _loadFailed = true;
                 ExceptionMessage = e.Message;
             }
@@ -859,8 +859,8 @@ using ");
             
             #line default
             #line hidden
-            this.Write(" deleted successfully\", \"SUCCESS\");\r\n                          await LoadData();\r" +
-                    "\n                      }\r\n                  }\r\n             }\r\n             ");
+            this.Write(" deleted successfully\");\r\n                          await LoadData();\r\n          " +
+                    "            }\r\n                  }\r\n             }\r\n             ");
             
             #line 224 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));

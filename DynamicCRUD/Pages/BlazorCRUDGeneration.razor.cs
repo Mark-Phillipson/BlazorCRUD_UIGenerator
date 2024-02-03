@@ -31,7 +31,7 @@ public partial class BlazorCRUDGeneration : ComponentBase
     public bool ShowInstructions { get; set; }
     string ConnectionString { get; set; } = null!;
     public string SearchString { get; private set; } = "";
-    public string PopulateColumnsCaption { get; set; } = "Populate Columns";
+    public string PopulateColumnsCaption { get; set; } = "Populate Columns P";
     public string NamespaceName { get; set; } = "SampleApplication";
 
     protected override async Task OnInitializedAsync()

@@ -23,7 +23,7 @@
                 @if (Tablename != null)
                 {
                     <label></label>
-                    <button class="btn btn-sm btn-primary" type="button" @onclick="@( ( ) => PopulateColumns() )">@PopulateColumnsCaption</button>
+                    <button accesskey="p" class="btn btn-sm btn-primary" type="button" @onclick="@( ( ) => PopulateColumns() )">@PopulateColumnsCaption</button>
                 }
             </div>
         </div>
@@ -101,8 +101,8 @@
         </div>
     }
     <div class="col-6">
-        <input type="checkbox" @bind="@UseBlazored" />
-        <label class="control-label">Use Blazored Modal and Toast</label>
+        <input type="checkbox" @bind="@UseBlazored" accesskey="b" />
+        <label class="control-label">Use Blazored Modal and Toast (Alt-B)</label>
     </div>
     @if (ModelName != null)
     {
