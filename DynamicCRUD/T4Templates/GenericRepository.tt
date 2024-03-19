@@ -6,123 +6,26 @@
 <#@ import namespace="System.Reflection" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".cs" #>
-using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using Ardalis.GuardClauses;
-using <#=Namespace#>.Models;
 using <#=Namespace#>.DTOs;
 
 namespace <#=Namespace#>.Repositories
 {
-    public class <#=ModelName#>Repository : I<#=ModelName#>Repository
+    public interface I<#=ModelName#>Repository
     {
-        private readonly IDbContextFactory<<#=DbContextName#>> _contextFactory;
-        private readonly IMapper _mapper;
-
-        public <#=ModelName#>Repository(IDbContextFactory<<#=DbContextName#>> contextFactory,IMapper mapper)
-        {
-            _contextFactory = contextFactory;
-            this._mapper = mapper;
-        }
-		<#
+        Task<<#=ModelName#>DTO?> Add<#=ModelName#>Async(<#=ModelName#>DTO <#=ModelNameCamelCase#>DTO);
+        Task Delete<#=ModelName#>Async(<#=PrimaryKeyDataType#> <#=PrimaryKeyName#>);
+<#
 		if (!string.IsNullOrEmpty(ForeignKeyName)) {
 #>
-        public async Task<IEnumerable<<#=ModelName#>DTO>> GetAll<#=PluralTablename#>Async(<#=ForeignKeyDataType#> <#=ForeignKeyName#>, int pageNumber, int pageSize)
-        {
-            using var context = _contextFactory.CreateDbContext();
-            var <#=PluralTablename#>= await context.<#=PluralTablename#>
-                .Where(v => v.<#=ForeignKeyName#>==<#=ForeignKeyName#>)
-                //.OrderBy(v => v.?)
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
-            IEnumerable<<#=ModelName#>DTO> <#=PluralTablename#>DTO = _mapper.Map<List<<#=ModelName#>>, IEnumerable<<#=ModelName#>DTO>>(<#=PluralTablename#>);
-            return <#=PluralTablename#>DTO;
-        }
-<#      } else { #>
-        public async Task<IEnumerable<<#=ModelName#>DTO>> GetAll<#=PluralTablename#>Async(int pageNumber, int pageSize)
-        {
-            using var context = _contextFactory.CreateDbContext();
-            var <#=PluralTablename#>= await context.<#=PluralTablename#>
-                //.Where(v => v.?==?)
-                //.OrderBy(v => v.?)
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
-            IEnumerable<<#=ModelName#>DTO> <#=PluralTablename#>DTO = _mapper.Map<List<<#=ModelName#>>, IEnumerable<<#=ModelName#>DTO>>(<#=PluralTablename#>);
-            return <#=PluralTablename#>DTO;
-        }
-<#      } #>
-        public async Task<IEnumerable<<#=ModelName#>DTO>> Search<#=PluralTablename#>Async(string serverSearchTerm)
-        {
-            using var context = _contextFactory.CreateDbContext();
-            var <#=PluralTablename#>= await context.<#=PluralTablename#>
-                //.Where(v => v.Property!= null  && v.Property.ToLower().Contains(serverSearchTerm.ToLower())
-                //||v.Property!= null  && v.Property.ToLower().Contains(serverSearchTerm.ToLower())
-                //)
-                //.OrderBy(v => v.?)
-                .Take(1000)
-                .ToListAsync();
-            IEnumerable<<#=ModelName#>DTO> <#=PluralTablename#>DTO = _mapper.Map<List<<#=ModelName#>>, IEnumerable<<#=ModelName#>DTO>>(<#=PluralTablename#>);
-            return <#=PluralTablename#>DTO;
-        }
-
-        public async Task<<#=ModelName#>DTO?> Get<#=ModelName#>ByIdAsync(<#=PrimaryKeyDataType#> <#=PrimaryKeyName#>)
-        {
-            using var context = _contextFactory.CreateDbContext();
-            var result =await context.<#=PluralTablename#>.AsNoTracking()
-              .FirstOrDefaultAsync(c => c.<#=PrimaryKeyName#> == <#=PrimaryKeyName#>);
-            if (result == null) return null;
-            <#=ModelName#>DTO <#=ModelNameCamelCase#>DTO=_mapper.Map<<#=ModelName#>,<#=ModelName#>DTO>(result);
-            return <#=ModelNameCamelCase#>DTO;
-        }
-
-        public async Task<<#=ModelName#>DTO?> Add<#=ModelName#>Async(<#=ModelName#>DTO <#=ModelNameCamelCase#>DTO)
-        {
-            using var context = _contextFactory.CreateDbContext();
-            <#=ModelName#> <#=ModelNameCamelCase#> = _mapper.Map<<#=ModelName#>DTO, <#=ModelName#>>(<#=ModelNameCamelCase#>DTO);
-            var addedEntity = context.<#=PluralTablename#>.Add(<#=ModelNameCamelCase#>);
-            try
-            {
-                await context.SaveChangesAsync();
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception.Message);
-                return null;
-            }
-            <#=ModelName#>DTO resultDTO=_mapper.Map<<#=ModelName#>, <#=ModelName#>DTO>(<#=ModelNameCamelCase#>);
-            return resultDTO;
-        }
-
-        public async Task<<#=ModelName#>DTO?> Update<#=ModelName#>Async(<#=ModelName#>DTO <#=ModelNameCamelCase#>DTO)
-        {
-            <#=ModelName#> <#=ModelNameCamelCase#>=_mapper.Map<<#=ModelName#>DTO, <#=ModelName#>>(<#=ModelNameCamelCase#>DTO);
-            using (var context = _contextFactory.CreateDbContext())
-            {
-                var found<#=ModelName#> = await context.<#=PluralTablename#>.AsNoTracking().FirstOrDefaultAsync(e => e.<#=PrimaryKeyName#> == <#=ModelNameCamelCase#>.<#=PrimaryKeyName#>);
-
-                if (found<#=ModelName#> != null)
-                {
-                    var mapped<#=ModelName#> = _mapper.Map<<#=ModelName#>>(<#=ModelNameCamelCase#>);
-                    context.<#=PluralTablename#>.Update(mapped<#=ModelName#>);
-                    await context.SaveChangesAsync();
-                    <#=ModelName#>DTO resultDTO = _mapper.Map<<#=ModelName#>, <#=ModelName#>DTO>(mapped<#=ModelName#>);
-                    return resultDTO;
-                }
-            }
-            return null;
-        }
-        public async Task Delete<#=ModelName#>Async(<#=PrimaryKeyDataType#> <#=PrimaryKeyName#>)
-        {
-            using var context = _contextFactory.CreateDbContext();
-            var found<#=ModelName#> = context.<#=PluralTablename#>.FirstOrDefault(e => e.<#=PrimaryKeyName#> == <#=PrimaryKeyName#>);
-            if (found<#=ModelName#> == null)
-            {
-                return;
-            }
-            context.<#=PluralTablename#>.Remove(found<#=ModelName#>);
-            await context.SaveChangesAsync();
-        }
+		Task<IEnumerable<<#=ModelName#>DTO>> GetAll<#=PluralTablename#>Async(<#=ForeignKeyDataType#> <#=ForeignKeyName#>, int pageNumber, int pageSize);
+<#
+		} else {
+#>
+        Task<IEnumerable<<#=ModelName#>DTO>> GetAll<#=PluralTablename#>Async(int pageNumber, int pageSize);
+<#      }
+#>
+        Task<IEnumerable<<#=ModelName#>DTO>> Search<#=PluralTablename#>Async(string serverSearchTerm);
+        Task<<#=ModelName#>DTO?> Get<#=ModelName#>ByIdAsync(<#=PrimaryKeyDataType#> <#=PrimaryKeyName#>);
+        Task<<#=ModelName#>DTO?> Update<#=ModelName#>Async(<#=ModelName#>DTO <#=ModelNameCamelCase#>DTO);
     }
 }
