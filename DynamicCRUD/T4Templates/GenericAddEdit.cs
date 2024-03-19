@@ -245,28 +245,29 @@ namespace DynamicCRUD.T4Templates
             this.Write(")\" />\r\n                </div>\r\n");
             
             #line 56 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
-              } else if (property.DataType=="int") {
+              } else if (property.DataType=="int"
+                        || property.DataType=="smallint" || property.DataType=="tinyint" || property.DataType=="bigint" || property.DataType=="decimal" || property.DataType=="float" || property.DataType=="real" || property.DataType=="money") {
 
             
             #line default
             #line hidden
             this.Write("                <div class=\"form-group\">\r\n                    <label for=\"");
             
-            #line 59 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
+            #line 60 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.PropertyName));
             
             #line default
             #line hidden
             this.Write("\">");
             
-            #line 59 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
+            #line 60 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Label));
             
             #line default
             #line hidden
             this.Write(": </label>");
             
-            #line 59 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
+            #line 60 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
 
                     if (property.Required) {
 
@@ -275,9 +276,8 @@ namespace DynamicCRUD.T4Templates
             #line hidden
             this.Write(" <i class=\"text-danger fa\">*</i>\r\n");
             
-            #line 62 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
-                  }
-
+            #line 63 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
+  } 
             
             #line default
             #line hidden
@@ -488,8 +488,7 @@ namespace DynamicCRUD.T4Templates
             <button @TaskRunning accesskey=""s"" type=""submit"" class=""btn btn-lg btn-primary""><u>S</u>ave Record</button>
         </div>
     </EditForm>
-</div>
-");
+</div>");
             return this.GenerationEnvironment.ToString();
         }
     }

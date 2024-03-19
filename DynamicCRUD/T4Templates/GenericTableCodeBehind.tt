@@ -80,7 +80,7 @@ namespace <#=Namespace#>.Pages
             {
                 if (<#=ModelName#>DataService != null)
                 {
-                    totalRows = await <#ModelName#>DataService.GetTotalCount();
+                    totalRows = await <#=ModelName#>DataService.GetTotalCount();
                     var result = await <#=ModelName#>DataService!.GetAll<#=PluralTablename#>Async
 <#                    if (!string.IsNullOrEmpty(ForeignKeyName)) {#>
                     (<#=ForeignKeyName#>,pageNumber,pageSize)

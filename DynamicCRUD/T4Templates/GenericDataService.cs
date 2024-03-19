@@ -138,58 +138,58 @@ namespace DynamicCRUD.T4Templates
             
             #line default
             #line hidden
-            this.Write("Async(");
+            this.Write("Async\r\n        (");
             
-            #line 32 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 33 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ForeignKeyDataType));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 32 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 33 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ForeignKeyName));
             
             #line default
             #line hidden
-            this.Write(")\r\n        {\r\n            var ");
-            
-            #line 34 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(PluralTablename));
-            
-            #line default
-            #line hidden
-            this.Write(" = await _");
-            
-            #line 34 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameCamelCase));
-            
-            #line default
-            #line hidden
-            this.Write("Repository.GetAll");
-            
-            #line 34 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(PluralTablename));
-            
-            #line default
-            #line hidden
-            this.Write("Async(");
-            
-            #line 34 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(ForeignKeyName));
-            
-            #line default
-            #line hidden
-            this.Write(");\r\n            return ");
+            this.Write(",int pageNumber, int pageSize)\r\n        {\r\n            var ");
             
             #line 35 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PluralTablename));
             
             #line default
             #line hidden
-            this.Write(".ToList();\r\n        }\r\n");
+            this.Write(" = await _");
+            
+            #line 35 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameCamelCase));
+            
+            #line default
+            #line hidden
+            this.Write("Repository.GetAll");
+            
+            #line 35 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(PluralTablename));
+            
+            #line default
+            #line hidden
+            this.Write("Async\r\n            (");
+            
+            #line 36 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ForeignKeyName));
+            
+            #line default
+            #line hidden
+            this.Write(", pageNumber, pageSize);            \r\n            return ");
             
             #line 37 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(PluralTablename));
+            
+            #line default
+            #line hidden
+            this.Write(".ToList();\r\n        }\r\n");
+            
+            #line 39 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
       } else {
 
             
@@ -197,49 +197,49 @@ namespace DynamicCRUD.T4Templates
             #line hidden
             this.Write("        public async Task<List<");
             
-            #line 39 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 41 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("DTO>> GetAll");
             
-            #line 39 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 41 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PluralTablename));
             
             #line default
             #line hidden
-            this.Write("Async()\r\n        {\r\n            var ");
+            this.Write("Async(int pageNumber, int pageSize)\r\n        {\r\n            var ");
             
-            #line 41 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 43 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PluralTablename));
             
             #line default
             #line hidden
             this.Write(" = await _");
             
-            #line 41 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 43 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameCamelCase));
             
             #line default
             #line hidden
             this.Write("Repository.GetAll");
             
-            #line 41 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 43 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PluralTablename));
             
             #line default
             #line hidden
-            this.Write("Async(300);\r\n            return ");
+            this.Write("Async( pageNumber, pageSize);\r\n            return ");
             
-            #line 42 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 44 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PluralTablename));
             
             #line default
             #line hidden
             this.Write(".ToList();\r\n        }\r\n");
             
-            #line 44 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 46 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
       }
 
             
@@ -247,161 +247,161 @@ namespace DynamicCRUD.T4Templates
             #line hidden
             this.Write("        public async Task<List<");
             
-            #line 46 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 48 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("DTO>> Search");
             
-            #line 46 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 48 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PluralTablename));
             
             #line default
             #line hidden
             this.Write("Async(string serverSearchTerm)\r\n        {\r\n            var ");
             
-            #line 48 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 50 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PluralTablename));
             
             #line default
             #line hidden
             this.Write(" = await _");
             
-            #line 48 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 50 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameCamelCase));
             
             #line default
             #line hidden
             this.Write("Repository.Search");
             
-            #line 48 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 50 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PluralTablename));
             
             #line default
             #line hidden
             this.Write("Async(serverSearchTerm);\r\n            return ");
             
-            #line 49 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 51 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PluralTablename));
             
             #line default
             #line hidden
             this.Write(".ToList();\r\n        }\r\n\r\n        public async Task<");
             
-            #line 52 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 54 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("DTO?> Get");
             
-            #line 52 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 54 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("ById(");
             
-            #line 52 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 54 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PrimaryKeyDataType));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 52 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 54 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PrimaryKeyName));
             
             #line default
             #line hidden
             this.Write(")\r\n        {\r\n            var ");
             
-            #line 54 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 56 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameCamelCase));
             
             #line default
             #line hidden
             this.Write(" = await _");
             
-            #line 54 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 56 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameCamelCase));
             
             #line default
             #line hidden
             this.Write("Repository.Get");
             
-            #line 54 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 56 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("ByIdAsync(");
             
-            #line 54 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 56 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PrimaryKeyName));
             
             #line default
             #line hidden
             this.Write(");\r\n            return ");
             
-            #line 55 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 57 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameCamelCase));
             
             #line default
             #line hidden
             this.Write(";\r\n        }\r\n        public async Task<");
             
-            #line 57 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 59 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("DTO?> Add");
             
-            #line 57 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 59 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("(");
             
-            #line 57 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 59 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("DTO ");
             
-            #line 57 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 59 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameCamelCase));
             
             #line default
             #line hidden
             this.Write("DTO)\r\n        {\r\n            Guard.Against.Null(");
             
-            #line 59 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 61 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameCamelCase));
             
             #line default
             #line hidden
             this.Write("DTO);\r\n            var result = await _");
             
-            #line 60 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 62 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameCamelCase));
             
             #line default
             #line hidden
             this.Write("Repository.Add");
             
-            #line 60 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 62 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("Async(");
             
-            #line 60 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 62 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameCamelCase));
             
             #line default
@@ -409,21 +409,21 @@ namespace DynamicCRUD.T4Templates
             this.Write("DTO);\r\n            if (result == null)\r\n            {\r\n                throw new " +
                     "Exception($\"Add of ");
             
-            #line 63 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 65 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameCamelCase));
             
             #line default
             #line hidden
             this.Write(" failed ID: {");
             
-            #line 63 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 65 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameCamelCase));
             
             #line default
             #line hidden
             this.Write("DTO.");
             
-            #line 63 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 65 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PrimaryKeyName));
             
             #line default
@@ -431,35 +431,35 @@ namespace DynamicCRUD.T4Templates
             this.Write("}\");\r\n            }\r\n            return result;\r\n        }\r\n        public async " +
                     "Task<");
             
-            #line 67 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 69 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("DTO> Update");
             
-            #line 67 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 69 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("(");
             
-            #line 67 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 69 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("DTO ");
             
-            #line 67 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 69 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameCamelCase));
             
             #line default
             #line hidden
             this.Write("DTO, string? username)\r\n        {\r\n            Guard.Against.Null(");
             
-            #line 69 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 71 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameCamelCase));
             
             #line default
@@ -467,21 +467,21 @@ namespace DynamicCRUD.T4Templates
             this.Write("DTO);\r\n            Guard.Against.Null(username);\r\n            var result = await " +
                     "_");
             
-            #line 71 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 73 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameCamelCase));
             
             #line default
             #line hidden
             this.Write("Repository.Update");
             
-            #line 71 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 73 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("Async(");
             
-            #line 71 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 73 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameCamelCase));
             
             #line default
@@ -489,21 +489,21 @@ namespace DynamicCRUD.T4Templates
             this.Write("DTO);\r\n            if (result == null)\r\n            {\r\n                throw new " +
                     "Exception($\"Update of ");
             
-            #line 74 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 76 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameCamelCase));
             
             #line default
             #line hidden
             this.Write(" failed ID: {");
             
-            #line 74 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 76 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameCamelCase));
             
             #line default
             #line hidden
             this.Write("DTO.");
             
-            #line 74 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 76 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PrimaryKeyName));
             
             #line default
@@ -511,47 +511,55 @@ namespace DynamicCRUD.T4Templates
             this.Write("}\");\r\n            }\r\n            return result;\r\n        }\r\n\r\n        public asyn" +
                     "c Task Delete");
             
-            #line 79 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 81 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("(");
             
-            #line 79 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 81 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PrimaryKeyDataType));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 79 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 81 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PrimaryKeyName));
             
             #line default
             #line hidden
             this.Write(")\r\n        {\r\n            await _");
             
-            #line 81 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 83 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameCamelCase));
             
             #line default
             #line hidden
             this.Write("Repository.Delete");
             
-            #line 81 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 83 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("Async(");
             
-            #line 81 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            #line 83 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PrimaryKeyName));
             
             #line default
             #line hidden
-            this.Write(");\r\n        }\r\n    }\r\n}");
+            this.Write(");\r\n        }\r\n        public async Task<int> GetTotalCount()\r\n        {\r\n       " +
+                    "     int reitsult = await _");
+            
+            #line 87 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameCamelCase));
+            
+            #line default
+            #line hidden
+            this.Write("Repository.GetTotalCount();\r\n            return result;\r\n        }\r\n    }\r\n}");
             return this.GenerationEnvironment.ToString();
         }
     }

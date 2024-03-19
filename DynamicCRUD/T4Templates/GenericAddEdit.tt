@@ -53,14 +53,14 @@
                                placeholder="Enter <#=property.Label#>"></InputText>
                     <ValidationMessage For="@(() => <#=ModelName#>DTO.<#=property.PropertyName#>)" />
                 </div>
-<#              } else if (property.DataType=="int" || property.DataType=="smallint" || property.DataType=="tinyint" || property.DataType=="bigint" || property.DataType=="decimal" || property.DataType=="float" || property.DataType=="real" || property.DataType=="money) {
+<#              } else if (property.DataType=="int"
+                        || property.DataType=="smallint" || property.DataType=="tinyint" || property.DataType=="bigint" || property.DataType=="decimal" || property.DataType=="float" || property.DataType=="real" || property.DataType=="money") {
 #>
                 <div class="form-group">
                     <label for="<#=property.PropertyName#>"><#=property.Label#>: </label><#
                     if (property.Required) {
 #> <i class="text-danger fa">*</i>
-<#                  }
-#>
+<#  } #>
                     <InputNumber id="<#=property.PropertyName#>" class="form-control" @bind-Value="@<#=ModelName#>DTO.<#=property.PropertyName#>"
                                  placeholder="Enter <#=property.Label#>"></InputNumber>
                     <ValidationMessage For="@(() => <#=ModelName#>DTO.<#=property.PropertyName#>)" />

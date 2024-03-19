@@ -137,7 +137,7 @@ namespace DynamicCRUD.T4Templates
             
             #line default
             #line hidden
-            this.Write(");\r\n");
+            this.Write(", int pageNumber, int pageSize);\r\n");
             
             #line 21 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericIRepository.tt"
 
@@ -160,7 +160,7 @@ namespace DynamicCRUD.T4Templates
             
             #line default
             #line hidden
-            this.Write("Async(int maxRows);\r\n");
+            this.Write("Async(int pageNumber, int pageSize);\r\n");
             
             #line 25 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericIRepository.tt"
       }

@@ -84,22 +84,22 @@ using ");
             
             #line default
             #line hidden
-            this.Write("Table : ComponentBase\r\n    {\r\n        [Inject] public I");
+            this.Write("Table : ComponentBase\r\n    {\r\n        [Inject] public required I");
             
             #line 36 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
-            this.Write("DataService? ");
+            this.Write("DataService ");
             
             #line 36 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
-            this.Write("DataService { get; set; }\r\n        [Inject] public NavigationManager? NavigationM" +
-                    "anager { get; set; }\r\n        [Inject] public ILogger<");
+            this.Write("DataService { get; set; }\r\n        [Inject] public required  NavigationManager Na" +
+                    "vigationManager { get; set; }\r\n        [Inject] public ILogger<");
             
             #line 38 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
@@ -113,16 +113,16 @@ using ");
             
             #line default
             #line hidden
-            this.Write("        \r\n        [Inject] public IToastService? ToastService { get; set; }\r\n    " +
-                    "    [CascadingParameter] public IModalService? Modal { get; set; }\r\n");
+            this.Write("        \r\n        [Inject] public required IToastService ToastService { get; set;" +
+                    " }\r\n        [CascadingParameter] public IModalService? Modal { get; set; }\r\n");
             
             #line 42 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
       }else {
             
             #line default
             #line hidden
-            this.Write("        \r\n        [Inject] public ApplicationState? ApplicationState { get; set; " +
-                    "}\r\n");
+            this.Write("        \r\n        [Inject] public required ApplicationState ApplicationState { ge" +
+                    "t; set; }\r\n");
             
             #line 44 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
       }
@@ -241,16 +241,20 @@ using ");
         [Inject] public IJSRuntime? JSRuntime { get; set; }
         public bool ShowEdit { get; set; } = false;
         private bool ShowDeleteConfirm { get; set; }
+        private int pageNumber = 1;
+        private int pageSize = 20;
+        private int totalRows = 0;
+    
         private ");
             
-            #line 67 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 71 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PrimaryKeyDataType));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 67 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 71 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
@@ -259,42 +263,70 @@ using ");
                     "      {\r\n            await LoadData();\r\n        }\r\n\r\n        private async Task " +
                     "LoadData()\r\n        {\r\n            try\r\n            {\r\n                if (");
             
-            #line 77 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 81 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
-            this.Write("DataService != null)\r\n                {\r\n                    var result = await ");
+            this.Write("DataService != null)\r\n                {\r\n                    totalRows = await ");
             
-            #line 79 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 83 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
+            
+            #line default
+            #line hidden
+            this.Write("DataService.GetTotalCount();\r\n                    var result = await ");
+            
+            #line 84 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("DataService!.GetAll");
             
-            #line 79 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 84 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PluralTablename));
             
             #line default
             #line hidden
-            this.Write("Async(");
+            this.Write("Async\r\n");
             
-            #line 79 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 85 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+                    if (!string.IsNullOrEmpty(ForeignKeyName)) {
+            
+            #line default
+            #line hidden
+            this.Write("                    (");
+            
+            #line 86 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ForeignKeyName));
             
             #line default
             #line hidden
-            this.Write(");\r\n                    //var result = await ");
+            this.Write(",pageNumber,pageSize)\r\n");
             
-            #line 80 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 87 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+                    } else {
+            
+            #line default
+            #line hidden
+            this.Write("                    \r\n                    (pageNumber,pageSize);\r\n");
+            
+            #line 89 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+                    }
+            
+            #line default
+            #line hidden
+            this.Write("                    //var result = await ");
+            
+            #line 90 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("DataService.Search");
             
-            #line 80 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 90 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PluralTablename));
             
             #line default
@@ -302,14 +334,14 @@ using ");
             this.Write("Async(ServerSearchTerm);\r\n                    if (result != null)\r\n              " +
                     "      {\r\n                        ");
             
-            #line 83 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 93 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("DTO = result.ToList();\r\n                        Filtered");
             
-            #line 84 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 94 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
@@ -327,28 +359,28 @@ using ");
             }
             Filtered");
             
-            #line 95 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 105 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("DTO = ");
             
-            #line 95 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 105 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("DTO;\r\n            Title = $\"");
             
-            #line 96 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 106 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameWithSpaces));
             
             #line default
             #line hidden
             this.Write(" ({Filtered");
             
-            #line 96 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 106 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
@@ -375,56 +407,56 @@ using ");
         }
 ");
             
-            #line 116 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 126 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
            if (UseBlazored) {
             
             #line default
             #line hidden
             this.Write("        private async Task AddNew");
             
-            #line 117 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 127 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("()\r\n        {\r\n              var parameters = new ModalParameters();\r\n");
             
-            #line 120 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 130 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
            if (!string.IsNullOrEmpty(ForeignKeyName)) {
             
             #line default
             #line hidden
             this.Write("\t\t\t\r\n              parameters.Add(nameof(");
             
-            #line 121 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 131 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ForeignKeyName));
             
             #line default
             #line hidden
             this.Write("), ");
             
-            #line 121 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 131 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ForeignKeyName));
             
             #line default
             #line hidden
             this.Write(");\r\n");
             
-            #line 122 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 132 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
            }
             
             #line default
             #line hidden
             this.Write("              var formModal = Modal?.Show<");
             
-            #line 123 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 133 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("AddEdit>(\"Add ");
             
-            #line 123 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 133 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameWithSpaces));
             
             #line default
@@ -440,56 +472,63 @@ using ");
               }
               ");
             
-            #line 132 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 142 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("Id=0;\r\n        }\r\n");
             
-            #line 134 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 144 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
            }
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 136 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 146 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
            if (!UseBlazored) {
             
             #line default
             #line hidden
             this.Write("        private void AddNew");
             
-            #line 137 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 147 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("()\r\n        {\r\n            EditTitle = \"Add ");
             
-            #line 139 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 149 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameWithSpaces));
             
             #line default
             #line hidden
-            this.Write("\";\r\n            ShowEdit = true;\r\n        }\r\n");
+            this.Write("\";\r\n            ");
             
-            #line 142 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 150 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
+            
+            #line default
+            #line hidden
+            this.Write("Id=0;\r\n            ShowEdit = true;\r\n        }\r\n");
+            
+            #line 153 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
            }
             
             #line default
             #line hidden
             this.Write("\r\n        private void ApplyFilter()\r\n        {\r\n            if (Filtered");
             
-            #line 146 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 157 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("DTO == null || ");
             
-            #line 146 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 157 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
@@ -497,35 +536,35 @@ using ");
             this.Write("DTO == null)\r\n            {\r\n                return;\r\n            }\r\n            " +
                     "if (string.IsNullOrEmpty(SearchTerm))\r\n            {\r\n                Filtered");
             
-            #line 152 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 163 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("DTO = ");
             
-            #line 152 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 163 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("DTO.OrderBy(v => v.");
             
-            #line 152 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 163 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(DefaultSortColumn));
             
             #line default
             #line hidden
             this.Write(").ToList();\r\n                Title = $\"All ");
             
-            #line 153 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 164 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameWithSpaces));
             
             #line default
             #line hidden
             this.Write(" ({Filtered");
             
-            #line 153 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 164 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
@@ -533,21 +572,21 @@ using ");
             this.Write("DTO.Count})\";\r\n            }\r\n            else\r\n            {\r\n                va" +
                     "r temporary = SearchTerm.ToLower().Trim();\r\n                Filtered");
             
-            #line 158 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 169 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("DTO = ");
             
-            #line 158 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 169 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("DTO\r\n                    .Where(v => \r\n");
             
-            #line 160 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 171 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
  
             var counter=0;
             foreach (var property in DatabaseColumns.Where(v => v.Filter==true))  {
@@ -557,7 +596,7 @@ using ");
             #line default
             #line hidden
             
-            #line 165 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 176 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
 
                 if (counter==1) {
 
@@ -566,21 +605,21 @@ using ");
             #line hidden
             this.Write("                    (v.");
             
-            #line 168 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 179 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.PropertyName));
             
             #line default
             #line hidden
             this.Write("!= null  && v.");
             
-            #line 168 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 179 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.PropertyName));
             
             #line default
             #line hidden
             this.Write(".ToLower().Contains(temporary))\r\n");
             
-            #line 169 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 180 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
               } else {
 
             
@@ -588,21 +627,21 @@ using ");
             #line hidden
             this.Write("                     || (v.");
             
-            #line 171 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 182 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.PropertyName));
             
             #line default
             #line hidden
             this.Write("!= null  &&  v.");
             
-            #line 171 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 182 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.PropertyName));
             
             #line default
             #line hidden
             this.Write(".ToLower().Contains(temporary))\r\n");
             
-            #line 172 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 183 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
               }
             }
 
@@ -612,21 +651,21 @@ using ");
             this.Write("                    )\r\n                    .ToList();\r\n                Title = $\"" +
                     "Filtered ");
             
-            #line 176 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 187 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameWithSpaces));
             
             #line default
             #line hidden
             this.Write("s ({Filtered");
             
-            #line 176 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 187 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("DTO.Count})\";\r\n            }\r\n        }\r\n        protected void Sort");
             
-            #line 179 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 190 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
@@ -634,14 +673,14 @@ using ");
             this.Write("(string sortColumn)\r\n        {\r\n            Guard.Against.Null(sortColumn, nameof" +
                     "(sortColumn));\r\n                        if (Filtered");
             
-            #line 182 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 193 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("DTO == null)\r\n            {\r\n                return;\r\n            }\r\n");
             
-            #line 186 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 197 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
  
             foreach (var property in DatabaseColumns.Where(v => v.Sort==true))  {
 
@@ -650,63 +689,63 @@ using ");
             #line hidden
             this.Write("            if (sortColumn == \"");
             
-            #line 189 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 200 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.PropertyName));
             
             #line default
             #line hidden
             this.Write("\")\r\n            {\r\n                Filtered");
             
-            #line 191 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 202 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("DTO = Filtered");
             
-            #line 191 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 202 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("DTO.OrderBy(v => v.");
             
-            #line 191 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 202 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.PropertyName));
             
             #line default
             #line hidden
             this.Write(").ToList();\r\n            }\r\n            else if (sortColumn == \"");
             
-            #line 193 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 204 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.PropertyName));
             
             #line default
             #line hidden
             this.Write(" Desc\")\r\n            {\r\n                Filtered");
             
-            #line 195 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 206 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("DTO = Filtered");
             
-            #line 195 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 206 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("DTO.OrderByDescending(v => v.");
             
-            #line 195 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 206 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.PropertyName));
             
             #line default
             #line hidden
             this.Write(").ToList();\r\n            }\r\n");
             
-            #line 197 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 208 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
           }
 
             
@@ -714,28 +753,28 @@ using ");
             #line hidden
             this.Write("        }\r\n");
             
-            #line 200 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 211 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
            if (UseBlazored) {
             
             #line default
             #line hidden
             this.Write("        private async Task Delete");
             
-            #line 201 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 212 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("(");
             
-            #line 201 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 212 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PrimaryKeyDataType));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 201 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 212 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PrimaryKeyName));
             
             #line default
@@ -744,63 +783,63 @@ using ");
                     "ut their existence\r\n              var parameters = new ModalParameters();\r\n     " +
                     "         if (");
             
-            #line 205 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 216 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("DataService != null)\r\n              {\r\n                  var ");
             
-            #line 207 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 218 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameCamelCase));
             
             #line default
             #line hidden
             this.Write(" = await ");
             
-            #line 207 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 218 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("DataService.Get");
             
-            #line 207 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 218 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("ById(");
             
-            #line 207 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 218 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PrimaryKeyName));
             
             #line default
             #line hidden
             this.Write(");\r\n                  parameters.Add(\"Title\", \"Please Confirm, Delete ");
             
-            #line 208 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 219 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameWithSpaces));
             
             #line default
             #line hidden
             this.Write("\");\r\n                  parameters.Add(\"Message\", $\"");
             
-            #line 209 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 220 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(DefaultSortColumn));
             
             #line default
             #line hidden
             this.Write(": {");
             
-            #line 209 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 220 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameCamelCase));
             
             #line default
             #line hidden
             this.Write("?.");
             
-            #line 209 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 220 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(DefaultSortColumn));
             
             #line default
@@ -809,21 +848,21 @@ using ");
                     "    parameters.Add(\"Icon\", \"fa fa-trash\");\r\n                  var formModal = Mo" +
                     "dal?.Show<BlazoredModalConfirmDialog>($\"Delete ");
             
-            #line 212 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 223 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameWithSpaces));
             
             #line default
             #line hidden
             this.Write(" ({");
             
-            #line 212 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 223 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameCamelCase));
             
             #line default
             #line hidden
             this.Write("?.");
             
-            #line 212 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 223 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(DefaultSortColumn));
             
             #line default
@@ -833,28 +872,28 @@ using ");
                     "    if (!result.Cancelled)\r\n                      {\r\n                          a" +
                     "wait ");
             
-            #line 218 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 229 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("DataService.Delete");
             
-            #line 218 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 229 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("(");
             
-            #line 218 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 229 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PrimaryKeyName));
             
             #line default
             #line hidden
             this.Write(");\r\n                          ToastService?.ShowSuccess(\"");
             
-            #line 219 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 230 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameWithSpaces));
             
             #line default
@@ -862,97 +901,97 @@ using ");
             this.Write(" deleted successfully\");\r\n                          await LoadData();\r\n          " +
                     "            }\r\n                  }\r\n             }\r\n             ");
             
-            #line 224 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 235 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("Id = ");
             
-            #line 224 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 235 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PrimaryKeyName));
             
             #line default
             #line hidden
             this.Write(";\r\n        }\r\n");
             
-            #line 226 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 237 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
            }
             
             #line default
             #line hidden
             this.Write("                  \r\n");
             
-            #line 227 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 238 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
            if (!UseBlazored) {
             
             #line default
             #line hidden
             this.Write("               \r\n        private void Delete");
             
-            #line 228 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 239 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("(");
             
-            #line 228 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 239 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PrimaryKeyDataType));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 228 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 239 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PrimaryKeyName));
             
             #line default
             #line hidden
             this.Write(")\r\n        {\r\n            ");
             
-            #line 230 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 241 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("Id = ");
             
-            #line 230 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 241 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PrimaryKeyName));
             
             #line default
             #line hidden
             this.Write(";\r\n            ShowDeleteConfirm=true;\r\n        }\r\n");
             
-            #line 233 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 244 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
            }
             
             #line default
             #line hidden
             
-            #line 234 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 245 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
            if (UseBlazored) {
             
             #line default
             #line hidden
             this.Write("        private async void Edit");
             
-            #line 235 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 246 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("(");
             
-            #line 235 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 246 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PrimaryKeyDataType));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 235 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 246 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PrimaryKeyName));
             
             #line default
@@ -960,28 +999,28 @@ using ");
             this.Write(")\r\n        {\r\n            var parameters = new ModalParameters();\r\n            pa" +
                     "rameters.Add(\"");
             
-            #line 238 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 249 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PrimaryKeyName));
             
             #line default
             #line hidden
             this.Write("\", ");
             
-            #line 238 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 249 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PrimaryKeyName));
             
             #line default
             #line hidden
             this.Write(");\r\n            var formModal = Modal?.Show<");
             
-            #line 239 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 250 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("AddEdit>(\"Edit ");
             
-            #line 239 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 250 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameWithSpaces));
             
             #line default
@@ -997,28 +1036,28 @@ using ");
             }
             ");
             
-            #line 248 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 259 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("Id = ");
             
-            #line 248 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 259 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PrimaryKeyName));
             
             #line default
             #line hidden
             this.Write(";\r\n        }\r\n");
             
-            #line 250 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 261 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
            }
             
             #line default
             #line hidden
             this.Write("            \r\n");
             
-            #line 251 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 262 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
            if (!UseBlazored) {
             
             #line default
@@ -1027,42 +1066,42 @@ using ");
                     "ionState != null )\r\n            {\r\n                ApplicationState.Message = nu" +
                     "ll; \r\n            }\r\n        }\r\n        private void Edit");
             
-            #line 259 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 270 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("(");
             
-            #line 259 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 270 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PrimaryKeyDataType));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 259 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 270 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PrimaryKeyName));
             
             #line default
             #line hidden
             this.Write(")\r\n        {\r\n            ");
             
-            #line 261 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 272 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("Id=");
             
-            #line 261 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 272 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PrimaryKeyName));
             
             #line default
             #line hidden
             this.Write(";\r\n            EditTitle = \"Edit ");
             
-            #line 262 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 273 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameWithSpaces));
             
             #line default
@@ -1091,7 +1130,7 @@ using ");
             ShowDeleteConfirm = false;
             if (");
             
-            #line 284 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 295 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
@@ -1099,21 +1138,21 @@ using ");
             this.Write("DataService == null) return;\r\n            if (confirmation)\r\n            {\r\n     " +
                     "           await ");
             
-            #line 287 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 298 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("DataService.Delete");
             
-            #line 287 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 298 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("(");
             
-            #line 287 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 298 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
@@ -1121,23 +1160,60 @@ using ");
             this.Write("Id);\r\n                if (ApplicationState != null)\r\n                {\r\n         " +
                     "           ApplicationState.Message = $\"{");
             
-            #line 290 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 301 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("Id} ");
             
-            #line 290 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 301 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameWithSpaces));
             
             #line default
             #line hidden
-            this.Write(" item has been deleted successfully\";\r\n                    ApplicationState.Messa" +
-                    "geType = \"success\";\r\n                }\r\n                await LoadData();\r\n     " +
-                    "           StateHasChanged();\r\n            }\r\n        }\r\n");
+            this.Write(@" item has been deleted successfully"";
+                    ApplicationState.MessageType = ""success"";
+                }
+                await LoadData();
+                StateHasChanged();
+            }
+        }
+        private async Task OnValueChangedPageSize(int value)
+        {
+            pageSize = value;
+            pageNumber = 1;
+            await LoadData();
+        }
+        private async Task PageDown(bool goBeginning)
+        {
+            if (goBeginning || pageNumber <= 0)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                pageNumber--;
+            }
+            await LoadData();
+        }
+        private async Task PageUp(bool goEnd)
+        {
+            int maximumPages = (int)(totalRows / pageSize + 0.9);
+            if (goEnd || pageNumber >= maximumPages)
+            {
+                pageNumber = maximumPages;
+            }
+            else
+            {
+                pageNumber++;
+            }
+            await LoadData();
+        }
+
+");
             
-            #line 297 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+            #line 340 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
            }
             
             #line default

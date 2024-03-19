@@ -38,7 +38,7 @@ namespace <#=Namespace#>.Services
         }
 <#      } else {
 #>
-        public async Task<List<<#=ModelName#>DTO>> GetAll<#=PluralTablename#>Async( int pageNumber, int pageSize)
+        public async Task<List<<#=ModelName#>DTO>> GetAll<#=PluralTablename#>Async(int pageNumber, int pageSize)
         {
             var <#=PluralTablename#> = await _<#=ModelNameCamelCase#>Repository.GetAll<#=PluralTablename#>Async( pageNumber, pageSize);
             return <#=PluralTablename#>.ToList();
@@ -84,7 +84,7 @@ namespace <#=Namespace#>.Services
         }
         public async Task<int> GetTotalCount()
         {
-            int result = await _<#ModelNameCamelCase#>Repository.GetTotalCount();
+            int reitsult = await _<#=ModelNameCamelCase#>Repository.GetTotalCount();
             return result;
         }
     }
