@@ -24,20 +24,20 @@ using SampleApplication.DTOs;
 
 namespace SampleApplication.Pages
 {
-    public partial class CustomerTable : ComponentBase
+    public partial class LanguageTable : ComponentBase
     {
-        [Inject] public ICustomerDataService? CustomerDataService { get; set; }
+        [Inject] public ILanguageDataService? LanguageDataService { get; set; }
         [Inject] public NavigationManager? NavigationManager { get; set; }
-        [Inject] public ILogger<CustomerTable>? Logger { get; set; }
+        [Inject] public ILogger<LanguageTable>? Logger { get; set; }
         
         [Inject] public IToastService? ToastService { get; set; }
         [CascadingParameter] public IModalService? Modal { get; set; }
-        public string Title { get; set; } = "Customer Items (Customers)";
-        public string EditTitle { get; set; } = "Edit Customer Item (Customers)";
+        public string Title { get; set; } = "Language Items (Languages)";
+        public string EditTitle { get; set; } = "Edit Language Item (Languages)";
         [Parameter] public int ParentId { get; set; }
-        public List<CustomerDTO>? CustomerDTO { get; set; }
-        public List<CustomerDTO>? FilteredCustomerDTO { get; set; }
-        protected CustomerAddEdit? CustomerAddEdit { get; set; }
+        public List<LanguageDTO>? LanguageDTO { get; set; }
+        public List<LanguageDTO>? FilteredLanguageDTO { get; set; }
+        protected LanguageAddEdit? LanguageAddEdit { get; set; }
         ElementReference SearchInput;
 #pragma warning disable 414, 649
         private bool _loadFailed = false;
@@ -51,7 +51,7 @@ namespace SampleApplication.Pages
         [Inject] public IJSRuntime? JSRuntime { get; set; }
         public bool ShowEdit { get; set; } = false;
         private bool ShowDeleteConfirm { get; set; }
-        private int CustomerId  { get; set; }
+        private int LanguageId  { get; set; }
         protected override async Task OnInitializedAsync()
         {
             await LoadData();
@@ -61,14 +61,14 @@ namespace SampleApplication.Pages
         {
             try
             {
-                if (CustomerDataService != null)
+                if (LanguageDataService != null)
                 {
-                    var result = await CustomerDataService!.GetAllCustomersAsync();
-                    //var result = await CustomerDataService.SearchCustomersAsync(ServerSearchTerm);
+                    var result = await LanguageDataService!.GetAllLanguagesAsync();
+                    //var result = await LanguageDataService.SearchLanguagesAsync(ServerSearchTerm);
                     if (result != null)
                     {
-                        CustomerDTO = result.ToList();
-                        FilteredCustomerDTO = result.ToList();
+                        LanguageDTO = result.ToList();
+                        FilteredLanguageDTO = result.ToList();
                         StateHasChanged();
                     }
                 }
@@ -79,8 +79,8 @@ namespace SampleApplication.Pages
                 _loadFailed = true;
                 ExceptionMessage = e.Message;
             }
-            FilteredCustomerDTO = CustomerDTO;
-            Title = $"Customer ({FilteredCustomerDTO?.Count})";
+            FilteredLanguageDTO = LanguageDTO;
+            Title = $"Language ({FilteredLanguageDTO?.Count})";
 
         }
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -100,10 +100,10 @@ namespace SampleApplication.Pages
                 }
             }
         }
-        private async Task AddNewCustomer()
+        private async Task AddNewLanguage()
         {
               var parameters = new ModalParameters();
-              var formModal = Modal?.Show<CustomerAddEdit>("Add Customer", parameters);
+              var formModal = Modal?.Show<LanguageAddEdit>("Add Language", parameters);
               if (formModal != null)
               {
                   var result = await formModal.Result;
@@ -112,94 +112,80 @@ namespace SampleApplication.Pages
                       await LoadData();
                   }
               }
-              CustomerId=0;
+              LanguageId=0;
         }
 
 
         private void ApplyFilter()
         {
-            if (FilteredCustomerDTO == null || CustomerDTO == null)
+            if (FilteredLanguageDTO == null || LanguageDTO == null)
             {
                 return;
             }
             if (string.IsNullOrEmpty(SearchTerm))
             {
-                FilteredCustomerDTO = CustomerDTO.OrderBy(v => v.CustomerName).ToList();
-                Title = $"All Customer ({FilteredCustomerDTO.Count})";
+                FilteredLanguageDTO = LanguageDTO.OrderBy(v => v.Language).ToList();
+                Title = $"All Language ({FilteredLanguageDTO.Count})";
             }
             else
             {
                 var temporary = SearchTerm.ToLower().Trim();
-                FilteredCustomerDTO = CustomerDTO
+                FilteredLanguageDTO = LanguageDTO
                     .Where(v => 
-                    (v.CustomerName!= null  && v.CustomerName.ToLower().Contains(temporary))
-                     || (v.ContactName!= null  &&  v.ContactName.ToLower().Contains(temporary))
-                     || (v.Address!= null  &&  v.Address.ToLower().Contains(temporary))
-                     || (v.City!= null  &&  v.City.ToLower().Contains(temporary))
-                     || (v.PostalCode!= null  &&  v.PostalCode.ToLower().Contains(temporary))
-                     || (v.Email!= null  &&  v.Email.ToLower().Contains(temporary))
-                     || (v.Website!= null  &&  v.Website.ToLower().Contains(temporary))
-                     || (v.Country!= null  &&  v.Country.ToLower().Contains(temporary))
+                    (v.Language!= null  && v.Language.ToLower().Contains(temporary))
+                     || (v.Colour!= null  &&  v.Colour.ToLower().Contains(temporary))
                     )
                     .ToList();
-                Title = $"Filtered Customers ({FilteredCustomerDTO.Count})";
+                Title = $"Filtered Languages ({FilteredLanguageDTO.Count})";
             }
         }
-        protected void SortCustomer(string sortColumn)
+        protected void SortLanguage(string sortColumn)
         {
             Guard.Against.Null(sortColumn, nameof(sortColumn));
-                        if (FilteredCustomerDTO == null)
+                        if (FilteredLanguageDTO == null)
             {
                 return;
             }
-            if (sortColumn == "CustomerName")
+            if (sortColumn == "Language")
             {
-                FilteredCustomerDTO = FilteredCustomerDTO.OrderBy(v => v.CustomerName).ToList();
+                FilteredLanguageDTO = FilteredLanguageDTO.OrderBy(v => v.Language).ToList();
             }
-            else if (sortColumn == "CustomerName Desc")
+            else if (sortColumn == "Language Desc")
             {
-                FilteredCustomerDTO = FilteredCustomerDTO.OrderByDescending(v => v.CustomerName).ToList();
-            }
-            if (sortColumn == "Created")
-            {
-                FilteredCustomerDTO = FilteredCustomerDTO.OrderBy(v => v.Created).ToList();
-            }
-            else if (sortColumn == "Created Desc")
-            {
-                FilteredCustomerDTO = FilteredCustomerDTO.OrderByDescending(v => v.Created).ToList();
+                FilteredLanguageDTO = FilteredLanguageDTO.OrderByDescending(v => v.Language).ToList();
             }
         }
-        private async Task DeleteCustomer(int id)
+        private async Task DeleteLanguage(int Id)
         {
             //TODO Optionally remove child records here or warn about their existence
               var parameters = new ModalParameters();
-              if (CustomerDataService != null)
+              if (LanguageDataService != null)
               {
-                  var customer = await CustomerDataService.GetCustomerById(id);
-                  parameters.Add("Title", "Please Confirm, Delete Customer");
-                  parameters.Add("Message", $"CustomerName: {customer?.CustomerName}");
+                  var language = await LanguageDataService.GetLanguageById(Id);
+                  parameters.Add("Title", "Please Confirm, Delete Language");
+                  parameters.Add("Message", $"Language: {language?.Language}");
                   parameters.Add("ButtonColour", "danger");
                   parameters.Add("Icon", "fa fa-trash");
-                  var formModal = Modal?.Show<BlazoredModalConfirmDialog>($"Delete Customer ({customer?.CustomerName})?", parameters);
+                  var formModal = Modal?.Show<BlazoredModalConfirmDialog>($"Delete Language ({language?.Language})?", parameters);
                   if (formModal != null)
                   {
                       var result = await formModal.Result;
                       if (!result.Cancelled)
                       {
-                          await CustomerDataService.DeleteCustomer(id);
-                          ToastService?.ShowSuccess("Customer deleted successfully");
+                          await LanguageDataService.DeleteLanguage(Id);
+                          ToastService?.ShowSuccess("Language deleted successfully");
                           await LoadData();
                       }
                   }
              }
-             CustomerId = id;
+             LanguageId = Id;
         }
                   
-        private async void EditCustomer(int id)
+        private async void EditLanguage(int Id)
         {
             var parameters = new ModalParameters();
-            parameters.Add("id", id);
-            var formModal = Modal?.Show<CustomerAddEdit>("Edit Customer", parameters);
+            parameters.Add("Id", Id);
+            var formModal = Modal?.Show<LanguageAddEdit>("Edit Language", parameters);
             if (formModal != null)
             {
                 var result = await formModal.Result;
@@ -208,7 +194,7 @@ namespace SampleApplication.Pages
                     await LoadData();
                 }
             }
-            CustomerId = id;
+            LanguageId = Id;
         }
             
     }

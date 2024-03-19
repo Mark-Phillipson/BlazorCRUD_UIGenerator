@@ -21,6 +21,8 @@ namespace SampleApplication.Profiles
             CreateMap<Example, ExampleDTO>(); CreateMap<ExampleDTO, Example>();
             CreateMap<Customer, CustomerDTO>();
             CreateMap<CustomerDTO, Customer>();
+            CreateMap<Language, LanguageDTO>();
+            CreateMap<LanguageDTO, Language>();
         }
     }
 }

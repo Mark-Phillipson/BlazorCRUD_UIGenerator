@@ -22,33 +22,33 @@ using SampleApplication.Services;
 
 namespace SampleApplication.Pages
 {
-    public partial class CustomerAddEdit : ComponentBase
+    public partial class LanguageAddEdit : ComponentBase
     {
         [Inject] IToastService? ToastService { get; set; }
         [CascadingParameter] BlazoredModalInstance? ModalInstance { get; set; }
         [Parameter] public string? Title { get; set; }
-        [Inject] public ILogger<CustomerAddEdit>? Logger { get; set; }
+        [Inject] public ILogger<LanguageAddEdit>? Logger { get; set; }
         [Inject] public IJSRuntime? JSRuntime { get; set; }
-        [Parameter] public int? id { get; set; }
-        public CustomerDTO CustomerDTO { get; set; } = new CustomerDTO();//{ };
-        [Inject] public ICustomerDataService? CustomerDataService { get; set; }
-
+        [Parameter] public int? Id { get; set; }
+        public LanguageDTO LanguageDTO { get; set; } = new LanguageDTO();//{ };
+        [Inject] public ILanguageDataService? LanguageDataService { get; set; }
+        [Inject] public ApplicationState? ApplicationState { get; set; }
         [Parameter] public int ParentId { get; set; }
 #pragma warning disable 414, 649
         bool TaskRunning = false;
 #pragma warning restore 414, 649
         protected override async Task OnInitializedAsync()
         {
-            if (CustomerDataService == null)
+            if (LanguageDataService == null)
             {
                 return;
             }
-            if (id != null && id != 0)
+            if (Id != null && Id != 0)
             {
-                var result = await CustomerDataService.GetCustomerById((int)id);
+                var result = await LanguageDataService.GetLanguageById((int)Id);
                 if (result != null)
                 {
-                    CustomerDTO = result;
+                    LanguageDTO = result;
                 }
             }
             else
@@ -64,7 +64,7 @@ namespace SampleApplication.Pages
                 {
                     if (JSRuntime != null)
                     {
-                        await JSRuntime.InvokeVoidAsync("window.setFocus", "CustomerName");
+                        await JSRuntime.InvokeVoidAsync("window.setFocus", "Language");
                     }
                 }
                 catch (Exception exception)
@@ -75,29 +75,29 @@ namespace SampleApplication.Pages
         }
         public async Task CloseAsync()
         {
-            if (ModalInstance != null)
-                await ModalInstance.CancelAsync();
+              if (ModalInstance != null)
+                  await ModalInstance.CancelAsync();
         }
         protected async Task HandleValidSubmit()
         {
             TaskRunning = true;
-            if ((id == 0 || id == null) && CustomerDataService != null)
+            if ((Id == 0 || Id == null) && LanguageDataService != null)
             {
-                CustomerDTO? result = await CustomerDataService.AddCustomer(CustomerDTO);
-                if (result == null && Logger != null)
+                LanguageDTO? result = await LanguageDataService.AddLanguage(LanguageDTO);
+                if (result == null && Logger!= null)
                 {
-                    Logger.LogError("Customer failed to add, please investigate Error Adding New Customer");
-                    ToastService?.ShowError("Customer failed to add, please investigate Error Adding New Customer");
+                    Logger.LogError("Language failed to add, please investigate Error Adding New Language");
+                    ToastService?.ShowError("Language failed to add, please investigate Error Adding New Language");
                     return;
                 }
-                ToastService?.ShowSuccess("Customer added successfully");
+                ToastService?.ShowSuccess("Language added successfully");
             }
             else
             {
-                if (CustomerDataService != null)
+                if (LanguageDataService != null)
                 {
-                    await CustomerDataService!.UpdateCustomer(CustomerDTO, "");
-                    ToastService?.ShowSuccess("The Customer updated successfully");
+                    await LanguageDataService!.UpdateLanguage(LanguageDTO, "");
+                    ToastService?.ShowSuccess("The Language updated successfully");
                 }
             }
             if (ModalInstance != null)

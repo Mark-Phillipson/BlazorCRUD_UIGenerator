@@ -31,6 +31,8 @@ builder.Services.AddScoped<IExampleRepository, ExampleRepository>();
 builder.Services.AddScoped<IExampleDataService, ExampleDataService>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<ICustomerDataService, CustomerDataService>();
+builder.Services.AddScoped<ILanguageRepository, LanguageRepository>();
+builder.Services.AddScoped<ILanguageDataService, LanguageDataService>();
 
 var app = builder.Build();
 
