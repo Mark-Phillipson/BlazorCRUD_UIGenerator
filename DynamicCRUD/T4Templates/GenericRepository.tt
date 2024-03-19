@@ -27,24 +27,27 @@ namespace <#=Namespace#>.Repositories
 		<#
 		if (!string.IsNullOrEmpty(ForeignKeyName)) {
 #>
-        public async Task<IEnumerable<<#=ModelName#>DTO>> GetAll<#=PluralTablename#>Async(<#=ForeignKeyDataType#> <#=ForeignKeyName#>)
+        public async Task<IEnumerable<<#=ModelName#>DTO>> GetAll<#=PluralTablename#>Async(<#=ForeignKeyDataType#> <#=ForeignKeyName#>, int pageNumber, int pageSize)
         {
             using var context = _contextFactory.CreateDbContext();
             var <#=PluralTablename#>= await context.<#=PluralTablename#>
                 .Where(v => v.<#=ForeignKeyName#>==<#=ForeignKeyName#>)
                 //.OrderBy(v => v.?)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
             IEnumerable<<#=ModelName#>DTO> <#=PluralTablename#>DTO = _mapper.Map<List<<#=ModelName#>>, IEnumerable<<#=ModelName#>DTO>>(<#=PluralTablename#>);
             return <#=PluralTablename#>DTO;
         }
 <#      } else { #>
-        public async Task<IEnumerable<<#=ModelName#>DTO>> GetAll<#=PluralTablename#>Async(int maxRows= 400)
+        public async Task<IEnumerable<<#=ModelName#>DTO>> GetAll<#=PluralTablename#>Async(int pageNumber, int pageSize)
         {
             using var context = _contextFactory.CreateDbContext();
             var <#=PluralTablename#>= await context.<#=PluralTablename#>
                 //.Where(v => v.?==?)
                 //.OrderBy(v => v.?)
-                .Take(maxRows)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
             IEnumerable<<#=ModelName#>DTO> <#=PluralTablename#>DTO = _mapper.Map<List<<#=ModelName#>>, IEnumerable<<#=ModelName#>DTO>>(<#=PluralTablename#>);
             return <#=PluralTablename#>DTO;

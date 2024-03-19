@@ -17,11 +17,11 @@ namespace <#=Namespace#>.Repositories
 <#
 		if (!string.IsNullOrEmpty(ForeignKeyName)) {
 #>
-		Task<IEnumerable<<#=ModelName#>DTO>> GetAll<#=PluralTablename#>Async(<#=ForeignKeyDataType#> <#=ForeignKeyName#>);
+		Task<IEnumerable<<#=ModelName#>DTO>> GetAll<#=PluralTablename#>Async(<#=ForeignKeyDataType#> <#=ForeignKeyName#>, int pageNumber, int pageSize);
 <#
 		} else {
 #>
-        Task<IEnumerable<<#=ModelName#>DTO>> GetAll<#=PluralTablename#>Async(int maxRows);
+        Task<IEnumerable<<#=ModelName#>DTO>> GetAll<#=PluralTablename#>Async(int pageNumber, int pageSize);
 <#      }
 #>
         Task<IEnumerable<<#=ModelName#>DTO>> Search<#=PluralTablename#>Async(string serverSearchTerm);

@@ -23,13 +23,16 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddBlazoredModal();
 builder.Services.AddBlazoredToast();
 builder.Services.AddScoped<ApplicationState>();
-builder.Services.AddScoped<ICategoryRepository, CategoryRepository>(); 
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryDataService, CategoryDataService>();
 builder.Services.AddScoped<IGeneralLookupRepository, GeneralLookupRepository>();
 builder.Services.AddScoped<IGeneralLookupDataService, GeneralLookupDataService>();
 builder.Services.AddScoped<IExampleRepository, ExampleRepository>();
 builder.Services.AddScoped<IExampleDataService, ExampleDataService>();
-
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<ICustomerDataService, CustomerDataService>();
+builder.Services.AddScoped<ILanguageRepository, LanguageRepository>();
+builder.Services.AddScoped<ILanguageDataService, LanguageDataService>();
 
 var app = builder.Build();
 

@@ -53,7 +53,7 @@
                                placeholder="Enter <#=property.Label#>"></InputText>
                     <ValidationMessage For="@(() => <#=ModelName#>DTO.<#=property.PropertyName#>)" />
                 </div>
-<#              } else if (property.DataType=="int") {
+<#              } else if (property.DataType=="int" || property.DataType=="smallint" || property.DataType=="tinyint" || property.DataType=="bigint" || property.DataType=="decimal" || property.DataType=="float" || property.DataType=="real" || property.DataType=="money) {
 #>
                 <div class="form-group">
                     <label for="<#=property.PropertyName#>"><#=property.Label#>: </label><#

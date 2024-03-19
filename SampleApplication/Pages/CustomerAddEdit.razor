@@ -1,0 +1,32 @@
+@page "/customer/{id:int?}"
+<div style="min-width:80vw">
+<h1>@Title</h1>
+    <EditForm Model="@CustomerDTO" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        @*<ValidationSummary />*@
+        @if (CustomerDTO.id > 0)
+        {
+            <span class="text-info m-1">@CustomerDTO.id</span>
+        }
+        <div class="row">
+            <div class="col-6">
+             </div>
+               <div class="col-6">
+                <div class="form-group">
+                    <label for="Active">Active: </label>
+                    <InputCheckbox id="Active" class="form-checkbox" @bind-Value="@CustomerDTO.Active">
+                    </InputCheckbox>
+                    <ValidationMessage For="@(() => CustomerDTO.Active)" />
+                </div>
+            </div>
+            <div class="col-6">
+                 @* Move here for the next display column if required *@
+            </div>
+        </div>
+        <hr>
+        <div class="btn-group" style="float:right">
+            <a accesskey="c" class="btn btn-lg btn-outline-primary" @onclick="@CloseAsync"><u>C</u>ancel</a>
+            <button @TaskRunning accesskey="s" type="submit" class="btn btn-lg btn-primary"><u>S</u>ave Record</button>
+        </div>
+    </EditForm>
+</div>
