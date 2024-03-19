@@ -70,7 +70,7 @@ public partial class BlazorCRUDGeneration : ComponentBase
             Message = "Please select a table and fill in all the details, then try again!";
             return;
         }
-        if (!Columns.Any(c => (c.IsKey || c.PrimaryKeyOverride) && (c.DataType=="bigint" ||  c.DataType == "int" || c.DataType == "nvarchar")))
+        if (!Columns.Any(c => (c.IsKey || c.PrimaryKeyOverride) && (c.DataType == "bigint" || c.DataType == "int" || c.DataType == "nvarchar")))
         {
             Message = "Please indicate the primary key and try again! Note it has to be an int or nvarchar";
             return;
@@ -127,33 +127,33 @@ public partial class BlazorCRUDGeneration : ComponentBase
         content = genericIRepository.TransformText();
         File.WriteAllText($"{locationRepository}AutoGenClasses\\I{ModelName}Repository.cs", content);
 
-        GenericRepository genericRepository = new(Columns, ModelName, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, foreignKeyName ?? "", foreignKeyDataType ?? "", DbContextName ?? "BostonAcademicDbContext");
+        GenericRepository genericRepository = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, foreignKeyName ?? "", foreignKeyDataType ?? "", DbContextName ?? "BostonAcademicDbContext");
         content = genericRepository.TransformText();
         File.WriteAllText($"{locationRepository}AutoGenClasses\\{ModelName}Repository.cs", content);
 
         namespaceString = $"{NamespaceName}";
 
-        GenericIDataService genericIDataService = new(Columns, ModelName, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, foreignKeyName ?? "", foreignKeyDataType ?? "");
+        GenericIDataService genericIDataService = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, foreignKeyName ?? "", foreignKeyDataType ?? "");
         content = genericIDataService.TransformText();
         File.WriteAllText($"{locationBlazor}AutoGenClasses\\I{ModelName}DataService.cs", content);
 
-        GenericDataService genericDataService = new(Columns, ModelName, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, foreignKeyName ?? "", foreignKeyDataType ?? "");
+        GenericDataService genericDataService = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, foreignKeyName ?? "", foreignKeyDataType ?? "");
         content = genericDataService.TransformText();
         File.WriteAllText($"{locationBlazor}AutoGenClasses\\{ModelName}DataService.cs", content);
 
-        GenericTable genericTable = new(Columns, ModelName, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, filterColumns, foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored);
+        GenericTable genericTable = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, filterColumns, foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored);
         content = genericTable.TransformText();
         File.WriteAllText($"{locationBlazor}AutoGenClasses\\{ModelName}Table.razor", content);
 
-        GenericTableCodeBehind genericTableCodeBehind = new(Columns, ModelName, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored);
+        GenericTableCodeBehind genericTableCodeBehind = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored);
         content = genericTableCodeBehind.TransformText();
         File.WriteAllText($"{locationBlazor}AutoGenClasses\\{ModelName}Table.razor.cs", content);
 
-        GenericAddEdit genericAddEdit = new(Columns, ModelName, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, filterColumns, foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored);
+        GenericAddEdit genericAddEdit = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, filterColumns, foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored);
         content = genericAddEdit.TransformText();
         File.WriteAllText($"{locationBlazor}AutoGenClasses\\{ModelName}AddEdit.razor", content);
 
-        GenericAddEditCodeBehind genericAddEditCodeBehind = new(Columns, ModelName, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored);
+        GenericAddEditCodeBehind genericAddEditCodeBehind = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored);
         content = genericAddEditCodeBehind.TransformText();
         File.WriteAllText($"{locationBlazor}AutoGenClasses\\{ModelName}AddEdit.razor.cs", content);
 
@@ -186,7 +186,7 @@ public partial class BlazorCRUDGeneration : ComponentBase
                 }
             }
         }
-        filterColumns = result;
+        filterColumns = result!;
     }
 
     private void GetPrimaryKeyDetails(ref string primaryKeyName, ref string primaryKeyDatatype)
@@ -264,7 +264,7 @@ public partial class BlazorCRUDGeneration : ComponentBase
         await JSRuntime.InvokeVoidAsync(
 "clipboardCopy.copyText", value);
         var message = $"copy commandline Copied Successfully: '{value}'";
-        ToastService!.ShowSuccess(message );
+        ToastService!.ShowSuccess(message);
 
     }
     private void ReverseEngineerTable()
