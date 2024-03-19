@@ -8,13 +8,13 @@ public partial class MyDbContext : DbContext
 {
     private readonly IConfiguration? _configuration;
 
-    
+
     public MyDbContext(DbContextOptions<MyDbContext> options, IConfiguration configuration)
         : base(options)
     {
         _configuration = configuration;
     }
-
+    public virtual DbSet<Customer> Customers { get; set; }
     public virtual DbSet<AdditionalCommand> AdditionalCommands { get; set; }
 
     public virtual DbSet<ApplicationDetail> ApplicationDetails { get; set; }
@@ -82,13 +82,13 @@ public partial class MyDbContext : DbContext
     {
         if (!optionsBuilder.IsConfigured)
         {
-            if (_configuration!= null )
+            if (_configuration != null)
             {
                 optionsBuilder.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"));
             }
         }
     }
-    
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.UseCollation("Latin1_General_CI_AS");
@@ -250,4 +250,19 @@ public partial class MyDbContext : DbContext
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+}
+
+public class Customer
+{
+    public int Id { get; set; }
+    public string CustomerName { get; set; } = string.Empty;
+    public string ContactName { get; set; } = string.Empty;
+    public string Address { get; set; } = string.Empty;
+    public string City { get; set; } = string.Empty;
+    public string PostalCode { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
+    public string Website { get; set; } = string.Empty;
+    public string Country { get; set; } = string.Empty;
+    public DateTime Created { get; set; } = DateTime.Now;
+    public bool Active { get; set; } = true;
 }

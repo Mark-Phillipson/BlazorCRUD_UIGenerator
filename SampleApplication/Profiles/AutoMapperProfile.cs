@@ -19,6 +19,8 @@ namespace SampleApplication.Profiles
             CreateMap<Category, CategoryDTO>(); CreateMap<CategoryDTO, Category>();
             CreateMap<GeneralLookup, GeneralLookupDTO>(); CreateMap<GeneralLookupDTO, GeneralLookup>();
             CreateMap<Example, ExampleDTO>(); CreateMap<ExampleDTO, Example>();
+            CreateMap<Customer, CustomerDTO>();
+            CreateMap<CustomerDTO, Customer>();
         }
     }
 }

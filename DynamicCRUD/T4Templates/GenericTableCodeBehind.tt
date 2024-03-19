@@ -33,14 +33,14 @@ namespace <#=Namespace#>.Pages
 {
     public partial class <#=ModelName#>Table : ComponentBase
     {
-        [Inject] public I<#=ModelName#>DataService? <#=ModelName#>DataService { get; set; }
-        [Inject] public NavigationManager? NavigationManager { get; set; }
+        [Inject] public required I<#=ModelName#>DataService <#=ModelName#>DataService { get; set; }
+        [Inject] public required  NavigationManager NavigationManager { get; set; }
         [Inject] public ILogger<<#=ModelName#>Table>? Logger { get; set; }
 <#      if (UseBlazored) {#>        
-        [Inject] public IToastService? ToastService { get; set; }
+        [Inject] public required IToastService ToastService { get; set; }
         [CascadingParameter] public IModalService? Modal { get; set; }
 <#      }else {#>        
-        [Inject] public ApplicationState? ApplicationState { get; set; }
+        [Inject] public required ApplicationState ApplicationState { get; set; }
 <#      }#>
         public string Title { get; set; } = "<#=ModelName#> Items (<#=PluralTablename#>)";
         public string EditTitle { get; set; } = "Edit <#=ModelName#> Item (<#=PluralTablename#>)";
@@ -64,6 +64,10 @@ namespace <#=Namespace#>.Pages
         [Inject] public IJSRuntime? JSRuntime { get; set; }
         public bool ShowEdit { get; set; } = false;
         private bool ShowDeleteConfirm { get; set; }
+        private int pageNumber = 1;
+        private int pageSize = 20;
+        private int totalRows = 0;
+    
         private <#=PrimaryKeyDataType#> <#=ModelName#>Id  { get; set; }
         protected override async Task OnInitializedAsync()
         {
@@ -76,7 +80,13 @@ namespace <#=Namespace#>.Pages
             {
                 if (<#=ModelName#>DataService != null)
                 {
-                    var result = await <#=ModelName#>DataService!.GetAll<#=PluralTablename#>Async(<#=ForeignKeyName#>);
+                    totalRows = await <#ModelName#>DataService.GetTotalCount();
+                    var result = await <#=ModelName#>DataService!.GetAll<#=PluralTablename#>Async
+<#                    if (!string.IsNullOrEmpty(ForeignKeyName)) {#>
+                    (<#=ForeignKeyName#>,pageNumber,pageSize)
+<#                    } else {#>                    
+                    (pageNumber,pageSize);
+<#                    }#>
                     //var result = await <#=ModelName#>DataService.Search<#=PluralTablename#>Async(ServerSearchTerm);
                     if (result != null)
                     {
@@ -137,6 +147,7 @@ namespace <#=Namespace#>.Pages
         private void AddNew<#=ModelName#>()
         {
             EditTitle = "Add <#=ModelNameWithSpaces#>";
+            <#=ModelName#>Id=0;
             ShowEdit = true;
         }
 <#           }#>
@@ -294,6 +305,38 @@ namespace <#=Namespace#>.Pages
                 StateHasChanged();
             }
         }
+        private async Task OnValueChangedPageSize(int value)
+        {
+            pageSize = value;
+            pageNumber = 1;
+            await LoadData();
+        }
+        private async Task PageDown(bool goBeginning)
+        {
+            if (goBeginning || pageNumber <= 0)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                pageNumber--;
+            }
+            await LoadData();
+        }
+        private async Task PageUp(bool goEnd)
+        {
+            int maximumPages = (int)(totalRows / pageSize + 0.9);
+            if (goEnd || pageNumber >= maximumPages)
+            {
+                pageNumber = maximumPages;
+            }
+            else
+            {
+                pageNumber++;
+            }
+            await LoadData();
+        }
+
 <#           }#>
     }
 }

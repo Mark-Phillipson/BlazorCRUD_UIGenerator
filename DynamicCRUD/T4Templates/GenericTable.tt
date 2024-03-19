@@ -25,9 +25,33 @@
         }
 <#           }#>
     </div>
-    <div class="col-md-8">
-        <h5 class="m-1">@Title</h5>
+    <div class="col-md-3">
+        <h5 class="m-1">@Title Page: @pageNumber</h5>
     </div>
+    	<div class="col-md-1">
+		<button title="Go to 1st page" type="button" class="btn btn-sm btn-outline-secondary mx-1"
+			@onclick="@(()  => PageDown(true))">
+			<i class="fa-solid fa-backward"></i>
+		</button>
+	</div>
+	<div class="col-md-1">
+		<button title="Go to previous page" type="button" class="btn btn-sm btn-outline-secondary mx-1"
+			@onclick="(()  => PageDown(false))">
+			<i class="fas fa-arrow-left"></i>
+		</button>
+	</div>
+	<div class="col-md-1">
+		<button title="Go to next page" type="button" class="btn btn-sm btn-outline-secondary mx-1"
+			@onclick="(() => PageUp(false)) ">
+			<i class="fas fa-arrow-right"></i>
+		</button>
+	</div>
+	<div class="col-md-1">
+		<button title="Go to last page" type="button" class="btn btn-sm btn-outline-secondary mx-1"
+			@onclick="(()  => PageUp(true))">
+			<i class="fa-solid fa-forward"></i>
+		</button>
+	</div>
 <#if (!string.IsNullOrWhiteSpace(ForeignKeyName)) {#>
 @*    <div class="col-md-1">
         <a class="btn btn-primary btn-sm m-2" href="/ParentTable/@<#=ForeignKeyName#>"><i class="fas fa-arrow-left"></i></a>
