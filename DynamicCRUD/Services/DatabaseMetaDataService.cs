@@ -32,7 +32,7 @@ namespace DynamicCRUD.Services
             }
             return list.OrderBy(o => o.Tablename).ToList();
         }
-        public IEnumerable<ClientDatabaseColumn> GetColumnNames(string conStr, string tableName, string schemaName)
+        public IEnumerable<ClientDatabaseColumn> GetColumnNames(string conStr, string tableName, string schemaName, string modelName)
         {
             var columns = new List<ClientDatabaseColumn>();
             using (var sqlCon = new SqlConnection(conStr))
@@ -48,6 +48,10 @@ namespace DynamicCRUD.Services
                 {
                     ClientDatabaseColumn column = new ClientDatabaseColumn();
                     column.ColumnName = row.Field<string>("ColumnName");
+                    if (column.ColumnName == modelName)
+                    {
+                        column.ColumnName = column.ColumnName + "Name";
+                    }
                     column.ColumnSize = row.Field<int>("ColumnSize");
                     //var type = (SqlDbType)(int)row["ProviderType"];
                     column.DataType = row.Field<string>("DataTypeName");
@@ -71,13 +75,13 @@ namespace DynamicCRUD.Services
             //https://docs.microsoft.com/en-us/dotnet/api/microsoft.data.sqlclient.sqldatareader.getschematable?f1url=%3FappId%3DDev16IDEF1%26l%3DEN-US%26k%3Dk(Microsoft.Data.SqlClient.SqlDataReader.GetSchemaTable);k(DevLang-csharp)%26rd%3Dtrue&view=sqlclient-dotnet-standard-4.1
             return columns; //.OrderBy(o => o.ColumnName).ToList();
         }
-        public DataTable GetData(string conStr, string tableName, int maxRows, string? searchTerm = null, string schemaName = "dbo")
+        public DataTable GetData(string conStr, string tableName, int maxRows, string modelName, string? searchTerm = null, string schemaName = "dbo")
         {
             using (var sqlCon = new SqlConnection(conStr))
             {
                 sqlCon.Open();
                 var sqlCmd = sqlCon.CreateCommand();
-                var cols = GetColumnNames(conStr, tableName, schemaName);
+                var cols = GetColumnNames(conStr, tableName, schemaName,modelName);
                 tableName = IncludeSquareBrackets(tableName, schemaName);
                 string sqlText = BuildSqlQuery(tableName, maxRows, searchTerm, cols);
                 sqlCmd.CommandText = sqlText;

@@ -180,7 +180,7 @@ namespace DynamicCRUD.T4Templates
             
             #line default
             #line hidden
-            this.Write(", pageNumber, pageSize);            \r\n            return ");
+            this.Write(", int pageNumber, int pageSize);            \r\n            return ");
             
             #line 37 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PluralTablename));
@@ -552,14 +552,15 @@ namespace DynamicCRUD.T4Templates
             #line default
             #line hidden
             this.Write(");\r\n        }\r\n        public async Task<int> GetTotalCount()\r\n        {\r\n       " +
-                    "     int reitsult = await _");
+                    "     int result = await _");
             
             #line 87 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameCamelCase));
             
             #line default
             #line hidden
-            this.Write("Repository.GetTotalCount();\r\n            return result;\r\n        }\r\n    }\r\n}");
+            this.Write("Repository.GetTotalCountAsync();\r\n            return result;\r\n        }\r\n    }\r\n}" +
+                    "");
             return this.GenerationEnvironment.ToString();
         }
     }

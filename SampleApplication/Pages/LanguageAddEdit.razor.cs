@@ -64,7 +64,7 @@ namespace SampleApplication.Pages
                 {
                     if (JSRuntime != null)
                     {
-                        await JSRuntime.InvokeVoidAsync("window.setFocus", "Language");
+                        await JSRuntime.InvokeVoidAsync("window.setFocus", "LanguageName");
                     }
                 }
                 catch (Exception exception)

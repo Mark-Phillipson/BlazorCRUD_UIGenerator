@@ -26,11 +26,11 @@ namespace SampleApplication.Pages
 {
     public partial class LanguageTable : ComponentBase
     {
-        [Inject] public ILanguageDataService? LanguageDataService { get; set; }
-        [Inject] public NavigationManager? NavigationManager { get; set; }
+        [Inject] public required ILanguageDataService LanguageDataService { get; set; }
+        [Inject] public required NavigationManager NavigationManager { get; set; }
         [Inject] public ILogger<LanguageTable>? Logger { get; set; }
-        
-        [Inject] public IToastService? ToastService { get; set; }
+
+        [Inject] public required IToastService ToastService { get; set; }
         [CascadingParameter] public IModalService? Modal { get; set; }
         public string Title { get; set; } = "Language Items (Languages)";
         public string EditTitle { get; set; } = "Edit Language Item (Languages)";
@@ -51,7 +51,11 @@ namespace SampleApplication.Pages
         [Inject] public IJSRuntime? JSRuntime { get; set; }
         public bool ShowEdit { get; set; } = false;
         private bool ShowDeleteConfirm { get; set; }
-        private int LanguageId  { get; set; }
+        private int pageNumber = 1;
+        private int pageSize = 5;
+        private int totalRows = 0;
+
+        private int LanguageId { get; set; }
         protected override async Task OnInitializedAsync()
         {
             await LoadData();
@@ -63,7 +67,8 @@ namespace SampleApplication.Pages
             {
                 if (LanguageDataService != null)
                 {
-                    var result = await LanguageDataService!.GetAllLanguagesAsync();
+                    totalRows = await LanguageDataService.GetTotalCount();
+                    var result = await LanguageDataService!.GetAllLanguagesAsync(pageNumber, pageSize);
                     //var result = await LanguageDataService.SearchLanguagesAsync(ServerSearchTerm);
                     if (result != null)
                     {
@@ -89,7 +94,7 @@ namespace SampleApplication.Pages
             {
                 try
                 {
-                    if (JSRuntime!= null )
+                    if (JSRuntime != null)
                     {
                         await JSRuntime.InvokeVoidAsync("window.setFocus", "SearchInput");
                     }
@@ -102,17 +107,17 @@ namespace SampleApplication.Pages
         }
         private async Task AddNewLanguage()
         {
-              var parameters = new ModalParameters();
-              var formModal = Modal?.Show<LanguageAddEdit>("Add Language", parameters);
-              if (formModal != null)
-              {
-                  var result = await formModal.Result;
-                  if (!result.Cancelled)
-                  {
-                      await LoadData();
-                  }
-              }
-              LanguageId=0;
+            var parameters = new ModalParameters();
+            var formModal = Modal?.Show<LanguageAddEdit>("Add Language", parameters);
+            if (formModal != null)
+            {
+                var result = await formModal.Result;
+                if (!result.Cancelled)
+                {
+                    await LoadData();
+                }
+            }
+            LanguageId = 0;
         }
 
 
@@ -131,9 +136,9 @@ namespace SampleApplication.Pages
             {
                 var temporary = SearchTerm.ToLower().Trim();
                 FilteredLanguageDTO = LanguageDTO
-                    .Where(v => 
-                    (v.LanguageName!= null  && v.LanguageName.ToLower().Contains(temporary))
-                     || (v.Colour!= null  &&  v.Colour.ToLower().Contains(temporary))
+                    .Where(v =>
+                    (v.LanguageName != null && v.LanguageName.ToLower().Contains(temporary))
+                     || (v.Colour != null && v.Colour.ToLower().Contains(temporary))
                     )
                     .ToList();
                 Title = $"Filtered Languages ({FilteredLanguageDTO.Count})";
@@ -142,15 +147,15 @@ namespace SampleApplication.Pages
         protected void SortLanguage(string sortColumn)
         {
             Guard.Against.Null(sortColumn, nameof(sortColumn));
-                        if (FilteredLanguageDTO == null)
+            if (FilteredLanguageDTO == null)
             {
                 return;
             }
-            if (sortColumn == "Language")
+            if (sortColumn == "LanguageName")
             {
                 FilteredLanguageDTO = FilteredLanguageDTO.OrderBy(v => v.LanguageName).ToList();
             }
-            else if (sortColumn == "Language Desc")
+            else if (sortColumn == "LanguageName Desc")
             {
                 FilteredLanguageDTO = FilteredLanguageDTO.OrderByDescending(v => v.LanguageName).ToList();
             }
@@ -158,29 +163,29 @@ namespace SampleApplication.Pages
         private async Task DeleteLanguage(int Id)
         {
             //TODO Optionally remove child records here or warn about their existence
-              var parameters = new ModalParameters();
-              if (LanguageDataService != null)
-              {
-                  var language = await LanguageDataService.GetLanguageById(Id);
-                  parameters.Add("Title", "Please Confirm, Delete Language");
-                  parameters.Add("Message", $"Language: {language?.LanguageName}");
-                  parameters.Add("ButtonColour", "danger");
-                  parameters.Add("Icon", "fa fa-trash");
-                  var formModal = Modal?.Show<BlazoredModalConfirmDialog>($"Delete Language ({language?.LanguageName})?", parameters);
-                  if (formModal != null)
-                  {
-                      var result = await formModal.Result;
-                      if (!result.Cancelled)
-                      {
-                          await LanguageDataService.DeleteLanguage(Id);
-                          ToastService?.ShowSuccess("Language deleted successfully");
-                          await LoadData();
-                      }
-                  }
-             }
-             LanguageId = Id;
+            var parameters = new ModalParameters();
+            if (LanguageDataService != null)
+            {
+                var language = await LanguageDataService.GetLanguageById(Id);
+                parameters.Add("Title", "Please Confirm, Delete Language");
+                parameters.Add("Message", $"LanguageName: {language?.LanguageName}");
+                parameters.Add("ButtonColour", "danger");
+                parameters.Add("Icon", "fa fa-trash");
+                var formModal = Modal?.Show<BlazoredModalConfirmDialog>($"Delete Language ({language?.LanguageName})?", parameters);
+                if (formModal != null)
+                {
+                    var result = await formModal.Result;
+                    if (!result.Cancelled)
+                    {
+                        await LanguageDataService.DeleteLanguage(Id);
+                        ToastService?.ShowSuccess("Language deleted successfully");
+                        await LoadData();
+                    }
+                }
+            }
+            LanguageId = Id;
         }
-                  
+
         private async void EditLanguage(int Id)
         {
             var parameters = new ModalParameters();
@@ -196,6 +201,38 @@ namespace SampleApplication.Pages
             }
             LanguageId = Id;
         }
-            
+
+        private async Task OnValueChangedPageSize(int value)
+        {
+            pageSize = value;
+            pageNumber = 1;
+            await LoadData();
+        }
+        private async Task PageDown(bool goBeginning)
+        {
+            if (goBeginning || pageNumber <= 0)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                pageNumber--;
+            }
+            await LoadData();
+        }
+        private async Task PageUp(bool goEnd)
+        {
+            int maximumPages = (int)(totalRows / pageSize + 0.9);
+            if (goEnd || pageNumber >= maximumPages)
+            {
+                pageNumber = maximumPages;
+            }
+            else
+            {
+                pageNumber++;
+            }
+            await LoadData();
+        }
+
     }
 }

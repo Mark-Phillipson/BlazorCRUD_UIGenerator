@@ -33,7 +33,7 @@ namespace <#=Namespace#>.Services
         (<#=ForeignKeyDataType#> <#=ForeignKeyName#>,int pageNumber, int pageSize)
         {
             var <#=PluralTablename#> = await _<#=ModelNameCamelCase#>Repository.GetAll<#=PluralTablename#>Async
-            (<#=ForeignKeyName#>, pageNumber, pageSize);            
+            (<#=ForeignKeyName#>, int pageNumber, int pageSize);            
             return <#=PluralTablename#>.ToList();
         }
 <#      } else {
@@ -84,7 +84,7 @@ namespace <#=Namespace#>.Services
         }
         public async Task<int> GetTotalCount()
         {
-            int reitsult = await _<#=ModelNameCamelCase#>Repository.GetTotalCount();
+            int result = await _<#=ModelNameCamelCase#>Repository.GetTotalCountAsync();
             return result;
         }
     }

@@ -3,6 +3,7 @@
 <#@ assembly name="System.Core" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
+<#@ import namespace="System" #>
 <#@ import namespace="System.Reflection" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".cs" #>
@@ -12,11 +13,10 @@ namespace <#=Namespace#>.Services
 {
     public interface I<#=ModelName#>DataService
     {
-        Task<List<<#=ModelName#>DTO>> GetAll<#=PluralTablename#>Async
-<#      if (ForeignKeyName!= null) { #>      
-        (<#=ForeignKeyDataType#> <#=ForeignKeyName#>, int pageNumber, int pageSize);
+<#      if (!string.IsNullOrWhiteSpace(ForeignKeyName) && !string.IsNullOrWhiteSpace(ForeignKeyDataType)) { #>      
+        Task<List<<#=ModelName#>DTO>> GetAll<#=PluralTablename#>Async(<#=ForeignKeyDataType#> <#=ForeignKeyName#>, int pageNumber, int pageSize);
 <#      } else { #>
-        (int pageNumber, int pageSize);
+        Task<List<<#=ModelName#>DTO>> GetAll<#=PluralTablename#>Async(int pageNumber, int pageSize);
 <#      } #>
         Task<List<<#=ModelName#>DTO>> Search<#=PluralTablename#>Async(string serverSearchTerm);
         Task<<#=ModelName#>DTO?> Add<#=ModelName#>(<#=ModelName#>DTO <#=ModelNameCamelCase#>DTO);

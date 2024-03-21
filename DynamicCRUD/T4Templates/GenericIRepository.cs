@@ -238,7 +238,7 @@ namespace DynamicCRUD.T4Templates
             
             #line default
             #line hidden
-            this.Write("DTO);\r\n    }\r\n}");
+            this.Write("DTO);\r\n        Task<int> GetTotalCountAsync();\r\n    }\r\n}");
             return this.GenerationEnvironment.ToString();
         }
     }

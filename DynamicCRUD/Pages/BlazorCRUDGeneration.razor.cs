@@ -245,7 +245,7 @@ public partial class BlazorCRUDGeneration : ComponentBase
             Message = "Please check the model is Not Plural";
         }
         ModelName = StringHelperService.RemoveUnsupportedCharacters(ModelName);
-        Columns = DatabaseMetaDataService.GetColumnNames(ConnectionString, Tablename, SchemaName);
+        Columns = DatabaseMetaDataService.GetColumnNames(ConnectionString, Tablename, SchemaName,ModelName);
         PopulateColumnsCaption = "Populate Columns";
     }
     private async Task CallChangeAsync(string elementId)

@@ -27,5 +27,6 @@ namespace <#=Namespace#>.Repositories
         Task<IEnumerable<<#=ModelName#>DTO>> Search<#=PluralTablename#>Async(string serverSearchTerm);
         Task<<#=ModelName#>DTO?> Get<#=ModelName#>ByIdAsync(<#=PrimaryKeyDataType#> <#=PrimaryKeyName#>);
         Task<<#=ModelName#>DTO?> Update<#=ModelName#>Async(<#=ModelName#>DTO <#=ModelNameCamelCase#>DTO);
+        Task<int> GetTotalCountAsync();
     }
 }

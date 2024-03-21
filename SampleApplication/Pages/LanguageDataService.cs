@@ -19,9 +19,9 @@ namespace SampleApplication.Services
         {
             this._languageRepository = languageRepository;
         }
-        public async Task<List<LanguageDTO>> GetAllLanguagesAsync()
+        public async Task<List<LanguageDTO>> GetAllLanguagesAsync(int pageNumber, int pageSize)
         {
-            var Languages = await _languageRepository.GetAllLanguagesAsync(300);
+            var Languages = await _languageRepository.GetAllLanguagesAsync( pageNumber, pageSize);
             return Languages.ToList();
         }
         public async Task<List<LanguageDTO>> SearchLanguagesAsync(string serverSearchTerm)
@@ -60,6 +60,11 @@ namespace SampleApplication.Services
         public async Task DeleteLanguage(int Id)
         {
             await _languageRepository.DeleteLanguageAsync(Id);
+        }
+        public async Task<int> GetTotalCount()
+        {
+            int result = await _languageRepository.GetTotalCountAsync();
+            return result;
         }
     }
 }

@@ -305,6 +305,8 @@ namespace <#=Namespace#>.Pages
                 StateHasChanged();
             }
         }
+ 
+<#           }#>
         private async Task OnValueChangedPageSize(int value)
         {
             pageSize = value;
@@ -337,6 +339,5 @@ namespace <#=Namespace#>.Pages
             await LoadData();
         }
 
-<#           }#>
     }
 }

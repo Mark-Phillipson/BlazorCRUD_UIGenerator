@@ -1172,14 +1172,16 @@ using ");
             
             #line default
             #line hidden
-            this.Write(@" item has been deleted successfully"";
-                    ApplicationState.MessageType = ""success"";
-                }
-                await LoadData();
-                StateHasChanged();
-            }
-        }
-        private async Task OnValueChangedPageSize(int value)
+            this.Write(" item has been deleted successfully\";\r\n                    ApplicationState.Messa" +
+                    "geType = \"success\";\r\n                }\r\n                await LoadData();\r\n     " +
+                    "           StateHasChanged();\r\n            }\r\n        }\r\n \r\n");
+            
+            #line 309 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
+           }
+            
+            #line default
+            #line hidden
+            this.Write(@"        private async Task OnValueChangedPageSize(int value)
         {
             pageSize = value;
             pageNumber = 1;
@@ -1211,14 +1213,8 @@ using ");
             await LoadData();
         }
 
-");
-            
-            #line 340 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
-           }
-            
-            #line default
-            #line hidden
-            this.Write("    }\r\n}");
+    }
+}");
             return this.GenerationEnvironment.ToString();
         }
     }
