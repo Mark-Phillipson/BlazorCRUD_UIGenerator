@@ -17,12 +17,14 @@ namespace SampleApplication.Repositories
             _contextFactory = contextFactory;
             this._mapper = mapper;
         }
-		        public async Task<IEnumerable<ExampleDTO>> GetAllExamplesAsync(int NumberValue)
+		        public async Task<IEnumerable<ExampleDTO>> GetAllExamplesAsync(int pageNumber, int pageSize)
         {
             using var context = _contextFactory.CreateDbContext();
             var Examples= await context.Examples
-                .Where(v => v.NumberValue==NumberValue)
+                //.Where(v => v.?==?)
                 //.OrderBy(v => v.?)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
             IEnumerable<ExampleDTO> ExamplesDTO = _mapper.Map<List<Example>, IEnumerable<ExampleDTO>>(Examples);
             return ExamplesDTO;
@@ -98,5 +100,11 @@ namespace SampleApplication.Repositories
             context.Examples.Remove(foundExample);
             await context.SaveChangesAsync();
         }
+        public async Task<int> GetTotalCountAsync()
+        {
+            using var context = _contextFactory.CreateDbContext();
+            return await context.Examples.CountAsync();
+        }
+
     }
 }

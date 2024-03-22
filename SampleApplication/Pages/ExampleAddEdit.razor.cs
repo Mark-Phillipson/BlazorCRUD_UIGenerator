@@ -30,7 +30,6 @@ namespace SampleApplication.Pages
         [Inject] public ILogger<ExampleAddEdit>? Logger { get; set; }
         [Inject] public IJSRuntime? JSRuntime { get; set; }
         [Parameter] public int? Id { get; set; }
-      [Parameter] public int NumberValue { get; set; }
         public ExampleDTO ExampleDTO { get; set; } = new ExampleDTO();//{ };
         [Inject] public IExampleDataService? ExampleDataService { get; set; }
         [Inject] public ApplicationState? ApplicationState { get; set; }
@@ -44,7 +43,7 @@ namespace SampleApplication.Pages
             {
                 return;
             }
-            if (Id > 0)
+            if (Id != null && Id != 0)
             {
                 var result = await ExampleDataService.GetExampleById((int)Id);
                 if (result != null)
@@ -54,8 +53,6 @@ namespace SampleApplication.Pages
             }
             else
             {
-			
-                ExampleDTO.NumberValue = NumberValue;
             }
         }
 
@@ -67,7 +64,7 @@ namespace SampleApplication.Pages
                 {
                     if (JSRuntime != null)
                     {
-                        await JSRuntime.InvokeVoidAsync("window.setFocus", "NumberValue");
+                        await JSRuntime.InvokeVoidAsync("window.setFocus", "Name");
                     }
                 }
                 catch (Exception exception)

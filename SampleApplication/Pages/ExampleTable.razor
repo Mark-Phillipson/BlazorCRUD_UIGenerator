@@ -1,17 +1,38 @@
 
-@page "/examples/{NumberValue:int}"
+@page "/examples"
 <div class="row">
 <div class="col-md-12">
     </div>
-    <div class="col-md-8">
-        <h5 class="m-1">@Title</h5>
+    <div class="col-md-3">
+        <h5 class="m-1">@Title Page: @pageNumber</h5>
     </div>
-@*    <div class="col-md-1">
-        <a class="btn btn-primary btn-sm m-2" href="/ParentTable/@NumberValue"><i class="fas fa-arrow-left"></i></a>
-   </div>*@
+    	<div class="col-md-1">
+		<button title="Go to 1st page" type="button" class="btn btn-sm btn-outline-secondary mx-1"
+			@onclick="@(()  => PageDown(true))">
+			<i class="fa-solid fa-backward"></i>
+		</button>
+	</div>
+	<div class="col-md-1">
+		<button title="Go to previous page" type="button" class="btn btn-sm btn-outline-secondary mx-1"
+			@onclick="(()  => PageDown(false))">
+			<i class="fas fa-arrow-left"></i>
+		</button>
+	</div>
+	<div class="col-md-1">
+		<button title="Go to next page" type="button" class="btn btn-sm btn-outline-secondary mx-1"
+			@onclick="(() => PageUp(false)) ">
+			<i class="fas fa-arrow-right"></i>
+		</button>
+	</div>
+	<div class="col-md-1">
+		<button title="Go to last page" type="button" class="btn btn-sm btn-outline-secondary mx-1"
+			@onclick="(()  => PageUp(true))">
+			<i class="fa-solid fa-forward"></i>
+		</button>
+	</div>
     <div class="col-md-4">
         <input @ref="SearchInput" accesskey="i" class="form-control my-1" style="float:right" @bind="@SearchTerm" 
-        @bind:event="oninput" id="SearchInput" name="SearchTerm" placeholder="Filter by Text (Alt+I)" />
+        @bind:event="oninput" id="SearchInput" name="SearchTerm" placeholder="Filter by Name/Description/Created By (Alt+I)" />
     </div> 
 </div>
 
@@ -35,28 +56,47 @@ else
     <table style="font-size:small" class="table table-bordered table-striped table-sm table-responsive-sm">
         <thead>
             <tr>
-              <th>ID</th>
+              <th>Id</th>
               <th>
-                    <button class="btn btn-sm" @onclick="@(() => SortExample("NumberValue"))">
+                    <button class="btn btn-sm" @onclick="@(() => SortExample("Name"))">
                         <i class="fas fa-sort-alpha-up"></i>
                     </button>
-                    <button class="btn btn-sm" @onclick="@(() => SortExample("NumberValue Desc"))">
+                    <button class="btn btn-sm" @onclick="@(() => SortExample("Name Desc"))">
                         <i class="fas fa-sort-alpha-up-alt"></i>
                     </button>
-                    Number Value
+                    Name
                 </th>
+              <th>Description</th>
               <th>
-                    <button class="btn btn-sm" @onclick="@(() => SortExample("Text"))">
+                    <button class="btn btn-sm" @onclick="@(() => SortExample("DateCreated"))">
                         <i class="fas fa-sort-alpha-up"></i>
                     </button>
-                    <button class="btn btn-sm" @onclick="@(() => SortExample("Text Desc"))">
+                    <button class="btn btn-sm" @onclick="@(() => SortExample("DateCreated Desc"))">
                         <i class="fas fa-sort-alpha-up-alt"></i>
                     </button>
-                    Text
+                    Date Created
                 </th>
-              <th>Large Text</th>
-              <th>Boolean</th>
-              <th>Date Value</th>
+              <th>Created By</th>
+              <th>Is Active</th>
+              <th>
+                    <button class="btn btn-sm" @onclick="@(() => SortExample("Price"))">
+                        <i class="fas fa-sort-alpha-up"></i>
+                    </button>
+                    <button class="btn btn-sm" @onclick="@(() => SortExample("Price Desc"))">
+                        <i class="fas fa-sort-alpha-up-alt"></i>
+                    </button>
+                    Price
+                </th>
+              <th>
+                    <button class="btn btn-sm" @onclick="@(() => SortExample("Quantity"))">
+                        <i class="fas fa-sort-alpha-up"></i>
+                    </button>
+                    <button class="btn btn-sm" @onclick="@(() => SortExample("Quantity Desc"))">
+                        <i class="fas fa-sort-alpha-up-alt"></i>
+                    </button>
+                    Quantity
+                </th>
+              <th>Category Id</th>
                 <th>
                     <button accesskey="+" @onclick="AddNewExample" class="btn btn-outline-success btn-sm">
                         <i class="fas fa-plus"></i>
@@ -73,11 +113,14 @@ else
                             @example.Id
                         </button>
                     </td>
-                    <td>@example.NumberValue</td>
-                    <td>@example.Text</td>
-                    <td>@example.LargeText</td>
-                    <td>@example.Boolean</td>
-                    <td>@example.DateValue</td>
+                    <td>@example.Name</td>
+                    <td>@example.Description</td>
+                    <td>@example.DateCreated</td>
+                    <td>@example.CreatedBy</td>
+                    <td>@example.IsActive</td>
+                    <td>@example.Price</td>
+                    <td>@example.Quantity</td>
+                    <td>@example.CategoryId</td>
                     <td class="btn-group-vertical">
                         <button class="btn btn-sm btn-outline-warning" @onclick="@(() => EditExample(example.Id))">
                             <i class="fas fa-edit"></i>

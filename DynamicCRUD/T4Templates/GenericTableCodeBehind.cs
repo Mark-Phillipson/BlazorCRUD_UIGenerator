@@ -1201,7 +1201,7 @@ using ");
         }
         private async Task PageUp(bool goEnd)
         {
-            int maximumPages = (int)(totalRows / pageSize + 0.9);
+            int maximumPages = (int)Math.Ceiling((decimal)totalRows / pageSize);
             if (goEnd || pageNumber >= maximumPages)
             {
                 pageNumber = maximumPages;

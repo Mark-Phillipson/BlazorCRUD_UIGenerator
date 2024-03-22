@@ -26,16 +26,14 @@ namespace SampleApplication.Pages
 {
     public partial class ExampleTable : ComponentBase
     {
-        [Inject] public IExampleDataService? ExampleDataService { get; set; }
-        [Inject] public NavigationManager? NavigationManager { get; set; }
+        [Inject] public required IExampleDataService ExampleDataService { get; set; }
+        [Inject] public required  NavigationManager NavigationManager { get; set; }
         [Inject] public ILogger<ExampleTable>? Logger { get; set; }
         
-        [Inject] public IToastService? ToastService { get; set; }
+        [Inject] public required IToastService ToastService { get; set; }
         [CascadingParameter] public IModalService? Modal { get; set; }
         public string Title { get; set; } = "Example Items (Examples)";
         public string EditTitle { get; set; } = "Edit Example Item (Examples)";
-		
-        [Parameter] public int NumberValue { get; set; }
         [Parameter] public int ParentId { get; set; }
         public List<ExampleDTO>? ExampleDTO { get; set; }
         public List<ExampleDTO>? FilteredExampleDTO { get; set; }
@@ -53,6 +51,10 @@ namespace SampleApplication.Pages
         [Inject] public IJSRuntime? JSRuntime { get; set; }
         public bool ShowEdit { get; set; } = false;
         private bool ShowDeleteConfirm { get; set; }
+        private int pageNumber = 1;
+        private int pageSize = 20;
+        private int totalRows = 0;
+    
         private int ExampleId  { get; set; }
         protected override async Task OnInitializedAsync()
         {
@@ -65,7 +67,10 @@ namespace SampleApplication.Pages
             {
                 if (ExampleDataService != null)
                 {
-                    var result = await ExampleDataService!.GetAllExamplesAsync(NumberValue);
+                    totalRows = await ExampleDataService.GetTotalCount();
+                    var result = await ExampleDataService!.GetAllExamplesAsync
+                    
+                    (pageNumber,pageSize);
                     //var result = await ExampleDataService.SearchExamplesAsync(ServerSearchTerm);
                     if (result != null)
                     {
@@ -77,7 +82,7 @@ namespace SampleApplication.Pages
             }
             catch (Exception e)
             {
-                Logger?.LogError("Exception occurred in LoadData Method, Getting Records from the Service", e);
+                Logger?.LogError("e, Exception occurred in LoadData Method, Getting Records from the Service");
                 _loadFailed = true;
                 ExceptionMessage = e.Message;
             }
@@ -105,8 +110,6 @@ namespace SampleApplication.Pages
         private async Task AddNewExample()
         {
               var parameters = new ModalParameters();
-			
-              parameters.Add(nameof(NumberValue), NumberValue);
               var formModal = Modal?.Show<ExampleAddEdit>("Add Example", parameters);
               if (formModal != null)
               {
@@ -128,7 +131,7 @@ namespace SampleApplication.Pages
             }
             if (string.IsNullOrEmpty(SearchTerm))
             {
-                FilteredExampleDTO = ExampleDTO.OrderBy(v => v.NumberValue).ToList();
+                FilteredExampleDTO = ExampleDTO.OrderBy(v => v.Name).ToList();
                 Title = $"All Example ({FilteredExampleDTO.Count})";
             }
             else
@@ -136,7 +139,9 @@ namespace SampleApplication.Pages
                 var temporary = SearchTerm.ToLower().Trim();
                 FilteredExampleDTO = ExampleDTO
                     .Where(v => 
-                    (v.Text!= null  && v.Text.ToLower().Contains(temporary))
+                    (v.Name!= null  && v.Name.ToLower().Contains(temporary))
+                     || (v.Description!= null  &&  v.Description.ToLower().Contains(temporary))
+                     || (v.CreatedBy!= null  &&  v.CreatedBy.ToLower().Contains(temporary))
                     )
                     .ToList();
                 Title = $"Filtered Examples ({FilteredExampleDTO.Count})";
@@ -149,21 +154,37 @@ namespace SampleApplication.Pages
             {
                 return;
             }
-            if (sortColumn == "NumberValue")
+            if (sortColumn == "Name")
             {
-                FilteredExampleDTO = FilteredExampleDTO.OrderBy(v => v.NumberValue).ToList();
+                FilteredExampleDTO = FilteredExampleDTO.OrderBy(v => v.Name).ToList();
             }
-            else if (sortColumn == "NumberValue Desc")
+            else if (sortColumn == "Name Desc")
             {
-                FilteredExampleDTO = FilteredExampleDTO.OrderByDescending(v => v.NumberValue).ToList();
+                FilteredExampleDTO = FilteredExampleDTO.OrderByDescending(v => v.Name).ToList();
             }
-            if (sortColumn == "Text")
+            if (sortColumn == "DateCreated")
             {
-                FilteredExampleDTO = FilteredExampleDTO.OrderBy(v => v.Text).ToList();
+                FilteredExampleDTO = FilteredExampleDTO.OrderBy(v => v.DateCreated).ToList();
             }
-            else if (sortColumn == "Text Desc")
+            else if (sortColumn == "DateCreated Desc")
             {
-                FilteredExampleDTO = FilteredExampleDTO.OrderByDescending(v => v.Text).ToList();
+                FilteredExampleDTO = FilteredExampleDTO.OrderByDescending(v => v.DateCreated).ToList();
+            }
+            if (sortColumn == "Price")
+            {
+                FilteredExampleDTO = FilteredExampleDTO.OrderBy(v => v.Price).ToList();
+            }
+            else if (sortColumn == "Price Desc")
+            {
+                FilteredExampleDTO = FilteredExampleDTO.OrderByDescending(v => v.Price).ToList();
+            }
+            if (sortColumn == "Quantity")
+            {
+                FilteredExampleDTO = FilteredExampleDTO.OrderBy(v => v.Quantity).ToList();
+            }
+            else if (sortColumn == "Quantity Desc")
+            {
+                FilteredExampleDTO = FilteredExampleDTO.OrderByDescending(v => v.Quantity).ToList();
             }
         }
         private async Task DeleteExample(int Id)
@@ -174,10 +195,10 @@ namespace SampleApplication.Pages
               {
                   var example = await ExampleDataService.GetExampleById(Id);
                   parameters.Add("Title", "Please Confirm, Delete Example");
-                  parameters.Add("Message", $"NumberValue: {example?.NumberValue}");
+                  parameters.Add("Message", $"Name: {example?.Name}");
                   parameters.Add("ButtonColour", "danger");
                   parameters.Add("Icon", "fa fa-trash");
-                  var formModal = Modal?.Show<BlazoredModalConfirmDialog>($"Delete Example ({example?.NumberValue})?", parameters);
+                  var formModal = Modal?.Show<BlazoredModalConfirmDialog>($"Delete Example ({example?.Name})?", parameters);
                   if (formModal != null)
                   {
                       var result = await formModal.Result;
@@ -208,5 +229,37 @@ namespace SampleApplication.Pages
             ExampleId = Id;
         }
             
+        private async Task OnValueChangedPageSize(int value)
+        {
+            pageSize = value;
+            pageNumber = 1;
+            await LoadData();
+        }
+        private async Task PageDown(bool goBeginning)
+        {
+            if (goBeginning || pageNumber <= 0)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                pageNumber--;
+            }
+            await LoadData();
+        }
+        private async Task PageUp(bool goEnd)
+        {
+            int maximumPages = (int)Math.Ceiling((decimal)totalRows / pageSize);
+            if (goEnd || pageNumber >= maximumPages)
+            {
+                pageNumber = maximumPages;
+            }
+            else
+            {
+                pageNumber++;
+            }
+            await LoadData();
+        }
+
     }
 }

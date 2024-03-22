@@ -1,25 +1,42 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
-namespace SampleApplication.Models;
-
-public partial class Example
+[Table("Example")]
+public class Example
 {
     [Key]
-    [Column("ID")]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
-    public int NumberValue { get; set; }
+    [Required]
+    [StringLength(50)]
+    public required string Name { get; set; }
 
-    [StringLength(255)]
-    public string Text { get; set; } = null!;
+    [Required]
+    public required string Description { get; set; }
 
-    public string LargeText { get; set; } = null!;
+    [Required]
+    [DataType(DataType.DateTime)]
+    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+    public DateTime DateCreated { get; set; }
 
-    public bool Boolean { get; set; }
+    [Required]
+    [StringLength(50)]
+    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+    public required string CreatedBy { get; set; }
 
-    public DateTime? DateValue { get; set; }
+    [Required]
+    public bool IsActive { get; set; } = true;
+
+    [Required]
+    [DataType(DataType.Currency)]
+    [Column(TypeName = "decimal(18, 2)")]
+    public decimal Price { get; set; } = 0;
+
+    [Required]
+    public int Quantity { get; set; }
+
+    [Required]
+    public int CategoryId { get; set; }
 }

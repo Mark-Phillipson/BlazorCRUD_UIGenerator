@@ -7,12 +7,17 @@ namespace SampleApplication.DTOs
     {
         [Key]
         public int Id { get; set; }        [Required]
-        public int NumberValue { get; set; }        [Required]
-        [StringLength(255)]
-        public string Text { get; set; } ="";
+        [StringLength(50)]
+        public string Name { get; set; } ="";
         [Required]
-        public string LargeText { get; set; } ="";
+        public string Description { get; set; } ="";
         [Required]
-        public bool Boolean { get; set; }        public DateTime? DateValue { get; set; }
-    }   
+        public DateTime DateCreated { get; set; }        [Required]
+        [StringLength(50)]
+        public string CreatedBy { get; set; } ="";
+        [Required]
+        public bool IsActive { get; set; }        [Required]
+        public decimal Price { get; set; }        [Required]
+        public int Quantity { get; set; }        [Required]
+        public int CategoryId { get; set; }    }   
 }

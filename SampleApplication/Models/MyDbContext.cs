@@ -14,6 +14,7 @@ public partial class MyDbContext : DbContext
     {
         _configuration = configuration;
     }
+    public virtual DbSet<Example> Examples { get; set; }
     public virtual DbSet<Customer> Customers { get; set; }
     public virtual DbSet<AdditionalCommand> AdditionalCommands { get; set; }
 
@@ -34,8 +35,6 @@ public partial class MyDbContext : DbContext
     public virtual DbSet<CustomIntelliSense> CustomIntelliSenses { get; set; }
 
     public virtual DbSet<CustomWindowsSpeechCommand> CustomWindowsSpeechCommands { get; set; }
-
-    public virtual DbSet<Example> Examples { get; set; }
 
     public virtual DbSet<GeneralLookup> GeneralLookups { get; set; }
 

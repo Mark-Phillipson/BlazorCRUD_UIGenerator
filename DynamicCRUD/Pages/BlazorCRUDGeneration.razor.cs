@@ -18,7 +18,9 @@ public partial class BlazorCRUDGeneration : ComponentBase
     public string? PluralName { get; set; }
     public string? DbContextName { get; set; } = "MyDbContext";
     public string? AutoMapperCode { get; set; } = "";
+    private ElementReference AutoMapperCodeElement { get; set; }
     public string? DependencyInjectionCode { get; set; } = "";
+    private ElementReference DependencyInjectionCodeElement { get; set; }
     private bool UseBlazored { get; set; } = true;
     [Inject] public IJSRuntime? JSRuntime { get; set; }
     [Inject] IToastService? ToastService { get; set; }
@@ -245,7 +247,7 @@ public partial class BlazorCRUDGeneration : ComponentBase
             Message = "Please check the model is Not Plural";
         }
         ModelName = StringHelperService.RemoveUnsupportedCharacters(ModelName);
-        Columns = DatabaseMetaDataService.GetColumnNames(ConnectionString, Tablename, SchemaName,ModelName);
+        Columns = DatabaseMetaDataService.GetColumnNames(ConnectionString, Tablename, SchemaName, ModelName);
         PopulateColumnsCaption = "Populate Columns";
     }
     private async Task CallChangeAsync(string elementId)
@@ -265,7 +267,14 @@ public partial class BlazorCRUDGeneration : ComponentBase
 "clipboardCopy.copyText", value);
         var message = $"copy commandline Copied Successfully: '{value}'";
         ToastService!.ShowSuccess(message);
-
+    }
+    private async Task FocusAutoMapperCode()
+    {
+        await AutoMapperCodeElement.FocusAsync();
+    }
+    private async Task FocusDependencyInjectionCode()
+    {
+        await DependencyInjectionCodeElement.FocusAsync();
     }
     private void ReverseEngineerTable()
     {

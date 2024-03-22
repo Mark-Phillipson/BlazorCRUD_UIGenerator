@@ -9,33 +9,55 @@
             <span class="text-info m-1">@ExampleDTO.Id</span>
         }
         <div class="row">
-            <div class="col-12">
+            <div class="col-6">
                 <div class="form-group">
-                    <label for="NumberValue">Number Value: </label> <i class="text-danger fa">*</i>
-                    <InputNumber id="NumberValue" class="form-control" @bind-Value="@ExampleDTO.NumberValue"
-                                 placeholder="Enter Number Value"></InputNumber>
-                    <ValidationMessage For="@(() => ExampleDTO.NumberValue)" />
+                    <label for="Name">Name:</label> <i class="text-danger fa">*</i>
+
+                    <InputText id="Name" class="form-control" @bind-Value="@ExampleDTO.Name"
+                               placeholder="Enter Name"></InputText>
+                    <ValidationMessage For="@(() => ExampleDTO.Name)" />
                 </div>
                 <div class="form-group">
-                    <label for="Text">Text: </label> <i class="text-danger fa">*</i>
-                    <InputTextArea rows="2" id="Text" class="form-control" @bind-Value="@ExampleDTO.Text"
-                               placeholder="Enter Text"></InputTextArea>
-                    <ValidationMessage For="@(() => ExampleDTO.Text)" />
+                    <label for="Description">Description: </label> <i class="text-danger fa">*</i>
+                    <InputTextArea rows="2" id="Description" class="form-control" @bind-Value="@ExampleDTO.Description"
+                               placeholder="Enter Description"></InputTextArea>
+                    <ValidationMessage For="@(() => ExampleDTO.Description)" />
                 </div>
                 <div class="form-group">
-                    <label for="LargeText">Large Text: </label> <i class="text-danger fa">*</i>
-                    <InputTextArea rows="2" id="LargeText" class="form-control" @bind-Value="@ExampleDTO.LargeText"
-                               placeholder="Enter Large Text"></InputTextArea>
-                    <ValidationMessage For="@(() => ExampleDTO.LargeText)" />
+                    <label for="CreatedBy">Created By:</label> <i class="text-danger fa">*</i>
+
+                    <InputText id="CreatedBy" class="form-control" @bind-Value="@ExampleDTO.CreatedBy"
+                               placeholder="Enter Created By"></InputText>
+                    <ValidationMessage For="@(() => ExampleDTO.CreatedBy)" />
                 </div>
                 <div class="form-group">
-                    <label for="Boolean">Boolean: </label>
-                    <InputCheckbox id="Boolean" class="form-checkbox" @bind-Value="@ExampleDTO.Boolean">
+                    <label for="IsActive">Is Active: </label>
+                    <InputCheckbox id="IsActive" class="form-checkbox" @bind-Value="@ExampleDTO.IsActive">
                     </InputCheckbox>
-                    <ValidationMessage For="@(() => ExampleDTO.Boolean)" />
+                    <ValidationMessage For="@(() => ExampleDTO.IsActive)" />
+                </div>
+                <div class="form-group">
+                    <label for="Price">Price: </label> <i class="text-danger fa">*</i>
+                    <InputNumber id="Price" class="form-control" @bind-Value="@ExampleDTO.Price"
+                                 placeholder="Enter Price"></InputNumber>
+                    <ValidationMessage For="@(() => ExampleDTO.Price)" />
+                </div>
+                <div class="form-group">
+                    <label for="Quantity">Quantity: </label> <i class="text-danger fa">*</i>
+                    <InputNumber id="Quantity" class="form-control" @bind-Value="@ExampleDTO.Quantity"
+                                 placeholder="Enter Quantity"></InputNumber>
+                    <ValidationMessage For="@(() => ExampleDTO.Quantity)" />
+                </div>
+             </div>
+               <div class="col-6">
+                <div class="form-group">
+                    <label for="CategoryId">Category Id: </label> <i class="text-danger fa">*</i>
+                    <InputNumber id="CategoryId" class="form-control" @bind-Value="@ExampleDTO.CategoryId"
+                                 placeholder="Enter Category Id"></InputNumber>
+                    <ValidationMessage For="@(() => ExampleDTO.CategoryId)" />
                 </div>
             </div>
-            <div class="col-12">
+            <div class="col-6">
                  @* Move here for the next display column if required *@
             </div>
         </div>

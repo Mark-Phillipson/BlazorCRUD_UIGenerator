@@ -6,7 +6,8 @@
             <div class="col-3">
                 <div class="form-group">
                     <label class="col-form-label col-form-label-sm"><u>T</u>able Filter </label>
-                    <input accesskey="t" class="form-control form-control-sm" type="text" @bind="SearchString" id="SearchString" @oninput="@(e => CallChangeAsync("SearchString"))" />
+                    <input accesskey="t" class="form-control form-control-sm" type="text" @bind="SearchString"
+                        id="SearchString" @oninput="@(e => CallChangeAsync("SearchString"))" />
                 </div>
             </div>
             <div class="col-7">
@@ -23,7 +24,8 @@
                 @if (Tablename != null)
                 {
                     <label></label>
-                    <button accesskey="p" class="btn btn-sm btn-primary" type="button" @onclick="@( ( ) => PopulateColumns() )">@PopulateColumnsCaption</button>
+                    <button accesskey="p" class="btn btn-sm btn-primary" type="button"
+                        @onclick="@( ( ) => PopulateColumns() )">@PopulateColumnsCaption</button>
                 }
             </div>
         </div>
@@ -33,25 +35,29 @@
             <div class="col-3">
                 <div class="form-group">
                     <label class="col-form-label col-form-label-sm">Namespace</label>
-                    <input class="form-control form-control-sm" type="text" @bind="NamespaceName" id="DestinationProjectName" @oninput="@(e => CallChangeAsync("DestinationProjectName"))" />
+                    <input class="form-control form-control-sm" type="text" @bind="NamespaceName"
+                        id="DestinationProjectName" @oninput="@(e => CallChangeAsync("DestinationProjectName"))" />
                 </div>
             </div>
             <div class="col-3">
                 <div class="form-group">
                     <label class="col-form-label col-form-label-sm">Model Name</label>
-                    <input class="form-control form-control-sm" type="text" @bind="ModelName" id="ModelName" @oninput="@(e => CallChangeAsync("ModelName"))" />
+                    <input class="form-control form-control-sm" type="text" @bind="ModelName" id="ModelName"
+                        @oninput="@(e => CallChangeAsync("ModelName"))" />
                 </div>
             </div>
             <div class="col-3">
                 <div class="form-group">
                     <label class="col-form-label col-form-label-sm">Plural Name</label>
-                    <input class="form-control form-control-sm" type="text" @bind="PluralName" id="PluralName" @oninput="@(e => CallChangeAsync("PluralName"))" />
+                    <input class="form-control form-control-sm" type="text" @bind="PluralName" id="PluralName"
+                        @oninput="@(e => CallChangeAsync("PluralName"))" />
                 </div>
             </div>
             <div class="col-3">
                 <div class="form-group">
                     <label class="col-form-label col-form-label-sm">Db Context Name</label>
-                    <input required class="form-control form-control-sm" type="text" @bind="DbContextName" id="DbContextName" @oninput="@(e => CallChangeAsync("DbContextName"))" />
+                    <input required class="form-control form-control-sm" type="text" @bind="DbContextName"
+                        id="DbContextName" @oninput="@(e => CallChangeAsync("DbContextName"))" />
                 </div>
             </div>
         </div>
@@ -83,17 +89,22 @@
                     {
                         <tr>
                             <td>@column.ColumnName</td>
-                            <td style="font-size:xx-small"><input type="text" class="form-control-sm border border-warning" @bind="@column.Label" /></td>
+                            <td style="font-size:xx-small"><input type="text" class="form-control-sm border border-warning"
+                                    @bind="@column.Label" /></td>
                             <td>@column.DataType</td>
                             <td>@column.ColumnSize</td>
                             <td>@column.Required</td>
                             <td>@column.IsAutoIncrement</td>
                             <td>@column.IsIdentity</td>
                             <td>@column.IsKey</td>
-                            <td style="text-align:center"><input type="checkbox" class="form-checkbox" @bind="@column.Filter" /></td>
-                            <td style="text-align:center"><input type="checkbox" class="form-checkbox" @bind="@column.Sort" /></td>
-                            <td style="text-align:center"><input type="checkbox" class="form-checkbox" @bind="@column.PrimaryKeyOverride" /></td>
-                            <td style="text-align:center"><input type="checkbox" class="form-checkbox" @bind="@column.ForeignKey" /></td>
+                            <td style="text-align:center"><input type="checkbox" class="form-checkbox" @bind="@column.Filter" />
+                            </td>
+                            <td style="text-align:center"><input type="checkbox" class="form-checkbox" @bind="@column.Sort" />
+                            </td>
+                            <td style="text-align:center"><input type="checkbox" class="form-checkbox"
+                                    @bind="@column.PrimaryKeyOverride" /></td>
+                            <td style="text-align:center"><input type="checkbox" class="form-checkbox"
+                                    @bind="@column.ForeignKey" /></td>
                         </tr>
                     }
                 </tbody>
@@ -123,30 +134,36 @@
     @if (ShowInstructions)
     {
         <div class="col-12">
-            <p>If this is the 1st time the table has been set up, please carry out the following tasks to complete the process:</p>
-                <p>Inspect the generated files at DynamicCRUD.AutoGenClasses and move them to your project.</p>
-                <p>The following line of code, should already exist the destination project DB context (@(DbContextName))</p>
-                <p><code>public virtual DbSet&lt;@ModelName&gt; @PluralName { get; set; } </code> </p>
-                <p>Add the following code to the mapper profile class:</p>
-                <div class="row">
-                    <div class="col-10">
-                        <input class="form-control" type="text" @bind="AutoMapperCode" />
-                    </div>
-                    <div class="col-2">
-                        <button class="btn btn-outline-primary" type="button" @onclick="@( ( ) => CopyAsync( AutoMapperCode) )">Copy</button>
-                    </div>
+            <p>If this is the 1st time the table has been set up, please carry out the following tasks to complete the
+                process:</p>
+            <p>Inspect the generated files at DynamicCRUD.AutoGenClasses and move them to your project.</p>
+            <p>The following line of code, should already exist the destination project DB context (@(DbContextName))</p>
+            <p><code>public virtual DbSet&lt;@ModelName&gt; @PluralName { get; set; } </code> </p>
+            <p>Add the following code to the mapper profile class:</p>
+            <div class="row">
+                <div class="col-10">
+                    <input id='AutoMapperCode' @ref="AutoMapperCodeElement" class="form-control" type="text"
+                        @bind="AutoMapperCode" />
                 </div>
-                <p>In the <code>Program.cs</code> file register both the Repository and Data Service as others have been registered, for dependency injection using the AddScoped method</p>
-                <p>
-                <div class="row">
-                    <div class="col-10">
-                        <input class="form-control" type="text" @bind="DependencyInjectionCode" />
-                    </div>
-                    <div class="col-2">
-                        <button class="btn btn-outline-primary" type="button" @onclick="@( ( ) => CopyAsync( DependencyInjectionCode) )">Copy</button>
-                    </div>
+                <div class="col-2">
+                    <button class="btn btn-outline-primary" type="button"
+                        @onclick="@( ( ) => FocusAutoMapperCode() )">Copy</button>
                 </div>
-                </p>
+            </div>
+            <p>In the <code>Program.cs</code> file register both the Repository and Data Service as others have been
+                registered, for dependency injection using the AddScoped method</p>
+            <p>
+            <div class="row">
+                <div class="col-10">
+                    <input id='DependencyInjectionCode' @ref="@DependencyInjectionCodeElement" class="form-control"
+                        type="text" @bind="DependencyInjectionCode" />
+                </div>
+                <div class="col-2">
+                    <button class="btn btn-outline-primary" type="button"
+                        @onclick="@( ( ) => FocusDependencyInjectionCode() )">Copy</button>
+                </div>
+            </div>
+            </p>
 
         </div>
     }

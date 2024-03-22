@@ -19,9 +19,9 @@ namespace SampleApplication.Services
         {
             this._exampleRepository = exampleRepository;
         }
-        public async Task<List<ExampleDTO>> GetAllExamplesAsync(int NumberValue)
+        public async Task<List<ExampleDTO>> GetAllExamplesAsync(int pageNumber, int pageSize)
         {
-            var Examples = await _exampleRepository.GetAllExamplesAsync(NumberValue);
+            var Examples = await _exampleRepository.GetAllExamplesAsync( pageNumber, pageSize);
             return Examples.ToList();
         }
         public async Task<List<ExampleDTO>> SearchExamplesAsync(string serverSearchTerm)
@@ -60,6 +60,11 @@ namespace SampleApplication.Services
         public async Task DeleteExample(int Id)
         {
             await _exampleRepository.DeleteExampleAsync(Id);
+        }
+        public async Task<int> GetTotalCount()
+        {
+            int result = await _exampleRepository.GetTotalCountAsync();
+            return result;
         }
     }
 }
