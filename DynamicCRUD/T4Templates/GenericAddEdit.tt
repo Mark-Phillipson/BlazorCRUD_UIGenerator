@@ -93,8 +93,8 @@
             </div>
         </div>
         <hr>
-        <div class="btn-group" style="float:right">
-            <a accesskey="c" class="btn btn-lg btn-outline-primary" @onclick="@CloseAsync"><u>C</u>ancel</a>
+        <div style="float:right">
+            <button type='button' accesskey="c" class="btn btn-lg btn-outline-primary" @onclick="@CloseAsync"><u>C</u>ancel</button>
             <button @TaskRunning accesskey="s" type="submit" class="btn btn-lg btn-primary"><u>S</u>ave Record</button>
         </div>
     </EditForm>
