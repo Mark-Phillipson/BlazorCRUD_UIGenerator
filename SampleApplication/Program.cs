@@ -33,7 +33,7 @@ builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<ICustomerDataService, CustomerDataService>();
 builder.Services.AddScoped<ILanguageRepository, LanguageRepository>();
 builder.Services.AddScoped<ILanguageDataService, LanguageDataService>();
-
+builder.Services.AddScoped<ICustomIntelliSenseRepository, CustomIntelliSenseRepository>(); builder.Services.AddScoped<ICustomIntelliSenseDataService, CustomIntelliSenseDataService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

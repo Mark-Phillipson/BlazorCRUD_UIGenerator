@@ -1,0 +1,91 @@
+@page "/customintellisense/{Id:int?}"
+<div style="min-width:80vw">
+<h1>@Title</h1>
+    <EditForm Model="@CustomIntelliSenseDTO" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        @*<ValidationSummary />*@
+        @if (CustomIntelliSenseDTO.Id > 0)
+        {
+            <span class="text-info m-1">@CustomIntelliSenseDTO.Id</span>
+        }
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="LanguageId">Language ID: </label> <i class="text-danger fa">*</i>
+                    <InputNumber id="LanguageId" class="form-control" @bind-Value="@CustomIntelliSenseDTO.LanguageId"
+                                 placeholder="Enter Language ID"></InputNumber>
+                    <ValidationMessage For="@(() => CustomIntelliSenseDTO.LanguageId)" />
+                </div>
+                <div class="form-group">
+                    <label for="DisplayValue">Display Value: </label> <i class="text-danger fa">*</i>
+                    <InputTextArea rows="2" id="DisplayValue" class="form-control" @bind-Value="@CustomIntelliSenseDTO.DisplayValue"
+                               placeholder="Enter Display Value"></InputTextArea>
+                    <ValidationMessage For="@(() => CustomIntelliSenseDTO.DisplayValue)" />
+                </div>
+                <div class="form-group">
+                    <label for="SendKeysValue">Send Keys Value: </label>                    <InputTextArea rows="2" id="SendKeysValue" class="form-control" @bind-Value="@CustomIntelliSenseDTO.SendKeysValue"
+                               placeholder="Enter Send Keys Value"></InputTextArea>
+                    <ValidationMessage For="@(() => CustomIntelliSenseDTO.SendKeysValue)" />
+                </div>
+                <div class="form-group">
+                    <label for="CommandType">Command Type: </label>                    <InputTextArea rows="2" id="CommandType" class="form-control" @bind-Value="@CustomIntelliSenseDTO.CommandType"
+                               placeholder="Enter Command Type"></InputTextArea>
+                    <ValidationMessage For="@(() => CustomIntelliSenseDTO.CommandType)" />
+                </div>
+                <div class="form-group">
+                    <label for="CategoryId">Category ID: </label> <i class="text-danger fa">*</i>
+                    <InputNumber id="CategoryId" class="form-control" @bind-Value="@CustomIntelliSenseDTO.CategoryId"
+                                 placeholder="Enter Category ID"></InputNumber>
+                    <ValidationMessage For="@(() => CustomIntelliSenseDTO.CategoryId)" />
+                </div>
+                <div class="form-group">
+                    <label for="Remarks">Remarks: </label>                    <InputTextArea rows="2" id="Remarks" class="form-control" @bind-Value="@CustomIntelliSenseDTO.Remarks"
+                               placeholder="Enter Remarks"></InputTextArea>
+                    <ValidationMessage For="@(() => CustomIntelliSenseDTO.Remarks)" />
+                </div>
+                <div class="form-group">
+                    <label for="Search">Search: </label>                    <InputTextArea rows="2" id="Search" class="form-control" @bind-Value="@CustomIntelliSenseDTO.Search"
+                               placeholder="Enter Search"></InputTextArea>
+                    <ValidationMessage For="@(() => CustomIntelliSenseDTO.Search)" />
+                </div>
+             </div>
+               <div class="col-6">
+                <div class="form-group">
+                    <label for="ComputerId">Computer ID: </label>                    <InputNumber id="ComputerId" class="form-control" @bind-Value="@CustomIntelliSenseDTO.ComputerId"
+                                 placeholder="Enter Computer ID"></InputNumber>
+                    <ValidationMessage For="@(() => CustomIntelliSenseDTO.ComputerId)" />
+                </div>
+                <div class="form-group">
+                    <label for="DeliveryType">Delivery Type:</label> <i class="text-danger fa">*</i>
+
+                    <InputText id="DeliveryType" class="form-control" @bind-Value="@CustomIntelliSenseDTO.DeliveryType"
+                               placeholder="Enter Delivery Type"></InputText>
+                    <ValidationMessage For="@(() => CustomIntelliSenseDTO.DeliveryType)" />
+                </div>
+                <div class="form-group">
+                    <label for="Variable1">Variable1: </label>                    <InputTextArea rows="2" id="Variable1" class="form-control" @bind-Value="@CustomIntelliSenseDTO.Variable1"
+                               placeholder="Enter Variable1"></InputTextArea>
+                    <ValidationMessage For="@(() => CustomIntelliSenseDTO.Variable1)" />
+                </div>
+                <div class="form-group">
+                    <label for="Variable2">Variable2: </label>                    <InputTextArea rows="2" id="Variable2" class="form-control" @bind-Value="@CustomIntelliSenseDTO.Variable2"
+                               placeholder="Enter Variable2"></InputTextArea>
+                    <ValidationMessage For="@(() => CustomIntelliSenseDTO.Variable2)" />
+                </div>
+                <div class="form-group">
+                    <label for="Variable3">Variable3: </label>                    <InputTextArea rows="2" id="Variable3" class="form-control" @bind-Value="@CustomIntelliSenseDTO.Variable3"
+                               placeholder="Enter Variable3"></InputTextArea>
+                    <ValidationMessage For="@(() => CustomIntelliSenseDTO.Variable3)" />
+                </div>
+            </div>
+            <div class="col-6">
+                 @* Move here for the next display column if required *@
+            </div>
+        </div>
+        <hr>
+        <div class="btn-group" style="float:right">
+            <a accesskey="c" class="btn btn-lg btn-outline-primary" @onclick="@CloseAsync"><u>C</u>ancel</a>
+            <button @TaskRunning accesskey="s" type="submit" class="btn btn-lg btn-primary"><u>S</u>ave Record</button>
+        </div>
+    </EditForm>
+</div>

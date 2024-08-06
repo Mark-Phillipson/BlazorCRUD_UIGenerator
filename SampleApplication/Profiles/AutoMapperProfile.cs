@@ -23,6 +23,7 @@ namespace SampleApplication.Profiles
             CreateMap<CustomerDTO, Customer>();
             CreateMap<Language, LanguageDTO>();
             CreateMap<LanguageDTO, Language>();
+            CreateMap<CustomIntelliSense, CustomIntelliSenseDTO>(); CreateMap<CustomIntelliSenseDTO, CustomIntelliSense>();
         }
     }
 }

@@ -1,0 +1,9 @@
+{
+    "description": "Your explanation here",
+    "files": [
+        {
+            "filepath": "filepath/filename.extension",
+            "fileContents": "file contents here"
+        }
+    ]
+}
