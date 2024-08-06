@@ -31,30 +31,30 @@
     	<div class="col-md-1">
 		<button title="Go to 1st page" type="button" class="btn btn-sm btn-outline-secondary mx-1"
 			@onclick="@(()  => PageDown(true))">
-			<i class="fa-solid fa-backward"></i>
+			<i class=""bi bi-skip-backward-fill""></i>
 		</button>
 	</div>
 	<div class="col-md-1">
 		<button title="Go to previous page" type="button" class="btn btn-sm btn-outline-secondary mx-1"
 			@onclick="(()  => PageDown(false))">
-			<i class="fas fa-arrow-left"></i>
+			<i class="bi bi-caret-left-fill"></i>
 		</button>
 	</div>
 	<div class="col-md-1">
 		<button title="Go to next page" type="button" class="btn btn-sm btn-outline-secondary mx-1"
 			@onclick="(() => PageUp(false)) ">
-			<i class="fas fa-arrow-right"></i>
+			<i class="bi bi-caret-right-fill"></i>
 		</button>
 	</div>
 	<div class="col-md-1">
 		<button title="Go to last page" type="button" class="btn btn-sm btn-outline-secondary mx-1"
 			@onclick="(()  => PageUp(true))">
-			<i class="fa-solid fa-forward"></i>
+			<i class="bi bi-skip-forward-fill"></i>
 		</button>
 	</div>
 <#if (!string.IsNullOrWhiteSpace(ForeignKeyName)) {#>
 @*    <div class="col-md-1">
-        <a class="btn btn-primary btn-sm m-2" href="/ParentTable/@<#=ForeignKeyName#>"><i class="fas fa-arrow-left"></i></a>
+        <a class="btn btn-primary btn-sm m-2" href="/ParentTable/@<#=ForeignKeyName#>"><i class=""bi bi-caret-left"></i></a
    </div>*@
 <#} #>
     <div class="col-md-4">
@@ -76,7 +76,7 @@ else if (Filtered<#=ModelName#>DTO == null)
 else if (Filtered<#=ModelName#>DTO.Count == 0)
 {
     <p>No <#=ModelNameWithSpaces#> match the criteria</p>
-    <button @onclick="AddNew<#=ModelName#>" class="btn btn-outline-success">Add Record <i class="fas fa-plus"></i></button>
+    <button @onclick="AddNew<#=ModelName#>" class="btn btn-outline-success btn-lg">Add Record <i class="bi bi-plus-square"></i></button>
 }
 else
 {
@@ -90,10 +90,10 @@ else
                 if (property.Sort) {
 #>              <th>
                     <button class="btn btn-sm" @onclick="@(() => Sort<#=ModelName#>("<#=property.PropertyName#>"))">
-                        <i class="fas fa-sort-alpha-up"></i>
+                        <i class="bi bi-sort-alpha-up"></i>
                     </button>
                     <button class="btn btn-sm" @onclick="@(() => Sort<#=ModelName#>("<#=property.PropertyName#> Desc"))">
-                        <i class="fas fa-sort-alpha-up-alt"></i>
+                        <i class="bi bi-sort-alpha-up-alt"></i>
                     </button>
                     <#=property.Label#>
                 </th>
@@ -106,7 +106,7 @@ else
 #>
                 <th>
                     <button accesskey="+" @onclick="AddNew<#=ModelName#>" class="btn btn-outline-success btn-sm">
-                        <i class="fas fa-plus"></i>
+                        <i class="bi bi-plus-square"></i>
                     </button>
                 </th>
             </tr>
@@ -134,10 +134,10 @@ else
 #>
                     <td class="btn-group-vertical">
                         <button class="btn btn-sm btn-outline-warning" @onclick="@(() => Edit<#=ModelName#>(<#=ModelNameCamelCase#>.<#=PrimaryKeyName#>))">
-                            <i class="fas fa-edit"></i>
+                            <i class="bi bi-pencil-square"></i>
                         </button>
                         <button class="btn btn-sm btn-outline-danger" @onclick="@(() => Delete<#=ModelName#>(<#=ModelNameCamelCase#>.<#=PrimaryKeyName#>))">
-                            <i class="fas fa-trash"></i>
+                            <i class="bi bi-trash"></i>
                         </button>
                     </td>
                 </tr>
@@ -161,7 +161,7 @@ else
 {
     <dialog open="true" style="position:absolute;left: 0px;top: 200px;z-index: 900" class="border border-danger">
         <button class="btn btn-outline-secondary m-2" style="float:right" type="submit" @onclick="@( ( ) => ToggleShowDeleteConfirm(  ) )">x</button>
-        <BlazoredModalConfirmDialogMVC Confirm="@CloseConfirmDeletion" ButtonColour="danger" Icon="fa fa-trash" Message="Please confirm that you wish to delete a record." Title="Deletion Confirmation <#=ModelNameWithSpaces#> Table" />
+        <BlazoredModalConfirmDialogMVC Confirm="@CloseConfirmDeletion" ButtonColour="danger" Icon="bi bi-trash" Message="Please confirm that you wish to delete a record." Title="Deletion Confirmation <#=ModelNameWithSpaces#> Table" />
         <form method="dialog">
         </form>
     </dialog>
