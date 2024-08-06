@@ -13,6 +13,7 @@
     if (DatabaseColumns.Count()>21) {cols= 3;}
 #>
 @page "/<#=ModelName.ToLower()#>/{<#=PrimaryKeyName#>:<#=PrimaryKeyDataType#>?}"
+@rendermode InteractiveServer
 <div style="min-width:80vw">
 <h1>@Title</h1>
     <EditForm Model="@<#=ModelName#>DTO" OnValidSubmit="HandleValidSubmit">
@@ -43,9 +44,13 @@
                 if (property.DataType=="nvarchar" && property.ColumnSize< 51) {
 #>
                 <div class="form-group">
-                    <label for="<#=property.PropertyName#>"><#=property.Label#>:</label><#
+<#           if (counter==1) {#>
+                    <label @ref="FirstInput" for="<#=property.PropertyName#>"><#=property.Label#>:</label>
+<#             } else {#>
+                    <label for="<#=property.PropertyName#>"><#=property.Label#>:</label>
+<#             }                                    
                     if (property.Required) {
-#> <i class="text-danger fa">*</i>
+#> <i class="text-danger">*</i>
 <#                  }
 #>
 

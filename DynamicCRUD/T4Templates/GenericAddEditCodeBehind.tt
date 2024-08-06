@@ -49,8 +49,11 @@ namespace <#=Namespace#>.Pages
 <#	} #>
         public <#=ModelName#>DTO <#=ModelName#>DTO { get; set; } = new <#=ModelName#>DTO();//{ };
         [Inject] public I<#=ModelName#>DataService? <#=ModelName#>DataService { get; set; }
+<#           if (!UseBlazored) {#>
         [Inject] public ApplicationState? ApplicationState { get; set; }
+<#           }#>
         [Parameter] public int ParentId { get; set; }
+        ElementReference FirstInput;
 #pragma warning disable 414, 649
         bool TaskRunning = false;
 #pragma warning restore 414, 649
@@ -105,10 +108,8 @@ namespace <#=Namespace#>.Pages
             {
                 try
                 {
-                    if (JSRuntime != null)
-                    {
-                        await JSRuntime.InvokeVoidAsync("window.setFocus", "<#=DefaultSortColumn#>");
-                    }
+                    await Task.Delay(100);
+                    await FirstInput.FocusAsync();
                 }
                 catch (Exception exception)
                 {
