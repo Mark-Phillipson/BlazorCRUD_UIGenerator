@@ -189,7 +189,7 @@
         @onclick="@( ( ) => ToggleModal(  ) )">x
     </button>
     <div>
-        <<#=ModelName#>AddEdi Title="@EditTitle" <#=PrimaryKeyName#>="@<#=ModelName#>Id" CloseModal="@CloseModalAsync" ParentId="@ParentId" />
+        <<#=ModelName#>AddEdit Title="@EditTitle" <#=PrimaryKeyName#>="@<#=ModelName#>Id" CloseModal="@CloseModalAsync" ParentId="@ParentId" />
     </div>
 </dialog>
 }
