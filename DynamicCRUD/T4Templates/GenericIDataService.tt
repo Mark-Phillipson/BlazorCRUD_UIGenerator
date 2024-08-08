@@ -14,9 +14,9 @@ namespace <#=Namespace#>.Services
     public interface I<#=ModelName#>DataService
     {
 <#      if (!string.IsNullOrWhiteSpace(ForeignKeyName) && !string.IsNullOrWhiteSpace(ForeignKeyDataType)) { #>      
-        Task<List<<#=ModelName#>DTO>> GetAll<#=PluralTablename#>Async(<#=ForeignKeyDataType#> <#=ForeignKeyName#>, int pageNumber, int pageSize);
+        Task<List<<#=ModelName#>DTO>> GetAll<#=PluralTablename#>Async(<#=ForeignKeyDataType#> <#=ForeignKeyName#>, int pageNumber, int pageSize, string? serverSearchTerm);
 <#      } else { #>
-        Task<List<<#=ModelName#>DTO>> GetAll<#=PluralTablename#>Async(int pageNumber, int pageSize);
+        Task<List<<#=ModelName#>DTO>> GetAll<#=PluralTablename#>Async(int pageNumber, int pageSize, string? serverSearchTerm);
 <#      } #>
         Task<List<<#=ModelName#>DTO>> Search<#=PluralTablename#>Async(string serverSearchTerm);
         Task<<#=ModelName#>DTO?> Add<#=ModelName#>(<#=ModelName#>DTO <#=ModelNameCamelCase#>DTO);

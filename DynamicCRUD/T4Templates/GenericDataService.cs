@@ -152,7 +152,8 @@ namespace DynamicCRUD.T4Templates
             
             #line default
             #line hidden
-            this.Write(",int pageNumber, int pageSize)\r\n        {\r\n            var ");
+            this.Write(",int pageNumber, int pageSize, string? serverSearchTerm)\r\n        {\r\n            " +
+                    "var ");
             
             #line 35 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PluralTablename));
@@ -180,7 +181,8 @@ namespace DynamicCRUD.T4Templates
             
             #line default
             #line hidden
-            this.Write(", int pageNumber, int pageSize);            \r\n            return ");
+            this.Write(", int pageNumber, int pageSize, serverSearchTerm);            \r\n            retur" +
+                    "n ");
             
             #line 37 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PluralTablename));
@@ -209,7 +211,8 @@ namespace DynamicCRUD.T4Templates
             
             #line default
             #line hidden
-            this.Write("Async(int pageNumber, int pageSize)\r\n        {\r\n            var ");
+            this.Write("Async(int pageNumber, int pageSize, string? serverSearchTerm)\r\n        {\r\n       " +
+                    "     var ");
             
             #line 43 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PluralTablename));
@@ -230,7 +233,7 @@ namespace DynamicCRUD.T4Templates
             
             #line default
             #line hidden
-            this.Write("Async( pageNumber, pageSize);\r\n            return ");
+            this.Write("Async( pageNumber, pageSize, serverSearchTerm);\r\n            return ");
             
             #line 44 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PluralTablename));

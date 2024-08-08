@@ -86,7 +86,7 @@ namespace DynamicCRUD.T4Templates
             
             #line default
             #line hidden
-            this.Write(", int pageNumber, int pageSize);\r\n");
+            this.Write(", int pageNumber, int pageSize, string? serverSearchTerm);\r\n");
             
             #line 18 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericIDataService.tt"
       } else { 
@@ -107,7 +107,7 @@ namespace DynamicCRUD.T4Templates
             
             #line default
             #line hidden
-            this.Write("Async(int pageNumber, int pageSize);\r\n");
+            this.Write("Async(int pageNumber, int pageSize, string? serverSearchTerm);\r\n");
             
             #line 20 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericIDataService.tt"
       } 

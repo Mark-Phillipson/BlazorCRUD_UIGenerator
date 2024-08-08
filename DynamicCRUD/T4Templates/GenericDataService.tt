@@ -30,17 +30,17 @@ namespace <#=Namespace#>.Services
         if (!string.IsNullOrEmpty(ForeignKeyName)){
 #>
         public async Task<List<<#=ModelName#>DTO>> GetAll<#=PluralTablename#>Async
-        (<#=ForeignKeyDataType#> <#=ForeignKeyName#>,int pageNumber, int pageSize)
+        (<#=ForeignKeyDataType#> <#=ForeignKeyName#>,int pageNumber, int pageSize, string? serverSearchTerm)
         {
             var <#=PluralTablename#> = await _<#=ModelNameCamelCase#>Repository.GetAll<#=PluralTablename#>Async
-            (<#=ForeignKeyName#>, int pageNumber, int pageSize);            
+            (<#=ForeignKeyName#>, int pageNumber, int pageSize, serverSearchTerm);            
             return <#=PluralTablename#>.ToList();
         }
 <#      } else {
 #>
-        public async Task<List<<#=ModelName#>DTO>> GetAll<#=PluralTablename#>Async(int pageNumber, int pageSize)
+        public async Task<List<<#=ModelName#>DTO>> GetAll<#=PluralTablename#>Async(int pageNumber, int pageSize, string? serverSearchTerm)
         {
-            var <#=PluralTablename#> = await _<#=ModelNameCamelCase#>Repository.GetAll<#=PluralTablename#>Async( pageNumber, pageSize);
+            var <#=PluralTablename#> = await _<#=ModelNameCamelCase#>Repository.GetAll<#=PluralTablename#>Async( pageNumber, pageSize, serverSearchTerm);
             return <#=PluralTablename#>.ToList();
         }
 <#      }

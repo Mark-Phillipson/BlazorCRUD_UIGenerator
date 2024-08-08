@@ -30,25 +30,83 @@ namespace <#=Namespace#>.Repositories
         public async Task<IEnumerable<<#=ModelName#>DTO>> GetAll<#=PluralTablename#>Async(<#=ForeignKeyDataType#> <#=ForeignKeyName#>, int pageNumber, int pageSize)
         {
             using var context = _contextFactory.CreateDbContext();
-            var <#=PluralTablename#>= await context.<#=PluralTablename#>
+            List<<#=ModelName#>> <#=PluralTablename#>;
+            if (!string.IsNullOrWhiteSpace(serverSearchTerm))
+            {
+                <#=PluralTablename#>= await context.<#=PluralTablename#>
+                .Where(v => v.<#=ForeignKeyName#>==<#=ForeignKeyName#>)
+                    .Where(v => 
+<# 
+            var counter=0;
+            foreach (var property in DatabaseColumns.Where(v => v.Filter==true))  {
+                counter++;
+#>
+<#
+                if (counter==1) {
+#>
+                    (v.<#=property.PropertyName#>!= null  && v.<#=property.PropertyName#>.ToLower().Contains(serverSearchTerm))
+<#              } else {
+#>
+                     || (v.<#=property.PropertyName#>!= null  &&  v.<#=property.PropertyName#>.ToLower().Contains(serverSearchTerm))
+<#              }
+            }
+#>                    )
+                
+                //.OrderBy(v => v.?)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            }
+            else {
+             <#=PluralTablename#>= await context.<#=PluralTablename#>
                 .Where(v => v.<#=ForeignKeyName#>==<#=ForeignKeyName#>)
                 //.OrderBy(v => v.?)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
+            }
             IEnumerable<<#=ModelName#>DTO> <#=PluralTablename#>DTO = _mapper.Map<List<<#=ModelName#>>, IEnumerable<<#=ModelName#>DTO>>(<#=PluralTablename#>);
             return <#=PluralTablename#>DTO;
         }
 <#      } else { #>
-        public async Task<IEnumerable<<#=ModelName#>DTO>> GetAll<#=PluralTablename#>Async(int pageNumber, int pageSize)
+        public async Task<IEnumerable<<#=ModelName#>DTO>> GetAll<#=PluralTablename#>Async(int pageNumber, int pageSize, string? serverSearchTerm)
         {
             using var context = _contextFactory.CreateDbContext();
-            var <#=PluralTablename#>= await context.<#=PluralTablename#>
-                //.Where(v => v.?==?)
-                //.OrderBy(v => v.?)
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
+            List<<#=ModelName#>> <#=PluralTablename#>;
+            if (!string.IsNullOrWhiteSpace(serverSearchTerm))
+            {
+                <#=PluralTablename#> = await context.<#=PluralTablename#>
+                                        .Where(v => 
+<# 
+            var counter=0;
+            foreach (var property in DatabaseColumns.Where(v => v.Filter==true))  {
+                counter++;
+#>
+<#
+                if (counter==1) {
+#>
+                    (v.<#=property.PropertyName#>!= null  && v.<#=property.PropertyName#>.ToLower().Contains(serverSearchTerm))
+<#              } else {
+#>
+                     || (v.<#=property.PropertyName#>!= null  &&  v.<#=property.PropertyName#>.ToLower().Contains(serverSearchTerm))
+<#              }
+            }
+#>                    )
+
+                    //.OrderBy(v => v.?)
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
+            }
+            else
+            {
+                <#=PluralTablename#> = await context.<#=PluralTablename#>
+                    //.OrderBy(v => v.?)
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
+            }
             IEnumerable<<#=ModelName#>DTO> <#=PluralTablename#>DTO = _mapper.Map<List<<#=ModelName#>>, IEnumerable<<#=ModelName#>DTO>>(<#=PluralTablename#>);
             return <#=PluralTablename#>DTO;
         }

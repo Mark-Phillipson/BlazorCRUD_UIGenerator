@@ -25,7 +25,7 @@ using Blazored.Toast;
 using Blazored.Toast.Services;
 using System.Security.Claims;
 using Ardalis.GuardClauses;
-using <#=Namespace#>.Shared;
+//using <#=Namespace#>.Shared;
 using <#=Namespace#>.Services;
 using <#=Namespace#>.DTOs;
 
@@ -56,7 +56,31 @@ namespace <#=Namespace#>.Pages
         private bool _loadFailed = false;
         private string? searchTerm = null;
 #pragma warning restore 414, 649
-        public string? SearchTerm { get => searchTerm; set { searchTerm = value; ApplyFilter(); } }
+        public string? SearchTerm { get => searchTerm; set { searchTerm = value; } }
+        private string? clientSearchedTerm { get; set; }
+        public string? ClientSearchTerm { get => clientSearchedTerm; set { clientSearchedTerm = value; ApplyLocalFilter(); } }
+        private bool _serverPaging = false;
+        private void ApplyLocalFilter()
+        {
+            if (Filtered<#=ModelName#>DTO == null || <#=ModelName#>DTO == null)
+            {
+                return;
+            }
+            if (string.IsNullOrEmpty(ClientSearchTerm))
+            {
+                Filtered<#=ModelName#>DTO = <#=ModelName#>DTO;
+            }
+            else
+            {
+                Filtered<#=ModelName#>DTO = <#=ModelName#>DTO.Where(v => v.Name?.Contains(ClientSearchTerm, StringComparison.OrdinalIgnoreCase) == true
+                || v.Department?.Contains(ClientSearchTerm, StringComparison.OrdinalIgnoreCase) == true
+                || v.Email?.Contains(ClientSearchTerm, StringComparison.OrdinalIgnoreCase) == true).ToList();
+            }
+            Title = $"<#=ModelName#>> ({Filtered<#=ModelName#>DTO.Count})";
+        }
+
+        private string? lastSearchTerm { get; set; }
+
         [Parameter] public string? ServerSearchTerm { get; set; }
         public string ExceptionMessage { get; set; } = String.Empty;
         public List<string>? PropertyInfo { get; set; }
@@ -65,7 +89,7 @@ namespace <#=Namespace#>.Pages
         public bool ShowEdit { get; set; } = false;
         private bool ShowDeleteConfirm { get; set; }
         private int pageNumber = 1;
-        private int pageSize = 15;
+        private int pageSize = 1000;
         private int totalRows = 0;
     
         private <#=PrimaryKeyDataType#> <#=ModelName#>Id  { get; set; }
@@ -80,12 +104,13 @@ namespace <#=Namespace#>.Pages
             {
                 if (<#=ModelName#>DataService != null)
                 {
+                    ServerSearchTerm = SearchTerm;
                     totalRows = await <#=ModelName#>DataService.GetTotalCount();
                     var result = await <#=ModelName#>DataService!.GetAll<#=PluralTablename#>Async
 <#                    if (!string.IsNullOrEmpty(ForeignKeyName)) {#>
-                    (<#=ForeignKeyName#>,pageNumber,pageSize)
+                    (<#=ForeignKeyName#>,pageNumber,pageSize,ServerSearchTerm);
 <#                    } else {#>                    
-                    (pageNumber,pageSize);
+                    (pageNumber,pageSize,ServerSearchTerm);
 <#                    }#>
                     //var result = await <#=ModelName#>DataService.Search<#=PluralTablename#>Async(ServerSearchTerm);
                     if (result != null)
@@ -150,7 +175,7 @@ namespace <#=Namespace#>.Pages
         }
 <#           }#>
 
-        private void ApplyFilter()
+        private async Task ApplyFilter()
         {
             if (Filtered<#=ModelName#>DTO == null || <#=ModelName#>DTO == null)
             {
@@ -158,32 +183,18 @@ namespace <#=Namespace#>.Pages
             }
             if (string.IsNullOrEmpty(SearchTerm))
             {
-                Filtered<#=ModelName#>DTO = <#=ModelName#>DTO.OrderBy(v => v.<#=DefaultSortColumn#>).ToList();
+                await LoadData();
                 Title = $"All <#=ModelNameWithSpaces#> ({Filtered<#=ModelName#>DTO.Count})";
             }
             else
             {
-                var temporary = SearchTerm.ToLower().Trim();
-                Filtered<#=ModelName#>DTO = <#=ModelName#>DTO
-                    .Where(v => 
-<# 
-            var counter=0;
-            foreach (var property in DatabaseColumns.Where(v => v.Filter==true))  {
-                counter++;
-#>
-<#
-                if (counter==1) {
-#>
-                    (v.<#=property.PropertyName#>!= null  && v.<#=property.PropertyName#>.ToLower().Contains(temporary))
-<#              } else {
-#>
-                     || (v.<#=property.PropertyName#>!= null  &&  v.<#=property.PropertyName#>.ToLower().Contains(temporary))
-<#              }
+                if (lastSearchTerm != SearchTerm)
+                {
+                    await LoadData();
+                }
+
             }
-#>                    )
-                    .ToList();
-                Title = $"Filtered <#=ModelNameWithSpaces#>s ({Filtered<#=ModelName#>DTO.Count})";
-            }
+            lastSearchTerm = SearchTerm;
         }
         protected void Sort<#=ModelName#>(string sortColumn)
         {
