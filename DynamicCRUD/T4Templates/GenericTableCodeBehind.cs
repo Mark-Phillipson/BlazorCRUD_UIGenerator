@@ -355,7 +355,7 @@ using Ardalis.GuardClauses;
             
             #line default
             #line hidden
-            this.Write("> ({Filtered");
+            this.Write(" ({Filtered");
             
             #line 93 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));

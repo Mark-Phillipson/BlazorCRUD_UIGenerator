@@ -175,7 +175,7 @@ if (!string.IsNullOrWhiteSpace(ForeignKeyName)) {
             
             #line default
             #line hidden
-            this.Write(">\" />\r\n                </div>\r\n            }\r\n    </div>\r\n    @if (Filtered");
+            this.Write("\" />\r\n                </div>\r\n            }\r\n    </div>\r\n    @if (Filtered");
             
             #line 86 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
