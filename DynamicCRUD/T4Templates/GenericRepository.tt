@@ -6,7 +6,11 @@
 <#@ import namespace="System.Reflection" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".cs" #>
+using System;
 using AutoMapper;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Ardalis.GuardClauses;
 using <#=Namespace#>.Models;

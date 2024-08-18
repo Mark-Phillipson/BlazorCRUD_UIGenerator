@@ -6,6 +6,10 @@
 <#@ import namespace="System.Reflection" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".cs" #>
+using System;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
 using <#=Namespace#>.DTOs;
 
 namespace <#=Namespace#>.Repositories

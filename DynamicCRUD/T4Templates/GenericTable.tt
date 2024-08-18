@@ -79,7 +79,7 @@
             } else {
                 <div class="col-md-3">
                     <input class="form-control my-1" style="float:right" @bind="@ClientSearchTerm" id="ClientSearchInput"
-                        name="ClientSearchTerm" @bind:event="oninput" placeholder="Filter by <#=FilterColumns#>>" />
+                        name="ClientSearchTerm" @bind:event="oninput" placeholder="Filter by <#=FilterColumns#>" />
                 </div>
             }
     </div>
@@ -132,7 +132,7 @@
                                 <#=property.Label#>
                             </th>
                             <# } } #>
-                            <th>
+                            <th class="btn-group border border-1" style='width:100%'>
                               <button accesskey="+"
                                     @onclick="AddNew<#=ModelName#>" class="btn btn-outline-success btn-sm">
                                     Create
@@ -164,7 +164,7 @@
         @<#=ModelNameCamelCase#>.<#=property.PropertyName#>
     </td>
     <# } }#>
-        <td class="btn-group-vertical">
+        <td class="btn-group-vertical border border-1" style='width:100%'>
             <button class="btn btn-sm btn-outline-warning"
                 @onclick="@(() => Edit<#=ModelName#>(<#=ModelNameCamelCase#>.<#=PrimaryKeyName#>))">
                 Edit

@@ -72,11 +72,25 @@ namespace <#=Namespace#>.Pages
             }
             else
             {
-                Filtered<#=ModelName#>DTO = <#=ModelName#>DTO.Where(v => v.Name?.Contains(ClientSearchTerm, StringComparison.OrdinalIgnoreCase) == true
-                || v.Department?.Contains(ClientSearchTerm, StringComparison.OrdinalIgnoreCase) == true
-                || v.Email?.Contains(ClientSearchTerm, StringComparison.OrdinalIgnoreCase) == true).ToList();
+                Filtered<#=ModelName#>DTO = <#=ModelName#>DTO.Where(v =>
+<# 
+            var counter=0;
+            foreach (var property in DatabaseColumns.Where(v => v.Filter==true))  {
+                counter++;
+#>
+<#
+                if (counter==1) {
+#>
+                    (v.<#=property.PropertyName#>!= null  && v.<#=property.PropertyName#>.ToLower().Contains(serverSearchTerm))
+<#              } else {
+#>
+                     || (v.<#=property.PropertyName#>!= null  &&  v.<#=property.PropertyName#>.ToLower().Contains(serverSearchTerm))
+<#              }
             }
-            Title = $"<#=ModelName#>> ({Filtered<#=ModelName#>DTO.Count})";
+#>                    
+                ).ToList();
+            }
+            Title = $"<#=ModelName#> ({Filtered<#=ModelName#>DTO.Count})";
         }
 
         private string? lastSearchTerm { get; set; }
@@ -93,6 +107,8 @@ namespace <#=Namespace#>.Pages
         private int totalRows = 0;
     
         private <#=PrimaryKeyDataType#> <#=ModelName#>Id  { get; set; }
+        private <#=ModelName#>DTO? current<#=ModelName#>> { get; set; }
+        private string message { get; set; }
         protected override async Task OnInitializedAsync()
         {
             await LoadData();
@@ -159,7 +175,11 @@ namespace <#=Namespace#>.Pages
                   var result = await formModal.Result;
                   if (!result.Cancelled)
                   {
-                      await LoadData();
+                    await LoadData();
+                    if (searchTerm!=null)
+                    {
+                        ApplyFilter();
+                    }
                   }
               }
               <#=ModelName#>Id=0;
@@ -238,6 +258,10 @@ namespace <#=Namespace#>.Pages
                           await <#=ModelName#>DataService.Delete<#=ModelName#>(<#=PrimaryKeyName#>);
                           ToastService?.ShowSuccess("<#=ModelNameWithSpaces#> deleted successfully");
                           await LoadData();
+                          if (searchTerm!=null)
+                          {
+                              ApplyFilter();
+                          }
                       }
                   }
              }
@@ -248,6 +272,8 @@ namespace <#=Namespace#>.Pages
         private void Delete<#=ModelName#>(<#=PrimaryKeyDataType#> <#=PrimaryKeyName#>)
         {
             <#=ModelName#>Id = <#=PrimaryKeyName#>;
+            current<#=ModelName#>> = Filtered<#=ModelName#>>DTO?.FirstOrDefault(v => v.Id == Id);
+            message = $"Are you sure you want to delete {current<#=ModelName#>>?.<#=PrimaryKeyName#>>} <#=ModelName#>> item?";
             ShowDeleteConfirm=true;
         }
 <#           }#>
@@ -263,6 +289,10 @@ namespace <#=Namespace#>.Pages
                 if (!result.Cancelled)
                 {
                     await LoadData();
+                    if (searchTerm!=null)
+                    {
+                        ApplyFilter();
+                    }
                 }
             }
             <#=ModelName#>Id = <#=PrimaryKeyName#>;

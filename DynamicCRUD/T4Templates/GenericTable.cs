@@ -306,8 +306,9 @@ if (!string.IsNullOrWhiteSpace(ForeignKeyName)) {
             
             #line default
             #line hidden
-            this.Write("                            <th>\r\n                              <button accesskey" +
-                    "=\"+\"\r\n                                    @onclick=\"AddNew");
+            this.Write("                            <th class=\"btn-group border border-1\" style=\'width:10" +
+                    "0%\'>\r\n                              <button accesskey=\"+\"\r\n                     " +
+                    "               @onclick=\"AddNew");
             
             #line 137 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
@@ -420,8 +421,9 @@ if (!string.IsNullOrWhiteSpace(ForeignKeyName)) {
             
             #line default
             #line hidden
-            this.Write("        <td class=\"btn-group-vertical\">\r\n            <button class=\"btn btn-sm bt" +
-                    "n-outline-warning\"\r\n                @onclick=\"@(() => Edit");
+            this.Write("        <td class=\"btn-group-vertical border border-1\" style=\'width:100%\'>\r\n     " +
+                    "       <button class=\"btn btn-sm btn-outline-warning\"\r\n                @onclick=" +
+                    "\"@(() => Edit");
             
             #line 169 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
@@ -488,7 +490,7 @@ if (!string.IsNullOrWhiteSpace(ForeignKeyName)) {
             
             #line default
             #line hidden
-            this.Write("AddEdi Title=\"@EditTitle\" ");
+            this.Write("AddEdit Title=\"@EditTitle\" ");
             
             #line 192 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PrimaryKeyName));
