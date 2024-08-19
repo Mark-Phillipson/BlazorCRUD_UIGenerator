@@ -35,7 +35,7 @@ namespace DynamicCRUD.T4Templates
             
             #line default
             #line hidden
-            this.Write("   @page \"/");
+            this.Write("@page \"/");
             
             #line 12 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PluralTablename.ToLower()));
@@ -56,7 +56,7 @@ namespace DynamicCRUD.T4Templates
             
             #line default
             #line hidden
-            this.Write("   @page \"/");
+            this.Write("@page \"/");
             
             #line 14 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PluralTablename.ToLower()));
@@ -70,7 +70,8 @@ namespace DynamicCRUD.T4Templates
             
             #line default
             #line hidden
-            this.Write("@rendermode InteractiveServer\r\n<div class=\"row\">\r\n<div class=\"col-md-12\">\r\n    ");
+            this.Write("@rendermode InteractiveServer // Required if interactive mode is not Global\r\n<div" +
+                    " class=\"row\">\r\n<div class=\"col-md-12\">\r\n    ");
             
             #line 19 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
  if (!UseBlazored) {

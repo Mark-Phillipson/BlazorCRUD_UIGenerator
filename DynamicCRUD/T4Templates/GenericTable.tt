@@ -9,11 +9,11 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".razor" #>
 <# if (!string.IsNullOrWhiteSpace(ForeignKeyName)) {#>
-   @page "/<#=PluralTablename.ToLower()#>/{<#=ForeignKeyName#>:int}"
+@page "/<#=PluralTablename.ToLower()#>/{<#=ForeignKeyName#>:int}"
 <# } else { #>
-   @page "/<#=PluralTablename.ToLower()#>"
+@page "/<#=PluralTablename.ToLower()#>"
 <# }#>
-@rendermode InteractiveServer
+@rendermode InteractiveServer // Required if interactive mode is not Global
 <div class="row">
 <div class="col-md-12">
     <# if (!UseBlazored) {#>

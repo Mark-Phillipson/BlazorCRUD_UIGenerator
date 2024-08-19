@@ -81,10 +81,10 @@ namespace <#=Namespace#>.Pages
 <#
                 if (counter==1) {
 #>
-                    (v.<#=property.PropertyName#>!= null  && v.<#=property.PropertyName#>.ToLower().Contains(serverSearchTerm))
+                    (v.<#=property.PropertyName#>!= null  && v.<#=property.PropertyName#>.ToLower().Contains(ClientSearchTerm))
 <#              } else {
 #>
-                     || (v.<#=property.PropertyName#>!= null  &&  v.<#=property.PropertyName#>.ToLower().Contains(serverSearchTerm))
+                     || (v.<#=property.PropertyName#>!= null  &&  v.<#=property.PropertyName#>.ToLower().Contains(ClientSearchTerm))
 <#              }
             }
 #>                    
@@ -107,7 +107,7 @@ namespace <#=Namespace#>.Pages
         private int totalRows = 0;
     
         private <#=PrimaryKeyDataType#> <#=ModelName#>Id  { get; set; }
-        private <#=ModelName#>DTO? current<#=ModelName#>> { get; set; }
+        private <#=ModelName#>DTO? current<#=ModelName#> { get; set; }
         private string message { get; set; }
         protected override async Task OnInitializedAsync()
         {
@@ -272,8 +272,8 @@ namespace <#=Namespace#>.Pages
         private void Delete<#=ModelName#>(<#=PrimaryKeyDataType#> <#=PrimaryKeyName#>)
         {
             <#=ModelName#>Id = <#=PrimaryKeyName#>;
-            current<#=ModelName#>> = Filtered<#=ModelName#>>DTO?.FirstOrDefault(v => v.Id == Id);
-            message = $"Are you sure you want to delete {current<#=ModelName#>>?.<#=PrimaryKeyName#>>} <#=ModelName#>> item?";
+            current<#=ModelName#> = Filtered<#=ModelName#>DTO?.FirstOrDefault(v => v.Id == Id);
+            message = $"Are you sure you want to delete {current<#=ModelName#>?.<#=PrimaryKeyName#>} <#=ModelName#> item?";
             ShowDeleteConfirm=true;
         }
 <#           }#>
