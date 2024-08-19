@@ -626,7 +626,7 @@ using Ardalis.GuardClauses;
                     await LoadData();
                     if (searchTerm!=null)
                     {
-                        ApplyFilter();
+                        await ApplyFilter();
                     }
                   }
               }
@@ -960,7 +960,7 @@ using Ardalis.GuardClauses;
                           await LoadData();
                           if (searchTerm!=null)
                           {
-                              ApplyFilter();
+                            await ApplyFilter();
                           }
                       }
                   }
@@ -1042,8 +1042,8 @@ using Ardalis.GuardClauses;
             
             #line default
             #line hidden
-            this.Write(">DTO?.FirstOrDefault(v => v.Id == Id);\r\n            message = $\"Are you sure you " +
-                    "want to delete {current");
+            this.Write("DTO?.FirstOrDefault(v => v.Id == Id);\r\n            message = $\"Are you sure you w" +
+                    "ant to delete {current");
             
             #line 276 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
@@ -1136,7 +1136,7 @@ using Ardalis.GuardClauses;
                     await LoadData();
                     if (searchTerm!=null)
                     {
-                        ApplyFilter();
+                        await ApplyFilter();
                     }
                 }
             }

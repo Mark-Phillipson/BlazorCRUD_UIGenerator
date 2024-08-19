@@ -178,7 +178,7 @@ namespace <#=Namespace#>.Pages
                     await LoadData();
                     if (searchTerm!=null)
                     {
-                        ApplyFilter();
+                        await ApplyFilter();
                     }
                   }
               }
@@ -260,7 +260,7 @@ namespace <#=Namespace#>.Pages
                           await LoadData();
                           if (searchTerm!=null)
                           {
-                              ApplyFilter();
+                            await ApplyFilter();
                           }
                       }
                   }
@@ -291,7 +291,7 @@ namespace <#=Namespace#>.Pages
                     await LoadData();
                     if (searchTerm!=null)
                     {
-                        ApplyFilter();
+                        await ApplyFilter();
                     }
                 }
             }

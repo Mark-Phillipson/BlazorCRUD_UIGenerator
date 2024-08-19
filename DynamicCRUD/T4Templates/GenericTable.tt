@@ -73,6 +73,7 @@
                     style="float:right"
                     @bind="@SearchTerm"
                     @bind:event="oninput"
+                    @onblur="ApplyFilter"
                     id="SearchInput" name="SearchTerm"
                     placeholder="Filter by <#=FilterColumns#> (Alt+I)" />
             </div>
@@ -117,11 +118,11 @@
                     <# if (property.Sort) {
                         #>
                         <th>
-                            <button class="btn btn-sm"
+                            <button class="btn btn-sm btn-outline-secondary"
                                 @onclick="@(() => Sort<#=ModelName#>("<#=property.PropertyName#>"))">
                                 <i class="bi bi-sort-alpha-up"></i>
                             </button>
-                            <button class="btn btn-sm"
+                            <button class="btn btn-sm btn-outline-secondary"
                                 @onclick="@(() => Sort<#=ModelName#>("<#=property.PropertyName#> Desc"))">
                                 <i class="bi bi-sort-alpha-up-alt"></i>
                             </button>
