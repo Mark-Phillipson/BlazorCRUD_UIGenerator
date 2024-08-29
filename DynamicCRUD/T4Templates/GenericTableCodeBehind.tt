@@ -81,10 +81,10 @@ namespace <#=Namespace#>.Pages
 <#
                 if (counter==1) {
 #>
-                    (v.<#=property.PropertyName#>!= null  && v.<#=property.PropertyName#>.ToLower().Contains(ClientSearchTerm))
+                    (v.<#=property.PropertyName#>!= null  && v.<#=property.PropertyName#>.ToLower().Contains(ClientSearchTerm.ToLower()))
 <#              } else {
 #>
-                     || (v.<#=property.PropertyName#>!= null  &&  v.<#=property.PropertyName#>.ToLower().Contains(ClientSearchTerm))
+                     || (v.<#=property.PropertyName#>!= null  &&  v.<#=property.PropertyName#>.ToLower().Contains(ClientSearchTerm.ToLower()))
 <#              }
             }
 #>                    

@@ -249,7 +249,8 @@ if (!string.IsNullOrWhiteSpace(ForeignKeyName)) {
             #line default
             #line hidden
             this.Write("                        <th>\r\n                            <button class=\"btn btn-" +
-                    "sm\"\r\n                                @onclick=\"@(() => Sort");
+                    "sm btn-outline-secondary\"\r\n                                @onclick=\"@(() => Sor" +
+                    "t");
             
             #line 122 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
@@ -265,7 +266,8 @@ if (!string.IsNullOrWhiteSpace(ForeignKeyName)) {
             #line hidden
             this.Write("\"))\">\r\n                                <i class=\"bi bi-sort-alpha-up\"></i>\r\n     " +
                     "                       </button>\r\n                            <button class=\"btn" +
-                    " btn-sm\"\r\n                                @onclick=\"@(() => Sort");
+                    " btn-sm btn-outline-secondary\"\r\n                                @onclick=\"@(() =" +
+                    "> Sort");
             
             #line 126 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
