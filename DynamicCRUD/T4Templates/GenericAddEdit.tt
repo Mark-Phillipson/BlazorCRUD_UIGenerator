@@ -62,7 +62,11 @@
                         || property.DataType=="smallint" || property.DataType=="tinyint" || property.DataType=="bigint" || property.DataType=="decimal" || property.DataType=="float" || property.DataType=="real" || property.DataType=="money") {
 #>
                 <div class="form-group">
-                    <label for="<#=property.PropertyName#>"><#=property.Label#>: </label><#
+<#           if (counter==1) {#>
+                    <label @ref="FirstInput" for="<#=property.PropertyName#>"><#=property.Label#>:</label>
+<#             } else {#>
+                    <label for="<#=property.PropertyName#>"><#=property.Label#>:</label>
+<#             }                                    
                     if (property.Required) {
 #> <i class="text-danger fa">*</i>
 <#  } #>
@@ -73,7 +77,11 @@
 <#              } else if (property.DataType=="bit") {
 #>
                 <div class="form-group">
-                    <label for="<#=property.PropertyName#>"><#=property.Label#>: </label>
+<#           if (counter==1) {#>
+                    <label @ref="FirstInput" for="<#=property.PropertyName#>"><#=property.Label#>:</label>
+<#             } else {#>
+                    <label for="<#=property.PropertyName#>"><#=property.Label#>:</label>
+<#             }                                    #>
                     <InputCheckbox id="<#=property.PropertyName#>" class="form-checkbox" @bind-Value="@<#=ModelName#>DTO.<#=property.PropertyName#>">
                     </InputCheckbox>
                     <ValidationMessage For="@(() => <#=ModelName#>DTO.<#=property.PropertyName#>)" />
@@ -81,7 +89,11 @@
 <#              } else if (property.DataType=="nvarchar"  && property.ColumnSize> 50) {
 #>
                 <div class="form-group">
-                    <label for="<#=property.PropertyName#>"><#=property.Label#>: </label><#
+<#           if (counter==1) {#>
+                    <label @ref="FirstInput" for="<#=property.PropertyName#>"><#=property.Label#>:</label>
+<#             } else {#>
+                    <label for="<#=property.PropertyName#>"><#=property.Label#>:</label>
+<#             }                                    
                     if (property.Required) {
 #> <i class="text-danger fa">*</i>
 <#                  }

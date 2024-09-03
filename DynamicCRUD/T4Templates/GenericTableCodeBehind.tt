@@ -108,7 +108,7 @@ namespace <#=Namespace#>.Pages
     
         private <#=PrimaryKeyDataType#> <#=ModelName#>Id  { get; set; }
         private <#=ModelName#>DTO? current<#=ModelName#> { get; set; }
-        private string message { get; set; }
+        private string message { get; set; }="";
         protected override async Task OnInitializedAsync()
         {
             await LoadData();

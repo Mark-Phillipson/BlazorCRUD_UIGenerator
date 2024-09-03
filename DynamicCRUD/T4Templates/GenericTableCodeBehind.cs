@@ -316,7 +316,7 @@ using Ardalis.GuardClauses;
             
             #line default
             #line hidden
-            this.Write(".ToLower().Contains(ClientSearchTerm))\r\n");
+            this.Write(".ToLower().Contains(ClientSearchTerm.ToLower()))\r\n");
             
             #line 85 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
               } else {
@@ -338,7 +338,7 @@ using Ardalis.GuardClauses;
             
             #line default
             #line hidden
-            this.Write(".ToLower().Contains(ClientSearchTerm))\r\n");
+            this.Write(".ToLower().Contains(ClientSearchTerm.ToLower()))\r\n");
             
             #line 88 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
               }
@@ -407,7 +407,7 @@ using Ardalis.GuardClauses;
             #line default
             #line hidden
             this.Write(@" { get; set; }
-        private string message { get; set; }
+        private string message { get; set; }="""";
         protected override async Task OnInitializedAsync()
         {
             await LoadData();

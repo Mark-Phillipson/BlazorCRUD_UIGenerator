@@ -21,7 +21,7 @@ public partial class BlazorCRUDGeneration : ComponentBase
     private ElementReference AutoMapperCodeElement { get; set; }
     public string? DependencyInjectionCode { get; set; } = "";
     private ElementReference DependencyInjectionCodeElement { get; set; }
-    private bool UseBlazored { get; set; } = true;
+    private bool UseBlazored { get; set; } = false;
     [Inject] public IJSRuntime? JSRuntime { get; set; }
     [Inject] IToastService? ToastService { get; set; }
     [Inject] DatabaseMetaDataService? DatabaseMetaDataService { get; set; }
@@ -33,8 +33,11 @@ public partial class BlazorCRUDGeneration : ComponentBase
     public bool ShowInstructions { get; set; }
     string ConnectionString { get; set; } = null!;
     public string SearchString { get; private set; } = "";
-    public string PopulateColumnsCaption { get; set; } = "Populate Columns P";
-    public string NamespaceName { get; set; } = "SampleApplication";
+    public string PopulateColumnsCaption { get; set; } = "Populate Columns";
+    public string RazorNamespaceName { get; set; } = "BlazorApp.Template";
+    public string DTONamespaceName { get; set; } = "BlazorApp.Template";
+    public string RepositoryNamespaceName { get; set; } = "BlazorApp.Template";
+    public string DataServiceNamespaceName { get; set; } = "BlazorApp.Template";
 
     protected override async Task OnInitializedAsync()
     {
@@ -43,7 +46,7 @@ public partial class BlazorCRUDGeneration : ComponentBase
             ConnectionString = Configuration.GetConnectionString("DefaultConnection") ?? "";
             databaseTables = DatabaseMetaDataService.GetDatabaseList(ConnectionString).Where(w => w.Tablename != null && w.Tablename.ToLower().Contains(SearchString.ToLower()));
         }
-        UseBlazored = true;
+        UseBlazored = false;
         await base.OnInitializedAsync();
     }
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -105,7 +108,6 @@ public partial class BlazorCRUDGeneration : ComponentBase
                 foreignKeyDataType = "string";
             }
         }
-        var namespaceString = $"{NamespaceName}";
         var tablename = Tablename.Replace($"{SchemaName}.", "").Replace("/", "");
         string locationBlazor, locationModels, locationRepository;
         PrepareLocations(out locationBlazor, out locationModels, out locationRepository);
@@ -118,44 +120,42 @@ public partial class BlazorCRUDGeneration : ComponentBase
             // File.WriteAllText($"{locationModels}AutoGenClasses\\{ModelName}.cs", content);
         }
 
-        GenericDTO genericDTO = new(Columns, ModelName!, namespaceString);
+        GenericDTO genericDTO = new(Columns, ModelName!, DTONamespaceName);
         content = genericDTO.TransformText();
         File.WriteAllText($"{locationModels}AutoGenClasses\\{ModelName}DTO.cs", content);
 
         var camelTablename = StringHelperService.GetCamelCase(ModelName!);
-        namespaceString = $"{NamespaceName}";
 
-        GenericIRepository genericIRepository = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, foreignKeyName, foreignKeyDataType);
+        GenericIRepository genericIRepository = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, RepositoryNamespaceName, foreignKeyName, foreignKeyDataType);
         content = genericIRepository.TransformText();
         File.WriteAllText($"{locationRepository}AutoGenClasses\\I{ModelName}Repository.cs", content);
 
-        GenericRepository genericRepository = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, foreignKeyName ?? "", foreignKeyDataType ?? "", DbContextName ?? "BostonAcademicDbContext");
+        GenericRepository genericRepository = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, RepositoryNamespaceName, foreignKeyName ?? "", foreignKeyDataType ?? "", DbContextName ?? "BostonAcademicDbContext");
         content = genericRepository.TransformText();
         File.WriteAllText($"{locationRepository}AutoGenClasses\\{ModelName}Repository.cs", content);
 
-        namespaceString = $"{NamespaceName}";
 
-        GenericIDataService genericIDataService = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, foreignKeyName ?? "", foreignKeyDataType ?? "");
+        GenericIDataService genericIDataService = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, DataServiceNamespaceName, foreignKeyName ?? "", foreignKeyDataType ?? "");
         content = genericIDataService.TransformText();
         File.WriteAllText($"{locationBlazor}AutoGenClasses\\I{ModelName}DataService.cs", content);
 
-        GenericDataService genericDataService = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, foreignKeyName ?? "", foreignKeyDataType ?? "");
+        GenericDataService genericDataService = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, DataServiceNamespaceName, foreignKeyName ?? "", foreignKeyDataType ?? "");
         content = genericDataService.TransformText();
         File.WriteAllText($"{locationBlazor}AutoGenClasses\\{ModelName}DataService.cs", content);
 
-        GenericTable genericTable = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, filterColumns, foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored);
+        GenericTable genericTable = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, RazorNamespaceName, filterColumns, foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored);
         content = genericTable.TransformText();
         File.WriteAllText($"{locationBlazor}AutoGenClasses\\{ModelName}Table.razor", content);
 
-        GenericTableCodeBehind genericTableCodeBehind = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored);
+        GenericTableCodeBehind genericTableCodeBehind = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, RazorNamespaceName, foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored);
         content = genericTableCodeBehind.TransformText();
         File.WriteAllText($"{locationBlazor}AutoGenClasses\\{ModelName}Table.razor.cs", content);
 
-        GenericAddEdit genericAddEdit = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, filterColumns, foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored);
+        GenericAddEdit genericAddEdit = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, RazorNamespaceName, filterColumns, foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored);
         content = genericAddEdit.TransformText();
         File.WriteAllText($"{locationBlazor}AutoGenClasses\\{ModelName}AddEdit.razor", content);
 
-        GenericAddEditCodeBehind genericAddEditCodeBehind = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, namespaceString, foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored);
+        GenericAddEditCodeBehind genericAddEditCodeBehind = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, RazorNamespaceName, foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored);
         content = genericAddEditCodeBehind.TransformText();
         File.WriteAllText($"{locationBlazor}AutoGenClasses\\{ModelName}AddEdit.razor.cs", content);
 
@@ -211,6 +211,22 @@ public partial class BlazorCRUDGeneration : ComponentBase
         {
             return "ARM_BlazorServer";
         }
+        else if (connectionString.ToLower().Contains("bostonacademic"))
+        {
+            return "BostonAcademic.Client";
+        }
+        else if (connectionString.ToLower().Contains("voicelauncher"))
+        {
+            return "RazorClassLibrary";
+        }
+        else if (connectionString.ToLower().Contains("templatedatabase"))
+        {
+            return "BlazorApp.Template";
+        }
+        else if (connectionString.ToLower().Contains("packtex"))
+        {
+            return "PacktexBlazorServer";
+        }
         return "SampleApplication";
     }
     string GetDbContextName(string connectionString)
@@ -219,7 +235,23 @@ public partial class BlazorCRUDGeneration : ComponentBase
         {
             return "ARMDbContext";
         }
-        return "MyDbContext";
+        else if (connectionString.ToLower().Contains("BostonAcademic"))
+        {
+            return "BostonAcademicDbContext";
+        }
+        else if (connectionString.ToLower().Contains("VoiceLauncher"))
+        {
+            return "ApplicationDbContext";
+        }
+        else if (connectionString.ToLower().Contains("TemplateDatabase"))
+        {
+            return "ApplicationDbContext";
+        }
+        else if (connectionString.ToLower().Contains("Packtex"))
+        {
+            return "PacktexDbContext";
+        }
+        return "ApplicationDbContext";
     }
     private void PopulateColumns()
     {
@@ -233,7 +265,7 @@ public partial class BlazorCRUDGeneration : ComponentBase
             Message = "System does not support table names with dots in the name!";
             return;
         }
-        NamespaceName = GetNamespaceName(ConnectionString);
+        RazorNamespaceName = GetNamespaceName(ConnectionString);
         DbContextName = GetDbContextName(ConnectionString);
         PluralName = $"{tablename}";
         PluralName = PluralName.Replace($"{SchemaName}.", "").Replace("_", "");
