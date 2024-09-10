@@ -14,7 +14,7 @@ namespace DynamicCRUD.T4Templates
         private readonly IEnumerable<ClientDatabaseColumn> DatabaseColumns;
         string PrimaryKeyDataType { get; set; }
         string ModelName { get; set; }
-		public string ModelNameWithSpaces { get; set; }="";
+        public string ModelNameWithSpaces { get; set; } = "";
         string PluralTablename { get; set; }
         string Namespace { get; set; } = "";
         string ModelNameCamelCase { get; }
@@ -22,13 +22,14 @@ namespace DynamicCRUD.T4Templates
         string FilterColumns { get; set; }
         public string ForeignKeyName { get; set; } = "";
         public string ForeignKeyDataType { get; set; } = "";
-         public  bool UseBlazored { get; set; }=true;
-        public GenericTable(IEnumerable<ClientDatabaseColumn> databaseColumns, string modelName, string modelNameCamelCase, string pluralTablename, string primaryKeyName, string primaryKeyDataType, string Namespace, string filterColumns,string foreignKeyName,string foreignKeyDataType, bool useBlazored)
+        public bool UseBlazored { get; set; } = true;
+        public bool UseRadzen { get; set; } = false;
+        public GenericTable(IEnumerable<ClientDatabaseColumn> databaseColumns, string modelName, string modelNameCamelCase, string pluralTablename, string primaryKeyName, string primaryKeyDataType, string Namespace, string filterColumns, string foreignKeyName, string foreignKeyDataType, bool useBlazored, bool useRadzen)
         {
             this.Namespace = Namespace;
             DatabaseColumns = databaseColumns;
             ModelName = modelName;
-			ModelNameWithSpaces=StringHelperService.AddSpacesToSentence(modelName);
+            ModelNameWithSpaces = StringHelperService.AddSpacesToSentence(modelName);
             ModelNameCamelCase = modelNameCamelCase;
             PluralTablename = pluralTablename;
             PrimaryKeyName = primaryKeyName;
@@ -36,7 +37,8 @@ namespace DynamicCRUD.T4Templates
             FilterColumns = filterColumns;
             ForeignKeyName = foreignKeyName;
             ForeignKeyDataType = foreignKeyDataType;
-            UseBlazored= useBlazored;
+            UseBlazored = useBlazored;
+            UseRadzen = useRadzen;
         }
 
     }

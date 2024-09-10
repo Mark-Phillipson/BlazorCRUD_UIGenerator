@@ -1,6 +1,5 @@
 using Blazored.Toast.Services;
 using DynamicCRUD.Services;
-// using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
 using DynamicCRUD.T4Templates;
 using Humanizer;
 using Microsoft.AspNetCore.Components;
@@ -16,12 +15,13 @@ public partial class BlazorCRUDGeneration : ComponentBase
     public string? ModelName { get; set; }
     public string SchemaName { get; set; } = "dbo";// Usually dbo
     public string? PluralName { get; set; }
-    public string? DbContextName { get; set; } = "MyDbContext";
+    public string? DbContextName { get; set; } = "ApplicationDbContext";
     public string? AutoMapperCode { get; set; } = "";
     private ElementReference AutoMapperCodeElement { get; set; }
     public string? DependencyInjectionCode { get; set; } = "";
     private ElementReference DependencyInjectionCodeElement { get; set; }
     private bool UseBlazored { get; set; } = false;
+    private bool UseRadzen { get; set; } = false;
     [Inject] public IJSRuntime? JSRuntime { get; set; }
     [Inject] IToastService? ToastService { get; set; }
     [Inject] DatabaseMetaDataService? DatabaseMetaDataService { get; set; }
@@ -112,13 +112,6 @@ public partial class BlazorCRUDGeneration : ComponentBase
         string locationBlazor, locationModels, locationRepository;
         PrepareLocations(out locationBlazor, out locationModels, out locationRepository);
         string content = "";
-        if (false) //Usuually this already exists After reverse engineering the database
-        {
-            // GenericModel genericModel = new(Columns, tablename, namespaceString, ModelName);
-            // content = genericModel.TransformText();
-            // tablename = tablename.Replace("_", "");
-            // File.WriteAllText($"{locationModels}AutoGenClasses\\{ModelName}.cs", content);
-        }
 
         GenericDTO genericDTO = new(Columns, ModelName!, DTONamespaceName);
         content = genericDTO.TransformText();
@@ -130,7 +123,7 @@ public partial class BlazorCRUDGeneration : ComponentBase
         content = genericIRepository.TransformText();
         File.WriteAllText($"{locationRepository}AutoGenClasses\\I{ModelName}Repository.cs", content);
 
-        GenericRepository genericRepository = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, RepositoryNamespaceName, foreignKeyName ?? "", foreignKeyDataType ?? "", DbContextName ?? "BostonAcademicDbContext");
+        GenericRepository genericRepository = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, RepositoryNamespaceName, foreignKeyName ?? "", foreignKeyDataType ?? "", DbContextName ?? "ApplicationDbContext");
         content = genericRepository.TransformText();
         File.WriteAllText($"{locationRepository}AutoGenClasses\\{ModelName}Repository.cs", content);
 
@@ -143,7 +136,7 @@ public partial class BlazorCRUDGeneration : ComponentBase
         content = genericDataService.TransformText();
         File.WriteAllText($"{locationBlazor}AutoGenClasses\\{ModelName}DataService.cs", content);
 
-        GenericTable genericTable = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, RazorNamespaceName, filterColumns, foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored);
+        GenericTable genericTable = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, RazorNamespaceName, filterColumns, foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored, UseRadzen);
         content = genericTable.TransformText();
         File.WriteAllText($"{locationBlazor}AutoGenClasses\\{ModelName}Table.razor", content);
 

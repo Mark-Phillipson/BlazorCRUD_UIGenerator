@@ -135,9 +135,13 @@
             </table>
         </div>
     }
-    <div class="col-6">
+    <div class="col-3">
         <input type="checkbox" @bind="@UseBlazored" accesskey="b" />
-        <label class="control-label">Use Blazored Modal and Toast (Alt-B)</label>
+        <label class="control-label">Use Blazored Modal & Toast (Alt-B)</label>
+    </div>
+    <div class="col-3">
+        <input type="checkbox" @bind="@UseRadzen" accesskey="r" />
+        <label class="control-label">Use Radzen Blazor (Alt-R)</label>
     </div>
     @if (ModelName != null)
     {
