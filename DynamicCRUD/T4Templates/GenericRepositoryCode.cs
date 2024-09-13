@@ -33,7 +33,7 @@ namespace DynamicCRUD.T4Templates
             PrimaryKeyName = primaryKeyName;
             ForeignKeyName = foreignKeyName;
             ForeignKeyDataType = foreignKeyDataType;
-            DbContextName= dbContextName;
+            DbContextName = dbContextName;
         }
 
     }

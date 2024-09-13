@@ -19,7 +19,7 @@ namespace DynamicCRUD.T4Templates
         string ModelNameCamelCase { get; }
         string PrimaryKeyName { get; set; } = "";
         string ForeignKeyName { get; set; } = "";
-        string ForeignKeyDataType { get; set; }= "";
+        string ForeignKeyDataType { get; set; } = "";
 
         public GenericIRepository(IEnumerable<ClientDatabaseColumn> databaseColumns, string modelName, string modelNameCamelCase, string pluralTablename, string primaryKeyName, string primaryKeyDataType, string Namespace, string? foreignKeyName, string? foreignKeyDataType)
         {
@@ -30,8 +30,8 @@ namespace DynamicCRUD.T4Templates
             PluralTablename = pluralTablename;
             PrimaryKeyDataType = primaryKeyDataType;
             PrimaryKeyName = primaryKeyName;
-			ForeignKeyName = foreignKeyName ?? "";
-			ForeignKeyDataType = foreignKeyDataType ?? "";
+            ForeignKeyName = foreignKeyName ?? "";
+            ForeignKeyDataType = foreignKeyDataType ?? "";
         }
 
     }

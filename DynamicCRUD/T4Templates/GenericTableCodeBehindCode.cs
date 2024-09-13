@@ -19,13 +19,14 @@ namespace DynamicCRUD.T4Templates
         string Namespace { get; set; } = "";
         string ModelNameCamelCase { get; }
         string PrimaryKeyName { get; set; } = "";
-        public string? DefaultSortColumn { get; set; }="DefaultSortColumn";
+        public string? DefaultSortColumn { get; set; } = "DefaultSortColumn";
         string ForeignKeyName { get; set; } = "";
-        string ForeignKeyDataType { get; set; }= "";
-		public string ModelNameWithSpaces { get; set; }="";
+        string ForeignKeyDataType { get; set; } = "";
+        public string ModelNameWithSpaces { get; set; } = "";
         public bool UseBlazored { get; set; } = true;
+        public bool UseRadzen { get; set; } = false;
 
-        public GenericTableCodeBehind(IEnumerable<ClientDatabaseColumn> databaseColumns, string modelName, string modelNameCamelCase, string pluralTablename, string primaryKeyName, string primaryKeyDataType, string Namespace,string foreignKeyName, string foreignKeyDataType,bool useBlazored)
+        public GenericTableCodeBehind(IEnumerable<ClientDatabaseColumn> databaseColumns, string modelName, string modelNameCamelCase, string pluralTablename, string primaryKeyName, string primaryKeyDataType, string Namespace, string foreignKeyName, string foreignKeyDataType, bool useBlazored, bool useRadzen)
         {
             this.Namespace = Namespace;
             DatabaseColumns = databaseColumns;
@@ -34,10 +35,11 @@ namespace DynamicCRUD.T4Templates
             PluralTablename = pluralTablename;
             PrimaryKeyName = primaryKeyName;
             PrimaryKeyDataType = primaryKeyDataType;
-			ForeignKeyName = foreignKeyName;
-			ForeignKeyDataType = foreignKeyDataType;
+            ForeignKeyName = foreignKeyName;
+            ForeignKeyDataType = foreignKeyDataType;
             UseBlazored = useBlazored;
-            ModelNameWithSpaces =StringHelperService.AddSpacesToSentence(modelName);
+            UseRadzen = useRadzen;
+            ModelNameWithSpaces = StringHelperService.AddSpacesToSentence(modelName);
             var result = databaseColumns.FirstOrDefault(c => c.Sort == true);
             if (result != null && result.PropertyName != null)
             {

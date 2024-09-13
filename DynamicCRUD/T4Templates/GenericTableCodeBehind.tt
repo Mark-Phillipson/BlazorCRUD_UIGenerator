@@ -28,7 +28,9 @@ using Ardalis.GuardClauses;
 //using <#=Namespace#>.Shared;
 using <#=Namespace#>.Services;
 using <#=Namespace#>.DTOs;
-
+<# if (UseRadzen) {#>
+using Radzen.Blazor;
+<# } #>
 namespace <#=Namespace#>.Pages
 {
     public partial class <#=ModelName#>Table : ComponentBase
@@ -51,7 +53,11 @@ namespace <#=Namespace#>.Pages
         public List<<#=ModelName#>DTO>? <#=ModelName#>DTO { get; set; }
         public List<<#=ModelName#>DTO>? Filtered<#=ModelName#>DTO { get; set; }
         protected <#=ModelName#>AddEdit? <#=ModelName#>AddEdit { get; set; }
+        <# if (!UseRadzen) {#>
         ElementReference SearchInput;
+        <# } else { #>
+        RadzenTextBox? SearchInput;
+        <# } #>
 #pragma warning disable 414, 649
         private bool _loadFailed = false;
         private string? searchTerm = null;
@@ -154,7 +160,10 @@ namespace <#=Namespace#>.Pages
                 try
                 {
                     await Task.Delay(100);
-                    await SearchInput.FocusAsync();
+                    if (SearchInput != null)
+                    {
+                        await SearchInput.FocusAsync();
+                    }
                 }
                 catch (Exception exception)
                 {

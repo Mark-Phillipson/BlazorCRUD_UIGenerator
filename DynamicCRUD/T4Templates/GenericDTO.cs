@@ -14,12 +14,12 @@ namespace DynamicCRUD.T4Templates
     using System.Reflection;
     using System.Collections.Generic;
     using System;
-    
+
     /// <summary>
     /// Class to produce the template output
     /// </summary>
-    
-    #line 1 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
+
+#line 1 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "17.0.0.0")]
     public partial class GenericDTO : GenericDTOBase
     {
@@ -31,247 +31,264 @@ namespace DynamicCRUD.T4Templates
         {
             this.Write("\r\n");
             this.Write("using System.ComponentModel.DataAnnotations;\r\n\r\nnamespace ");
-            
-            #line 11 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
+
+#line 11 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Namespace));
-            
-            #line default
-            #line hidden
+
+#line default
+#line hidden
             this.Write(".DTOs\r\n{\r\n    public partial class ");
-            
-            #line 13 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
+
+#line 13 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
-            
-            #line default
-            #line hidden
+
+#line default
+#line hidden
             this.Write("DTO\r\n    {\r\n");
-            
-            #line 15 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
- 
-        foreach (var property in DatabaseColumns)  {
 
-            
-            #line default
-            #line hidden
-            
-            #line 18 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
- 
-        if (property.IsKey || property.PrimaryKeyOverride) {
+#line 15 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
 
-            
-            #line default
-            #line hidden
-            this.Write("        [Key]\r\n");
-            
-            #line 21 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
+            foreach (var property in DatabaseColumns)
+            {
 
-        }
 
-            
-            #line default
-            #line hidden
-            
-            #line 24 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
+#line default
+#line hidden
 
-        if (property.Required && property.IsKey==false) {
+#line 18 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
 
-            
-            #line default
-            #line hidden
-            this.Write("        [Required]\r\n");
-            
-            #line 27 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
+                if (property.IsKey || property.PrimaryKeyOverride)
+                {
 
-        }
 
-            
-            #line default
-            #line hidden
-            
-            #line 30 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
- 
-        if (property.DataType.ToLower().EndsWith("varchar") && property.ColumnSize<20000) {
+#line default
+#line hidden
+                    this.Write("        [Key]\r\n");
 
-            
-            #line default
-            #line hidden
-            this.Write("        [StringLength(");
-            
-            #line 32 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.ColumnSize));
-            
-            #line default
-            #line hidden
-            this.Write(")]\r\n");
-            
-            #line 33 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
+#line 21 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
 
-        }
+                }
 
-            
-            #line default
-            #line hidden
-            this.Write("        public");
-            
-            #line 35 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
- 
-            if (property.DataType.ToLower()=="int" || property.DataType.ToLower()=="smallint") { 
 
-            
-            #line default
-            #line hidden
-            this.Write(" int");
-            
-            #line 37 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
- 
+#line default
+#line hidden
+
+#line 24 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
+
+                if (property.Required && property.IsKey == false)
+                {
+
+
+#line default
+#line hidden
+                    this.Write("        [Required]\r\n");
+
+#line 27 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
+
+                }
+
+
+#line default
+#line hidden
+
+#line 30 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
+
+                if (property.DataType.ToLower().EndsWith("varchar") && property.ColumnSize < 20000)
+                {
+
+
+#line default
+#line hidden
+                    this.Write("        [StringLength(");
+
+#line 32 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
+                    this.Write(this.ToStringHelper.ToStringWithCulture(property.ColumnSize));
+
+#line default
+#line hidden
+                    this.Write(")]\r\n");
+
+#line 33 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
+
+                }
+
+
+#line default
+#line hidden
+                this.Write("        public");
+
+#line 35 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
+
+                if (property.DataType.ToLower() == "int" || property.DataType.ToLower() == "smallint")
+                {
+
+
+#line default
+#line hidden
+                    this.Write(" int");
+
+#line 37 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
+
+                }
+                else if (property.DataType.ToLower() == "bigint")
+                {
+
+
+#line default
+#line hidden
+                    this.Write(" long");
+
+#line 40 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
+
+                }
+                else if (property.DataType.ToLower().EndsWith("varchar"))
+                {
+
+
+#line default
+#line hidden
+                    this.Write(" string");
+
+#line 43 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
+
+                }
+                else if (property.DataType.ToLower() == "uniqueidentifier")
+                {
+
+
+#line default
+#line hidden
+                    this.Write(" Guid");
+
+#line 46 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
+
+                }
+                else if (property.DataType.ToLower() == "bit")
+                {
+
+
+#line default
+#line hidden
+                    this.Write(" bool");
+
+#line 49 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
+
+                }
+                else if (property.DataType.ToLower().Contains("datetime") || property.DataType.ToLower() == "date")
+                {
+
+
+#line default
+#line hidden
+                    this.Write(" DateTime");
+
+#line 52 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
+
+                }
+                else if (property.DataType.ToLower() == "decimal" || property.DataType.ToLower() == "money")
+                {
+
+
+#line default
+#line hidden
+                    this.Write(" decimal");
+
+#line 55 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
+
+                }
+
+
+
+#line default
+#line hidden
+
+#line 59 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
+
+                if (!property.Required && property.DataType.ToLower() != "bit")
+                {
+
+
+#line default
+#line hidden
+                    this.Write("? ");
+
+#line 61 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
+
+                }
+                else
+                {
+
+
+#line default
+#line hidden
+                    this.Write(" ");
+
+#line 65 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
+
+                }
+
+
+#line default
+#line hidden
+
+#line 68 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
+                this.Write(this.ToStringHelper.ToStringWithCulture(property.PropertyName));
+
+#line default
+#line hidden
+                this.Write(" { get; set; }");
+
+#line 69 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
+
+                if (property.DataType.ToLower().EndsWith("varchar") && property.IsKey == false && property.Required)
+                {
+
+
+#line default
+#line hidden
+                    this.Write(" =\"\";\r\n");
+
+#line 72 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
+                }
+                else if (property.Required || property.IsKey == true)
+                {
+
+
+#line default
+#line hidden
+
+#line 74 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
+
+                }
+                else
+                {
+
+
+#line default
+#line hidden
+                    this.Write("\r\n");
+
+#line 78 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
+                }
+
+
+#line default
+#line hidden
+
+#line 80 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
+
             }
-            else if (property.DataType.ToLower()=="bigint") {
-
-            
-            #line default
-            #line hidden
-            this.Write(" long");
-            
-            #line 40 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
-
-            } 
-            else if (property.DataType.ToLower().EndsWith("varchar")) {
-
-            
-            #line default
-            #line hidden
-            this.Write(" string");
-            
-            #line 43 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
-
-            } 
-            else if (property.DataType.ToLower()=="uniqueidentifier") {
-
-            
-            #line default
-            #line hidden
-            this.Write(" Guid");
-            
-            #line 46 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
-
-            }
-else if (property.DataType.ToLower()=="bit") {
-
-            
-            #line default
-            #line hidden
-            this.Write(" bool");
-            
-            #line 49 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
-
-            } 
-            else if (property.DataType.ToLower().Contains("datetime") || property.DataType.ToLower()=="date") {
-
-            
-            #line default
-            #line hidden
-            this.Write(" DateTime");
-            
-            #line 52 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
-
-            } 
-            else if (property.DataType.ToLower()=="decimal" || property.DataType.ToLower()=="money") {
-
-            
-            #line default
-            #line hidden
-            this.Write(" decimal");
-            
-            #line 55 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
-
-            } 
 
 
-            
-            #line default
-            #line hidden
-            
-            #line 59 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
- 
-        if (!property.Required && property.DataType.ToLower()!="bit") {
-
-            
-            #line default
-            #line hidden
-            this.Write("? ");
-            
-            #line 61 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
-
-        }
-        else
-        {
-
-            
-            #line default
-            #line hidden
-            this.Write(" ");
-            
-            #line 65 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
-
-        }
-
-            
-            #line default
-            #line hidden
-            
-            #line 68 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.PropertyName));
-            
-            #line default
-            #line hidden
-            this.Write(" { get; set; }");
-            
-            #line 69 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
- 
-        if (property.DataType.ToLower().EndsWith("varchar") && property.IsKey==false && property.Required) {
-
-            
-            #line default
-            #line hidden
-            this.Write(" =\"\";\r\n");
-            
-            #line 72 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
-      } else if (property.Required || property.IsKey==true) { 
-
-            
-            #line default
-            #line hidden
-            
-            #line 74 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
-
-        } else {
-
-            
-            #line default
-            #line hidden
-            this.Write("\r\n");
-            
-            #line 78 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
-      }
-
-            
-            #line default
-            #line hidden
-            
-            #line 80 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
-
-        }
-
-            
-            #line default
-            #line hidden
+#line default
+#line hidden
             this.Write("    }   \r\n}");
             return this.GenerationEnvironment.ToString();
         }
     }
-    
-    #line default
-    #line hidden
+
+#line default
+#line hidden
     #region Base class
     /// <summary>
     /// Base class for this transformation
@@ -371,7 +388,7 @@ else if (property.DataType.ToLower()=="bit") {
             }
             // If we're starting off, or if the previous text ended with a newline,
             // we have to append the current indent first.
-            if (((this.GenerationEnvironment.Length == 0) 
+            if (((this.GenerationEnvironment.Length == 0)
                         || this.endsWithNewline))
             {
                 this.GenerationEnvironment.Append(this.currentIndentField);
@@ -489,7 +506,7 @@ else if (property.DataType.ToLower()=="bit") {
         /// </summary>
         public class ToStringInstanceHelper
         {
-            private System.IFormatProvider formatProviderField  = global::System.Globalization.CultureInfo.InvariantCulture;
+            private System.IFormatProvider formatProviderField = global::System.Globalization.CultureInfo.InvariantCulture;
             /// <summary>
             /// Gets or sets format provider to be used by ToStringWithCulture method.
             /// </summary>
@@ -497,13 +514,13 @@ else if (property.DataType.ToLower()=="bit") {
             {
                 get
                 {
-                    return this.formatProviderField ;
+                    return this.formatProviderField;
                 }
                 set
                 {
                     if ((value != null))
                     {
-                        this.formatProviderField  = value;
+                        this.formatProviderField = value;
                     }
                 }
             }
