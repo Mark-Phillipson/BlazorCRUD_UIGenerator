@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
 using System.Reflection;
+using System.Text.Json;
 
 namespace DynamicCRUD.Pages;
 
@@ -34,21 +35,114 @@ public partial class BlazorCRUDGeneration : ComponentBase
     string ConnectionString { get; set; } = null!;
     public string SearchString { get; private set; } = "";
     public string PopulateColumnsCaption { get; set; } = "Populate Columns";
-    public string RazorNamespaceName { get; set; } = "BlazorApp.Template";
-    public string DTONamespaceName { get; set; } = "BlazorApp.Template";
-    public string RepositoryNamespaceName { get; set; } = "BlazorApp.Template";
-    public string DataServiceNamespaceName { get; set; } = "BlazorApp.Template";
-
+    public string? RazorNamespaceName { get; set; } = "TBC";
+    public string? DTONamespaceName { get; set; } = "TBC";
+    public string? RepositoryNamespaceName { get; set; } = "TBC";
+    public string? DataServiceNamespaceName { get; set; } = "TBC";
+    public string? LocationRazor { get; set; } = "";
+    public string? LocationDTO { get; set; } = "";
+    public string? LocationRepository { get; set; } = "";
+    public string? LocationDataService { get; set; } = "";
     protected override async Task OnInitializedAsync()
     {
         if (DatabaseMetaDataService != null && Configuration != null)
         {
             ConnectionString = Configuration.GetConnectionString("DefaultConnection") ?? "";
-            databaseTables = DatabaseMetaDataService.GetDatabaseList(ConnectionString).Where(w => w.Tablename != null && w.Tablename.ToLower().Contains(SearchString.ToLower()));
+            var result = GetNameSpaceAndLocations(ConnectionString);
+            if (!result)
+            {
+                Message = "Something Went Wrong getting namespaces and locations! Please check the connection string and projectMappings.json then try again!";
+            }
+            else
+            {
+                databaseTables = DatabaseMetaDataService.GetDatabaseList(ConnectionString).Where(w => w.Tablename != null && w.Tablename.ToLower().Contains(SearchString.ToLower()));
+            }
         }
         UseBlazored = false;
         await base.OnInitializedAsync();
     }
+
+    private bool GetNameSpaceAndLocations(string connectionString)
+    {
+        // Extract the initial catalog from the connection string
+        var initialCatalogue = "";
+        var connectionStringParts = connectionString.Split(";");
+        foreach (var part in connectionStringParts)
+        {
+            if (part.ToLower().Contains("initial catalog"))
+            {
+                initialCatalogue = part.Split("=")[1];
+                break;
+            }
+        }
+        if (string.IsNullOrEmpty(initialCatalogue))
+        {
+            return false;
+        }
+
+        // Read and deserialize the projectsMapping.json file
+        var projectsMappingJson = "";
+        try
+        {
+            projectsMappingJson = File.ReadAllText("projectMappings.json");
+            Console.WriteLine("JSON Content: " + projectsMappingJson);
+        }
+        catch (System.Exception exception)
+        {
+            System.Console.WriteLine(exception.Message);
+            return false;
+        }
+        var projectMappings = new ProjectMapping();
+        try
+        {
+            projectMappings = JsonSerializer.Deserialize<ProjectMapping>(projectsMappingJson);
+            if (projectMappings == null)
+            {
+                Console.WriteLine("Deserialization returned null.");
+                return false;
+            }
+            else
+            {
+                Console.WriteLine("Deserialization successful.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Deserialization error: " + ex.Message);
+            return false;
+        }
+
+        // Find the project that matches the initial catalog
+        Project? project = null;
+        try
+        {
+            project = projectMappings?.Projects?.FirstOrDefault(p => p.DatabaseName!.Equals(initialCatalogue, StringComparison.OrdinalIgnoreCase));
+
+        }
+        catch (System.Exception exception)
+        {
+            System.Console.WriteLine(exception.Message);
+            return false;
+        }
+        if (project == null)
+        {
+            return false;
+        }
+
+        // Map the values to the appropriate properties
+        RazorNamespaceName = project.Namespaces?.RazorNamespace;
+        DTONamespaceName = project.Namespaces?.DtoNamespace;
+        DataServiceNamespaceName = project.Namespaces?.DataServiceNamespace;
+        RepositoryNamespaceName = project.Namespaces?.RepositoryNamespace;
+
+        LocationRazor = project.Folders?.RazorFolder;
+        LocationDTO = project.Folders?.DtoFolder;
+        LocationDataService = project.Folders?.DataServiceFolder;
+        LocationRepository = project.Folders?.RepositoryFolder;
+
+        return true;
+    }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -89,9 +183,9 @@ public partial class BlazorCRUDGeneration : ComponentBase
             Message = "Please select at least one column to sort by! ";
             return;
         }
-        AutoMapperCode = $"CreateMap<{ModelName}, {ModelName}DTO>();\r\n" +
+        AutoMapperCode = $"CreateMap<{ModelName}, {ModelName}DTO>();" + Environment.NewLine +
             $"CreateMap<{ModelName}DTO, {ModelName}>();";
-        DependencyInjectionCode = $"builder.Services.AddScoped<I{ModelName}Repository, {ModelName}Repository>();\r\n " +
+        DependencyInjectionCode = $"builder.Services.AddScoped<I{ModelName}Repository, {ModelName}Repository>(); " + Environment.NewLine +
             $"builder.Services.AddScoped<I{ModelName}DataService, {ModelName}DataService>();";
         string primaryKeyName = ""; string primaryKeyDatatype = "";
         GetPrimaryKeyDetails(ref primaryKeyName, ref primaryKeyDatatype);
@@ -109,59 +203,49 @@ public partial class BlazorCRUDGeneration : ComponentBase
             }
         }
         var tablename = Tablename.Replace($"{SchemaName}.", "").Replace("/", "");
-        string locationBlazor, locationModels, locationRepository;
-        PrepareLocations(out locationBlazor, out locationModels, out locationRepository);
         string content = "";
 
-        GenericDTO genericDTO = new(Columns, ModelName!, DTONamespaceName);
+        GenericDTO genericDTO = new(Columns, ModelName!, DTONamespaceName ?? "DTO_Namespace");
         content = genericDTO.TransformText();
-        File.WriteAllText($"{locationModels}AutoGenClasses\\{ModelName}DTO.cs", content);
+        File.WriteAllText($"{LocationDTO}\\{ModelName}DTO.cs", content);
 
         var camelTablename = StringHelperService.GetCamelCase(ModelName!);
 
-        GenericIRepository genericIRepository = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, RepositoryNamespaceName, foreignKeyName, foreignKeyDataType);
+        GenericIRepository genericIRepository = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, RepositoryNamespaceName ?? "Repository_Namespace", foreignKeyName, foreignKeyDataType);
         content = genericIRepository.TransformText();
-        File.WriteAllText($"{locationRepository}AutoGenClasses\\I{ModelName}Repository.cs", content);
+        File.WriteAllText($"{LocationRepository}\\I{ModelName}Repository.cs", content);
 
-        GenericRepository genericRepository = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, RepositoryNamespaceName, foreignKeyName ?? "", foreignKeyDataType ?? "", DbContextName ?? "ApplicationDbContext");
+        GenericRepository genericRepository = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, RepositoryNamespaceName ?? "Repository_Namespace", foreignKeyName ?? "", foreignKeyDataType ?? "", DbContextName ?? "ApplicationDbContext");
         content = genericRepository.TransformText();
-        File.WriteAllText($"{locationRepository}AutoGenClasses\\{ModelName}Repository.cs", content);
+        File.WriteAllText($"{LocationRepository}\\{ModelName}Repository.cs", content);
 
 
-        GenericIDataService genericIDataService = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, DataServiceNamespaceName, foreignKeyName ?? "", foreignKeyDataType ?? "");
+        GenericIDataService genericIDataService = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, DataServiceNamespaceName ?? "DataService_Namespace", foreignKeyName ?? "", foreignKeyDataType ?? "");
         content = genericIDataService.TransformText();
-        File.WriteAllText($"{locationBlazor}AutoGenClasses\\I{ModelName}DataService.cs", content);
+        File.WriteAllText($"{LocationDataService}\\I{ModelName}DataService.cs", content);
 
-        GenericDataService genericDataService = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, DataServiceNamespaceName, foreignKeyName ?? "", foreignKeyDataType ?? "");
+        GenericDataService genericDataService = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, DataServiceNamespaceName ?? "DataService_Namespace", foreignKeyName ?? "", foreignKeyDataType ?? "");
         content = genericDataService.TransformText();
-        File.WriteAllText($"{locationBlazor}AutoGenClasses\\{ModelName}DataService.cs", content);
+        File.WriteAllText($"{LocationDataService}\\{ModelName}DataService.cs", content);
 
-        GenericTable genericTable = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, RazorNamespaceName, filterColumns, foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored, UseRadzen);
+        GenericTable genericTable = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, RazorNamespaceName ?? "Razor_Namespace", filterColumns, foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored, UseRadzen, DataServiceNamespaceName ?? "DataService_Namespace", RepositoryNamespaceName ?? "Repository_Namespace");
         content = genericTable.TransformText();
-        File.WriteAllText($"{locationBlazor}AutoGenClasses\\{ModelName}Table.razor", content);
+        File.WriteAllText($"{LocationRazor}\\{ModelName}Table.razor", content);
 
-        GenericTableCodeBehind genericTableCodeBehind = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, RazorNamespaceName, foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored);
+        GenericTableCodeBehind genericTableCodeBehind = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, RazorNamespaceName ?? "Razor_Namespace", foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored, UseRadzen, DataServiceNamespaceName ?? "DataService_Namespace", RepositoryNamespaceName ?? "Repository_Namespace", DTONamespaceName ?? "DTO_Namespace");
         content = genericTableCodeBehind.TransformText();
-        File.WriteAllText($"{locationBlazor}AutoGenClasses\\{ModelName}Table.razor.cs", content);
+        File.WriteAllText($"{LocationRazor}\\{ModelName}Table.razor.cs", content);
 
-        GenericAddEdit genericAddEdit = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, RazorNamespaceName, filterColumns, foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored);
+        GenericAddEdit genericAddEdit = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, RazorNamespaceName ?? "Razor_Namespace", filterColumns, foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored);
         content = genericAddEdit.TransformText();
-        File.WriteAllText($"{locationBlazor}AutoGenClasses\\{ModelName}AddEdit.razor", content);
+        File.WriteAllText($"{LocationRazor}\\{ModelName}AddEdit.razor", content);
 
-        GenericAddEditCodeBehind genericAddEditCodeBehind = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, RazorNamespaceName, foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored);
+        GenericAddEditCodeBehind genericAddEditCodeBehind = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, RazorNamespaceName ?? "Razor_Namespace", foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored, DTONamespaceName ?? "DTO_Namespace", DataServiceNamespaceName ?? "DataService_Namespace");
         content = genericAddEditCodeBehind.TransformText();
-        File.WriteAllText($"{locationBlazor}AutoGenClasses\\{ModelName}AddEdit.razor.cs", content);
+        File.WriteAllText($"{LocationRazor}\\{ModelName}AddEdit.razor.cs", content);
 
 
         ShowInstructions = true;
-    }
-
-    private static void PrepareLocations(out string locationBlazor, out string locationModels, out string locationRepository)
-    {
-        var location = Assembly.GetExecutingAssembly().Location;
-        locationBlazor = location.Substring(0, location.IndexOf("DynamicCRUD") + 12);
-        locationModels = locationBlazor;
-        locationRepository = locationBlazor;
     }
 
     private void GetFilterColumns(ref string filterColumns)
@@ -258,7 +342,6 @@ public partial class BlazorCRUDGeneration : ComponentBase
             Message = "System does not support table names with dots in the name!";
             return;
         }
-        RazorNamespaceName = GetNamespaceName(ConnectionString);
         DbContextName = GetDbContextName(ConnectionString);
         PluralName = $"{tablename}";
         PluralName = PluralName.Replace($"{SchemaName}.", "").Replace("_", "");

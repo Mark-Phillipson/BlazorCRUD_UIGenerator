@@ -24,7 +24,9 @@ namespace DynamicCRUD.T4Templates
         public string ForeignKeyDataType { get; set; } = "";
         public bool UseBlazored { get; set; } = true;
         public bool UseRadzen { get; set; } = false;
-        public GenericTable(IEnumerable<ClientDatabaseColumn> databaseColumns, string modelName, string modelNameCamelCase, string pluralTablename, string primaryKeyName, string primaryKeyDataType, string Namespace, string filterColumns, string foreignKeyName, string foreignKeyDataType, bool useBlazored, bool useRadzen)
+        public string DataServiceNamespace { get; set; } = "TBC";
+        public string RepositoryNamespace { get; set; } = "TBC";
+        public GenericTable(IEnumerable<ClientDatabaseColumn> databaseColumns, string modelName, string modelNameCamelCase, string pluralTablename, string primaryKeyName, string primaryKeyDataType, string Namespace, string filterColumns, string foreignKeyName, string foreignKeyDataType, bool useBlazored, bool useRadzen, string dataServiceNamespace, string repositoryNamespace)
         {
             this.Namespace = Namespace;
             DatabaseColumns = databaseColumns;
@@ -39,6 +41,8 @@ namespace DynamicCRUD.T4Templates
             ForeignKeyDataType = foreignKeyDataType;
             UseBlazored = useBlazored;
             UseRadzen = useRadzen;
+            DataServiceNamespace = dataServiceNamespace;
+            RepositoryNamespace = repositoryNamespace;
         }
 
     }

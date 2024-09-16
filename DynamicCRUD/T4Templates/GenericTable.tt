@@ -261,7 +261,7 @@
 @if (ShowEdit)
 {
 <# if (!UseRadzen) {#>
-<dialog open="true" style="position:absolute;left: 0px;top: 200px;z-index: 900" class="border border-danger">
+    <dialog open="true" style="position:absolute;left: 0px;top: 200px;z-index: 900" class="border border-danger">
     <button class="btn btn-outline-secondary m-2" style="float:right" type="submit"
         @onclick="@( ( ) => ToggleModal(  ) )">x
     </button>
@@ -270,22 +270,20 @@
     </div>
 </dialog>
 <# } else { #>
-<dialog open="true" style="position:absolute;left: 0px;top: 200px;z-index: 900;max-height:500px"
+    <dialog open="true" style="position:absolute;left: 0px;top: 200px;z-index: 900;max-height:500px"
         class="border border-danger rz-layout">
         <RadzenStack Orientation="Orientation.Vertical">
-            <RadzenStack Orientation="Orientation.Horizontal">
                 <div class='row'>
                     <div class='col-md-10'>
-                        <h1>@EditTitle</h1>
+                        <h3>@EditTitle</h3>
                     </div>
-                    <div style="float:right" class='col-md-2'>
+                    <div class='col-md-2'>
                         <RadzenButton Text="x" ButtonStyle="ButtonStyle.Secondary" Click="@ToggleModal" />
                     </div>
                 </div>
-            </RadzenStack>
-        <<#=ModelName#>AddEdit Title="@EditTitle" <#=PrimaryKeyName#>="@<#=ModelName#>Id" CloseModal="@CloseModalAsync" />
+            <<#=ModelName#>AddEdit Title="@EditTitle" <#=PrimaryKeyName#>="@<#=ModelName#>Id" CloseModal="@CloseModalAsync" />
         </RadzenStack>
-</dialog>
+    </dialog>
 <# }#>
 }
 @if (ShowDeleteConfirm)
@@ -311,10 +309,10 @@
             <RadzenStack Orientation="Orientation.Horizontal">
                 <div class='row'>
                     <div class='col-md-10'>
-                        <h1>Deletion Confirmation <#=ModelNameWithSpaces#> Table</h1>
+                        <h3>Deletion Confirmation <#=ModelNameWithSpaces#> Table</h3>
                     </div>
                     <div class='col-md-2'>
-                        <RadzenButton class='rz-p-2' Text="x" ButtonStyle="ButtonStyle.Secondary"
+                        <RadzenButton Text="x" ButtonStyle="ButtonStyle.Secondary"
                             Click="@ToggleShowDeleteConfirm" />
                     </div>
                 </div>

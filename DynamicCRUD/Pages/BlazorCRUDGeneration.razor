@@ -27,50 +27,27 @@
                     <button accesskey="p" class="btn btn-sm btn-primary" type="button"
                         @onclick="@( ( ) => PopulateColumns() )">@PopulateColumnsCaption</button>
                 }
+else {
+                        <label></label>
+                    <button disabled accesskey="p" class="btn btn-sm btn-primary" type="button"
+                        @onclick="@( ( ) => PopulateColumns() )">@PopulateColumnsCaption</button>
+
+}
             </div>
             <div class="col-12 mt-1">
                 <textarea
                     title=" In order to go to a different database change the settings on the app settings file and restart the application.bb"
                     disabled style='width:100%;font-size:smaller' class='form-control'
-                    rows="2">@ConnectionString</textarea>
+                    rows="9">@ConnectionString</textarea>
             </div>
-        </div>
-    </div>
-    <div class="col-7">
-        <div class="row">
-            <div class="col-3">
-                <div class="form-group">
-                    <label class="col-form-label col-form-label-sm">Namespaces: </label>
-                    <label class="col-form-label col-form-label-sm"> Razor</label>
-                    <input class="form-control form-control-sm" type="text" @bind="RazorNamespaceName" />
-                </div>
-            </div>
-            <div class="col-3">
-                <div class="form-group">
-                    <label class="col-form-label col-form-label-sm">DTO </label>
-                    <input class="form-control form-control-sm" type="text" @bind="DTONamespaceName" />
-                </div>
-            </div>
-            <div class="col-3">
-                <div class="form-group">
-                    <label class="col-form-label col-form-label-sm">Repository </label>
-                    <input class="form-control form-control-sm" type="text" @bind="RepositoryNamespaceName" />
-                </div>
-            </div>
-            <div class="col-3">
-                <div class="form-group">
-                    <label class="col-form-label col-form-label-sm">Data Service </label>
-                    <input class="form-control form-control-sm" type="text" @bind="DataServiceNamespaceName" />
-                </div>
-            </div>
-            <div class="col-3">
+            <div class="col-6">
                 <div class="form-group">
                     <label class="col-form-label col-form-label-sm">Model Name</label>
                     <input class="form-control form-control-sm" type="text" @bind="ModelName" id="ModelName"
                         @oninput="@(e => CallChangeAsync("ModelName"))" />
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-6">
                 <div class="form-group">
                     <label class="col-form-label col-form-label-sm">Plural Name</label>
                     <input class="form-control form-control-sm" type="text" @bind="PluralName" id="PluralName"
@@ -82,6 +59,59 @@
                     <label class="col-form-label col-form-label-sm">Db Context Name</label>
                     <input required class="form-control form-control-sm" type="text" @bind="DbContextName"
                         id="DbContextName" @oninput="@(e => CallChangeAsync("DbContextName"))" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-7">
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <label class="col-form-label col-form-label-sm">Namespaces: </label>
+                    <label class="col-form-label col-form-label-sm"> Razor</label>
+                    <input class="form-control form-control-sm" type="text" @bind="RazorNamespaceName" />
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <label class="col-form-label col-form-label-sm">DTO </label>
+                    <input class="form-control form-control-sm" type="text" @bind="DTONamespaceName" />
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <label class="col-form-label col-form-label-sm">Repository </label>
+                    <input class="form-control form-control-sm" type="text" @bind="RepositoryNamespaceName" />
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <label class="col-form-label col-form-label-sm">Data Service </label>
+                    <input class="form-control form-control-sm" type="text" @bind="DataServiceNamespaceName" />
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="col-form-label col-form-label-sm">Location Razor Files </label>
+                        <input class="form-control form-control-sm" type="text" @bind="LocationRazor" />
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="col-form-label col-form-label-sm">DTO </label>
+                    <input class="form-control form-control-sm" type="text" @bind="LocationDTO" />
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="col-form-label col-form-label-sm">Repository </label>
+                    <input class="form-control form-control-sm" type="text" @bind="LocationRepository" />
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="col-form-label col-form-label-sm">Data Service </label>
+                    <input class="form-control form-control-sm" type="text" @bind="LocationDataService" />
                 </div>
             </div>
         </div>

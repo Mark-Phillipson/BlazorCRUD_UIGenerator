@@ -25,8 +25,10 @@ namespace DynamicCRUD.T4Templates
         public string ModelNameWithSpaces { get; set; } = "";
         public bool UseBlazored { get; set; } = true;
         public bool UseRadzen { get; set; } = false;
-
-        public GenericTableCodeBehind(IEnumerable<ClientDatabaseColumn> databaseColumns, string modelName, string modelNameCamelCase, string pluralTablename, string primaryKeyName, string primaryKeyDataType, string Namespace, string foreignKeyName, string foreignKeyDataType, bool useBlazored, bool useRadzen)
+        public string DataServiceNamespace { get; set; } = "TBC";
+        public string RepositoryNamespace { get; set; } = "TBC";
+        public string DTONamespaceName { get; set; } = "TBC";
+        public GenericTableCodeBehind(IEnumerable<ClientDatabaseColumn> databaseColumns, string modelName, string modelNameCamelCase, string pluralTablename, string primaryKeyName, string primaryKeyDataType, string Namespace, string foreignKeyName, string foreignKeyDataType, bool useBlazored, bool useRadzen, string dataServiceNamespace, string repositoryNamespace, string dtoNamespaceName)
         {
             this.Namespace = Namespace;
             DatabaseColumns = databaseColumns;
@@ -39,6 +41,9 @@ namespace DynamicCRUD.T4Templates
             ForeignKeyDataType = foreignKeyDataType;
             UseBlazored = useBlazored;
             UseRadzen = useRadzen;
+            DataServiceNamespace = dataServiceNamespace;
+            RepositoryNamespace = repositoryNamespace;
+            DTONamespaceName = dtoNamespaceName;
             ModelNameWithSpaces = StringHelperService.AddSpacesToSentence(modelName);
             var result = databaseColumns.FirstOrDefault(c => c.Sort == true);
             if (result != null && result.PropertyName != null)

@@ -26,8 +26,8 @@ using Blazored.Toast;
 using Blazored.Toast.Services;
 <#           }#>
 using System.Security.Claims;
-using <#=Namespace#>.DTOs;
-using <#=Namespace#>.Services;
+using <#=DTONamespaceName#>.DTOs;
+using <#=DataServiceNamespace#>.Services;
 
 namespace <#=Namespace#>.Pages
 {

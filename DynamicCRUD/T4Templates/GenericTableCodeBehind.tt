@@ -26,8 +26,8 @@ using Blazored.Toast.Services;
 using System.Security.Claims;
 using Ardalis.GuardClauses;
 //using <#=Namespace#>.Shared;
-using <#=Namespace#>.Services;
-using <#=Namespace#>.DTOs;
+using <#=DataServiceNamespace#>.Services;
+using <#=DTONamespaceName#>.DTOs;
 <# if (UseRadzen) {#>
 using Radzen.Blazor;
 <# } #>

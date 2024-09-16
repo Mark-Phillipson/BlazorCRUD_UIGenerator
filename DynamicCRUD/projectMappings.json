@@ -1,0 +1,34 @@
+{
+    "Projects": [
+        {
+            "DatabaseName": "TemplateDatabase",
+            "Namespaces": {
+                "RazorNamespace": "BlazorApp.Template.Components",
+                "DtoNamespace": "BlazorApp.Template",
+                "DataServiceNamespace": "BlazorApp.Template",
+                "RepositoryNamespace": "BlazorApp.Template"
+            },
+            "Folders": {
+                "RazorFolder": "C:\\Users\\MPhil\\source\\repos\\DevelopmentTemplate_24\\BlazorApp.Template\\BlazorApp.Template\\Components\\Pages",
+                "DtoFolder": "C:\\Users\\MPhil\\source\\repos\\DevelopmentTemplate_24\\BlazorApp.Template\\BlazorApp.Template\\DTO",
+                "DataServiceFolder": "C:\\Users\\MPhil\\source\\repos\\DevelopmentTemplate_24\\BlazorApp.Template\\BlazorApp.Template\\Services",
+                "RepositoryFolder": "C:\\Users\\MPhil\\source\\repos\\DevelopmentTemplate_24\\BlazorApp.Template\\BlazorApp.Template\\Repositories"
+            }
+        },
+        {
+            "DatabaseName": "YourDatabaseName",
+            "Namespaces": {
+                "RazorNamespace": "YourRazorNamespace",
+                "DtoNamespace": "YourDtoNamespace",
+                "DataServiceNamespace": "YourDataServiceNamespace",
+                "RepositoryNamespace": "YourRepositoryNamespace"
+            },
+            "Folders": {
+                "RazorFolder": "YourRazorFolder",
+                "DtoFolder": "YourDtoFolder",
+                "DataServiceFolder": "YourDataServiceFolder",
+                "RepositoryFolder": "YourRepositoryFolder"
+            }
+        }
+    ]
+}

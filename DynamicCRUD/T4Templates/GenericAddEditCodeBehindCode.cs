@@ -24,8 +24,9 @@ namespace DynamicCRUD.T4Templates
         public string ForeignKeyName { get; set; } = "";
         public string ForeignKeyDataType { get; set; } = "";
         public bool UseBlazored { get; set; } = false;
-
-        public GenericAddEditCodeBehind(IEnumerable<ClientDatabaseColumn> databaseColumns, string modelName, string modelNameCamelCase, string pluralTablename, string primaryKeyName, string primaryKeyDataType, string Namespace, string foreignKeyName, string foreignKeyDataType, bool useBlazored)
+        public string DTONamespaceName { get; set; } = "TBC";
+        public string DataServiceNamespace { get; set; } = "TBC";
+        public GenericAddEditCodeBehind(IEnumerable<ClientDatabaseColumn> databaseColumns, string modelName, string modelNameCamelCase, string pluralTablename, string primaryKeyName, string primaryKeyDataType, string Namespace, string foreignKeyName, string foreignKeyDataType, bool useBlazored, string dtoNamespaceName, string dataServiceNamespace)
         {
             this.Namespace = Namespace;
             DatabaseColumns = databaseColumns;
@@ -39,6 +40,8 @@ namespace DynamicCRUD.T4Templates
             ForeignKeyName = foreignKeyName;
             ForeignKeyDataType = foreignKeyDataType;
             UseBlazored = useBlazored;
+            DTONamespaceName = dtoNamespaceName;
+            DataServiceNamespace = dataServiceNamespace;
             var result = databaseColumns.FirstOrDefault(c => c.Sort == true);
             if (result != null && result.PropertyName != null)
             {
