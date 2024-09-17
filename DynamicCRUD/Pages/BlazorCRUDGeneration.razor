@@ -23,12 +23,12 @@
             <div class="col-3">
                 @if (Tablename != null)
                 {
-                    <label></label>
+                    <label class="col-form-label col-form-label-sm">Get Columns</label>
                     <button accesskey="p" class="btn btn-sm btn-primary" type="button"
                         @onclick="@( ( ) => PopulateColumns() )">@PopulateColumnsCaption</button>
                 }
 else {
-                        <label></label>
+                        <label class="col-form-label col-form-label-sm">Get Columns</label>
                     <button disabled accesskey="p" class="btn btn-sm btn-primary" type="button"
                         @onclick="@( ( ) => PopulateColumns() )">@PopulateColumnsCaption</button>
 
@@ -38,9 +38,9 @@ else {
                 <textarea
                     title=" In order to go to a different database change the settings on the app settings file and restart the application.bb"
                     disabled style='width:100%;font-size:smaller' class='form-control'
-                    rows="8">@ConnectionString</textarea>
-            <button class="btn btn-outline-info" type="button" @onclick="@( ( ) => OpenConfigurationFile("projectMappings.json"  ) )">Project Settings</button>
-            <button class="btn btn-outline-info" type="button" @onclick="@( ( ) => OpenConfigurationFile("appsettings.json"  ) )">App Settings</button>
+                    rows="7">@ConnectionString</textarea>
+            <button class="btn btn-outline-info m-1" type="button" @onclick="@( ( ) => OpenConfigurationFile("projectMappings.json"  ) )">Project Settings</button>
+            <button class="btn btn-outline-info m-1" type="button" @onclick="@( ( ) => OpenConfigurationFile("appsettings.json"  ) )">App Settings</button>
             </div>
 
             <div class="col-6">
@@ -169,11 +169,11 @@ else {
         </div>
     }
     <div class="col-3">
-        <input type="checkbox" @bind="@UseBlazored" accesskey="b" />
+        <input  @onblur="@(() => SynchronizeUseOptions())"  type="checkbox" @bind="@UseBlazored" accesskey="b" />
         <label class="control-label">Use Blazored Modal & Toast (Alt-B)</label>
     </div>
     <div class="col-3">
-        <input type="checkbox" @bind="@UseRadzen" accesskey="r" />
+        <input  @onblur="@(() => SynchronizeUseOptions())"  type="checkbox" @bind="@UseRadzen" accesskey="r" />
         <label class="control-label">Use Radzen Blazor (Alt-R)</label>
     </div>
     @if (ModelName != null)

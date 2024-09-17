@@ -384,7 +384,7 @@ public partial class BlazorCRUDGeneration : ComponentBase
     {
         await DependencyInjectionCodeElement.FocusAsync();
     }
-    private void OpenConfigurationFile( string file)
+    private void OpenConfigurationFile(string file)
     {
         var path = Path.Combine(Directory.GetCurrentDirectory(), file);
         if (File.Exists(path))
@@ -403,6 +403,20 @@ public partial class BlazorCRUDGeneration : ComponentBase
         {
             Message = "File not found!";
         }
+    }
+    private void SynchronizeUseOptions()
+    {
+        if (UseBlazored)
+        {
+            UseRadzen = false;
+            StateHasChanged();
+        }
+        if (UseRadzen)
+        {
+            UseBlazored = false;
+            StateHasChanged();
+        }
+
     }
     private void ReverseEngineerTable()
     {
