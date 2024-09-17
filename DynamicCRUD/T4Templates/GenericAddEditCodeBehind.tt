@@ -1,4 +1,4 @@
-﻿<#@ template debug="true" hostspecific="false" language="C#" #>
+﻿﻿<#@ template debug="true" hostspecific="false" language="C#" #>
 
 <#@ assembly name="System.Core" #>
 <#@ import namespace="System.Linq" #>
@@ -9,7 +9,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using System.Net.Http;
 using Microsoft.AspNetCore.Authorization;
@@ -26,43 +25,48 @@ using Blazored.Toast;
 using Blazored.Toast.Services;
 <#           }#>
 using System.Security.Claims;
+using Microsoft.Extensions.Logging;
 using <#=DTONamespaceName#>.DTOs;
 using <#=DataServiceNamespace#>.Services;
 
-namespace <#=Namespace#>.Pages
+using System.Threading.Tasks;
+<# if (UseRadzen) { #>
+using Radzen.Blazor;
+<# } #>
+
+namespace <#=Namespace#>.Pages;
+
+public partial class <#= ModelName #>AddEdit : ComponentBase
 {
-    public partial class <#=ModelName#>AddEdit : ComponentBase
-    {
 <#           if (!UseBlazored) {#>
         [Parameter] public EventCallback<bool> CloseModal { get; set; } 
 <#           } else {#>
-        [Inject] IToastService? ToastService { get; set; }
+        [Inject] public required IToastService ToastService { get; set; }
         [CascadingParameter] BlazoredModalInstance? ModalInstance { get; set; }
 <#           }#>
         [Parameter] public string? Title { get; set; }
-        [Inject] public ILogger<<#=ModelName#>AddEdit>? Logger { get; set; }
-        [Inject] public IJSRuntime? JSRuntime { get; set; }
+        [Inject] public required ILogger<<#=ModelName#>AddEdit> Logger { get; set; }
+        [Inject] public required IJSRuntime JSRuntime { get; set; }
         [Parameter] public <#=PrimaryKeyDataType#>? <#=PrimaryKeyName#> { get; set; }
+        [Inject] public required NavigationManager NavigationManager { get; set; }
 <#
 	if (!string.IsNullOrEmpty(ForeignKeyName)) {
 #>      [Parameter] public <#=ForeignKeyDataType#> <#=ForeignKeyName#> { get; set; }
 <#	} #>
         public <#=ModelName#>DTO <#=ModelName#>DTO { get; set; } = new <#=ModelName#>DTO();//{ };
-        [Inject] public I<#=ModelName#>DataService? <#=ModelName#>DataService { get; set; }
+        [Inject] public required I<#=ModelName#>DataService <#=ModelName#>DataService { get; set; }
 <#           if (!UseBlazored) {#>
-        [Inject] public ApplicationState? ApplicationState { get; set; }
+        [Inject] public required ApplicationState ApplicationState { get; set; }
 <#           }#>
         [Parameter] public int ParentId { get; set; }
-        ElementReference FirstInput;
-#pragma warning disable 414, 649
-        bool TaskRunning = false;
-#pragma warning restore 414, 649
-        protected override async Task OnInitializedAsync()
-        {
-            if (<#=ModelName#>DataService == null)
-            {
-                return;
-            }
+
+<# if (UseRadzen) { #>
+    RadzenTextBox? FirstInput;
+<# } else { #>
+    ElementReference? FirstInput;
+<# } #>
+    protected override async Task OnInitializedAsync()
+    {
 <#          if (PrimaryKeyDataType=="int") {
 #>
             if (<#=PrimaryKeyName#> != null && <#=PrimaryKeyName#> != 0)
@@ -100,95 +104,91 @@ namespace <#=Namespace#>.Pages
                 <#=ModelName#>DTO.<#=ForeignKeyName#> = <#=ForeignKeyName#>;
 <#          } #>
             }
+    }
+<# if (!UseRadzen) { #>
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            try
+            {
+                await Task.Delay(100);
+                if (FirstInput != null)
+                {
+                    await FirstInput.Value.FocusAsync();
+                }
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+            }
         }
+    }
+<# } else { #>
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            if (FirstInput != null)
+            {
+                await FirstInput.FocusAsync();
+            }
+        }
+    }
+<# } #>
 
-        protected override async Task OnAfterRenderAsync(bool firstRender)
+<# if (UseBlazored) { #>
+    public async Task CloseAsync()
+    {
+        if (ModalInstance != null)
+            await ModalInstance.CancelAsync();
+    }
+<# } else { #>
+    public async Task CloseAsync()
+    {
+        await CloseModal.InvokeAsync(true);
+    }
+<# } #>
+
+    protected async Task HandleValidSubmit()
+    {
+<# if (!UseBlazored) { #>
+        if (ApplicationState == null)
         {
-            if (firstRender)
-            {
-                try
-                {
-                    await Task.Delay(100);
-                    await FirstInput.FocusAsync();
-                }
-                catch (Exception exception)
-                {
-                    Console.WriteLine(exception.Message);
-                }
-            }
+            return;
         }
-<#           if (UseBlazored) {#>
-        public async Task CloseAsync()
+<# } #>
+<# if (PrimaryKeyDataType == "int") { #>
+        if ((<#= PrimaryKeyName #> == 0 || <#= PrimaryKeyName #> == null))
+<# } else { #>
+        if ((string.IsNullOrWhiteSpace(<#= PrimaryKeyName #>) || <#= PrimaryKeyName #> == null))
+<# } #>
         {
-              if (ModalInstance != null)
-                  await ModalInstance.CancelAsync();
-        }
-<#           }#>
-<#           if (!UseBlazored) {#>
-        public async Task CloseAsync()
-        {
-              await CloseModal.InvokeAsync(true);
-        }
-<#           }#>
-        protected async Task HandleValidSubmit()
-        {
-<#           if (!UseBlazored) {#>
-            if (ApplicationState== null )
+            <#= ModelName #>DTO? result = await <#= ModelName #>DataService.Add<#= ModelName #>(<#= ModelName #>DTO);
+            if (result == null)
             {
-                return;
-            }
-<#           }#>
-            TaskRunning = true;
-<#          if (PrimaryKeyDataType=="int") {
-#>
-            if ((<#=PrimaryKeyName#> == 0 || <#=PrimaryKeyName#> == null) && <#=ModelName#>DataService != null)
-<#          } else {
-#>
-            if ((string.IsNullOrWhiteSpace(<#=PrimaryKeyName#>) || <#=PrimaryKeyName#> == null) && <#=ModelName#>DataService != null)
-<#          }
-#>
-            {
-                <#=ModelName#>DTO? result = await <#=ModelName#>DataService.Add<#=ModelName#>(<#=ModelName#>DTO);
-                if (result == null && Logger!= null)
-                {
-                    Logger.LogError("<#=ModelNameWithSpaces#> failed to add, please investigate Error Adding New <#=ModelNameWithSpaces#>");
-<#           if (UseBlazored) {#>
-                    ToastService?.ShowError("<#=ModelNameWithSpaces#> failed to add, please investigate Error Adding New <#=ModelNameWithSpaces#>");
-<#           } else {#>
-                    ApplicationState.Message = "<#=ModelNameWithSpaces#> failed to add, please investigate Error Adding New <#=ModelNameWithSpaces#>";
-                    ApplicationState.MessageType = "danger";
-<#           }#>
-                    return;
-                }
-<#           if (UseBlazored) {#>
-                ToastService?.ShowSuccess("<#=ModelNameWithSpaces#> added successfully");
-<#           } else {#>
-                ApplicationState.Message = "<#=ModelNameWithSpaces#> Added successfully";
-                ApplicationState.MessageType = "success";
-<#           }#>
+                Logger.LogError("Error adding <#= ModelName #>");
             }
             else
             {
-                if (<#=ModelName#>DataService != null)
-                {
-                    await <#=ModelName#>DataService!.Update<#=ModelName#>(<#=ModelName#>DTO, "");
-<#           if (UseBlazored) {#>
-                    ToastService?.ShowSuccess("The <#=ModelNameWithSpaces#> updated successfully");
-<#           } else {#>
-                    ApplicationState.Message="The <#=ModelNameWithSpaces#> updated successfully";
-                    ApplicationState.MessageType = "success";
-<#           }#>
-                }
+                <#= ModelName #>DTO = result;
+                NavigationManager.NavigateTo("/<#= ModelName #>s");
             }
-<#          if (UseBlazored) {#>
-            if (ModalInstance != null)
-            {
-                await ModalInstance.CloseAsync(ModalResult.Ok(true));
-            }
-<#          } else {#>
-            await CloseModal.InvokeAsync(true);
-<#          }#>
-            TaskRunning = false;
         }
+        else
+        {
+            var updateResult = await <#= ModelName #>DataService.Update<#= ModelName #>(<#= ModelName #>DTO,"TBC");
+            if (updateResult==null)
+            {
+                Logger.LogError("Error updating <#= ModelName #>");
+            }
+            else
+            {
+                NavigationManager.NavigateTo("/<#= ModelName #>s");
+            }
+        }
+<# if (!UseBlazored) {#>
+        await CloseModal.InvokeAsync(true);
+<# } #>
     }
 }

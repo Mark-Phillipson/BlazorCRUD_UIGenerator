@@ -6,6 +6,7 @@
 <#@ import namespace="System.Reflection" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".cs" #>
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace <#=Namespace#>.DTOs

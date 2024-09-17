@@ -25,6 +25,8 @@ using Blazored.Toast;
 using Blazored.Toast.Services;
 using System.Security.Claims;
 using Ardalis.GuardClauses;
+using Microsoft.Extensions.Logging;
+//using <#=Namespace#>.Shared;
 //using <#=Namespace#>.Shared;
 using <#=DataServiceNamespace#>.Services;
 using <#=DTONamespaceName#>.DTOs;
@@ -54,10 +56,11 @@ namespace <#=Namespace#>.Pages
         public List<<#=ModelName#>DTO>? Filtered<#=ModelName#>DTO { get; set; }
         protected <#=ModelName#>AddEdit? <#=ModelName#>AddEdit { get; set; }
         <# if (!UseRadzen) {#>
-        ElementReference SearchInput;
+        ElementReference? SearchInput;
         <# } else { #>
         RadzenTextBox? SearchInput;
         <# } #>
+        int maximumPages=0;
 #pragma warning disable 414, 649
         private bool _loadFailed = false;
         private string? searchTerm = null;
@@ -97,8 +100,13 @@ namespace <#=Namespace#>.Pages
                 ).ToList();
             }
             Title = $"<#=ModelName#> ({Filtered<#=ModelName#>DTO.Count})";
+            StateHasChanged();
         }
-
+        private void OnChangeClientSearchTerm(string? value)
+        {
+            ClientSearchTerm = value;
+            ApplyLocalFilter();
+        }
         private string? lastSearchTerm { get; set; }
 
         [Parameter] public string? ServerSearchTerm { get; set; }
@@ -128,6 +136,7 @@ namespace <#=Namespace#>.Pages
                 {
                     ServerSearchTerm = SearchTerm;
                     totalRows = await <#=ModelName#>DataService.GetTotalCount();
+                    maximumPages = (int)Math.Ceiling((decimal)totalRows / pageSize);
                     var result = await <#=ModelName#>DataService!.GetAll<#=PluralTablename#>Async
 <#                    if (!string.IsNullOrEmpty(ForeignKeyName)) {#>
                     (<#=ForeignKeyName#>,pageNumber,pageSize,ServerSearchTerm);
@@ -162,7 +171,7 @@ namespace <#=Namespace#>.Pages
                     await Task.Delay(100);
                     if (SearchInput != null)
                     {
-                        await SearchInput.FocusAsync();
+                        await SearchInput.Value.FocusAsync();
                     }
                 }
                 catch (Exception exception)
@@ -361,9 +370,9 @@ namespace <#=Namespace#>.Pages
             pageNumber = 1;
             await LoadData();
         }
-        private async Task PageDown(bool goBeginning)
+        private async Task PageUp(bool goBeginning)
         {
-            if (goBeginning || pageNumber <= 0)
+            if (goBeginning || pageNumber <= 1)
             {
                 pageNumber = 1;
             }
@@ -373,9 +382,8 @@ namespace <#=Namespace#>.Pages
             }
             await LoadData();
         }
-        private async Task PageUp(bool goEnd)
+        private async Task PageDown(bool goEnd)
         {
-            int maximumPages = (int)Math.Ceiling((decimal)totalRows / pageSize);
             if (goEnd || pageNumber >= maximumPages)
             {
                 pageNumber = maximumPages;

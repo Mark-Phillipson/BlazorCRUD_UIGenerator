@@ -47,35 +47,36 @@
     <# if (!UseRadzen) {#>
     <button title="Go to 1st page" type="button"
         class="btn btn-sm btn-outline-secondary mx-1"
-        @onclick="@(()  => PageDown(true))">
+        @onclick="@(()  => PageUp(true))">
         <i class="bi bi-skip-backward-fill"></i>
     </button>
     <button title="Go to previous page" type="button"
         class="btn btn-sm btn-outline-secondary mx-1"
-        @onclick="(()  => PageDown(false))">
+        @onclick="(()  => PageUp(false))">
         <i class="bi bi-caret-left-fill"></i>
     </button>
     <button title="Go to next page" type="button"
         class="btn btn-sm btn-outline-secondary mx-1"
-        @onclick="(() => PageUp(false)) ">
+        @onclick="(() => PageDown(false)) ">
         <i class="bi bi-caret-right-fill"></i>
     </button>
     <button title="Go to last page" type="button"
         class="btn btn-sm btn-outline-secondary mx-1"
-        @onclick="(()  => PageUp(true))">
+        @onclick="(()  => PageDown(true))">
         <i class="bi bi-skip-forward-fill"></i>
     </button>
     <# } else {#>
-                <RadzenButton Text="First" title="Go to 1st page" ButtonStyle="ButtonStyle.Base" Icon="skip_previous"
-                Click="@(() => PageDown(true))" Size="ButtonSize.Small" />
-            <RadzenButton title="Go to previous page" Text="Next" ButtonStyle="ButtonStyle.Base" Icon="arrow_forward"
-                Click="@(() => PageDown( false ))" Size="ButtonSize.Small" />
+            <RadzenButton Text="First" title="Go to 1st page" ButtonStyle="ButtonStyle.Base" Icon="skip_previous"
+                Click="@(() => PageUp(true))" Size="ButtonSize.Small" />
+            
+            <RadzenButton title="Go to previous page" Text="Previous" ButtonStyle="ButtonStyle.Base" Icon="arrow_back"
+                Click="@(() => PageUp( false ))" Size="ButtonSize.Small" />
 
-            <RadzenButton title="Go to next page" Text="Previous" ButtonStyle="ButtonStyle.Base" Icon="arrow_back"
-                Click="@(() => PageUp(false))" Size="ButtonSize.Small" />
+            <RadzenButton title="Go to next page" Text="Next" ButtonStyle="ButtonStyle.Base" Icon="arrow_forward"
+                Click="@(() => PageDown(false))" Size="ButtonSize.Small" />
 
             <RadzenButton title="Go to last page" Text="Last" ButtonStyle="ButtonStyle.Base" Icon="skip_next"
-                Click="@(() => PageUp(true))" Size="ButtonSize.Small" />
+                Click="@(() => PageDown(true))" Size="ButtonSize.Small" />
     <# }#>
 </div>
 }
@@ -114,13 +115,14 @@
             } else {
                 <# if (!UseRadzen) {#>
                 <div class="col-md-3">
-                    <input class="form-control my-1" style="float:right" @bind="@ClientSearchTerm" id="ClientSearchInput"
+                    <input @ref="SearchInput" class="form-control my-1" style="float:right" @bind="@ClientSearchTerm" id="ClientSearchInput"
                         name="ClientSearchTerm" @bind:event="oninput" placeholder="Filter by <#=FilterColumns#>" />
                 </div>
                 <# } else {#>
                     <div class="col-md-3">
                         <RadzenTextBox id="ClientSearchInput" class='rz-my-1' @bind-Value="@ClientSearchTerm"
-                            Placeholder="Filter by Name/Department/Email/Photo Path" />
+                        @oninput=@(args => OnChangeClientSearchTerm(args?.Value?.ToString()))
+                            Placeholder="Filter by <#=FilterColumns#>" />
                     </div>
                 <# }#>
             }
@@ -270,20 +272,22 @@
     </div>
 </dialog>
 <# } else { #>
-    <dialog open="true" style="position:absolute;left: 0px;top: 200px;z-index: 900;max-height:500px"
+    <dialog open="true" style="position:absolute;left: 0px;top: 200px;z-index: 900;max-height:600px"
         class="border border-danger rz-layout">
+        <div style="min-width:80vw">
         <RadzenStack Orientation="Orientation.Vertical">
                 <div class='row'>
-                    <div class='col-md-10'>
-                        <h3>@EditTitle</h3>
+                    <div class='col-md-11'>
+                        <h1>@EditTitle</h1>
                     </div>
-                    <div class='col-md-2'>
+                    <div class='col-md-1'>
                         <RadzenButton Text="x" ButtonStyle="ButtonStyle.Secondary" Click="@ToggleModal" />
                     </div>
                 </div>
             <<#=ModelName#>AddEdit Title="@EditTitle" <#=PrimaryKeyName#>="@<#=ModelName#>Id" CloseModal="@CloseModalAsync" />
         </RadzenStack>
-    </dialog>
+        </div>
+    </dialog>    
 <# }#>
 }
 @if (ShowDeleteConfirm)

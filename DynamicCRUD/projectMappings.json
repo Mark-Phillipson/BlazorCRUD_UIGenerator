@@ -16,6 +16,21 @@
             }
         },
         {
+            "DatabaseName": "VoiceLauncher",
+            "Namespaces": {
+                "RazorNamespace": "RazorClassLibrary",
+                "DtoNamespace": "DataAccessLibrary",
+                "DataServiceNamespace": "DataAccessLibrary",
+                "RepositoryNamespace": "DataAccessLibrary"
+            },
+            "Folders": {
+                "RazorFolder": "C:\\Users\\MPhil\\source\\repos\\VoiceLauncherBlazor\\RazorClassLibrary\\Pages",
+                "DtoFolder": "C:\\Users\\MPhil\\source\\repos\\VoiceLauncherBlazor\\DataAccessLibrary\\DTO",
+                "DataServiceFolder": "C:\\Users\\MPhil\\source\\repos\\VoiceLauncherBlazor\\DataAccessLibrary\\Services",
+                "RepositoryFolder": "C:\\Users\\MPhil\\source\\repos\\VoiceLauncherBlazor\\DataAccessLibrary\\Repositories"
+            }
+        },
+        {
             "DatabaseName": "YourDatabaseName",
             "Namespaces": {
                 "RazorNamespace": "YourRazorNamespace",

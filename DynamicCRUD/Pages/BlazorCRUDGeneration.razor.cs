@@ -4,7 +4,7 @@ using DynamicCRUD.T4Templates;
 using Humanizer;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-
+using System.Diagnostics;
 using System.Reflection;
 using System.Text.Json;
 
@@ -236,11 +236,11 @@ public partial class BlazorCRUDGeneration : ComponentBase
         content = genericTableCodeBehind.TransformText();
         File.WriteAllText($"{LocationRazor}\\{ModelName}Table.razor.cs", content);
 
-        GenericAddEdit genericAddEdit = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, RazorNamespaceName ?? "Razor_Namespace", filterColumns, foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored);
+        GenericAddEdit genericAddEdit = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, RazorNamespaceName ?? "Razor_Namespace", filterColumns, foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored, UseRadzen);
         content = genericAddEdit.TransformText();
         File.WriteAllText($"{LocationRazor}\\{ModelName}AddEdit.razor", content);
 
-        GenericAddEditCodeBehind genericAddEditCodeBehind = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, RazorNamespaceName ?? "Razor_Namespace", foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored, DTONamespaceName ?? "DTO_Namespace", DataServiceNamespaceName ?? "DataService_Namespace");
+        GenericAddEditCodeBehind genericAddEditCodeBehind = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, RazorNamespaceName ?? "Razor_Namespace", foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored, UseRadzen, DTONamespaceName ?? "DTO_Namespace", DataServiceNamespaceName ?? "DataService_Namespace");
         content = genericAddEditCodeBehind.TransformText();
         File.WriteAllText($"{LocationRazor}\\{ModelName}AddEdit.razor.cs", content);
 
@@ -383,6 +383,26 @@ public partial class BlazorCRUDGeneration : ComponentBase
     private async Task FocusDependencyInjectionCode()
     {
         await DependencyInjectionCodeElement.FocusAsync();
+    }
+    private void OpenConfigurationFile( string file)
+    {
+        var path = Path.Combine(Directory.GetCurrentDirectory(), file);
+        if (File.Exists(path))
+        {
+            try
+            {
+                var visualStudioPath = @"C:\Users\MPhil\AppData\Local\Programs\Microsoft VS Code\Code.exe"; // Update this path to your Visual Studio executable
+                Process.Start(visualStudioPath, path);
+            }
+            catch (System.Exception exception)
+            {
+                Message = exception.Message;
+            }
+        }
+        else
+        {
+            Message = "File not found!";
+        }
     }
     private void ReverseEngineerTable()
     {

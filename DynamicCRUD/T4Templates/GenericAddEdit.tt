@@ -14,7 +14,9 @@
 #>
 @page "/<#=ModelName.ToLower()#>/{<#=PrimaryKeyName#>:<#=PrimaryKeyDataType#>?}"
 @rendermode InteractiveServer
+<# if (!UseRadzen) {#>
 <h1>@Title</h1>
+<# } #>
     <EditForm Model="@<#=ModelName#>DTO" OnValidSubmit="HandleValidSubmit">
         <DataAnnotationsValidator />
         @*<ValidationSummary />*@
@@ -40,64 +42,139 @@
                <div class="col-<#=cols#>">
 <#
                 }
-                if (property.DataType=="nvarchar" && property.ColumnSize< 51) {
+                if (property.DataType=="nvarchar" && property.ColumnSize< 256) {
 #>
                 <div class="form-group">
-<#           if (counter==1) {#>
+        <# if (!UseRadzen) {#>
+            <#           if (counter==1) {#>
                     <label @ref="FirstInput" for="<#=property.PropertyName#>"><#=property.Label#>:</label>
-<#             } else {#>
+            <#             } else {#>
                     <label for="<#=property.PropertyName#>"><#=property.Label#>:</label>
-<#             }                                    
-                    if (property.Required) {
-#> <i class="text-danger">*</i>
-<#                  }
-#>
+            <#             }                                    
+                    if (property.Required) {#>
+                     <i class="text-danger">*</i>
+            <#                  } #>
+                    <InputText id="<#=property.PropertyName#>" class="form-control" 
+                        @bind-Value="@<#=ModelName#>DTO.<#=property.PropertyName#>"
+                        Placeholder="Enter <#=property.Label#>">
+                    </InputText>
+        <#} else {#>
+                    <# if (property.Required) { #>
+                        <RadzenText TextStyle="TextStyle.H6"><#=property.Label#>: <i class="text-danger fa">*</i></RadzenText>
+                    <# } else { #>
+                        <RadzenText TextStyle="TextStyle.H6"><#=property.Label#>: </RadzenText>
+                    <# } #>
+                    <#           if (counter==1) {#>
+                    <RadzenTextBox @ref="FirstInput" id="<#=property.PropertyName#>" 
+                        @bind-Value="@<#=ModelName#>DTO.<#=property.PropertyName#>" Style="width: 100%"
+                        Placeholder="Enter <#=property.Label#>">
+                    </RadzenTextBox>
+                    <# } else { #>
+                            <RadzenTextBox id="<#=property.PropertyName#>" 
+                        @bind-Value="@<#=ModelName#>DTO.<#=property.PropertyName#>"
+                        Placeholder="Enter <#=property.Label#>">
+                    </RadzenTextBox>
+                    <# } #>
+        <# }#>
 
-                    <InputText id="<#=property.PropertyName#>" class="form-control" @bind-Value="@<#=ModelName#>DTO.<#=property.PropertyName#>"
-                               placeholder="Enter <#=property.Label#>"></InputText>
                     <ValidationMessage For="@(() => <#=ModelName#>DTO.<#=property.PropertyName#>)" />
                 </div>
 <#              } else if (property.DataType=="int"
                         || property.DataType=="smallint" || property.DataType=="tinyint" || property.DataType=="bigint" || property.DataType=="decimal" || property.DataType=="float" || property.DataType=="real" || property.DataType=="money") {
 #>
                 <div class="form-group">
-<#           if (counter==1) {#>
+    <# if (!UseRadzen) {#>
+        <#           if (counter==1) {#>
                     <label @ref="FirstInput" for="<#=property.PropertyName#>"><#=property.Label#>:</label>
-<#             } else {#>
+        <#             } else {#>
                     <label for="<#=property.PropertyName#>"><#=property.Label#>:</label>
-<#             }                                    
-                    if (property.Required) {
-#> <i class="text-danger fa">*</i>
-<#  } #>
-                    <InputNumber id="<#=property.PropertyName#>" class="form-control" @bind-Value="@<#=ModelName#>DTO.<#=property.PropertyName#>"
-                                 placeholder="Enter <#=property.Label#>"></InputNumber>
+        <#             }                                    
+                    if (property.Required) {#>
+                        <i class="text-danger fa">*</i>
+                    <#  } #>
+                    <InputNumber id="<#=property.PropertyName#>" class="form-control" @bind-Value="@<#=ModelName#>DTO.<#=property.PropertyName#>" placeholder="Enter <#=property.Label#>"></InputNumber>
+    <#} else {#>
+                    <# if (property.Required) { #>
+                        <RadzenText TextStyle="TextStyle.H6"><#=property.Label#>: <i class="text-danger fa">*</i></RadzenText>
+                    <# } else { #>
+                        <RadzenText TextStyle="TextStyle.H6"><#=property.Label#>: </RadzenText>
+                    <# } #>
+                    <RadzenNumeric @bind-Value="@<#=ModelName#>DTO.<#=property.PropertyName#>" Style="width: 100%"
+                    Placeholder="Enter Number Value" />
+    <# } #>
                     <ValidationMessage For="@(() => <#=ModelName#>DTO.<#=property.PropertyName#>)" />
                 </div>
 <#              } else if (property.DataType=="bit") {
 #>
                 <div class="form-group">
-<#           if (counter==1) {#>
+            <# if (!UseRadzen) {#>
+                <#           if (counter==1) {#>
                     <label @ref="FirstInput" for="<#=property.PropertyName#>"><#=property.Label#>:</label>
-<#             } else {#>
+                <#             } else {#>
                     <label for="<#=property.PropertyName#>"><#=property.Label#>:</label>
-<#             }                                    #>
+                <#             }                                    #>
                     <InputCheckbox id="<#=property.PropertyName#>" class="form-checkbox" @bind-Value="@<#=ModelName#>DTO.<#=property.PropertyName#>">
                     </InputCheckbox>
+            <#} else {#>
+                    <# if (property.Required) { #>
+                        <RadzenText TextStyle="TextStyle.H6"><#=property.Label#>: <i class="text-danger fa">*</i></RadzenText>
+                    <# } else { #>
+                        <RadzenText TextStyle="TextStyle.H6"><#=property.Label#>: </RadzenText>
+                    <# } #>
+                    <RadzenCheckBox id="<#=property.PropertyName#>" class="form-checkbox" 
+                        @bind-Value="@<#=ModelName#>DTO.<#=property.PropertyName#>"
+                        Placeholder="Enter <#=property.Label#>">
+                    </RadzenCheckBox>
+            <# }#>
                     <ValidationMessage For="@(() => <#=ModelName#>DTO.<#=property.PropertyName#>)" />
                 </div>
-<#              } else if (property.DataType=="nvarchar"  && property.ColumnSize> 50) {
+<#              } else if (property.DataType=="nvarchar"  && property.ColumnSize> 255) {#>
+                <div class="form-group">
+        <# if (!UseRadzen) {#>
+            <#           if (counter==1) {#>
+                    <label @ref="FirstInput" for="<#=property.PropertyName#>"><#=property.Label#>:</label>
+            <#             } else {#>
+                    <label for="<#=property.PropertyName#>"><#=property.Label#>:</label>
+            <#             }                                    
+                    if (property.Required) {#>
+                     <i class="text-danger fa">*</i>
+            <#                  }#>
+                                <InputTextArea rows="2" id="<#=property.PropertyName#>" class="form-control" @bind-Value="@<#=ModelName#>DTO.<#=property.PropertyName#>"
+                               placeholder="Enter <#=property.Label#>"></InputTextArea>
+        <#             } else {#>        
+                    <# if (property.Required) { #>
+                        <RadzenText TextStyle="TextStyle.H6"><#=property.Label#>: <i class="text-danger fa">*</i></RadzenText>
+                    <# } else { #>
+                        <RadzenText TextStyle="TextStyle.H6"><#=property.Label#>: </RadzenText>
+                    <# } #>
+                    <RadzenTextArea Rows="3" id="<#=property.PropertyName#>" @bind-Value="@<#=ModelName#>DTO.<#=property.PropertyName#>" Style="width: 100%"
+                    Placeholder="Enter <#=property.Label#>"></RadzenTextArea>
+        <# }#>
+                    <ValidationMessage For="@(() => <#=ModelName#>DTO.<#=property.PropertyName#>)" />
+                </div>
+<#              } else if (property.DataType=="datetime" || property.DataType=="date" || property.DataType=="datetime2") {
 #>
                 <div class="form-group">
-<#           if (counter==1) {#>
+        <# if (!UseRadzen) {#>
+            <#           if (counter==1) {#>
                     <label @ref="FirstInput" for="<#=property.PropertyName#>"><#=property.Label#>:</label>
-<#             } else {#>
+            <#             } else {#>
                     <label for="<#=property.PropertyName#>"><#=property.Label#>:</label>
-<#             }                                    
-                    if (property.Required) {
-#> <i class="text-danger fa">*</i>
-<#                  }
-#>                    <InputTextArea rows="2" id="<#=property.PropertyName#>" class="form-control" @bind-Value="@<#=ModelName#>DTO.<#=property.PropertyName#>"
-                               placeholder="Enter <#=property.Label#>"></InputTextArea>
+            <#             }                                    
+                    if (property.Required) {#>
+                     <i class="text-danger fa">*</i>
+            <#                  }#>
+                    <InputDate id="<#=property.PropertyName#>" class="form-control" @bind-Value="@<#=ModelName#>DTO.<#=property.PropertyName#>"
+                    Placeholder="Enter <#=property.Label#>"></InputDate>
+        <#} else {#>
+                    <# if (property.Required) { #>
+                        <RadzenText TextStyle="TextStyle.H6"><#=property.Label#>: <i class="text-danger fa">*</i></RadzenText>
+                    <# } else { #>
+                        <RadzenText TextStyle="TextStyle.H6"><#=property.Label#>: </RadzenText>
+                    <# } #>
+                    <RadzenDatePicker id="<#=property.PropertyName#>" @bind-Value="@<#=ModelName#>DTO.<#=property.PropertyName#>" ShowCalendarWeek ShowTime="true" HourFormat="24" DateFormat="dd/MM/yyyy h:mm tt"
+                    Style="width: 100%" ></RadzenDatePicker>
+        <# }#>
                     <ValidationMessage For="@(() => <#=ModelName#>DTO.<#=property.PropertyName#>)" />
                 </div>
 <#               }
@@ -110,7 +187,12 @@
         </div>
         <hr>
         <div style="float:right">
+        <# if (!UseRadzen) {#>
             <button type='button' accesskey="c" class="btn btn-lg btn-outline-primary" @onclick="@CloseAsync"><u>C</u>ancel</button>
-            <button @TaskRunning accesskey="s" type="submit" class="btn btn-lg btn-primary"><u>S</u>ave Record</button>
+            <button type='submit' accesskey="s" class="btn btn-lg btn-primary"><u>S</u>ave Record</button>
+        <#} else {#>
+            <RadzenButton accesskey="c" ButtonStyle="ButtonStyle.Light" Size="ButtonSize.Large" Icon="close" Text="Cancel (Alt-C)" Click="@CloseAsync" />
+            <RadzenButton accesskey="s" ButtonStyle="ButtonStyle.Primary" Size="ButtonSize.Large" Icon="save" Text="Save Record (Alt-S)" ButtonType="ButtonType.Submit" />
+        <# }#>
         </div>
     </EditForm>

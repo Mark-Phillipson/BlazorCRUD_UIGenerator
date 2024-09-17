@@ -38,8 +38,11 @@ else {
                 <textarea
                     title=" In order to go to a different database change the settings on the app settings file and restart the application.bb"
                     disabled style='width:100%;font-size:smaller' class='form-control'
-                    rows="9">@ConnectionString</textarea>
+                    rows="8">@ConnectionString</textarea>
+            <button class="btn btn-outline-info" type="button" @onclick="@( ( ) => OpenConfigurationFile("projectMappings.json"  ) )">Project Settings</button>
+            <button class="btn btn-outline-info" type="button" @onclick="@( ( ) => OpenConfigurationFile("appsettings.json"  ) )">App Settings</button>
             </div>
+
             <div class="col-6">
                 <div class="form-group">
                     <label class="col-form-label col-form-label-sm">Model Name</label>
