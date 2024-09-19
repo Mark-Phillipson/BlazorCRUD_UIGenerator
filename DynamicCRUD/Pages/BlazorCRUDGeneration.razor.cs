@@ -32,6 +32,7 @@ public partial class BlazorCRUDGeneration : ComponentBase
     private string? tablename;
     private string? infoMessage;
     private bool showConfirmDialog = false;
+    private string? filesCreatedMessage;
     public string? Message { get; set; }
     public bool ShowInstructions { get; set; }
     string ConnectionString { get; set; } = null!;
@@ -211,45 +212,52 @@ public partial class BlazorCRUDGeneration : ComponentBase
         }
         var tablename = Tablename.Replace($"{SchemaName}.", "").Replace("/", "");
         string content = "";
-
+        filesCreatedMessage = "";
         GenericDTO genericDTO = new(Columns, ModelName!, DTONamespaceName ?? "DTO_Namespace");
         content = genericDTO.TransformText();
         File.WriteAllText($"{LocationDTO}\\{ModelName}DTO.cs", content);
-
+        filesCreatedMessage = $" {ModelName}DTO.cs";
         var camelTablename = StringHelperService.GetCamelCase(ModelName!);
 
         GenericIRepository genericIRepository = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, RepositoryNamespaceName ?? "Repository_Namespace", foreignKeyName, foreignKeyDataType);
         content = genericIRepository.TransformText();
         File.WriteAllText($"{LocationRepository}\\I{ModelName}Repository.cs", content);
+        filesCreatedMessage = $"{filesCreatedMessage}{Environment.NewLine} I{ModelName}Repository.cs";
 
         GenericRepository genericRepository = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, RepositoryNamespaceName ?? "Repository_Namespace", foreignKeyName ?? "", foreignKeyDataType ?? "", DbContextName ?? "ApplicationDbContext");
         content = genericRepository.TransformText();
         File.WriteAllText($"{LocationRepository}\\{ModelName}Repository.cs", content);
-
+        filesCreatedMessage = $"{filesCreatedMessage}{Environment.NewLine} {ModelName}Repository.cs";
 
         GenericIDataService genericIDataService = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, DataServiceNamespaceName ?? "DataService_Namespace", foreignKeyName ?? "", foreignKeyDataType ?? "");
         content = genericIDataService.TransformText();
         File.WriteAllText($"{LocationDataService}\\I{ModelName}DataService.cs", content);
+        filesCreatedMessage = $"{filesCreatedMessage}{Environment.NewLine} I{ModelName}DataService.cs";
 
         GenericDataService genericDataService = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, DataServiceNamespaceName ?? "DataService_Namespace", foreignKeyName ?? "", foreignKeyDataType ?? "");
         content = genericDataService.TransformText();
         File.WriteAllText($"{LocationDataService}\\{ModelName}DataService.cs", content);
+        filesCreatedMessage = $"{filesCreatedMessage}{Environment.NewLine} {ModelName}DataService.cs";
 
         GenericTable genericTable = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, RazorNamespaceName ?? "Razor_Namespace", filterColumns, foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored, UseRadzen, DataServiceNamespaceName ?? "DataService_Namespace", RepositoryNamespaceName ?? "Repository_Namespace");
         content = genericTable.TransformText();
         File.WriteAllText($"{LocationRazor}\\{ModelName}Table.razor", content);
+        filesCreatedMessage = $"{filesCreatedMessage}{Environment.NewLine} {ModelName}Table.razor";
 
         GenericTableCodeBehind genericTableCodeBehind = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, RazorNamespaceName ?? "Razor_Namespace", foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored, UseRadzen, DataServiceNamespaceName ?? "DataService_Namespace", RepositoryNamespaceName ?? "Repository_Namespace", DTONamespaceName ?? "DTO_Namespace");
         content = genericTableCodeBehind.TransformText();
         File.WriteAllText($"{LocationRazor}\\{ModelName}Table.razor.cs", content);
+        filesCreatedMessage = $"{filesCreatedMessage}{Environment.NewLine} {ModelName}Table.razor.cs";
 
         GenericAddEdit genericAddEdit = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, RazorNamespaceName ?? "Razor_Namespace", filterColumns, foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored, UseRadzen);
         content = genericAddEdit.TransformText();
         File.WriteAllText($"{LocationRazor}\\{ModelName}AddEdit.razor", content);
+        filesCreatedMessage = $"{filesCreatedMessage}{Environment.NewLine} {ModelName}AddEdit.razor";
 
         GenericAddEditCodeBehind genericAddEditCodeBehind = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, RazorNamespaceName ?? "Razor_Namespace", foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored, UseRadzen, DTONamespaceName ?? "DTO_Namespace", DataServiceNamespaceName ?? "DataService_Namespace");
         content = genericAddEditCodeBehind.TransformText();
         File.WriteAllText($"{LocationRazor}\\{ModelName}AddEdit.razor.cs", content);
+        filesCreatedMessage = $"{filesCreatedMessage}{Environment.NewLine} {ModelName}AddEdit.razor.cs";
 
 
         ShowInstructions = true;

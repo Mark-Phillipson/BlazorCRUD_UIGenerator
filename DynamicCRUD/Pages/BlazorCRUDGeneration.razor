@@ -253,7 +253,13 @@
                 <div class="text-info">@infoMessage</div>
             </div>
         }
-
+        @if (!string.IsNullOrWhiteSpace(filesCreatedMessage))
+        {
+            <div class="form-group">
+                <label class='form-label'>Files Created:</label>
+                <textarea readonly rows="9" style='width:50%' class="text-success form-control">@filesCreatedMessage</textarea>
+            </div>
+        }
     }
 
 </div>
@@ -262,7 +268,7 @@
 {
     <dialog open="true" style="position:absolute;left: 0px;top: 200px;z-index: 900;min-width:500px;min-height:230px"
         class="border border-danger border-4 ">
-        <h1 class="text-center"> Confirm File Overwrite</h1>
+        <h1 class="text-center">Confirm File Overwrite</h1>
         <h2 class="text-center">Danger if the files already exist they will be overwritten!</h2>
         <h3 class="text-center">Do you wish to proceed
             <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="orange" class="bi bi-question-octagon"
