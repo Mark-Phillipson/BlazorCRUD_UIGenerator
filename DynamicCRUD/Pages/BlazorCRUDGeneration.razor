@@ -3,6 +3,34 @@
 <div class="row">
     <div class="col-5">
         <div class="row">
+            <div class="col-5 mt-1">
+                <InputSelect ValueExpression="@(()=>SelectedProject)" Value="@SelectedProject"
+                    ValueChanged="@((string value) => SetupDatabaseProperties(value))" class="form-select">
+                    @foreach (var item in Projects)
+                    {
+                        if (item == SelectedProject)
+                        {
+                            <option selected value="@item">@item</option>
+                        }
+                        else
+                        {
+                            <option value="@item">@item</option>
+                        }
+                    }
+                </InputSelect>
+            </div>
+            <div class="col-7 mt-1">
+                <button class="btn btn-outline-info m-1" type="button"
+                    @onclick="@( ( ) => OpenConfigurationFile("appsettings.json"  ) )">App Settings</button>
+                <button class="btn btn-outline-info m-1" type="button"
+                    @onclick="@( ( ) => OpenConfigurationFile("projectMappings.json"  ) )">Project Settings</button>
+            </div>
+            <div class="col-12 mt-1">
+                <textarea
+                    title=" In order to go to a different database change the settings on the app settings file and restart the application.bb"
+                    disabled style='width:100%;font-size:smaller' class='form-control'
+                    rows="4">@ConnectionString</textarea>
+            </div>
             <div class="col-3">
                 <div class="form-group">
                     <label class="col-form-label col-form-label-sm"><u>T</u>able Filter </label>
@@ -27,20 +55,12 @@
                     <button accesskey="p" class="btn btn-sm btn-primary" type="button"
                         @onclick="@( ( ) => PopulateColumns() )">@PopulateColumnsCaption</button>
                 }
-else {
-                        <label class="col-form-label col-form-label-sm">Get Columns</label>
+                else
+                {
+                    <label class="col-form-label col-form-label-sm">Get Columns</label>
                     <button disabled accesskey="p" class="btn btn-sm btn-primary" type="button"
                         @onclick="@( ( ) => PopulateColumns() )">@PopulateColumnsCaption</button>
-
-}
-            </div>
-            <div class="col-12 mt-1">
-                <textarea
-                    title=" In order to go to a different database change the settings on the app settings file and restart the application.bb"
-                    disabled style='width:100%;font-size:smaller' class='form-control'
-                    rows="7">@ConnectionString</textarea>
-            <button class="btn btn-outline-info m-1" type="button" @onclick="@( ( ) => OpenConfigurationFile("projectMappings.json"  ) )">Project Settings</button>
-            <button class="btn btn-outline-info m-1" type="button" @onclick="@( ( ) => OpenConfigurationFile("appsettings.json"  ) )">App Settings</button>
+                }
             </div>
 
             <div class="col-6">
@@ -59,8 +79,8 @@ else {
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <label class="col-form-label col-form-label-sm">Db Context Name</label>
-                    <input required class="form-control form-control-sm" type="text" @bind="DbContextName"
+                    <label class="col-form-label col-form-label-sm my-1">Db Context Name</label>
+                    <input required class="form-control form-control-sm my-1" type="text" @bind="DbContextName"
                         id="DbContextName" @oninput="@(e => CallChangeAsync("DbContextName"))" />
                 </div>
             </div>
@@ -96,7 +116,7 @@ else {
             <div class="col-12">
                 <div class="form-group">
                     <label class="col-form-label col-form-label-sm">Location Razor Files </label>
-                        <input class="form-control form-control-sm" type="text" @bind="LocationRazor" />
+                    <input class="form-control form-control-sm" type="text" @bind="LocationRazor" />
                 </div>
             </div>
             <div class="col-12">
@@ -169,19 +189,19 @@ else {
         </div>
     }
     <div class="col-3">
-        <input  @onblur="@(() => SynchronizeUseOptions())"  type="checkbox" @bind="@UseBlazored" accesskey="b" />
-        <label class="control-label">Use Blazored Modal & Toast (Alt-B)</label>
+        <input @onblur="@(() => SynchronizeUseOptions())" type="checkbox" @bind="@UseBlazored" accesskey="b" />
+        <label class="control-label m-1">Use Blazored Modal & Toast (Alt-B)</label>
     </div>
     <div class="col-3">
-        <input  @onblur="@(() => SynchronizeUseOptions())"  type="checkbox" @bind="@UseRadzen" accesskey="r" />
-        <label class="control-label">Use Radzen Blazor (Alt-R)</label>
+        <input @onblur="@(() => SynchronizeUseOptions())" type="checkbox" @bind="@UseRadzen" accesskey="r" />
+        <label class="control-label m-1">Use Radzen Blazor (Alt-R)</label>
     </div>
     @if (ModelName != null)
     {
         <div class="col-6">
             <div class="btn-group">
-                <button class="btn btn-success" type="button" @onclick="@( ( ) => GenerateClasses(  ) )">
-                    Generate C# Classes
+                <button accesskey="g" class="btn btn-success" type="button" @onclick="@( ( ) => ShowConfirmDialog( ))">
+                    <u>G</u>enerate C# Classes
                 </button>
             </div>
         </div>
@@ -200,15 +220,15 @@ else {
             <p>Inspect the generated files at DynamicCRUD.AutoGenClasses and move them to your project.</p>
             <p>The following line of code, should already exist the destination project DB context (@(DbContextName))</p>
             <p><code>public virtual DbSet&lt;@ModelName&gt; @PluralName { get; set; } </code> </p>
-            <p>Add the following code to the mapper profile class:</p>
+            <p>Add the following code to the auto mapper profile class:</p>
             <div class="row">
                 <div class="col-10">
-                    <input id='AutoMapperCode' @ref="AutoMapperCodeElement" class="form-control" type="text"
+                    <textarea rows="2" id='AutoMapperCode' @ref="AutoMapperCodeElement" class="form-control" type="text"
                         @bind="AutoMapperCode" />
                 </div>
                 <div class="col-2">
                     <button class="btn btn-outline-primary" type="button"
-                        @onclick="@( ( ) => FocusAutoMapperCode() )">Copy</button>
+                        @onclick="@( ( ) => CopyAsync(AutoMapperCode) )">Copy</button>
                 </div>
             </div>
             <p>In the <code>Program.cs</code> file register both the Repository and Data Service as others have been
@@ -216,17 +236,48 @@ else {
             <p>
             <div class="row">
                 <div class="col-10">
-                    <input id='DependencyInjectionCode' @ref="@DependencyInjectionCodeElement" class="form-control"
-                        type="text" @bind="DependencyInjectionCode" />
+                    <textarea rows="2" id='DependencyInjectionCode' @ref="@DependencyInjectionCodeElement"
+                        class="form-control" type="text" @bind="DependencyInjectionCode" />
                 </div>
                 <div class="col-2">
                     <button class="btn btn-outline-primary" type="button"
-                        @onclick="@( ( ) => FocusDependencyInjectionCode() )">Copy</button>
+                        @onclick="@( ( ) => CopyAsync(DependencyInjectionCode) )">Copy</button>
                 </div>
             </div>
             </p>
 
         </div>
+        @if (!string.IsNullOrWhiteSpace(infoMessage))
+        {
+            <div class="col-12">
+                <div class="text-info">@infoMessage</div>
+            </div>
+        }
+
     }
 
 </div>
+
+@if (showConfirmDialog)
+{
+    <dialog open="true" style="position:absolute;left: 0px;top: 200px;z-index: 900;min-width:500px;min-height:230px"
+        class="border border-danger border-4 ">
+        <h1 class="text-center"> Confirm File Overwrite</h1>
+        <h2 class="text-center">Danger if the files already exist they will be overwritten!</h2>
+        <h3 class="text-center">Do you wish to proceed
+            <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="orange" class="bi bi-question-octagon"
+                viewBox="0 0 16 16">
+                <path
+                    d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1z" />
+                <path
+                    d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286m1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94" />
+            </svg>
+        </h3>
+        <div class="d-flex justify-content-center">
+            <button accesskey="y" class='btn btn-lg btn-outline-danger mx-2'
+                @onclick="() => OnConfirmDialogResponse(true)"><u>Y</u>es</button>
+            <button accesskey="n" class='btn btn-lg btn-outline-secondary mx-2'
+                @onclick="() => OnConfirmDialogResponse(false)"><u>N</u>o</button>
+        </div>
+    </dialog>
+}

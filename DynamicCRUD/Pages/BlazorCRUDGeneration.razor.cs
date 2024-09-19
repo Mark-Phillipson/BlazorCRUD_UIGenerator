@@ -23,13 +23,15 @@ public partial class BlazorCRUDGeneration : ComponentBase
     private ElementReference DependencyInjectionCodeElement { get; set; }
     private bool UseBlazored { get; set; } = false;
     private bool UseRadzen { get; set; } = false;
-    [Inject] public IJSRuntime? JSRuntime { get; set; }
-    [Inject] IToastService? ToastService { get; set; }
-    [Inject] DatabaseMetaDataService? DatabaseMetaDataService { get; set; }
-    [Inject] IConfiguration? Configuration { get; set; }
+    [Inject] public required IJSRuntime JSRuntime { get; set; }
+    [Inject] public required IToastService ToastService { get; set; }
+    [Inject] public required DatabaseMetaDataService DatabaseMetaDataService { get; set; }
+    [Inject] public required IConfiguration Configuration { get; set; }
     IEnumerable<ClientDatabaseTable> databaseTables = new List<ClientDatabaseTable>();
     IEnumerable<ClientDatabaseColumn> Columns { get; set; } = new List<ClientDatabaseColumn>();
     private string? tablename;
+    private string? infoMessage;
+    private bool showConfirmDialog = false;
     public string? Message { get; set; }
     public bool ShowInstructions { get; set; }
     string ConnectionString { get; set; } = null!;
@@ -43,23 +45,28 @@ public partial class BlazorCRUDGeneration : ComponentBase
     public string? LocationDTO { get; set; } = "";
     public string? LocationRepository { get; set; } = "";
     public string? LocationDataService { get; set; } = "";
+    public List<string> Projects { get; set; } = new List<string> { "ARM_Core", "BostonAcademic", "VoiceLauncher", "TemplateDatabase", "PacktexContext" };
+    public string SelectedProject { get; set; } = "TemplateDatabase";
     protected override async Task OnInitializedAsync()
     {
-        if (DatabaseMetaDataService != null && Configuration != null)
-        {
-            ConnectionString = Configuration.GetConnectionString("DefaultConnection") ?? "";
-            var result = GetNameSpaceAndLocations(ConnectionString);
-            if (!result)
-            {
-                Message = "Something Went Wrong getting namespaces and locations! Please check the connection string and projectMappings.json then try again!";
-            }
-            else
-            {
-                databaseTables = DatabaseMetaDataService.GetDatabaseList(ConnectionString).Where(w => w.Tablename != null && w.Tablename.ToLower().Contains(SearchString.ToLower()));
-            }
-        }
+        SetupDatabaseProperties(SelectedProject);
         UseBlazored = false;
         await base.OnInitializedAsync();
+    }
+
+    private void SetupDatabaseProperties(string project)
+    {
+        SelectedProject = project;
+        ConnectionString = Configuration.GetConnectionString(project) ?? "";
+        var result = GetNameSpaceAndLocations(ConnectionString);
+        if (!result)
+        {
+            Message = "Something Went Wrong getting namespaces and locations! Please check the connection string and projectMappings.json then try again!";
+        }
+        else
+        {
+            databaseTables = DatabaseMetaDataService.GetDatabaseList(ConnectionString).Where(w => w.Tablename != null && w.Tablename.ToLower().Contains(SearchString.ToLower()));
+        }
     }
 
     private bool GetNameSpaceAndLocations(string connectionString)
@@ -69,7 +76,7 @@ public partial class BlazorCRUDGeneration : ComponentBase
         var connectionStringParts = connectionString.Split(";");
         foreach (var part in connectionStringParts)
         {
-            if (part.ToLower().Contains("initial catalog"))
+            if (part.ToLower().Contains("initial catalog") || part.ToLower().Contains("database"))
             {
                 initialCatalogue = part.Split("=")[1];
                 break;
@@ -371,10 +378,8 @@ public partial class BlazorCRUDGeneration : ComponentBase
         {
             return;
         }
-        await JSRuntime.InvokeVoidAsync(
-"clipboardCopy.copyText", value);
-        var message = $"copy commandline Copied Successfully: '{value}'";
-        ToastService!.ShowSuccess(message);
+        await JSRuntime.InvokeVoidAsync("copyToClipboard", value);
+        infoMessage = $"Copied to Clipboard: '{value}'";
     }
     private async Task FocusAutoMapperCode()
     {
@@ -417,6 +422,19 @@ public partial class BlazorCRUDGeneration : ComponentBase
             StateHasChanged();
         }
 
+    }
+    private void ShowConfirmDialog()
+    {
+        showConfirmDialog = true;
+
+    }
+    private void OnConfirmDialogResponse(bool confirmed)
+    {
+        if (confirmed)
+        {
+            GenerateClasses();
+        }
+        showConfirmDialog = false;
     }
     private void ReverseEngineerTable()
     {

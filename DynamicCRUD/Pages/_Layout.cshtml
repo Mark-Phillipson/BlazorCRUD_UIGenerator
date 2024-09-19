@@ -95,6 +95,15 @@
             }
         };
     </script>
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function () {
+                console.log('Text copied to clipboard');
+            }).catch(function (error) {
+                console.error('Could not copy text: ', error);
+            });
+        }
+    </script>
 </body>
 
 </html>

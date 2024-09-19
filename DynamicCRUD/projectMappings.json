@@ -31,18 +31,48 @@
             }
         },
         {
-            "DatabaseName": "YourDatabaseName",
+            "DatabaseName": "BostonAcademic",
             "Namespaces": {
-                "RazorNamespace": "YourRazorNamespace",
-                "DtoNamespace": "YourDtoNamespace",
-                "DataServiceNamespace": "YourDataServiceNamespace",
-                "RepositoryNamespace": "YourRepositoryNamespace"
+                "RazorNamespace": "BostonAcademic.Client",
+                "DtoNamespace": "BostonAcademic.Client",
+                "DataServiceNamespace": "BostonAcademic.Client",
+                "RepositoryNamespace": "BostonAcademic.Client"
             },
             "Folders": {
-                "RazorFolder": "YourRazorFolder",
-                "DtoFolder": "YourDtoFolder",
-                "DataServiceFolder": "YourDataServiceFolder",
-                "RepositoryFolder": "YourRepositoryFolder"
+                "RazorFolder": "C:\\Users\\MPhil\\source\\repos\\BostonAcademic.Solution\\BostonAcademic.Client\\Pages",
+                "DtoFolder": "C:\\Users\\MPhil\\source\\repos\\BostonAcademic.Solution\\BostonAcademic.Client\\DTOs",
+                "DataServiceFolder": "C:\\Users\\MPhil\\source\\repos\\BostonAcademic.Solution\\BostonAcademic.Client\\Services",
+                "RepositoryFolder": "C:\\Users\\MPhil\\source\\repos\\BostonAcademic.Solution\\BostonAcademic.Client\\Repositories"
+            }
+        },
+        {
+            "DatabaseName": "PacktexContext",
+            "Namespaces": {
+                "RazorNamespace": "PacktexBlazorServer",
+                "DtoNamespace": "PacktexBlazorServer",
+                "DataServiceNamespace": "PacktexBlazorServer",
+                "RepositoryNamespace": "DataClassLibrary"
+            },
+            "Folders": {
+                "RazorFolder": "C:\\Users\\MPhil\\source\\repos\\Packtex\\PacktexBlazorServer\\Pages",
+                "DtoFolder": "C:\\Users\\MPhil\\source\\repos\\Packtex\\PacktexBlazorServer\\DTOs",
+                "DataServiceFolder": "C:\\Users\\MPhil\\source\\repos\\Packtex\\PacktexBlazorServer\\Services",
+                "RepositoryFolder": "C:\\Users\\MPhil\\source\\repos\\Packtex\\DataClassLibrary\\Repositories"
+            }
+        },
+        {
+            "DatabaseName": "ARM_CORE",
+            "Namespaces": {
+                "RazorNamespace": "ARM_BlazorServer",
+                "DtoNamespace": "ARM.Shared",
+                "DataServiceNamespace": "ARM_BlazorServer",
+                "RepositoryNamespace": "ARM.Data"
+            },
+            "Folders": {
+                "RazorFolder": "C:\\Users\\MPhil\\source\\repos\\ARM_MIG\\ARM_BlazorServer\\Pages",
+                "DtoFolder": "C:\\Users\\MPhil\\source\\repos\\ARM_MIG\\ARM.Shared\\DTOs",
+                "DataServiceFolder": "C:\\Users\\MPhil\\source\\repos\\ARM_MIG\\ARM_BlazorServer\\Services",
+                "RepositoryFolder": "C:\\Users\\MPhil\\source\\repos\\ARM_MIG\\ARM.Data\\Repositories"
             }
         }
     ]
