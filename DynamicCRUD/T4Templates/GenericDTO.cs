@@ -78,7 +78,14 @@ namespace DynamicCRUD.T4Templates
             
             #line default
             #line hidden
-            this.Write("        [Required]\r\n");
+            this.Write("        [Required(ErrorMessage = \"⚠️ ");
+            
+            #line 27 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Label));
+            
+            #line default
+            #line hidden
+            this.Write(" is required\")]\r\n");
             
             #line 28 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDTO.tt"
 

@@ -22,7 +22,8 @@ namespace DynamicCRUD.T4Templates
         public string ForeignKeyDataType { get; set; } = "";
         public bool UseBlazored { get; set; } = true;
         public bool UseRadzen { get; set; } = false;
-        public GenericAddEdit(IEnumerable<ClientDatabaseColumn> databaseColumns, string modelName, string modelNameCamelCase, string pluralTablename, string primaryKeyName, string primaryKeyDataType, string Namespace, string filterColumns, string foreignKeyName, string foreignKeyDataType, bool useBlazored, bool useRadzen)
+        string ModelNameWithSpaces { get; set; } = "";
+        public GenericAddEdit(IEnumerable<ClientDatabaseColumn> databaseColumns, string modelName, string modelNameCamelCase, string pluralTablename, string primaryKeyName, string primaryKeyDataType, string Namespace, string filterColumns, string foreignKeyName, string foreignKeyDataType, bool useBlazored, bool useRadzen, string modelNameWithSpaces)
         {
             this.Namespace = Namespace;
             DatabaseColumns = databaseColumns;
@@ -36,6 +37,7 @@ namespace DynamicCRUD.T4Templates
             ForeignKeyDataType = foreignKeyDataType;
             UseBlazored = useBlazored;
             UseRadzen = useRadzen;
+            ModelNameWithSpaces = StringHelperService.AddSpacesToSentence(modelNameWithSpaces);
         }
 
     }

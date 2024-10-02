@@ -249,7 +249,7 @@ public partial class BlazorCRUDGeneration : ComponentBase
         File.WriteAllText($"{LocationRazor}\\{ModelName}Table.razor.cs", content);
         filesCreatedMessage = $"{filesCreatedMessage}{Environment.NewLine} {ModelName}Table.razor.cs";
 
-        GenericAddEdit genericAddEdit = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, RazorNamespaceName ?? "Razor_Namespace", filterColumns, foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored, UseRadzen);
+        GenericAddEdit genericAddEdit = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, RazorNamespaceName ?? "Razor_Namespace", filterColumns, foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored, UseRadzen, ModelName ?? "");
         content = genericAddEdit.TransformText();
         File.WriteAllText($"{LocationRazor}\\{ModelName}AddEdit.razor", content);
         filesCreatedMessage = $"{filesCreatedMessage}{Environment.NewLine} {ModelName}AddEdit.razor";

@@ -171,7 +171,11 @@ namespace <#=Namespace#>.Pages
                     await Task.Delay(100);
                     if (SearchInput != null)
                     {
+                        <# if (!UseRadzen) {#>
                         await SearchInput.Value.FocusAsync();
+                        <# } else { #>
+                        await SearchInput.FocusAsync();
+                        <# } #>
                     }
                 }
                 catch (Exception exception)

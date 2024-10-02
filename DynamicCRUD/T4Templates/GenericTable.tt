@@ -13,7 +13,9 @@
 <# } else { #>
 @page "/<#=PluralTablename.ToLower()#>"
 <# }#>
+<PageTitle><#=ModelNameWithSpaces#> Table</PageTitle>
 @rendermode InteractiveServer // Required if interactive mode is not Global
+<header>
 <div class="row">
 <div class="col-md-12">
     <# if (!UseBlazored) {#>
@@ -40,7 +42,7 @@
     <# }#>
 </div>
 <div class="col-md-3">
-<h5 class="m-1">@Title of @totalRows Page: @pageNumber</h5>
+<h1 class="m-1 fs-4">@Title of @totalRows Page: @pageNumber</h1>
 </div>
 @if (_serverPaging) {
 <div class="col-md-4">
@@ -90,6 +92,7 @@
             @if (_serverPaging) {
             <div class="col-md-4">
                 <# if (!UseRadzen) {#>
+                <label for='SearchInput' class="sr-only">Type to Filter</label>
                 <input @ref="SearchInput" accesskey="i"
                     class="form-control my-1"
                     style="float:right"
@@ -115,11 +118,13 @@
             } else {
                 <# if (!UseRadzen) {#>
                 <div class="col-md-3">
+                    <label for='ClientSearchInput' class="sr-only">Type to Filter</label>
                     <input @ref="SearchInput" class="form-control my-1" style="float:right" @bind="@ClientSearchTerm" id="ClientSearchInput"
                         name="ClientSearchTerm" @bind:event="oninput" placeholder="Filter by <#=FilterColumns#>" />
                 </div>
                 <# } else {#>
                     <div class="col-md-3">
+                        <label for='ClientSearchInput' class="sr-only">Type to Filter</label>
                         <RadzenTextBox id="ClientSearchInput" class='rz-my-1' @bind-Value="@ClientSearchTerm"
                         @oninput=@(args => OnChangeClientSearchTerm(args?.Value?.ToString()))
                             Placeholder="Filter by <#=FilterColumns#>" />
@@ -127,6 +132,8 @@
                 <# }#>
             }
     </div>
+</header>
+<main>
     @if (Filtered<#=ModelName#>DTO == null && _loadFailed == true)
         {
         <h2 class="text-danger">The data failed to load
@@ -160,9 +167,8 @@
             Record <i
                 class="bi bi-plus-square"></i></button>
         <# } else {#>
-            <RadzenButton Text="Add Record" ButtonStyle="ButtonStyle.Success" Size="ButtonSize.Large"
-        Click="@(() => AddNew<#=ModelName#>())" Icon="add_circle">
-        </RadzenButton>
+            <RadzenButton Shade="Shade.Dark" Text="Add Record" ButtonStyle="ButtonStyle.Dark" Size="ButtonSize.Large"
+        Click="@(() => AddNew<#=ModelName#>())" Icon="add_circle"/>
         <# }#>
         }
     else
@@ -196,7 +202,7 @@
                                 <#=property.Label#>
                             </th>
                             <# } } #>
-                            <th class="btn-group border border-1" style='width:100%'>
+                            <th>
                             <# if (!UseRadzen) {#>
                               <button accesskey="+"
                                     @onclick="AddNew<#=ModelName#>" class="btn btn-outline-success btn-sm">
@@ -204,8 +210,8 @@
                                     <i class="bi bi-plus-square"></i>
                               </button>
                             <# } else { #>
-                                <RadzenButton ButtonStyle="ButtonStyle.Success" Size="ButtonSize.Small" Icon="add_circle"
-                            Click="@(() => AddNew<#=ModelName#>())" />
+                                <RadzenButton Style="color:white" Shade="Shade.Dark" Text="Add Record" ButtonStyle="ButtonStyle.Dark" Size="ButtonSize.Small" Icon="add_circle"
+                            Click="@(() => AddNew<#=ModelName#>())"/>
                             <# }#>
                             </th>
                     </tr>
@@ -234,8 +240,8 @@
         @<#=ModelNameCamelCase#>.<#=property.PropertyName#>
     </td>
     <# } }#>
+        <# if (!UseRadzen) {#>
         <td class="btn-group-vertical border border-1" style='width:100%'>
-            <# if (!UseRadzen) {#>
             <button class="btn btn-sm btn-outline-warning"
                 @onclick="@(() => Edit<#=ModelName#>(<#=ModelNameCamelCase#>.<#=PrimaryKeyName#>))">
                 Edit
@@ -246,19 +252,24 @@
                 Delete
                 <i class="bi bi-trash"></i>
             </button>
-            <# } else { #>
-                        <RadzenButton Text="" ButtonStyle="ButtonStyle.Warning" Icon="edit"
-                            Click="@(() => Edit<#=ModelName#>(<#=ModelNameCamelCase#>.<#=PrimaryKeyName#>))" Size="ButtonSize.Small" />
-
-                        <RadzenButton Text="" ButtonStyle="ButtonStyle.Danger" Icon="delete"
-                            Click="@(() => Delete<#=ModelName#>(<#=ModelNameCamelCase#>.<#=PrimaryKeyName#>))" Size="ButtonSize.Small" />
-            <# }#>
         </td>
+        <# } else { #>
+                        <td>
+                        <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="1rem" Wrap="FlexWrap.Wrap">
+                        <RadzenButton Style="color:black" Shade="Shade.Dark" Text="Edit" ButtonStyle="ButtonStyle.Warning" Icon="edit"
+                            Click="@(() => Edit<#=ModelName#>(<#=ModelNameCamelCase#>.<#=PrimaryKeyName#>))" Size="ButtonSize.Small"/>
+
+                        <RadzenButton Shade="Shade.Dark" Text="Delete" ButtonStyle="ButtonStyle.Danger" Icon="delete"
+                            Click="@(() => Delete<#=ModelName#>(<#=ModelNameCamelCase#>.<#=PrimaryKeyName#>))" Size="ButtonSize.Small"/>
+                        </RadzenStack>
+                        </td>
+            <# }#>
             </tr>
             }
         </tbody>
     </table>
 }
+</main>
 <# if (!UseBlazored) {#>
 @if (ShowEdit)
 {
