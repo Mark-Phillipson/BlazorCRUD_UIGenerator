@@ -1151,21 +1151,36 @@ counter--;
             
             #line default
             #line hidden
-            this.Write("            <button type=\'button\' accesskey=\"c\" class=\"btn btn-lg btn-outline-pri" +
-                    "mary\" @onclick=\"@CloseAsync\"><u>C</u>ancel</button>\r\n            <button type=\'s" +
-                    "ubmit\' accesskey=\"s\" class=\"btn btn-lg btn-primary\"><u>S</u>ave Record</button>\r" +
-                    "\n        ");
+            this.Write(@"        @if (isSubmitting)
+        {
+            <div style=""display:normal;margin:auto""
+                class=""loader""></div>
+        }
+        else
+        {
+            <button type='button' accesskey=""c"" class=""btn btn-lg btn-outline-primary""@onclick=""@CloseAsync""><u>C</u>ancel</button>
+            <button type='submit' accesskey=""s"" class=""btn btn-lg btn-primary""><u>S</u>ave Record</button>
+        }
+        ");
             
-            #line 200 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
+            #line 208 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
 } else {
             
             #line default
             #line hidden
-            this.Write(@"            <RadzenButton accesskey=""c"" ButtonStyle=""ButtonStyle.Light"" Size=""ButtonSize.Large"" Icon=""close"" Text=""Cancel (Alt+C)"" Click=""@CloseAsync"" />
+            this.Write(@"        @if (isSubmitting)
+        {
+            <RadzenProgressBarCircular ProgressBarStyle=""ProgressBarStyle.Danger"" Value=""100"" ShowValue=""false""
+                Mode=""ProgressBarMode.Indeterminate"" Style=""width: 50px; height: 50px;"" />
+        }
+        else
+        {
+            <RadzenButton accesskey=""c"" ButtonStyle=""ButtonStyle.Light"" Size=""ButtonSize.Large"" Icon=""close"" Text=""Cancel (Alt+C)"" Click=""@CloseAsync"" />
             <RadzenButton accesskey=""s"" ButtonStyle=""ButtonStyle.Primary"" Size=""ButtonSize.Large"" Icon=""save"" Text=""Save Record (Alt+S)"" ButtonType=""ButtonType.Submit"" />
+        }
         ");
             
-            #line 203 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
+            #line 219 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
  }
             
             #line default

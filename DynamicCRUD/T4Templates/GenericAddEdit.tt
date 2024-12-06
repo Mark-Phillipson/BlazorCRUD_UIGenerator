@@ -197,8 +197,8 @@ counter--;
         <# if (!UseRadzen) {#>
         @if (isSubmitting)
         {
-            <RadzenProgressBarCircular ProgressBarStyle="ProgressBarStyle.Danger" Value="100" ShowValue="false"
-                Mode="ProgressBarMode.Indeterminate" Style="width: 50px; height: 50px;" />
+            <div style="display:normal;margin:auto"
+                class="loader"></div>
         }
         else
         {
@@ -206,8 +206,16 @@ counter--;
             <button type='submit' accesskey="s" class="btn btn-lg btn-primary"><u>S</u>ave Record</button>
         }
         <#} else {#>
+        @if (isSubmitting)
+        {
+            <RadzenProgressBarCircular ProgressBarStyle="ProgressBarStyle.Danger" Value="100" ShowValue="false"
+                Mode="ProgressBarMode.Indeterminate" Style="width: 50px; height: 50px;" />
+        }
+        else
+        {
             <RadzenButton accesskey="c" ButtonStyle="ButtonStyle.Light" Size="ButtonSize.Large" Icon="close" Text="Cancel (Alt+C)" Click="@CloseAsync" />
             <RadzenButton accesskey="s" ButtonStyle="ButtonStyle.Primary" Size="ButtonSize.Large" Icon="save" Text="Save Record (Alt+S)" ButtonType="ButtonType.Submit" />
+        }
         <# }#>
         </div>
     </EditForm>
