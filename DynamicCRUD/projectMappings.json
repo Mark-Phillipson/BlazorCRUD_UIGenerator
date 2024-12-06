@@ -49,13 +49,13 @@
             "DatabaseName": "PacktexContext",
             "Namespaces": {
                 "RazorNamespace": "PacktexBlazorServer",
-                "DtoNamespace": "PacktexBlazorServer",
+                "DtoNamespace": "DataClassLibrary",
                 "DataServiceNamespace": "PacktexBlazorServer",
                 "RepositoryNamespace": "DataClassLibrary"
             },
             "Folders": {
                 "RazorFolder": "C:\\Users\\MPhil\\source\\repos\\Packtex\\PacktexBlazorServer\\Pages",
-                "DtoFolder": "C:\\Users\\MPhil\\source\\repos\\Packtex\\PacktexBlazorServer\\DTOs",
+                "DtoFolder": "C:\\Users\\MPhil\\source\\repos\\Packtex\\DataClassLibrary\\DTO",
                 "DataServiceFolder": "C:\\Users\\MPhil\\source\\repos\\Packtex\\PacktexBlazorServer\\Services",
                 "RepositoryFolder": "C:\\Users\\MPhil\\source\\repos\\Packtex\\DataClassLibrary\\Repositories"
             }

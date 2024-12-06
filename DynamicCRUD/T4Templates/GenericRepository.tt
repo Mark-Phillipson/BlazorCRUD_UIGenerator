@@ -33,7 +33,7 @@ namespace <#=Namespace#>.Repositories
 		<#
 		if (!string.IsNullOrEmpty(ForeignKeyName)) {
 #>
-        public async Task<IEnumerable<<#=ModelName#>DTO>> GetAll<#=PluralTablename#>Async(<#=ForeignKeyDataType#> <#=ForeignKeyName#>, int pageNumber, int pageSize)
+        public async Task<IEnumerable<<#=ModelName#>DTO>> GetAll<#=PluralTablename#>Async(<#=ForeignKeyDataType#> <#=ForeignKeyName#>, int pageNumber, int pageSize, string? serverSearchTerm)
         {
             using var context = _contextFactory.CreateDbContext();
             List<<#=ModelName#>> <#=PluralTablename#>;

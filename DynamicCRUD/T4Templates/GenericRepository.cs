@@ -133,8 +133,8 @@ namespace DynamicCRUD.T4Templates
             
             #line default
             #line hidden
-            this.Write(", int pageNumber, int pageSize)\r\n        {\r\n            using var context = _cont" +
-                    "extFactory.CreateDbContext();\r\n            List<");
+            this.Write(", int pageNumber, int pageSize, string? serverSearchTerm)\r\n        {\r\n           " +
+                    " using var context = _contextFactory.CreateDbContext();\r\n            List<");
             
             #line 39 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericRepository.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));

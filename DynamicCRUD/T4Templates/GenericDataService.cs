@@ -181,8 +181,7 @@ namespace DynamicCRUD.T4Templates
             
             #line default
             #line hidden
-            this.Write(", int pageNumber, int pageSize, serverSearchTerm);            \r\n            retur" +
-                    "n ");
+            this.Write(", pageNumber, pageSize, serverSearchTerm);            \r\n            return ");
             
             #line 37 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PluralTablename));

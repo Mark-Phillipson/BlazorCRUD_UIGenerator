@@ -33,7 +33,7 @@ namespace <#=Namespace#>.Services
         (<#=ForeignKeyDataType#> <#=ForeignKeyName#>,int pageNumber, int pageSize, string? serverSearchTerm)
         {
             var <#=PluralTablename#> = await _<#=ModelNameCamelCase#>Repository.GetAll<#=PluralTablename#>Async
-            (<#=ForeignKeyName#>, int pageNumber, int pageSize, serverSearchTerm);            
+            (<#=ForeignKeyName#>, pageNumber, pageSize, serverSearchTerm);            
             return <#=PluralTablename#>.ToList();
         }
 <#      } else {

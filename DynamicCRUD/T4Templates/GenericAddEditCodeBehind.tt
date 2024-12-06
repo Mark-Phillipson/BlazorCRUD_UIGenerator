@@ -65,6 +65,7 @@ public partial class <#= ModelName #>AddEdit : ComponentBase
 <# } else { #>
     ElementReference? FirstInput;
 <# } #>
+    private bool isSubmitting;
     protected override async Task OnInitializedAsync()
     {
 <#          if (PrimaryKeyDataType=="int") {
@@ -158,6 +159,7 @@ public partial class <#= ModelName #>AddEdit : ComponentBase
             return;
         }
 <# } #>
+        isSubmitting = true;
 <# if (PrimaryKeyDataType == "int") { #>
         if ((<#= PrimaryKeyName #> == 0 || <#= PrimaryKeyName #> == null))
 <# } else { #>
@@ -190,5 +192,6 @@ public partial class <#= ModelName #>AddEdit : ComponentBase
 <# if (!UseBlazored) {#>
         await CloseModal.InvokeAsync(true);
 <# } #>
+        isSubmitting = false;
     }
 }
