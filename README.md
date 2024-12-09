@@ -2,12 +2,36 @@
 
 ![screenshot](DynamicCRUD/wwwroot/images/Screenshot.png)
 
-Demo Video: https://youtu.be/rJrNwR4Mf7A
+[Demo Video:](https://youtu.be/rJrNwR4Mf7A)
 
 
-This project can be used to create the classes and Blazor components to provide rudimentary CRUD functionality for any table in SQL Server Database, along with the ability to filter and sort.
+This project can be used to create the C# classes and Blazor components to provide rudimentary CRUD functionality for any table in a SQL Server Database, along with the ability to filter and sort.
 
-The classes are all created within this project under a folder called AutoGenClasses, with the intention of moving them into your project.
+Before you can run the automated process you need to enter an entry in the configuration file 'projectMappings.json' in the root of the project.  Note the database name is in fact the name of the connection string in the 'appsettings.json' style.
+
+The namespaces are what will be used in the actual classes so if you want the code to compile first time you need to fill this incorrectly.
+ 
+The folders are what the system will use to place the files in your project. Also note that if the files already exist they will be overridden.
+
+```json
+    "Projects": [
+        {
+            "DatabaseName": "TemplateDatabase",
+            "Namespaces": {
+                "RazorNamespace": "BlazorApp.Template.Components",
+                "DtoNamespace": "BlazorApp.Template",
+                "DataServiceNamespace": "BlazorApp.Template",
+                "RepositoryNamespace": "BlazorApp.Template"
+            },
+            "Folders": {
+                "RazorFolder": "C:\\Users\\MPhil\\source\\repos\\DevelopmentTemplate_24\\BlazorApp.Template\\BlazorApp.Template\\Components\\Pages",
+                "DtoFolder": "C:\\Users\\MPhil\\source\\repos\\DevelopmentTemplate_24\\BlazorApp.Template\\BlazorApp.Template\\DTO",
+                "DataServiceFolder": "C:\\Users\\MPhil\\source\\repos\\DevelopmentTemplate_24\\BlazorApp.Template\\BlazorApp.Template\\Services",
+                "RepositoryFolder": "C:\\Users\\MPhil\\source\\repos\\DevelopmentTemplate_24\\BlazorApp.Template\\BlazorApp.Template\\Repositories"
+            }
+        }
+    ]
+```
 
 Primarily it is done this way so that your project no matter how it is configured will not affecct the running of this appllication. Unlike the MVC scaffolding that stops working if you make too many changes in a project.
 
@@ -30,7 +54,7 @@ Please see the sample application project which contains these dependencies, for
 
 1. Edit the appsettings.json file in the root of DynamicCRUD project. To make the "DefaultConnection" point to your database in SQL Server.
 
-2. Run the application (Do not run watch as the project will crash when it cannot compile the newly created c# classes).
+2. Run the application and navigate to the CRUD Generator page, optionally select a different project to connect to if the default is not the one you want. 
 
 3. Optionally, enter a search term to filter down to a particular table, then select the table in the drop-down list.
 
@@ -38,21 +62,19 @@ Please see the sample application project which contains these dependencies, for
 
 5. The list of columns should now be displayed.  Check the filter checkboxes for each string column that you wish to filter on. Also check each sort column that you wish to sort by.
 
-6. Enter the namespace, this is used to build the namespace for the classes.
+6. Enter the singular model name and a plural name. Note the model should already exist in the destination project and be entered in the DB Context.
 
-7. Enter the singular model name and a plural name. Note the model should already exist in the destination project and be entered in the DB Context.
+7. If the primary key is set up correctly the PK Override should not be necessary.  However if the primary key has not been set up correctly it may be necessary to use the override.  In any case a primary key is definitely required for CRUD operations to be successful.
 
-8. If the primary key is set up correctly the PK Override should not be necessary.  However if the primary key has not been set up correctly it may be necessary to use the override.  In any case a primary key is definitely required for CRUD operations to be successful.
+8. If the table has a parent, you can select a foreign key (One only).
 
-9. If the table has a parent, you can select a foreign key (One only).
+9. Then click Generate C# Classes button, at the bottom of the page.
 
-10. Then click Generate C# Classes button, at the bottom of the page.
+10. You should now be asked to confirm you wish to overwrite any existing files.  Click Yes to proceed.
 
-11. The classes should now exist in the AutoGenClasses folder.  Note they will not compile in this project.
+11. Copy the code that is displayed in the text boxes into your project, where applicable. Note you can click the Copy button to the right of each box.
 
-12. Copy the code that is displayed red in the webpage into your project, where applicable. 
-
-13. Move each file to the required location in your project.  Taking care to make sure the namespaces are correct.  Build your project and troubleshoot any errors as necessary.
+12. You can now switch to your project and attempt to compile. Good luck and happy coding!
 
 ## Files Created
 
@@ -71,6 +93,6 @@ In order to make any enhancements or changes to the code or user interface, ther
 Only tested with:
 * Blazor Server (Not Blazor Client)
 * SQL Server Database
-* .NET 6/7
+* .NET 6/7/8
 * General datatypes like int, long (bigint), bool (bit), DateTime, string (nvarchar) and decimal.
-* Now works in a MVC application that uses Blazor project as well. 
+* Now works in an MVC application that uses Blazor project as well. 
