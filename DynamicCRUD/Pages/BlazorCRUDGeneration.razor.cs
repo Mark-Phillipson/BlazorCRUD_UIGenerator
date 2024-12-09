@@ -405,7 +405,23 @@ public partial class BlazorCRUDGeneration : ComponentBase
             try
             {
                 var visualStudioPath = @"C:\Users\MPhil\AppData\Local\Programs\Microsoft VS Code\Code.exe"; // Update this path to your Visual Studio executable
-                Process.Start(visualStudioPath, path);
+                if (File.Exists(visualStudioPath))
+                {
+                    // Run a terminal command to open the file in Visual Studio Code
+                    var processStartInfo = new ProcessStartInfo
+                    {
+                        FileName = "cmd.exe",
+                        Arguments = $"/c code \"{path}\"",
+                        RedirectStandardOutput = true,
+                        UseShellExecute = false,
+                        CreateNoWindow = true
+                    };
+                    using (var process = Process.Start(processStartInfo))
+                    {
+                        process!.WaitForExit();
+                    }
+                    Message = "File opened in Visual Studio Code.";
+                }
             }
             catch (System.Exception exception)
             {
