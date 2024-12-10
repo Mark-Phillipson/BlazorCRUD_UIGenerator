@@ -74,6 +74,21 @@
                 "DataServiceFolder": "C:\\Users\\MPhil\\source\\repos\\ARM_MIG\\ARM_BlazorServer\\Services",
                 "RepositoryFolder": "C:\\Users\\MPhil\\source\\repos\\ARM_MIG\\ARM.Data\\Repositories"
             }
+        },
+        {
+            "DatabaseName": "VoiceLauncherSample",
+            "Namespaces": {
+                "RazorNamespace": "SampleApplication.Pages",
+                "DtoNamespace": "SampleApplication.DTOs",
+                "DataServiceNamespace": "SampleApplication.Services",
+                "RepositoryNamespace": "SampleApplication.Repositories"
+            },
+            "Folders": {
+                "RazorFolder": "C:\\Users\\MPhil\\source\\repos\\BlazorCRUD_UIGenerator\\SampleApplication\\Pages\\",
+                "DtoFolder": "C:\\Users\\MPhil\\source\\repos\\BlazorCRUD_UIGenerator\\SampleApplication\\DTO\\",
+                "DataServiceFolder": "C:\\Users\\MPhil\\source\\repos\\BlazorCRUD_UIGenerator\\SampleApplication\\Services\\",
+                "RepositoryFolder": "C:\\Users\\MPhil\\source\\repos\\BlazorCRUD_UIGenerator\\SampleApplication\\Repositories\\"
+            }
         }
     ]
 }

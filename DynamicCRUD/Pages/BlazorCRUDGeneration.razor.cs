@@ -46,13 +46,26 @@ public partial class BlazorCRUDGeneration : ComponentBase
     public string? LocationDTO { get; set; } = "";
     public string? LocationRepository { get; set; } = "";
     public string? LocationDataService { get; set; } = "";
-    public List<string> Projects { get; set; } = new List<string> { "ARM_Core", "BostonAcademic", "VoiceLauncher", "TemplateDatabase", "PacktexContext" };
+    public List<string> Projects { get; set; } = new List<string>();
     public string SelectedProject { get; set; } = "TemplateDatabase";
     protected override async Task OnInitializedAsync()
     {
+        Projects = GetProjects();
         SetupDatabaseProperties(SelectedProject);
         UseBlazored = false;
         await base.OnInitializedAsync();
+    }
+
+    private List<string> GetProjects()
+    {
+        string projectsMappingJson = File.ReadAllText("projectMappings.json");
+        var projectMappings = JsonSerializer.Deserialize<ProjectMapping>(projectsMappingJson);
+        var projects = projectMappings?.Projects?.Select(s => s.DatabaseName).ToList();
+        if (projects != null && projects.Count > 0)
+        {
+            return projects!.Where(p => p != null).Cast<string>().OrderBy(x => x).ToList();
+        }
+        return new List<string>();
     }
 
     private void SetupDatabaseProperties(string project)
@@ -172,23 +185,9 @@ public partial class BlazorCRUDGeneration : ComponentBase
     {
         Message = null; ShowInstructions = false;
         ArgumentNullException.ThrowIfNull(ModelName);
-        if (string.IsNullOrWhiteSpace(Tablename) || DatabaseMetaDataService == null || ConnectionString == null || PluralName == null || ModelName == null)
+        var valid = ValidateInputRequirements();
+        if (valid == false)
         {
-            Message = "Please select a table and fill in all the details, then try again!";
-            return;
-        }
-        if (!Columns.Any(c => (c.IsKey || c.PrimaryKeyOverride) && (c.DataType == "bigint" || c.DataType == "int" || c.DataType == "nvarchar")))
-        {
-            Message = "Please indicate the primary key and try again! Note it has to be an int or nvarchar";
-            return;
-        }
-        if (ModelName != null && ModelName.ToLower().EndsWith("s"))
-        {
-            Message = "Please make sure the model name is not plural!";
-        }
-        if (!Columns.Any(c => c.Sort == true))
-        {
-            Message = "Please select at least one column to sort by! ";
             return;
         }
         AutoMapperCode = $"CreateMap<{ModelName}, {ModelName}DTO>();" + Environment.NewLine +
@@ -210,7 +209,7 @@ public partial class BlazorCRUDGeneration : ComponentBase
                 foreignKeyDataType = "string";
             }
         }
-        var tablename = Tablename.Replace($"{SchemaName}.", "").Replace("/", "");
+        var tablename = Tablename!.Replace($"{SchemaName}.", "").Replace("/", "");
         string content = "";
         filesCreatedMessage = "";
         GenericDTO genericDTO = new(Columns, ModelName!, DTONamespaceName ?? "DTO_Namespace");
@@ -219,48 +218,92 @@ public partial class BlazorCRUDGeneration : ComponentBase
         filesCreatedMessage = $" {ModelName}DTO.cs";
         var camelTablename = StringHelperService.GetCamelCase(ModelName!);
 
-        GenericIRepository genericIRepository = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, RepositoryNamespaceName ?? "Repository_Namespace", foreignKeyName, foreignKeyDataType);
+        GenericIRepository genericIRepository = new(Columns, ModelName!, camelTablename, PluralName!, primaryKeyName, primaryKeyDatatype, RepositoryNamespaceName ?? "Repository_Namespace", foreignKeyName, foreignKeyDataType);
         content = genericIRepository.TransformText();
         File.WriteAllText($"{LocationRepository}\\I{ModelName}Repository.cs", content);
         filesCreatedMessage = $"{filesCreatedMessage}{Environment.NewLine} I{ModelName}Repository.cs";
 
-        GenericRepository genericRepository = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, RepositoryNamespaceName ?? "Repository_Namespace", foreignKeyName ?? "", foreignKeyDataType ?? "", DbContextName ?? "ApplicationDbContext");
+        GenericRepository genericRepository = new(Columns, ModelName!, camelTablename, PluralName!, primaryKeyName, primaryKeyDatatype, RepositoryNamespaceName ?? "Repository_Namespace", foreignKeyName ?? "", foreignKeyDataType ?? "", DbContextName ?? "ApplicationDbContext");
         content = genericRepository.TransformText();
         File.WriteAllText($"{LocationRepository}\\{ModelName}Repository.cs", content);
         filesCreatedMessage = $"{filesCreatedMessage}{Environment.NewLine} {ModelName}Repository.cs";
 
-        GenericIDataService genericIDataService = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, DataServiceNamespaceName ?? "DataService_Namespace", foreignKeyName ?? "", foreignKeyDataType ?? "");
+        GenericIDataService genericIDataService = new(Columns, ModelName!, camelTablename, PluralName!, primaryKeyName, primaryKeyDatatype, DataServiceNamespaceName ?? "DataService_Namespace", foreignKeyName ?? "", foreignKeyDataType ?? "");
         content = genericIDataService.TransformText();
         File.WriteAllText($"{LocationDataService}\\I{ModelName}DataService.cs", content);
         filesCreatedMessage = $"{filesCreatedMessage}{Environment.NewLine} I{ModelName}DataService.cs";
 
-        GenericDataService genericDataService = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, DataServiceNamespaceName ?? "DataService_Namespace", foreignKeyName ?? "", foreignKeyDataType ?? "");
+        GenericDataService genericDataService = new(Columns, ModelName!, camelTablename, PluralName!, primaryKeyName, primaryKeyDatatype, DataServiceNamespaceName ?? "DataService_Namespace", foreignKeyName ?? "", foreignKeyDataType ?? "");
         content = genericDataService.TransformText();
         File.WriteAllText($"{LocationDataService}\\{ModelName}DataService.cs", content);
         filesCreatedMessage = $"{filesCreatedMessage}{Environment.NewLine} {ModelName}DataService.cs";
 
-        GenericTable genericTable = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, RazorNamespaceName ?? "Razor_Namespace", filterColumns, foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored, UseRadzen, DataServiceNamespaceName ?? "DataService_Namespace", RepositoryNamespaceName ?? "Repository_Namespace");
+        GenericTable genericTable = new(Columns, ModelName!, camelTablename, PluralName!, primaryKeyName, primaryKeyDatatype, RazorNamespaceName ?? "Razor_Namespace", filterColumns, foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored, UseRadzen, DataServiceNamespaceName ?? "DataService_Namespace", RepositoryNamespaceName ?? "Repository_Namespace");
         content = genericTable.TransformText();
         File.WriteAllText($"{LocationRazor}\\{ModelName}Table.razor", content);
         filesCreatedMessage = $"{filesCreatedMessage}{Environment.NewLine} {ModelName}Table.razor";
 
-        GenericTableCodeBehind genericTableCodeBehind = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, RazorNamespaceName ?? "Razor_Namespace", foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored, UseRadzen, DataServiceNamespaceName ?? "DataService_Namespace", RepositoryNamespaceName ?? "Repository_Namespace", DTONamespaceName ?? "DTO_Namespace");
+        GenericTableCodeBehind genericTableCodeBehind = new(Columns, ModelName!, camelTablename, PluralName!, primaryKeyName, primaryKeyDatatype, RazorNamespaceName ?? "Razor_Namespace", foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored, UseRadzen, DataServiceNamespaceName ?? "DataService_Namespace", RepositoryNamespaceName ?? "Repository_Namespace", DTONamespaceName ?? "DTO_Namespace");
         content = genericTableCodeBehind.TransformText();
         File.WriteAllText($"{LocationRazor}\\{ModelName}Table.razor.cs", content);
         filesCreatedMessage = $"{filesCreatedMessage}{Environment.NewLine} {ModelName}Table.razor.cs";
 
-        GenericAddEdit genericAddEdit = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, RazorNamespaceName ?? "Razor_Namespace", filterColumns, foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored, UseRadzen, ModelName ?? "");
+        GenericAddEdit genericAddEdit = new(Columns, ModelName!, camelTablename, PluralName!, primaryKeyName, primaryKeyDatatype, RazorNamespaceName ?? "Razor_Namespace", filterColumns, foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored, UseRadzen, ModelName ?? "");
         content = genericAddEdit.TransformText();
         File.WriteAllText($"{LocationRazor}\\{ModelName}AddEdit.razor", content);
         filesCreatedMessage = $"{filesCreatedMessage}{Environment.NewLine} {ModelName}AddEdit.razor";
 
-        GenericAddEditCodeBehind genericAddEditCodeBehind = new(Columns, ModelName!, camelTablename, PluralName, primaryKeyName, primaryKeyDatatype, RazorNamespaceName ?? "Razor_Namespace", foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored, UseRadzen, DTONamespaceName ?? "DTO_Namespace", DataServiceNamespaceName ?? "DataService_Namespace");
+        GenericAddEditCodeBehind genericAddEditCodeBehind = new(Columns, ModelName!, camelTablename, PluralName!, primaryKeyName, primaryKeyDatatype, RazorNamespaceName ?? "Razor_Namespace", foreignKeyName ?? "", foreignKeyDataType ?? "", UseBlazored, UseRadzen, DTONamespaceName ?? "DTO_Namespace", DataServiceNamespaceName ?? "DataService_Namespace");
         content = genericAddEditCodeBehind.TransformText();
         File.WriteAllText($"{LocationRazor}\\{ModelName}AddEdit.razor.cs", content);
         filesCreatedMessage = $"{filesCreatedMessage}{Environment.NewLine} {ModelName}AddEdit.razor.cs";
 
 
         ShowInstructions = true;
+    }
+
+    private bool ValidateInputRequirements()
+    {
+        if (string.IsNullOrWhiteSpace(Tablename) || DatabaseMetaDataService == null || ConnectionString == null || PluralName == null || ModelName == null)
+        {
+            Message = "Please select a table and fill in all the details, then try again!";
+            return false;
+        }
+        if (!Columns.Any(c => (c.IsKey || c.PrimaryKeyOverride) && (c.DataType == "bigint" || c.DataType == "int" || c.DataType == "nvarchar")))
+        {
+            Message = "Please indicate the primary key and try again! Note it has to be an int or nvarchar";
+            return false;
+        }
+        if (ModelName != null && ModelName.ToLower().EndsWith("s"))
+        {
+            Message = "Please make sure the model name is not plural!";
+        }
+        if (!Columns.Any(c => c.Sort == true))
+        {
+            Message = "Please select at least one column to sort by! ";
+            return false;
+        }
+        if (!File.Exists(LocationRazor))
+        {
+            Message = $"The location {LocationRazor} does not exist!";
+            return false;
+        }
+        if (!File.Exists(LocationDTO))
+        {
+            Message = $"The location {LocationDTO} does not exist!";
+            return false;
+        }
+        if (!File.Exists(LocationRepository))
+        {
+            Message = $"The location {LocationRepository} does not exist!";
+            return false;
+        }
+        if (!File.Exists(LocationDataService))
+        {
+            Message = $"The location {LocationDataService} does not exist!";
+            return false;
+        }
+        return true;
     }
 
     private void GetFilterColumns(ref string filterColumns)
