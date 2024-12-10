@@ -78,10 +78,10 @@
         {
             "DatabaseName": "VoiceLauncherSample",
             "Namespaces": {
-                "RazorNamespace": "SampleApplication.Pages",
-                "DtoNamespace": "SampleApplication.DTOs",
-                "DataServiceNamespace": "SampleApplication.Services",
-                "RepositoryNamespace": "SampleApplication.Repositories"
+                "RazorNamespace": "SampleApplication",
+                "DtoNamespace": "SampleApplication",
+                "DataServiceNamespace": "SampleApplication",
+                "RepositoryNamespace": "SampleApplication"
             },
             "Folders": {
                 "RazorFolder": "C:\\Users\\MPhil\\source\\repos\\BlazorCRUD_UIGenerator\\SampleApplication\\Pages\\",

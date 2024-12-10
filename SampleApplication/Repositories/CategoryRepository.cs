@@ -9,18 +9,18 @@ namespace SampleApplication.Repositories
 {
     public class CategoryRepository : ICategoryRepository
     {
-        private readonly IDbContextFactory<MyDbContext> _contextFactory;
+        private readonly IDbContextFactory<ApplicationDbContext> _contextFactory;
         private readonly IMapper _mapper;
 
-        public CategoryRepository(IDbContextFactory<MyDbContext> contextFactory,IMapper mapper)
+        public CategoryRepository(IDbContextFactory<ApplicationDbContext> contextFactory, IMapper mapper)
         {
             _contextFactory = contextFactory;
             this._mapper = mapper;
         }
-		        public async Task<IEnumerable<CategoryDTO>> GetAllCategoriesAsync(int maxRows= 400)
+        public async Task<IEnumerable<CategoryDTO>> GetAllCategoriesAsync(int maxRows = 400)
         {
             using var context = _contextFactory.CreateDbContext();
-            var Categories= await context.Categories
+            var Categories = await context.Categories
                 //.Where(v => v.?==?)
                 //.OrderBy(v => v.?)
                 .Take(maxRows)
@@ -31,7 +31,7 @@ namespace SampleApplication.Repositories
         public async Task<IEnumerable<CategoryDTO>> SearchCategoriesAsync(string serverSearchTerm)
         {
             using var context = _contextFactory.CreateDbContext();
-            var Categories= await context.Categories
+            var Categories = await context.Categories
                 //.Where(v => v.Property!= null  && v.Property.ToLower().Contains(serverSearchTerm.ToLower())
                 //||v.Property!= null  && v.Property.ToLower().Contains(serverSearchTerm.ToLower())
                 //)
@@ -45,10 +45,10 @@ namespace SampleApplication.Repositories
         public async Task<CategoryDTO?> GetCategoryByIdAsync(int Id)
         {
             using var context = _contextFactory.CreateDbContext();
-            var result =await context.Categories.AsNoTracking()
+            var result = await context.Categories.AsNoTracking()
               .FirstOrDefaultAsync(c => c.Id == Id);
             if (result == null) return null;
-            CategoryDTO categoryDTO=_mapper.Map<Category,CategoryDTO>(result);
+            CategoryDTO categoryDTO = _mapper.Map<Category, CategoryDTO>(result);
             return categoryDTO;
         }
 
@@ -66,13 +66,13 @@ namespace SampleApplication.Repositories
                 Console.WriteLine(exception.Message);
                 return null;
             }
-            CategoryDTO resultDTO=_mapper.Map<Category, CategoryDTO>(category);
+            CategoryDTO resultDTO = _mapper.Map<Category, CategoryDTO>(category);
             return resultDTO;
         }
 
         public async Task<CategoryDTO?> UpdateCategoryAsync(CategoryDTO categoryDTO)
         {
-            Category category=_mapper.Map<CategoryDTO, Category>(categoryDTO);
+            Category category = _mapper.Map<CategoryDTO, Category>(categoryDTO);
             using (var context = _contextFactory.CreateDbContext())
             {
                 var foundCategory = await context.Categories.AsNoTracking().FirstOrDefaultAsync(e => e.Id == category.Id);

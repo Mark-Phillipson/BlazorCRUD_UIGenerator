@@ -9,18 +9,18 @@ namespace SampleApplication.Repositories
 {
     public class GeneralLookupRepository : IGeneralLookupRepository
     {
-        private readonly IDbContextFactory<MyDbContext> _contextFactory;
+        private readonly IDbContextFactory<ApplicationDbContext> _contextFactory;
         private readonly IMapper _mapper;
 
-        public GeneralLookupRepository(IDbContextFactory<MyDbContext> contextFactory,IMapper mapper)
+        public GeneralLookupRepository(IDbContextFactory<ApplicationDbContext> contextFactory, IMapper mapper)
         {
             _contextFactory = contextFactory;
             this._mapper = mapper;
         }
-		        public async Task<IEnumerable<GeneralLookupDTO>> GetAllGeneralLookupsAsync(int maxRows= 400)
+        public async Task<IEnumerable<GeneralLookupDTO>> GetAllGeneralLookupsAsync(int maxRows = 400)
         {
             using var context = _contextFactory.CreateDbContext();
-            var GeneralLookups= await context.GeneralLookups
+            var GeneralLookups = await context.GeneralLookups
                 //.Where(v => v.?==?)
                 //.OrderBy(v => v.?)
                 .Take(maxRows)
@@ -31,7 +31,7 @@ namespace SampleApplication.Repositories
         public async Task<IEnumerable<GeneralLookupDTO>> SearchGeneralLookupsAsync(string serverSearchTerm)
         {
             using var context = _contextFactory.CreateDbContext();
-            var GeneralLookups= await context.GeneralLookups
+            var GeneralLookups = await context.GeneralLookups
                 //.Where(v => v.Property!= null  && v.Property.ToLower().Contains(serverSearchTerm.ToLower())
                 //||v.Property!= null  && v.Property.ToLower().Contains(serverSearchTerm.ToLower())
                 //)
@@ -45,10 +45,10 @@ namespace SampleApplication.Repositories
         public async Task<GeneralLookupDTO?> GetGeneralLookupByIdAsync(int Id)
         {
             using var context = _contextFactory.CreateDbContext();
-            var result =await context.GeneralLookups.AsNoTracking()
+            var result = await context.GeneralLookups.AsNoTracking()
               .FirstOrDefaultAsync(c => c.Id == Id);
             if (result == null) return null;
-            GeneralLookupDTO generalLookupDTO=_mapper.Map<GeneralLookup,GeneralLookupDTO>(result);
+            GeneralLookupDTO generalLookupDTO = _mapper.Map<GeneralLookup, GeneralLookupDTO>(result);
             return generalLookupDTO;
         }
 
@@ -66,13 +66,13 @@ namespace SampleApplication.Repositories
                 Console.WriteLine(exception.Message);
                 return null;
             }
-            GeneralLookupDTO resultDTO=_mapper.Map<GeneralLookup, GeneralLookupDTO>(generalLookup);
+            GeneralLookupDTO resultDTO = _mapper.Map<GeneralLookup, GeneralLookupDTO>(generalLookup);
             return resultDTO;
         }
 
         public async Task<GeneralLookupDTO?> UpdateGeneralLookupAsync(GeneralLookupDTO generalLookupDTO)
         {
-            GeneralLookup generalLookup=_mapper.Map<GeneralLookupDTO, GeneralLookup>(generalLookupDTO);
+            GeneralLookup generalLookup = _mapper.Map<GeneralLookupDTO, GeneralLookup>(generalLookupDTO);
             using (var context = _contextFactory.CreateDbContext())
             {
                 var foundGeneralLookup = await context.GeneralLookups.AsNoTracking().FirstOrDefaultAsync(e => e.Id == generalLookup.Id);

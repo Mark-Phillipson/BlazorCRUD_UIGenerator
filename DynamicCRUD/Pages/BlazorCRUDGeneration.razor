@@ -6,8 +6,9 @@
     <div class="col-5">
         <div class="row">
             <div class="col-5 mt-1">
-                <InputSelect ValueExpression="@(()=>SelectedProject)" Value="@SelectedProject"
-                    ValueChanged="@((string value) => SetupDatabaseProperties(value))" class="form-select">
+                <InputSelect title='Project or Database Name' ValueExpression="@(()=>SelectedProject)"
+                    Value="@SelectedProject" ValueChanged="@((string value) => SetupDatabaseProperties(value))"
+                    class="form-select">
                     @foreach (var item in Projects)
                     {
                         if (item == SelectedProject)
@@ -29,7 +30,7 @@
             </div>
             <div class="col-12 mt-1">
                 <textarea
-                    title=" In order to go to a different database change the settings on the app settings file and restart the application.bb"
+                    title="In order to go to a different database change the settings on the app settings file and restart the application"
                     disabled style='width:100%;font-size:smaller' class='form-control'
                     rows="4">@ConnectionString</textarea>
             </div>

@@ -9,10 +9,10 @@ namespace SampleApplication.Repositories
 {
     public class CustomerRepository : ICustomerRepository
     {
-        private readonly IDbContextFactory<MyDbContext> _contextFactory;
+        private readonly IDbContextFactory<ApplicationDbContext> _contextFactory;
         private readonly IMapper _mapper;
 
-        public CustomerRepository(IDbContextFactory<MyDbContext> contextFactory, IMapper mapper)
+        public CustomerRepository(IDbContextFactory<ApplicationDbContext> contextFactory, IMapper mapper)
         {
             _contextFactory = contextFactory;
             this._mapper = mapper;

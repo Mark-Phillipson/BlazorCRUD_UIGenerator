@@ -9,18 +9,18 @@ namespace SampleApplication.Repositories
 {
     public class ExampleRepository : IExampleRepository
     {
-        private readonly IDbContextFactory<MyDbContext> _contextFactory;
+        private readonly IDbContextFactory<ApplicationDbContext> _contextFactory;
         private readonly IMapper _mapper;
 
-        public ExampleRepository(IDbContextFactory<MyDbContext> contextFactory,IMapper mapper)
+        public ExampleRepository(IDbContextFactory<ApplicationDbContext> contextFactory, IMapper mapper)
         {
             _contextFactory = contextFactory;
             this._mapper = mapper;
         }
-		        public async Task<IEnumerable<ExampleDTO>> GetAllExamplesAsync(int pageNumber, int pageSize)
+        public async Task<IEnumerable<ExampleDTO>> GetAllExamplesAsync(int pageNumber, int pageSize)
         {
             using var context = _contextFactory.CreateDbContext();
-            var Examples= await context.Examples
+            var Examples = await context.Examples
                 //.Where(v => v.?==?)
                 //.OrderBy(v => v.?)
                 .Skip((pageNumber - 1) * pageSize)
@@ -32,7 +32,7 @@ namespace SampleApplication.Repositories
         public async Task<IEnumerable<ExampleDTO>> SearchExamplesAsync(string serverSearchTerm)
         {
             using var context = _contextFactory.CreateDbContext();
-            var Examples= await context.Examples
+            var Examples = await context.Examples
                 //.Where(v => v.Property!= null  && v.Property.ToLower().Contains(serverSearchTerm.ToLower())
                 //||v.Property!= null  && v.Property.ToLower().Contains(serverSearchTerm.ToLower())
                 //)
@@ -46,10 +46,10 @@ namespace SampleApplication.Repositories
         public async Task<ExampleDTO?> GetExampleByIdAsync(int Id)
         {
             using var context = _contextFactory.CreateDbContext();
-            var result =await context.Examples.AsNoTracking()
+            var result = await context.Examples.AsNoTracking()
               .FirstOrDefaultAsync(c => c.Id == Id);
             if (result == null) return null;
-            ExampleDTO exampleDTO=_mapper.Map<Example,ExampleDTO>(result);
+            ExampleDTO exampleDTO = _mapper.Map<Example, ExampleDTO>(result);
             return exampleDTO;
         }
 
@@ -67,13 +67,13 @@ namespace SampleApplication.Repositories
                 Console.WriteLine(exception.Message);
                 return null;
             }
-            ExampleDTO resultDTO=_mapper.Map<Example, ExampleDTO>(example);
+            ExampleDTO resultDTO = _mapper.Map<Example, ExampleDTO>(example);
             return resultDTO;
         }
 
         public async Task<ExampleDTO?> UpdateExampleAsync(ExampleDTO exampleDTO)
         {
-            Example example=_mapper.Map<ExampleDTO, Example>(exampleDTO);
+            Example example = _mapper.Map<ExampleDTO, Example>(exampleDTO);
             using (var context = _contextFactory.CreateDbContext())
             {
                 var foundExample = await context.Examples.AsNoTracking().FirstOrDefaultAsync(e => e.Id == example.Id);

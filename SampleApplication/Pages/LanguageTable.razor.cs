@@ -18,9 +18,12 @@ using Blazored.Toast;
 using Blazored.Toast.Services;
 using System.Security.Claims;
 using Ardalis.GuardClauses;
-using SampleApplication.Shared;
+using Microsoft.Extensions.Logging;
+//using SampleApplication.Shared;
+//using SampleApplication.Shared;
 using SampleApplication.Services;
 using SampleApplication.DTOs;
+using SampleApplication.Shared;
 
 namespace SampleApplication.Pages
 {
@@ -38,12 +41,44 @@ namespace SampleApplication.Pages
         public List<LanguageDTO>? LanguageDTO { get; set; }
         public List<LanguageDTO>? FilteredLanguageDTO { get; set; }
         protected LanguageAddEdit? LanguageAddEdit { get; set; }
-        ElementReference SearchInput;
+        ElementReference? SearchInput;
+        int maximumPages = 0;
 #pragma warning disable 414, 649
         private bool _loadFailed = false;
         private string? searchTerm = null;
 #pragma warning restore 414, 649
-        public string? SearchTerm { get => searchTerm; set { searchTerm = value; ApplyFilter(); } }
+        public string? SearchTerm { get => searchTerm; set { searchTerm = value; } }
+        private string? clientSearchedTerm { get; set; }
+        public string? ClientSearchTerm { get => clientSearchedTerm; set { clientSearchedTerm = value; ApplyLocalFilter(); } }
+        private bool _serverPaging = false;
+        private void ApplyLocalFilter()
+        {
+            if (FilteredLanguageDTO == null || LanguageDTO == null)
+            {
+                return;
+            }
+            if (string.IsNullOrEmpty(ClientSearchTerm))
+            {
+                FilteredLanguageDTO = LanguageDTO;
+            }
+            else
+            {
+                FilteredLanguageDTO = LanguageDTO.Where(v =>
+                    (v.LanguageName != null && v.LanguageName.ToLower().Contains(ClientSearchTerm.ToLower()))
+                     || (v.Colour != null && v.Colour.ToLower().Contains(ClientSearchTerm.ToLower()))
+
+                ).ToList();
+            }
+            Title = $"Language ({FilteredLanguageDTO.Count})";
+            StateHasChanged();
+        }
+        private void OnChangeClientSearchTerm(string? value)
+        {
+            ClientSearchTerm = value;
+            ApplyLocalFilter();
+        }
+        private string? lastSearchTerm { get; set; }
+
         [Parameter] public string? ServerSearchTerm { get; set; }
         public string ExceptionMessage { get; set; } = String.Empty;
         public List<string>? PropertyInfo { get; set; }
@@ -52,10 +87,12 @@ namespace SampleApplication.Pages
         public bool ShowEdit { get; set; } = false;
         private bool ShowDeleteConfirm { get; set; }
         private int pageNumber = 1;
-        private int pageSize = 5;
+        private int pageSize = 1000;
         private int totalRows = 0;
 
         private int LanguageId { get; set; }
+        private LanguageDTO? currentLanguage { get; set; }
+        private string message { get; set; } = "";
         protected override async Task OnInitializedAsync()
         {
             await LoadData();
@@ -67,8 +104,12 @@ namespace SampleApplication.Pages
             {
                 if (LanguageDataService != null)
                 {
+                    ServerSearchTerm = SearchTerm;
                     totalRows = await LanguageDataService.GetTotalCount();
-                    var result = await LanguageDataService!.GetAllLanguagesAsync(pageNumber, pageSize);
+                    maximumPages = (int)Math.Ceiling((decimal)totalRows / pageSize);
+                    var result = await LanguageDataService!.GetAllLanguagesAsync
+
+                    (pageNumber, pageSize, ServerSearchTerm);
                     //var result = await LanguageDataService.SearchLanguagesAsync(ServerSearchTerm);
                     if (result != null)
                     {
@@ -94,9 +135,10 @@ namespace SampleApplication.Pages
             {
                 try
                 {
-                    if (JSRuntime != null)
+                    await Task.Delay(100);
+                    if (SearchInput != null)
                     {
-                        await JSRuntime.InvokeVoidAsync("window.setFocus", "SearchInput");
+                        await SearchInput.Value.FocusAsync();
                     }
                 }
                 catch (Exception exception)
@@ -115,13 +157,17 @@ namespace SampleApplication.Pages
                 if (!result.Cancelled)
                 {
                     await LoadData();
+                    if (searchTerm != null)
+                    {
+                        await ApplyFilter();
+                    }
                 }
             }
             LanguageId = 0;
         }
 
 
-        private void ApplyFilter()
+        private async Task ApplyFilter()
         {
             if (FilteredLanguageDTO == null || LanguageDTO == null)
             {
@@ -129,20 +175,18 @@ namespace SampleApplication.Pages
             }
             if (string.IsNullOrEmpty(SearchTerm))
             {
-                FilteredLanguageDTO = LanguageDTO.OrderBy(v => v.LanguageName).ToList();
+                await LoadData();
                 Title = $"All Language ({FilteredLanguageDTO.Count})";
             }
             else
             {
-                var temporary = SearchTerm.ToLower().Trim();
-                FilteredLanguageDTO = LanguageDTO
-                    .Where(v =>
-                    (v.LanguageName != null && v.LanguageName.ToLower().Contains(temporary))
-                     || (v.Colour != null && v.Colour.ToLower().Contains(temporary))
-                    )
-                    .ToList();
-                Title = $"Filtered Languages ({FilteredLanguageDTO.Count})";
+                if (lastSearchTerm != SearchTerm)
+                {
+                    await LoadData();
+                }
+
             }
+            lastSearchTerm = SearchTerm;
         }
         protected void SortLanguage(string sortColumn)
         {
@@ -180,6 +224,10 @@ namespace SampleApplication.Pages
                         await LanguageDataService.DeleteLanguage(Id);
                         ToastService?.ShowSuccess("Language deleted successfully");
                         await LoadData();
+                        if (searchTerm != null)
+                        {
+                            await ApplyFilter();
+                        }
                     }
                 }
             }
@@ -197,6 +245,10 @@ namespace SampleApplication.Pages
                 if (!result.Cancelled)
                 {
                     await LoadData();
+                    if (searchTerm != null)
+                    {
+                        await ApplyFilter();
+                    }
                 }
             }
             LanguageId = Id;
@@ -208,9 +260,9 @@ namespace SampleApplication.Pages
             pageNumber = 1;
             await LoadData();
         }
-        private async Task PageDown(bool goBeginning)
+        private async Task PageUp(bool goBeginning)
         {
-            if (goBeginning || pageNumber <= 0)
+            if (goBeginning || pageNumber <= 1)
             {
                 pageNumber = 1;
             }
@@ -220,9 +272,8 @@ namespace SampleApplication.Pages
             }
             await LoadData();
         }
-        private async Task PageUp(bool goEnd)
+        private async Task PageDown(bool goEnd)
         {
-            int maximumPages = (int)(totalRows / pageSize + 0.9);
             if (goEnd || pageNumber >= maximumPages)
             {
                 pageNumber = maximumPages;

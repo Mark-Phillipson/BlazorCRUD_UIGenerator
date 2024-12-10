@@ -1,43 +1,56 @@
 @page "/language/{Id:int?}"
-<div style="min-width:80vw">
+<PageTitle>Language Add/Edit</PageTitle>
 <h1>@Title</h1>
-    <EditForm Model="@LanguageDTO" OnValidSubmit="HandleValidSubmit">
-        <DataAnnotationsValidator />
-        @*<ValidationSummary />*@
-        @if (LanguageDTO.Id > 0)
-        {
-            <span class="text-info m-1">@LanguageDTO.Id</span>
-        }
-        <div class="row">
-            <div class="col-12">
-                <div class="form-group">
-                    <label for="LanguageName">Language Name:</label> <i class="text-danger fa">*</i>
+<EditForm Model="@LanguageDTO" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    @*<ValidationSummary />*@
+    <label class='text-light'><span class='text-danger'>Required fields</span> are in red and marked with an asterix
+        <span class='text-danger'>*</span></label>
+    @if (LanguageDTO.Id > 0)
+    {
+        <span class="text-info m-1">@LanguageDTO.Id</span>
+    }
+    <div class="row">
+        <div class="col-12">
+            <div class="form-group">
+                <label @ref="FirstInput" for="LanguageName">Language Name:</label>
+                <i class="text-danger">*</i>
+                <InputText id="LanguageName" class="form-control" @bind-Value="@LanguageDTO.LanguageName"
+                    Placeholder="Enter Language Name">
+                </InputText>
 
-                    <InputText id="LanguageName" class="form-control" @bind-Value="@LanguageDTO.LanguageName"
-                               placeholder="Enter Language Name"></InputText>
-                    <ValidationMessage For="@(() => LanguageDTO.LanguageName)" />
-                </div>
-                <div class="form-group">
-                    <label for="Active">Active: </label>
-                    <InputCheckbox id="Active" class="form-checkbox" @bind-Value="@LanguageDTO.Active">
-                    </InputCheckbox>
-                    <ValidationMessage For="@(() => LanguageDTO.Active)" />
-                </div>
-                <div class="form-group">
-                    <label for="Colour">Colour:</label>
-                    <InputText id="Colour" class="form-control" @bind-Value="@LanguageDTO.Colour"
-                               placeholder="Enter Colour"></InputText>
-                    <ValidationMessage For="@(() => LanguageDTO.Colour)" />
-                </div>
+                <ValidationMessage For="@(() => LanguageDTO.LanguageName)" />
             </div>
-            <div class="col-12">
-                 @* Move here for the next display column if required *@
+            <div class="form-group">
+                <label @ref="FirstInput" for="Active">Active:</label>
+                <InputCheckbox id="Active" class="form-checkbox" @bind-Value="@LanguageDTO.Active">
+                </InputCheckbox>
+                <ValidationMessage For="@(() => LanguageDTO.Active)" />
+            </div>
+            <div class="form-group">
+                <label for="Colour">Colour:</label>
+                <InputText id="Colour" class="form-control" @bind-Value="@LanguageDTO.Colour"
+                    Placeholder="Enter Colour">
+                </InputText>
+
+                <ValidationMessage For="@(() => LanguageDTO.Colour)" />
             </div>
         </div>
-        <hr>
-        <div class="btn-group" style="float:right">
-            <a accesskey="c" class="btn btn-lg btn-outline-primary" @onclick="@CloseAsync"><u>C</u>ancel</a>
-            <button @TaskRunning accesskey="s" type="submit" class="btn btn-lg btn-primary"><u>S</u>ave Record</button>
+        <div class="col-12">
+            @* Move here for the next display column if required *@
         </div>
-    </EditForm>
-</div>
+    </div>
+    <hr>
+    <div style="float:right">
+        @if (isSubmitting)
+        {
+            <div style="display:normal;margin:auto" class="loader"></div>
+        }
+        else
+        {
+            <button type='button' accesskey="c" class="btn btn-lg btn-outline-primary"
+                @onclick="@CloseAsync"><u>C</u>ancel</button>
+            <button type='submit' accesskey="s" class="btn btn-lg btn-primary"><u>S</u>ave Record</button>
+        }
+    </div>
+</EditForm>

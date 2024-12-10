@@ -72,7 +72,7 @@ public partial class BlazorCRUDGeneration : ComponentBase
     {
         SelectedProject = project;
         ConnectionString = Configuration.GetConnectionString(project) ?? "";
-        var result = GetNameSpaceAndLocations(ConnectionString);
+        var result = GetNameSpaceAndLocations(ConnectionString, project);
         if (!result)
         {
             Message = "Something Went Wrong getting namespaces and locations! Please check the connection string and projectMappings.json then try again!";
@@ -83,7 +83,7 @@ public partial class BlazorCRUDGeneration : ComponentBase
         }
     }
 
-    private bool GetNameSpaceAndLocations(string connectionString)
+    private bool GetNameSpaceAndLocations(string connectionString, string? projectName = null)
     {
         // Extract the initial catalog from the connection string
         var initialCatalogue = "";
@@ -137,7 +137,14 @@ public partial class BlazorCRUDGeneration : ComponentBase
         Project? project = null;
         try
         {
-            project = projectMappings?.Projects?.FirstOrDefault(p => p.DatabaseName!.Equals(initialCatalogue, StringComparison.OrdinalIgnoreCase));
+            if (projectName != null)
+            {
+                project = projectMappings?.Projects?.FirstOrDefault(p => p.DatabaseName!.Equals(projectName, StringComparison.OrdinalIgnoreCase));
+            }
+            else
+            {
+                project = projectMappings?.Projects?.FirstOrDefault(p => p.DatabaseName!.Equals(initialCatalogue, StringComparison.OrdinalIgnoreCase));
+            }
 
         }
         catch (System.Exception exception)
@@ -283,22 +290,22 @@ public partial class BlazorCRUDGeneration : ComponentBase
             Message = "Please select at least one column to sort by! ";
             return false;
         }
-        if (!File.Exists(LocationRazor))
+        if (!Directory.Exists(LocationRazor))
         {
             Message = $"The location {LocationRazor} does not exist!";
             return false;
         }
-        if (!File.Exists(LocationDTO))
+        if (!Directory.Exists(LocationDTO))
         {
             Message = $"The location {LocationDTO} does not exist!";
             return false;
         }
-        if (!File.Exists(LocationRepository))
+        if (!Directory.Exists(LocationRepository))
         {
             Message = $"The location {LocationRepository} does not exist!";
             return false;
         }
-        if (!File.Exists(LocationDataService))
+        if (!Directory.Exists(LocationDataService))
         {
             Message = $"The location {LocationDataService} does not exist!";
             return false;

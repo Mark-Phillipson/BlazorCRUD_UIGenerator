@@ -1,8 +1,7 @@
-
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using System.Net.Http;
 using Microsoft.AspNetCore.Authorization;
@@ -17,32 +16,31 @@ using Blazored.Modal.Services;
 using Blazored.Toast;
 using Blazored.Toast.Services;
 using System.Security.Claims;
+using Microsoft.Extensions.Logging;
 using SampleApplication.DTOs;
 using SampleApplication.Services;
 
-namespace SampleApplication.Pages
+using System.Threading.Tasks;
+
+namespace SampleApplication.Pages;
+
+public partial class LanguageAddEdit : ComponentBase
 {
-    public partial class LanguageAddEdit : ComponentBase
-    {
-        [Inject] IToastService? ToastService { get; set; }
+        [Inject] public required IToastService ToastService { get; set; }
         [CascadingParameter] BlazoredModalInstance? ModalInstance { get; set; }
         [Parameter] public string? Title { get; set; }
-        [Inject] public ILogger<LanguageAddEdit>? Logger { get; set; }
-        [Inject] public IJSRuntime? JSRuntime { get; set; }
+        [Inject] public required ILogger<LanguageAddEdit> Logger { get; set; }
+        [Inject] public required IJSRuntime JSRuntime { get; set; }
         [Parameter] public int? Id { get; set; }
+        [Inject] public required NavigationManager NavigationManager { get; set; }
         public LanguageDTO LanguageDTO { get; set; } = new LanguageDTO();//{ };
-        [Inject] public ILanguageDataService? LanguageDataService { get; set; }
-        [Inject] public ApplicationState? ApplicationState { get; set; }
+        [Inject] public required ILanguageDataService LanguageDataService { get; set; }
         [Parameter] public int ParentId { get; set; }
-#pragma warning disable 414, 649
-        bool TaskRunning = false;
-#pragma warning restore 414, 649
-        protected override async Task OnInitializedAsync()
-        {
-            if (LanguageDataService == null)
-            {
-                return;
-            }
+
+    ElementReference? FirstInput;
+    private bool isSubmitting;
+    protected override async Task OnInitializedAsync()
+    {
             if (Id != null && Id != 0)
             {
                 var result = await LanguageDataService.GetLanguageById((int)Id);
@@ -54,57 +52,60 @@ namespace SampleApplication.Pages
             else
             {
             }
-        }
-
-        protected override async Task OnAfterRenderAsync(bool firstRender)
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
         {
-            if (firstRender)
+            try
             {
-                try
+                await Task.Delay(100);
+                if (FirstInput != null)
                 {
-                    if (JSRuntime != null)
-                    {
-                        await JSRuntime.InvokeVoidAsync("window.setFocus", "LanguageName");
-                    }
-                }
-                catch (Exception exception)
-                {
-                    Console.WriteLine(exception.Message);
+                    await FirstInput.Value.FocusAsync();
                 }
             }
-        }
-        public async Task CloseAsync()
-        {
-              if (ModalInstance != null)
-                  await ModalInstance.CancelAsync();
-        }
-        protected async Task HandleValidSubmit()
-        {
-            TaskRunning = true;
-            if ((Id == 0 || Id == null) && LanguageDataService != null)
+            catch (Exception exception)
             {
-                LanguageDTO? result = await LanguageDataService.AddLanguage(LanguageDTO);
-                if (result == null && Logger!= null)
-                {
-                    Logger.LogError("Language failed to add, please investigate Error Adding New Language");
-                    ToastService?.ShowError("Language failed to add, please investigate Error Adding New Language");
-                    return;
-                }
-                ToastService?.ShowSuccess("Language added successfully");
+                Console.WriteLine(exception.Message);
+            }
+        }
+    }
+
+    public async Task CloseAsync()
+    {
+        if (ModalInstance != null)
+            await ModalInstance.CancelAsync();
+    }
+
+    protected async Task HandleValidSubmit()
+    {
+        isSubmitting = true;
+        if ((Id == 0 || Id == null))
+        {
+            LanguageDTO? result = await LanguageDataService.AddLanguage(LanguageDTO);
+            if (result == null)
+            {
+                Logger.LogError("Error adding Language");
             }
             else
             {
-                if (LanguageDataService != null)
-                {
-                    await LanguageDataService!.UpdateLanguage(LanguageDTO, "");
-                    ToastService?.ShowSuccess("The Language updated successfully");
-                }
+                LanguageDTO = result;
+                NavigationManager.NavigateTo("/Languages");
             }
-            if (ModalInstance != null)
-            {
-                await ModalInstance.CloseAsync(ModalResult.Ok(true));
-            }
-            TaskRunning = false;
         }
+        else
+        {
+            var updateResult = await LanguageDataService.UpdateLanguage(LanguageDTO,"TBC");
+            if (updateResult==null)
+            {
+                Logger.LogError("Error updating Language");
+            }
+            else
+            {
+                NavigationManager.NavigateTo("/Languages");
+            }
+        }
+        isSubmitting = false;
     }
 }

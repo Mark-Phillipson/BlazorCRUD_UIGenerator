@@ -9,18 +9,18 @@ namespace SampleApplication.Repositories
 {
     public class CustomIntelliSenseRepository : ICustomIntelliSenseRepository
     {
-        private readonly IDbContextFactory<MyDbContext> _contextFactory;
+        private readonly IDbContextFactory<ApplicationDbContext> _contextFactory;
         private readonly IMapper _mapper;
 
-        public CustomIntelliSenseRepository(IDbContextFactory<MyDbContext> contextFactory,IMapper mapper)
+        public CustomIntelliSenseRepository(IDbContextFactory<ApplicationDbContext> contextFactory, IMapper mapper)
         {
             _contextFactory = contextFactory;
             this._mapper = mapper;
         }
-		        public async Task<IEnumerable<CustomIntelliSenseDTO>> GetAllCustomIntelliSensesAsync(int pageNumber, int pageSize)
+        public async Task<IEnumerable<CustomIntelliSenseDTO>> GetAllCustomIntelliSensesAsync(int pageNumber, int pageSize)
         {
             using var context = _contextFactory.CreateDbContext();
-            var CustomIntelliSenses= await context.CustomIntelliSenses
+            var CustomIntelliSenses = await context.CustomIntelliSenses
                 //.Where(v => v.?==?)
                 //.OrderBy(v => v.?)
                 .Skip((pageNumber - 1) * pageSize)
@@ -32,7 +32,7 @@ namespace SampleApplication.Repositories
         public async Task<IEnumerable<CustomIntelliSenseDTO>> SearchCustomIntelliSensesAsync(string serverSearchTerm)
         {
             using var context = _contextFactory.CreateDbContext();
-            var CustomIntelliSenses= await context.CustomIntelliSenses
+            var CustomIntelliSenses = await context.CustomIntelliSenses
                 //.Where(v => v.Property!= null  && v.Property.ToLower().Contains(serverSearchTerm.ToLower())
                 //||v.Property!= null  && v.Property.ToLower().Contains(serverSearchTerm.ToLower())
                 //)
@@ -46,10 +46,10 @@ namespace SampleApplication.Repositories
         public async Task<CustomIntelliSenseDTO?> GetCustomIntelliSenseByIdAsync(int Id)
         {
             using var context = _contextFactory.CreateDbContext();
-            var result =await context.CustomIntelliSenses.AsNoTracking()
+            var result = await context.CustomIntelliSenses.AsNoTracking()
               .FirstOrDefaultAsync(c => c.Id == Id);
             if (result == null) return null;
-            CustomIntelliSenseDTO customIntelliSenseDTO=_mapper.Map<CustomIntelliSense,CustomIntelliSenseDTO>(result);
+            CustomIntelliSenseDTO customIntelliSenseDTO = _mapper.Map<CustomIntelliSense, CustomIntelliSenseDTO>(result);
             return customIntelliSenseDTO;
         }
 
@@ -67,13 +67,13 @@ namespace SampleApplication.Repositories
                 Console.WriteLine(exception.Message);
                 return null;
             }
-            CustomIntelliSenseDTO resultDTO=_mapper.Map<CustomIntelliSense, CustomIntelliSenseDTO>(customIntelliSense);
+            CustomIntelliSenseDTO resultDTO = _mapper.Map<CustomIntelliSense, CustomIntelliSenseDTO>(customIntelliSense);
             return resultDTO;
         }
 
         public async Task<CustomIntelliSenseDTO?> UpdateCustomIntelliSenseAsync(CustomIntelliSenseDTO customIntelliSenseDTO)
         {
-            CustomIntelliSense customIntelliSense=_mapper.Map<CustomIntelliSenseDTO, CustomIntelliSense>(customIntelliSenseDTO);
+            CustomIntelliSense customIntelliSense = _mapper.Map<CustomIntelliSenseDTO, CustomIntelliSense>(customIntelliSenseDTO);
             using (var context = _contextFactory.CreateDbContext())
             {
                 var foundCustomIntelliSense = await context.CustomIntelliSenses.AsNoTracking().FirstOrDefaultAsync(e => e.Id == customIntelliSense.Id);

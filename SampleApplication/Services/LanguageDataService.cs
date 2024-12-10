@@ -19,9 +19,9 @@ namespace SampleApplication.Services
         {
             this._languageRepository = languageRepository;
         }
-        public async Task<List<LanguageDTO>> GetAllLanguagesAsync(int pageNumber, int pageSize)
+        public async Task<List<LanguageDTO>> GetAllLanguagesAsync(int pageNumber, int pageSize, string? serverSearchTerm)
         {
-            var Languages = await _languageRepository.GetAllLanguagesAsync( pageNumber, pageSize);
+            var Languages = await _languageRepository.GetAllLanguagesAsync( pageNumber, pageSize, serverSearchTerm);
             return Languages.ToList();
         }
         public async Task<List<LanguageDTO>> SearchLanguagesAsync(string serverSearchTerm)

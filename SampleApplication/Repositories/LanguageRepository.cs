@@ -1,38 +1,60 @@
 
+using System;
 using AutoMapper;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Ardalis.GuardClauses;
 using SampleApplication.Models;
 using SampleApplication.DTOs;
+using SampleApplication.Data;
+
 
 namespace SampleApplication.Repositories
 {
     public class LanguageRepository : ILanguageRepository
     {
-        private readonly IDbContextFactory<MyDbContext> _contextFactory;
+        private readonly IDbContextFactory<ApplicationDbContext> _contextFactory;
         private readonly IMapper _mapper;
 
-        public LanguageRepository(IDbContextFactory<MyDbContext> contextFactory, IMapper mapper)
+        public LanguageRepository(IDbContextFactory<ApplicationDbContext> contextFactory,IMapper mapper)
         {
             _contextFactory = contextFactory;
             this._mapper = mapper;
         }
-        public async Task<IEnumerable<LanguageDTO>> GetAllLanguagesAsync(int pageNumber, int pageSize)
+		        public async Task<IEnumerable<LanguageDTO>> GetAllLanguagesAsync(int pageNumber, int pageSize, string? serverSearchTerm)
         {
             using var context = _contextFactory.CreateDbContext();
-            var Languages = await context.Languages
-                //.Where(v => v.?==?)
-                .OrderBy(x => x.LanguageName)
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
+            List<Language> Languages;
+            if (!string.IsNullOrWhiteSpace(serverSearchTerm))
+            {
+                Languages = await context.Languages
+                                        .Where(v => 
+                    (v.LanguageName!= null  && v.LanguageName.ToLower().Contains(serverSearchTerm))
+                     || (v.Colour!= null  &&  v.Colour.ToLower().Contains(serverSearchTerm))
+                    )
+
+                    //.OrderBy(v => v.?)
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
+            }
+            else
+            {
+                Languages = await context.Languages
+                    //.OrderBy(v => v.?)
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
+            }
             IEnumerable<LanguageDTO> LanguagesDTO = _mapper.Map<List<Language>, IEnumerable<LanguageDTO>>(Languages);
             return LanguagesDTO;
         }
         public async Task<IEnumerable<LanguageDTO>> SearchLanguagesAsync(string serverSearchTerm)
         {
             using var context = _contextFactory.CreateDbContext();
-            var Languages = await context.Languages
+            var Languages= await context.Languages
                 //.Where(v => v.Property!= null  && v.Property.ToLower().Contains(serverSearchTerm.ToLower())
                 //||v.Property!= null  && v.Property.ToLower().Contains(serverSearchTerm.ToLower())
                 //)
@@ -46,10 +68,10 @@ namespace SampleApplication.Repositories
         public async Task<LanguageDTO?> GetLanguageByIdAsync(int Id)
         {
             using var context = _contextFactory.CreateDbContext();
-            var result = await context.Languages.AsNoTracking()
+            var result =await context.Languages.AsNoTracking()
               .FirstOrDefaultAsync(c => c.Id == Id);
             if (result == null) return null;
-            LanguageDTO languageDTO = _mapper.Map<Language, LanguageDTO>(result);
+            LanguageDTO languageDTO=_mapper.Map<Language,LanguageDTO>(result);
             return languageDTO;
         }
 
@@ -67,13 +89,13 @@ namespace SampleApplication.Repositories
                 Console.WriteLine(exception.Message);
                 return null;
             }
-            LanguageDTO resultDTO = _mapper.Map<Language, LanguageDTO>(language);
+            LanguageDTO resultDTO=_mapper.Map<Language, LanguageDTO>(language);
             return resultDTO;
         }
 
         public async Task<LanguageDTO?> UpdateLanguageAsync(LanguageDTO languageDTO)
         {
-            Language language = _mapper.Map<LanguageDTO, Language>(languageDTO);
+            Language language=_mapper.Map<LanguageDTO, Language>(languageDTO);
             using (var context = _contextFactory.CreateDbContext())
             {
                 var foundLanguage = await context.Languages.AsNoTracking().FirstOrDefaultAsync(e => e.Id == language.Id);

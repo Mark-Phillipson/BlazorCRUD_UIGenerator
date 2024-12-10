@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SampleApplication.Models;
 
-public partial class MyDbContext : DbContext
+public partial class ApplicationDbContext : DbContext
 {
     private readonly IConfiguration? _configuration;
 
 
-    public MyDbContext(DbContextOptions<MyDbContext> options, IConfiguration configuration)
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IConfiguration configuration)
         : base(options)
     {
         _configuration = configuration;
