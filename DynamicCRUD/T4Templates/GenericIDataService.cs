@@ -128,14 +128,7 @@ namespace DynamicCRUD.T4Templates
             
             #line default
             #line hidden
-            this.Write("Async(string serverSearchTerm);\r\n        Task<");
-            
-            #line 24 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericIDataService.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
-            
-            #line default
-            #line hidden
-            this.Write("DTO?> Add");
+            this.Write("Async(string serverSearchTerm);\r\n        Task<string> Add");
             
             #line 24 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericIDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
@@ -184,14 +177,7 @@ namespace DynamicCRUD.T4Templates
             
             #line default
             #line hidden
-            this.Write(");\r\n        Task<");
-            
-            #line 26 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericIDataService.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
-            
-            #line default
-            #line hidden
-            this.Write("DTO> Update");
+            this.Write(");\r\n        Task<string> Update");
             
             #line 26 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericIDataService.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));

@@ -141,7 +141,7 @@ namespace <#=Namespace#>.Repositories
             return <#=ModelNameCamelCase#>DTO;
         }
 
-        public async Task<<#=ModelName#>DTO?> Add<#=ModelName#>Async(<#=ModelName#>DTO <#=ModelNameCamelCase#>DTO)
+        public async Task<string> Add<#=ModelName#>Async(<#=ModelName#>DTO <#=ModelNameCamelCase#>DTO)
         {
             using var context = _contextFactory.CreateDbContext();
             <#=ModelName#> <#=ModelNameCamelCase#> = _mapper.Map<<#=ModelName#>DTO, <#=ModelName#>>(<#=ModelNameCamelCase#>DTO);
@@ -152,14 +152,21 @@ namespace <#=Namespace#>.Repositories
             }
             catch (Exception exception)
             {
-                Console.WriteLine(exception.Message);
-                return null;
-            }
-            <#=ModelName#>DTO resultDTO=_mapper.Map<<#=ModelName#>, <#=ModelName#>DTO>(<#=ModelNameCamelCase#>);
-            return resultDTO;
+                var message = exception.Message;
+                var innerException = exception.InnerException;
+
+                while (innerException != null)
+                {
+                    message += " --> " + innerException.Message;
+                    innerException = innerException.InnerException;
+                }
+                Console.WriteLine(message);
+                return message;
+            }            
+            return "Record Added Successfully!";
         }
 
-        public async Task<<#=ModelName#>DTO?> Update<#=ModelName#>Async(<#=ModelName#>DTO <#=ModelNameCamelCase#>DTO)
+        public async Task<string> Update<#=ModelName#>Async(<#=ModelName#>DTO <#=ModelNameCamelCase#>DTO)
         {
             <#=ModelName#> <#=ModelNameCamelCase#>=_mapper.Map<<#=ModelName#>DTO, <#=ModelName#>>(<#=ModelNameCamelCase#>DTO);
             using (var context = _contextFactory.CreateDbContext())
@@ -170,12 +177,27 @@ namespace <#=Namespace#>.Repositories
                 {
                     var mapped<#=ModelName#> = _mapper.Map<<#=ModelName#>>(<#=ModelNameCamelCase#>);
                     context.<#=PluralTablename#>.Update(mapped<#=ModelName#>);
-                    await context.SaveChangesAsync();
-                    <#=ModelName#>DTO resultDTO = _mapper.Map<<#=ModelName#>, <#=ModelName#>DTO>(mapped<#=ModelName#>);
-                    return resultDTO;
+                    try
+                    {
+                        await context.SaveChangesAsync();
+                    }
+                    catch (Exception exception)
+                    {
+                        var message = exception.Message;
+                        var innerException = exception.InnerException;
+
+                        while (innerException != null)
+                        {
+                            message += " --> " + innerException.Message;
+                            innerException = innerException.InnerException;
+                        }
+                        Console.WriteLine(message);
+                        return message;
+                    }
+                    return "Record Updated Successfully!";
                 }
             }
-            return null;
+            return "Record Not Found!";
         }
         public async Task Delete<#=ModelName#>Async(<#=PrimaryKeyDataType#> <#=PrimaryKeyName#>)
         {

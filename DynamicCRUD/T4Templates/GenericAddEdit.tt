@@ -18,6 +18,16 @@
 <# if (!UseRadzen) {#>
 <h1>@Title</h1>
 <# } #>
+@if (Message != null && !string.IsNullOrWhiteSpace(Message))
+{
+	<div class="alert alert-@MessageType alert-dismissible fade show" role="alert">
+		<strong>Take Note!</strong>
+		@Message
+		@DateTime.Now.ToShortTimeString()
+		<button type="button" class="btn btn-sm btn-outline-dark" @onclick="@(() => HideMessage())"
+			aria-label="Close">X</button>
+	</div>
+}
     <EditForm Model="@<#=ModelName#>DTO" OnValidSubmit="HandleValidSubmit">
         <DataAnnotationsValidator />
         @*<ValidationSummary />*@

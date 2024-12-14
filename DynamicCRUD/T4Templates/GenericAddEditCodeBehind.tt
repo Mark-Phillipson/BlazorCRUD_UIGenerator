@@ -66,6 +66,8 @@ public partial class <#= ModelName #>AddEdit : ComponentBase
     ElementReference? FirstInput;
 <# } #>
     private bool isSubmitting;
+    private  string Message { get; set; }=string.Empty;
+    private string MessageType { get; set; }=string.Empty;
     protected override async Task OnInitializedAsync()
     {
 <#          if (PrimaryKeyDataType=="int") {
@@ -166,32 +168,46 @@ public partial class <#= ModelName #>AddEdit : ComponentBase
         if ((string.IsNullOrWhiteSpace(<#= PrimaryKeyName #>) || <#= PrimaryKeyName #> == null))
 <# } #>
         {
-            <#= ModelName #>DTO? result = await <#= ModelName #>DataService.Add<#= ModelName #>(<#= ModelName #>DTO);
-            if (result == null)
+            string result = await <#= ModelName #>DataService.Add<#= ModelName #>(<#= ModelName #>DTO);
+            if (result == null || result.ToLower().Contains("success") == false)
             {
-                Logger.LogError("Error adding <#= ModelName #>");
+                Logger.LogError($"Error adding record {result}");
+                Message = result ?? "Error adding record";
+                MessageType = "danger";
             }
             else
             {
-                <#= ModelName #>DTO = result;
+                Message = result ?? "Record added successfully";
+                MessageType = "success";
+                <# if (!UseBlazored) {#>
+                await CloseModal.InvokeAsync(true);
+                <# } #>
                 NavigationManager.NavigateTo("/<#= ModelName #>s");
             }
         }
         else
         {
-            var updateResult = await <#= ModelName #>DataService.Update<#= ModelName #>(<#= ModelName #>DTO,"TBC");
-            if (updateResult==null)
+            string updateResult = await <#= ModelName #>DataService.Update<#= ModelName #>(<#= ModelName #>DTO,"TBC");
+            if (updateResult == null || updateResult.ToLower().Contains("success") == false)
             {
-                Logger.LogError("Error updating <#= ModelName #>");
+                Logger.LogError($"Error updating record {updateResult}");
+                Message = updateResult ?? "Error updating record";
+                MessageType = "danger";
             }
             else
             {
+                Message = updateResult ?? "Record updated successfully";
+                MessageType = "success";
+                <# if (!UseBlazored) {#>
+                await CloseModal.InvokeAsync(true);
+                <# } #>
                 NavigationManager.NavigateTo("/<#= ModelName #>s");
-            }
+            }            
         }
-<# if (!UseBlazored) {#>
-        await CloseModal.InvokeAsync(true);
-<# } #>
         isSubmitting = false;
+    }
+    private void HideMessage()
+    {
+        ApplicationState.Message = "";
     }
 }

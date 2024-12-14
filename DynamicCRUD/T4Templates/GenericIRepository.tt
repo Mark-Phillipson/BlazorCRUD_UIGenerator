@@ -16,7 +16,7 @@ namespace <#=Namespace#>.Repositories
 {
     public interface I<#=ModelName#>Repository
     {
-        Task<<#=ModelName#>DTO?> Add<#=ModelName#>Async(<#=ModelName#>DTO <#=ModelNameCamelCase#>DTO);
+        Task<string> Add<#=ModelName#>Async(<#=ModelName#>DTO <#=ModelNameCamelCase#>DTO);
         Task Delete<#=ModelName#>Async(<#=PrimaryKeyDataType#> <#=PrimaryKeyName#>);
 <#
 		if (!string.IsNullOrEmpty(ForeignKeyName)) {
@@ -30,7 +30,7 @@ namespace <#=Namespace#>.Repositories
 #>
         Task<IEnumerable<<#=ModelName#>DTO>> Search<#=PluralTablename#>Async(string serverSearchTerm);
         Task<<#=ModelName#>DTO?> Get<#=ModelName#>ByIdAsync(<#=PrimaryKeyDataType#> <#=PrimaryKeyName#>);
-        Task<<#=ModelName#>DTO?> Update<#=ModelName#>Async(<#=ModelName#>DTO <#=ModelNameCamelCase#>DTO);
+        Task<string> Update<#=ModelName#>Async(<#=ModelName#>DTO <#=ModelNameCamelCase#>DTO);
         Task<int> GetTotalCountAsync();
     }
 }

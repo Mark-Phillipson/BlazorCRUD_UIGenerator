@@ -56,25 +56,17 @@ namespace <#=Namespace#>.Services
             var <#=ModelNameCamelCase#> = await _<#=ModelNameCamelCase#>Repository.Get<#=ModelName#>ByIdAsync(<#=PrimaryKeyName#>);
             return <#=ModelNameCamelCase#>;
         }
-        public async Task<<#=ModelName#>DTO?> Add<#=ModelName#>(<#=ModelName#>DTO <#=ModelNameCamelCase#>DTO)
+        public async Task<string> Add<#=ModelName#>(<#=ModelName#>DTO <#=ModelNameCamelCase#>DTO)
         {
             Guard.Against.Null(<#=ModelNameCamelCase#>DTO);
             var result = await _<#=ModelNameCamelCase#>Repository.Add<#=ModelName#>Async(<#=ModelNameCamelCase#>DTO);
-            if (result == null)
-            {
-                throw new Exception($"Add of <#=ModelNameCamelCase#> failed ID: {<#=ModelNameCamelCase#>DTO.<#=PrimaryKeyName#>}");
-            }
             return result;
         }
-        public async Task<<#=ModelName#>DTO> Update<#=ModelName#>(<#=ModelName#>DTO <#=ModelNameCamelCase#>DTO, string? username)
+        public async Task<string> Update<#=ModelName#>(<#=ModelName#>DTO <#=ModelNameCamelCase#>DTO, string? username)
         {
             Guard.Against.Null(<#=ModelNameCamelCase#>DTO);
             Guard.Against.Null(username);
             var result = await _<#=ModelNameCamelCase#>Repository.Update<#=ModelName#>Async(<#=ModelNameCamelCase#>DTO);
-            if (result == null)
-            {
-                throw new Exception($"Update of <#=ModelNameCamelCase#> failed ID: {<#=ModelNameCamelCase#>DTO.<#=PrimaryKeyName#>}");
-            }
             return result;
         }
 
