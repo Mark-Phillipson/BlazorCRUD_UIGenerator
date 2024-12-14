@@ -14,7 +14,7 @@
 #>
 @page "/<#=ModelName.ToLower()#>/{<#=PrimaryKeyName#>:<#=PrimaryKeyDataType#>?}"
 <PageTitle><#=ModelNameWithSpaces#> Add/Edit</PageTitle>
-@rendermode InteractiveServer
+@* @rendermode InteractiveServer // Required if interactive mode is not Global *@
 <# if (!UseRadzen) {#>
 <h1>@Title</h1>
 <# } #>

@@ -66,7 +66,8 @@ namespace DynamicCRUD.T4Templates
             
             #line default
             #line hidden
-            this.Write(" Add/Edit</PageTitle>\r\n@rendermode InteractiveServer\r\n");
+            this.Write(" Add/Edit</PageTitle>\r\n@* @rendermode InteractiveServer // Required if interactiv" +
+                    "e mode is not Global *@\r\n");
             
             #line 18 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
  if (!UseRadzen) {

@@ -77,8 +77,9 @@ namespace DynamicCRUD.T4Templates
             
             #line default
             #line hidden
-            this.Write(" Table</PageTitle>\r\n@rendermode InteractiveServer // Required if interactive mode" +
-                    " is not Global\r\n<header>\r\n<div class=\"row\">\r\n<div class=\"col-md-12\">\r\n    ");
+            this.Write(" Table</PageTitle>\r\n@* @rendermode InteractiveServer // Required if interactive m" +
+                    "ode is not Global *@\r\n<header>\r\n<div class=\"row\">\r\n<div class=\"col-md-12\">\r\n    " +
+                    "");
             
             #line 21 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
  if (!UseBlazored) {

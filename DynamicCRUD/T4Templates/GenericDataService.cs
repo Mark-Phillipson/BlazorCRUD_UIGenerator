@@ -34,14 +34,14 @@ namespace DynamicCRUD.T4Templates
                     "Tasks;\r\nusing ");
             
             #line 15 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Namespace));
+            this.Write(this.ToStringHelper.ToStringWithCulture(DTONamespaceName));
             
             #line default
             #line hidden
             this.Write(".Repositories;\r\nusing ");
             
             #line 16 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericDataService.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Namespace));
+            this.Write(this.ToStringHelper.ToStringWithCulture(DTONamespaceName));
             
             #line default
             #line hidden

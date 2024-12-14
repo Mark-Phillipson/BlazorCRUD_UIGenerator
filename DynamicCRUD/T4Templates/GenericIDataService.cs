@@ -33,7 +33,7 @@ namespace DynamicCRUD.T4Templates
             this.Write("using System.Collections.Generic;\r\nusing System.Threading.Tasks;\r\nusing ");
             
             #line 12 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericIDataService.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Namespace));
+            this.Write(this.ToStringHelper.ToStringWithCulture(DTONamespaceName));
             
             #line default
             #line hidden

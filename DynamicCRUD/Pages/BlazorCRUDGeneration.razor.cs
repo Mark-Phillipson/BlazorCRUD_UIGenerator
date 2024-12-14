@@ -235,12 +235,12 @@ public partial class BlazorCRUDGeneration : ComponentBase
         File.WriteAllText($"{LocationRepository}\\{ModelName}Repository.cs", content);
         filesCreatedMessage = $"{filesCreatedMessage}{Environment.NewLine} {ModelName}Repository.cs";
 
-        GenericIDataService genericIDataService = new(Columns, ModelName!, camelTablename, PluralName!, primaryKeyName, primaryKeyDatatype, DataServiceNamespaceName ?? "DataService_Namespace", foreignKeyName ?? "", foreignKeyDataType ?? "");
+        GenericIDataService genericIDataService = new(Columns, ModelName!, camelTablename, PluralName!, primaryKeyName, primaryKeyDatatype, DataServiceNamespaceName ?? "DataService_Namespace", foreignKeyName ?? "", foreignKeyDataType ?? "", DTONamespaceName ?? "DTO_Namespace");
         content = genericIDataService.TransformText();
         File.WriteAllText($"{LocationDataService}\\I{ModelName}DataService.cs", content);
         filesCreatedMessage = $"{filesCreatedMessage}{Environment.NewLine} I{ModelName}DataService.cs";
 
-        GenericDataService genericDataService = new(Columns, ModelName!, camelTablename, PluralName!, primaryKeyName, primaryKeyDatatype, DataServiceNamespaceName ?? "DataService_Namespace", foreignKeyName ?? "", foreignKeyDataType ?? "");
+        GenericDataService genericDataService = new(Columns, ModelName!, camelTablename, PluralName!, primaryKeyName, primaryKeyDatatype, DataServiceNamespaceName ?? "DataService_Namespace", foreignKeyName ?? "", foreignKeyDataType ?? "", DTONamespaceName ?? "DTO_Namespace");
         content = genericDataService.TransformText();
         File.WriteAllText($"{LocationDataService}\\{ModelName}DataService.cs", content);
         filesCreatedMessage = $"{filesCreatedMessage}{Environment.NewLine} {ModelName}DataService.cs";

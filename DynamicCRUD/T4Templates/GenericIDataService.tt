@@ -9,7 +9,7 @@
 <#@ output extension=".cs" #>
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using <#=Namespace#>.DTOs;
+using <#=DTONamespaceName#>.DTOs;
 
 namespace <#=Namespace#>.Services
 {

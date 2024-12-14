@@ -12,8 +12,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using <#=Namespace#>.Repositories;
-using <#=Namespace#>.DTOs;
+using <#=DTONamespaceName#>.Repositories;
+using <#=DTONamespaceName#>.DTOs;
 
 
 namespace <#=Namespace#>.Services
