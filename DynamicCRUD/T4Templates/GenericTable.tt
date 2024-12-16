@@ -162,10 +162,11 @@
         <p>No <#=ModelNameWithSpaces#> match the
                 criteria</p>
         <# if (!UseRadzen) {#>
-        <button @onclick="AddNew<#=ModelName#>"
-            class="btn btn-outline-primary  btn-lg">Add
-            Record <i
-                class="bi bi-plus-square"></i></button>
+        <button type="button" @onclick="AddNew<#=ModelName#>"
+            class="btn btn-outline-primary btn-lg">
+            Add Record 
+            <i class="bi bi-plus-square"></i>
+        </button>
         <# } else {#>
             <RadzenButton Shade="Shade.Dark" Text="Add Record" ButtonStyle="ButtonStyle.Dark" Size="ButtonSize.Large"
         Click="@(() => AddNew<#=ModelName#>())" Icon="add_circle"/>
@@ -181,11 +182,11 @@
                         #>
                         <th>
                             <# if (!UseRadzen) {#>
-                            <button class="btn btn-sm btn-outline-secondary"
+                            <button type="button" class="btn btn-sm btn-outline-secondary"
                                 @onclick="@(() => Sort<#=ModelName#>("<#=property.PropertyName#>"))">
                                 <i class="bi bi-sort-alpha-up"></i>
                             </button>
-                            <button class="btn btn-sm btn-outline-secondary"
+                            <button type="button" class="btn btn-sm btn-outline-secondary"
                                 @onclick="@(() => Sort<#=ModelName#>("<#=property.PropertyName#> Desc"))">
                                 <i class="bi bi-sort-alpha-up-alt"></i>
                             </button>
@@ -204,7 +205,7 @@
                             <# } } #>
                             <th>
                             <# if (!UseRadzen) {#>
-                              <button accesskey="+"
+                              <button type="button" accesskey="+"
                                     @onclick="AddNew<#=ModelName#>" class="btn btn-outline-success btn-sm">
                                     Create
                                     <i class="bi bi-plus-square"></i>
@@ -227,7 +228,7 @@
                                         { #>
 <td style="cursor:pointer" @onclick="@(() => Edit<#=ModelName#>(<#=ModelNameCamelCase#>.<#=PrimaryKeyName#>))">
     <# if (!UseRadzen) {#>
-    <button class="btn btn-sm btn-link">
+    <button type="button" class="btn btn-sm btn-link">
         @<#=ModelNameCamelCase#>.<#=PrimaryKeyName#>
     </button>
     <# } else { #>
@@ -242,12 +243,12 @@
     <# } }#>
         <# if (!UseRadzen) {#>
         <td class="btn-group-vertical border border-1" style='width:100%'>
-            <button class="btn btn-sm btn-outline-warning"
+            <button type="button" class="btn btn-sm btn-outline-warning"
                 @onclick="@(() => Edit<#=ModelName#>(<#=ModelNameCamelCase#>.<#=PrimaryKeyName#>))">
                 Edit
                 <i class="bi bi-pencil-square"></i>
             </button>
-            <button class="btn btn-sm btn-outline-danger"
+            <button type="button" class="btn btn-sm btn-outline-danger"
                 @onclick="@(() => Delete<#=ModelName#>(<#=ModelNameCamelCase#>.<#=PrimaryKeyName#>))">
                 Delete
                 <i class="bi bi-trash"></i>
