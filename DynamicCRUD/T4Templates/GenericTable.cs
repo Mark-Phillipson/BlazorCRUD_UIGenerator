@@ -99,9 +99,9 @@ namespace DynamicCRUD.T4Templates
         <strong>Note!</strong>
         @ApplicationState.Message
         @DateTime.Now.ToShortTimeString()
-        <button type=""button"" class=""btn-close""
+        <button type=""button"" class=""btn btn-sm btn-outline-secondary""
             @onclick=""@(() => HideMessage())""
-            aria-label=""Close""></button>
+            aria-label=""Close"">x</button>
     </div>
     ");
             
@@ -553,9 +553,9 @@ if (!string.IsNullOrWhiteSpace(ForeignKeyName)) {
             
             #line default
             #line hidden
-            this.Write("\" class=\"btn btn-outline-success btn-sm\">\r\n                                    Cr" +
-                    "eate\r\n                                    <i class=\"bi bi-plus-square\"></i>\r\n   " +
-                    "                           </button>\r\n                            ");
+            this.Write("\" class=\"btn btn-outline-success btn-sm w-100\">\r\n                                " +
+                    "    Create\r\n                                    <i class=\"bi bi-plus-square\"></i" +
+                    ">\r\n                              </button>\r\n                            ");
             
             #line 213 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
  } else { 
@@ -861,8 +861,8 @@ if (!string.IsNullOrWhiteSpace(ForeignKeyName)) {
             
             #line default
             #line hidden
-            this.Write(@"    <dialog open=""true"" style=""position:absolute;left: 0px;top: 200px;z-index: 900"" class=""border border-danger"">
-    <button class=""btn btn-outline-secondary m-2"" style=""float:right"" type=""submit""
+            this.Write(@"    <dialog open=""true"" style=""position:absolute;left: 0px;top: 200px;z-index: 900;width:90vw"" class=""border border-danger"">
+    <button class=""btn btn-outline-secondary m-2"" style=""float:right"" type=""button""
         @onclick=""@( ( ) => ToggleModal(  ) )"">x
     </button>
     <div>
@@ -894,7 +894,7 @@ if (!string.IsNullOrWhiteSpace(ForeignKeyName)) {
             
             #line default
             #line hidden
-            this.Write(@"    <dialog open=""true"" style=""position:absolute;left: 0px;top: 200px;z-index: 900;max-height:600px""
+            this.Write(@"    <dialog open=""true"" style=""position:absolute;left: 0px;top: 200px;z-index: 900;width:90vw;max-height:600px""
         class=""border border-danger rz-layout"">
         <div style=""min-width:80vw"">
         <RadzenStack Orientation=""Orientation.Vertical"">
@@ -942,8 +942,8 @@ if (!string.IsNullOrWhiteSpace(ForeignKeyName)) {
             
             #line default
             #line hidden
-            this.Write(@"<dialog open=""true"" style=""position:absolute;left: 0px;top: 200px;z-index: 900"" class=""border border-danger"">
-    <button class=""btn btn-outline-secondary m-2"" style=""float:right"" type=""submit""
+            this.Write(@"<dialog open=""true"" style=""position:absolute;left: 0px;top: 200px;z-index: 900;width:90vw"" class=""border border-danger"">
+    <button class=""btn btn-outline-secondary m-2"" style=""float:right"" type=""button""
         @onclick=""@( ( ) => ToggleShowDeleteConfirm(  ) )"">x
     </button>
     <BlazoredModalConfirmDialogMVC
@@ -965,7 +965,7 @@ if (!string.IsNullOrWhiteSpace(ForeignKeyName)) {
             
             #line default
             #line hidden
-            this.Write(@"<dialog open=""true"" style=""position:absolute;left: 0px;top: 200px;z-index: 900;max-height:300px""
+            this.Write(@"<dialog open=""true"" style=""position:absolute;left: 0px;top: 200px;z-index: 900;width:90vw;max-height:300px""
         class=""border border-danger rz-layout"">
         <RadzenStack Orientation=""Orientation.Vertical"">
             <RadzenStack Orientation=""Orientation.Horizontal"">

@@ -28,9 +28,9 @@
         <strong>Note!</strong>
         @ApplicationState.Message
         @DateTime.Now.ToShortTimeString()
-        <button type="button" class="btn-close"
+        <button type="button" class="btn btn-sm btn-outline-secondary"
             @onclick="@(() => HideMessage())"
-            aria-label="Close"></button>
+            aria-label="Close">x</button>
     </div>
     <# } else {#>
             <RadzenAlert Title="Note!" AlertStyle="AlertStyle.Info" Variant="Variant.Flat" Shade="Shade.Lighter">
@@ -206,7 +206,7 @@
                             <th>
                             <# if (!UseRadzen) {#>
                               <button type="button" accesskey="+"
-                                    @onclick="AddNew<#=ModelName#>" class="btn btn-outline-success btn-sm">
+                                    @onclick="AddNew<#=ModelName#>" class="btn btn-outline-success btn-sm w-100">
                                     Create
                                     <i class="bi bi-plus-square"></i>
                               </button>
@@ -275,8 +275,8 @@
 @if (ShowEdit)
 {
 <# if (!UseRadzen) {#>
-    <dialog open="true" style="position:absolute;left: 0px;top: 200px;z-index: 900" class="border border-danger">
-    <button class="btn btn-outline-secondary m-2" style="float:right" type="submit"
+    <dialog open="true" style="position:absolute;left: 0px;top: 200px;z-index: 900;width:90vw" class="border border-danger">
+    <button class="btn btn-outline-secondary m-2" style="float:right" type="button"
         @onclick="@( ( ) => ToggleModal(  ) )">x
     </button>
     <div>
@@ -284,7 +284,7 @@
     </div>
 </dialog>
 <# } else { #>
-    <dialog open="true" style="position:absolute;left: 0px;top: 200px;z-index: 900;max-height:600px"
+    <dialog open="true" style="position:absolute;left: 0px;top: 200px;z-index: 900;width:90vw;max-height:600px"
         class="border border-danger rz-layout">
         <div style="min-width:80vw">
         <RadzenStack Orientation="Orientation.Vertical">
@@ -305,8 +305,8 @@
 @if (ShowDeleteConfirm)
 {
 <# if (!UseRadzen) {#>
-<dialog open="true" style="position:absolute;left: 0px;top: 200px;z-index: 900" class="border border-danger">
-    <button class="btn btn-outline-secondary m-2" style="float:right" type="submit"
+<dialog open="true" style="position:absolute;left: 0px;top: 200px;z-index: 900;width:90vw" class="border border-danger">
+    <button class="btn btn-outline-secondary m-2" style="float:right" type="button"
         @onclick="@( ( ) => ToggleShowDeleteConfirm(  ) )">x
     </button>
     <BlazoredModalConfirmDialogMVC
@@ -319,7 +319,7 @@
     </form>
 </dialog>
 <# } else { #>
-<dialog open="true" style="position:absolute;left: 0px;top: 200px;z-index: 900;max-height:300px"
+<dialog open="true" style="position:absolute;left: 0px;top: 200px;z-index: 900;width:90vw;max-height:300px"
         class="border border-danger rz-layout">
         <RadzenStack Orientation="Orientation.Vertical">
             <RadzenStack Orientation="Orientation.Horizontal">
