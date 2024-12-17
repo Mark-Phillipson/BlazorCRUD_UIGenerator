@@ -377,21 +377,21 @@ public partial class BlazorCRUDGeneration : ComponentBase
         {
             return "ARMDbContext";
         }
-        else if (connectionString.ToLower().Contains("BostonAcademic"))
+        else if (connectionString.ToLower().Contains("bostonAcademic"))
         {
             return "BostonAcademicDbContext";
         }
-        else if (connectionString.ToLower().Contains("VoiceLauncher"))
+        else if (connectionString.ToLower().Contains("voiceLauncher"))
         {
             return "ApplicationDbContext";
         }
-        else if (connectionString.ToLower().Contains("TemplateDatabase"))
+        else if (connectionString.ToLower().Contains("templateDatabase"))
         {
             return "ApplicationDbContext";
         }
-        else if (connectionString.ToLower().Contains("Packtex"))
+        else if (connectionString.ToLower().Contains("packtex"))
         {
-            return "PacktexDbContext";
+            return "PacktexContext";
         }
         return "ApplicationDbContext";
     }
