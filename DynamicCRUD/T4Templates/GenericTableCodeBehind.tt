@@ -159,6 +159,7 @@ namespace <#=Namespace#>.Pages
                 ExceptionMessage = e.Message;
             }
             Filtered<#=ModelName#>DTO = <#=ModelName#>DTO;
+            ApplyLocalFilter();
             Title = $"<#=ModelNameWithSpaces#> ({Filtered<#=ModelName#>DTO?.Count})";
 
         }
