@@ -93,7 +93,7 @@
                         </RadzenLabel>
         <# }#>
 
-                    <ValidationMessage For="@(() => <#=ModelName#>DTO.<#=property.PropertyName#>)" />
+                    <ValidationMessage class='validation-message' For="@(() => <#=ModelName#>DTO.<#=property.PropertyName#>)" />
                 </div>
 <#              } else if (property.DataType=="int"
                         || property.DataType=="smallint" || property.DataType=="tinyint" || property.DataType=="bigint" || property.DataType=="decimal" || property.DataType=="float" || property.DataType=="real" || property.DataType=="money") {
@@ -119,7 +119,7 @@ counter--;
             <RadzenNumeric aria-describedby='<#=property.PropertyName#>' @bind-Value="@<#=ModelName#>DTO.<#=property.PropertyName#>" Style="width: 100%;" />
         </RadzenLabel>
     <# } #>
-                    <ValidationMessage For="@(() => <#=ModelName#>DTO.<#=property.PropertyName#>)" />
+                    <ValidationMessage class='validation-message' For="@(() => <#=ModelName#>DTO.<#=property.PropertyName#>)" />
                 </div>
 <#              } else if (property.DataType=="bit") {
 counter--;
@@ -140,7 +140,7 @@ counter--;
                     </RadzenCheckBox>
                 </RadzenLabel>                    
             <# }#>
-                    <ValidationMessage For="@(() => <#=ModelName#>DTO.<#=property.PropertyName#>)" />
+                    <ValidationMessage class='validation-message' For="@(() => <#=ModelName#>DTO.<#=property.PropertyName#>)" />
                 </div>
 <#              } else if (property.DataType=="nvarchar"  && property.ColumnSize> 255) {#>
                 <div class="form-group">
@@ -166,7 +166,7 @@ counter--;
                         Rows="5" />
             </RadzenLabel>
         <# }#>
-            <ValidationMessage For="@(() => <#=ModelName#>DTO.<#=property.PropertyName#>)" />
+            <ValidationMessage class='validation-message' For="@(() => <#=ModelName#>DTO.<#=property.PropertyName#>)" />
                 </div>
 <#              } else if (property.DataType=="datetime" || property.DataType=="date" || property.DataType=="datetime2") {
 counter--;
@@ -195,7 +195,7 @@ counter--;
                         </RadzenDatePicker>
                     </RadzenLabel>
         <# }#>
-                    <ValidationMessage For="@(() => <#=ModelName#>DTO.<#=property.PropertyName#>)" />
+                    <ValidationMessage class='validation-message' For="@(() => <#=ModelName#>DTO.<#=property.PropertyName#>)" />
                 </div>
 <#               }
             }

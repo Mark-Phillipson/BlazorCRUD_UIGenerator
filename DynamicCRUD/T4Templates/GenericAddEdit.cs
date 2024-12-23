@@ -426,7 +426,8 @@ namespace DynamicCRUD.T4Templates
             
             #line default
             #line hidden
-            this.Write("\r\n                    <ValidationMessage For=\"@(() => ");
+            this.Write("\r\n                    <ValidationMessage class=\'validation-message\' For=\"@(() => " +
+                    "");
             
             #line 96 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
@@ -606,7 +607,7 @@ counter--;
             
             #line default
             #line hidden
-            this.Write("                    <ValidationMessage For=\"@(() => ");
+            this.Write("                    <ValidationMessage class=\'validation-message\' For=\"@(() => ");
             
             #line 122 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
@@ -763,7 +764,7 @@ counter--;
             
             #line default
             #line hidden
-            this.Write("                    <ValidationMessage For=\"@(() => ");
+            this.Write("                    <ValidationMessage class=\'validation-message\' For=\"@(() => ");
             
             #line 143 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
@@ -948,7 +949,7 @@ counter--;
             
             #line default
             #line hidden
-            this.Write("            <ValidationMessage For=\"@(() => ");
+            this.Write("            <ValidationMessage class=\'validation-message\' For=\"@(() => ");
             
             #line 169 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
@@ -1126,7 +1127,7 @@ counter--;
             
             #line default
             #line hidden
-            this.Write("                    <ValidationMessage For=\"@(() => ");
+            this.Write("                    <ValidationMessage class=\'validation-message\' For=\"@(() => ");
             
             #line 198 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
