@@ -174,15 +174,13 @@
         }
     else
     {
-    <# if (!UseRadzen) {#>
+<# if (!UseRadzen) {#>
     <table style="font-size:x-large" class="table table-bordered table-striped table-sm table-responsive-sm">
         <thead>
             <tr>
                 <# foreach (var property in DatabaseColumns) { #>
-                    <# if (property.Sort) {
-                        #>
+                    <# if (property.Sort) { #>
                         <th>
-                            <# if (!UseRadzen) {#>
                             <button type="button" class="btn btn-sm btn-outline-secondary"
                                 @onclick="@(() => Sort<#=ModelName#>("<#=property.PropertyName#>"))">
                                 <i class="bi bi-sort-alpha-up"></i>
@@ -191,12 +189,6 @@
                                 @onclick="@(() => Sort<#=ModelName#>("<#=property.PropertyName#> Desc"))">
                                 <i class="bi bi-sort-alpha-up-alt"></i>
                             </button>
-                            <# } else {#>
-                                <RadzenButton ButtonStyle="ButtonStyle.Base" Icon="sort_by_alpha"
-                                    Click="@(() => Sort<#=ModelName#>("<#=property.PropertyName#>"))" />
-                                <RadzenButton ButtonStyle="ButtonStyle.Base" Icon="swap_vert"
-                                    Click="@(() => Sort<#=ModelName#>("<#=property.PropertyName#> Desc"))" />
-                            <# }#>
                             <#=property.Label#>
                         </th>
                         <# } else { #>
@@ -205,71 +197,101 @@
                             </th>
                             <# } } #>
                             <th>
-                            <# if (!UseRadzen) {#>
                               <button type="button" accesskey="+"
                                     @onclick="AddNew<#=ModelName#>" class="btn btn-outline-success btn-sm w-100">
                                     Create
                                     <i class="bi bi-plus-square"></i>
                               </button>
-                            <# } else { #>
-                                <RadzenButton Style="color:white" Shade="Shade.Dark" Text="Add Record" ButtonStyle="ButtonStyle.Dark" Size="ButtonSize.Small" Icon="add_circle"
-                            Click="@(() => AddNew<#=ModelName#>())"/>
-                            <# }#>
                             </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var <#=ModelNameCamelCase#> in Filtered<#=ModelName#>DTO)
-                            {
-                            <tr>
-                                <# foreach (var property in DatabaseColumns)
-                                    { #>
-                                    <# if
-                                        (property.PropertyName==PrimaryKeyName)
-                                        { #>
-<td style="cursor:pointer" @onclick="@(() => Edit<#=ModelName#>(<#=ModelNameCamelCase#>.<#=PrimaryKeyName#>))">
-    <# if (!UseRadzen) {#>
-    <button type="button" class="btn btn-sm btn-link">
-        @<#=ModelNameCamelCase#>.<#=PrimaryKeyName#>
-    </button>
-    <# } else { #>
-                        <RadzenButton ButtonStyle="ButtonStyle.Light" Size="ButtonSize.Small" Text="@<#=ModelNameCamelCase#>.<#=PrimaryKeyName#>.ToString()"
-                            Click="@(() => Edit<#=ModelName#>(<#=ModelNameCamelCase#>.<#=PrimaryKeyName#>))" />
-    <# }#>
-</td>
-<# } else {#>
-    <td>
-        @<#=ModelNameCamelCase#>.<#=property.PropertyName#>
-    </td>
-    <# } }#>
-        <# if (!UseRadzen) {#>
-        <td class="btn-group-vertical border border-1" style='width:100%'>
-            <button type="button" class="btn btn-sm btn-outline-warning"
-                @onclick="@(() => Edit<#=ModelName#>(<#=ModelNameCamelCase#>.<#=PrimaryKeyName#>))">
-                Edit
-                <i class="bi bi-pencil-square"></i>
-            </button>
-            <button type="button" class="btn btn-sm btn-outline-danger"
-                @onclick="@(() => Delete<#=ModelName#>(<#=ModelNameCamelCase#>.<#=PrimaryKeyName#>))">
-                Delete
-                <i class="bi bi-trash"></i>
-            </button>
-        </td>
-        <# } else { #>
-                        <td>
-                        <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="1rem" Wrap="FlexWrap.Wrap">
-                        <RadzenButton Style="color:black" Shade="Shade.Dark" Text="Edit" ButtonStyle="ButtonStyle.Warning" Icon="edit"
-                            Click="@(() => Edit<#=ModelName#>(<#=ModelNameCamelCase#>.<#=PrimaryKeyName#>))" Size="ButtonSize.Small"/>
-
-                        <RadzenButton Shade="Shade.Dark" Text="Delete" ButtonStyle="ButtonStyle.Danger" Icon="delete"
-                            Click="@(() => Delete<#=ModelName#>(<#=ModelNameCamelCase#>.<#=PrimaryKeyName#>))" Size="ButtonSize.Small"/>
-                        </RadzenStack>
-                        </td>
-            <# }#>
             </tr>
+        </thead>
+        <tbody>
+            @foreach (var <#=ModelNameCamelCase#> in Filtered<#=ModelName#>DTO)
+            {
+                <tr>
+                    <# foreach (var property in DatabaseColumns){ #>
+                        <# if (property.PropertyName==PrimaryKeyName) { #>
+                            <td style="cursor:pointer" @onclick="@(() => Edit<#=ModelName#>(<#=ModelNameCamelCase#>.<#=PrimaryKeyName#>))">
+                                <button type="button" class="btn btn-sm btn-link">
+                                    @<#=ModelNameCamelCase#>.<#=PrimaryKeyName#>
+                                </button>
+                                </td>
+                        <# } else {#>
+                            <td>
+                                @<#=ModelNameCamelCase#>.<#=property.PropertyName#>
+                            </td>
+                        <# }#>
+                    <# }#>
+                    <td class="btn-group-vertical border border-1" style='width:100%'>
+                        <button type="button" class="btn btn-sm btn-outline-warning"
+                            @onclick="@(() => Edit<#=ModelName#>(<#=ModelNameCamelCase#>.<#=PrimaryKeyName#>))">
+                            Edit
+                            <i class="bi bi-pencil-square"></i>
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-danger"
+                            @onclick="@(() => Delete<#=ModelName#>(<#=ModelNameCamelCase#>.<#=PrimaryKeyName#>))">
+                            Delete
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
+<# } else {#>
+    <table style="font-size:x-large" class="rz-datatable">
+            <thead class='rz-datatable-header'>
+                <tr>
+                    <# foreach (var property in DatabaseColumns) { #>
+                        <# if (property.Sort) { #>
+                            <th>
+                                <RadzenButton ButtonStyle="ButtonStyle.Base" Icon="sort_by_alpha"
+                                    Click="@(() => Sort<#=ModelName#>("<#=property.PropertyName#>"))" />
+                                <RadzenButton ButtonStyle="ButtonStyle.Base" Icon="swap_vert"
+                                    Click="@(() => Sort<#=ModelName#>("<#=property.PropertyName#> Desc"))" />
+                                <#=property.Label#>
+                            </th>
+                        <# } else { #>
+                            <th>
+                                <#=property.Label#>
+                            </th>
+                        <# } #>
+                    <# } #>
+                    <th>
+                        <RadzenButton Style="color:white" Shade="Shade.Dark" Text="Add Record" ButtonStyle="ButtonStyle.Dark" Size="ButtonSize.Small" Icon="add_circle"
+                            Click="@(() => AddNew<#=ModelName#>())"/>
+                    </th>
+                </tr>
+            </thead>
+            <tbody class='rz-datatable-data' >
+                @foreach (var <#=ModelNameCamelCase#> in Filtered<#=ModelName#>DTO)
+                {
+                    <tr>
+                        <# foreach (var property in DatabaseColumns){ #>
+                            <# if (property.PropertyName==PrimaryKeyName) { #>
+                                <td style="cursor:pointer" @onclick="@(() => Edit<#=ModelName#>(<#=ModelNameCamelCase#>.<#=PrimaryKeyName#>))">
+                                    <RadzenButton ButtonStyle="ButtonStyle.Light" Size="ButtonSize.Small" Text="@<#=ModelNameCamelCase#>.<#=PrimaryKeyName#>.ToString()"
+                                        Click="@(() => Edit<#=ModelName#>(<#=ModelNameCamelCase#>.<#=PrimaryKeyName#>))" />
+                                </td>
+                            <# } else {#>
+                                <td>
+                                    @<#=ModelNameCamelCase#>.<#=property.PropertyName#>
+                                </td>
+                            <# }#>
+                        <# }#>
+                        <td>
+                            <RadzenStack Orientation="Orientation.Vertical" AlignItems="AlignItems.Stretch" Gap="1rem" Wrap="FlexWrap.Wrap">
+                            <RadzenButton Style="color:black" Shade="Shade.Dark" Text="Edit" ButtonStyle="ButtonStyle.Warning" Icon="edit"
+                                Click="@(() => Edit<#=ModelName#>(<#=ModelNameCamelCase#>.<#=PrimaryKeyName#>))" Size="ButtonSize.Small"/>
+
+                            <RadzenButton Shade="Shade.Dark" Text="Delete" ButtonStyle="ButtonStyle.Danger" Icon="delete"
+                                Click="@(() => Delete<#=ModelName#>(<#=ModelNameCamelCase#>.<#=PrimaryKeyName#>))" Size="ButtonSize.Small"/>
+                                </RadzenStack>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>    
     <# }#>
 }
 </main>
@@ -286,7 +308,7 @@
     </div>
 </dialog>
 <# } else { #>
-    <dialog open="true" style="position:absolute;left: 0px;top: 200px;z-index: 900;width:90vw;max-height:600px"
+    <dialog open="true" style="position:absolute;left: 0px;top: 200px;z-index: 900;width:80vw;max-height:650px"
         class="border border-danger rz-layout">
         <div style="min-width:80vw">
         <RadzenStack Orientation="Orientation.Vertical">
@@ -307,7 +329,7 @@
 @if (ShowDeleteConfirm)
 {
 <# if (!UseRadzen) {#>
-<dialog open="true" style="position:absolute;left: 0px;top: 200px;z-index: 900;width:90vw" class="border border-danger">
+<dialog open="true" style="position:absolute;left: 0px;top: 200px;z-index: 900;max-height:250px"
     <button class="btn btn-outline-secondary m-2" style="float:right" type="button"
         @onclick="@( ( ) => ToggleShowDeleteConfirm(  ) )">x
     </button>
@@ -321,7 +343,7 @@
     </form>
 </dialog>
 <# } else { #>
-<dialog open="true" style="position:absolute;left: 0px;top: 200px;z-index: 900;width:90vw;max-height:300px"
+<dialog open="true" style="position:absolute;left: 0px;top: 200px;z-index: 900;max-height:250px"
         class="border border-danger rz-layout">
         <RadzenStack Orientation="Orientation.Vertical">
             <RadzenStack Orientation="Orientation.Horizontal">

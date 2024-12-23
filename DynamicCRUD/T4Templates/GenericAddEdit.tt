@@ -31,32 +31,43 @@
     <EditForm Model="@<#=ModelName#>DTO" OnValidSubmit="HandleValidSubmit">
         <DataAnnotationsValidator />
         @*<ValidationSummary />*@
-        <label class='text-info'><span class='text-danger'>
-            Required fields</span> are in red and marked with an asterix 
-            <i class="text-danger fa">*</i>
+        <# if (!UseRadzen) {#>
+        <label  class='text-primary' >
+            <span class='text-danger'>
+                Required fields
+            </span>
+                are in red and marked with an asterix
+            <span class="text-danger" style="color:red;font-size:x-large">*</span>
         </label>
-<#      if (PrimaryKeyDataType=="int") {
-#>
+        <#} else {#>
+        <label style='color:var(--rz-text-color)'>
+            <span class='text-danger'>
+                Required fields
+            </span>
+                are in red and marked with an asterix
+            <span class="text-danger" style="color:red;font-size:x-large">*</span>
+        </label>
+        <# }#>
+<#      if (PrimaryKeyDataType=="int") { #>
         @if (<#=ModelName#>DTO.<#=PrimaryKeyName#> > 0)
-<#      } else {
-#>
+<#      } else { #>
         @if (<#=ModelName#>DTO.<#=PrimaryKeyName#>!= null )
-<#      }
-#>
+<#      } #>
         {
-            <span class="text-info m-1">@<#=ModelName#>DTO.<#=PrimaryKeyName#></span>
+        <div>
+            <span><#=PrimaryKeyName#>: </span>
+            <span class="text-secondary m-1">@<#=ModelName#>DTO.<#=PrimaryKeyName#></span>
+        </div>
         }
         <div class="row">
             <div class="col-<#=cols#>">
-<# 
-            var counter=0;
+<#          var counter=0;
             foreach (var property in DatabaseColumns.Where(w => w.IsAutoIncrement==false))  {
                 counter++;
-                if (counter==8 || counter== 15 || counter== 22 ) {
-#>             </div>
-               <div class="col-<#=cols#>">
-<#
-                }
+                if (counter==8 || counter== 15 || counter== 22 ) { #>
+            </div>
+            <div class="col-<#=cols#>">
+<# }
                 if (property.DataType=="nvarchar" && property.ColumnSize< 256) {
 #>
                 <div class="form-group">
@@ -74,7 +85,7 @@
                         Placeholder="Enter <#=property.Label#>">
                     </InputText>
         <#} else {#>
-                        <RadzenLabel for="<#=property.PropertyName#>" Style="color: white; display: block;"><#=property.Label#>
+                        <RadzenLabel class='text-color' for="<#=property.PropertyName#>" style="color: var(--rz-text-color); width:200px;display:block"><#=property.Label#>
                     <# if (property.Required) { #>
                             <RadzenText id="<#=property.PropertyName#>" Style="color:red;font-size:x-large" TextStyle="TextStyle.Caption"> *
                             </RadzenText>
@@ -92,7 +103,6 @@
                     <# } #>
                         </RadzenLabel>
         <# }#>
-
                     <ValidationMessage class='validation-message' For="@(() => <#=ModelName#>DTO.<#=property.PropertyName#>)" />
                 </div>
 <#              } else if (property.DataType=="int"
@@ -102,16 +112,16 @@ counter--;
                 <div class="form-group">
     <# if (!UseRadzen) {#>
         <#           if (counter==1) {#>
-                    <label @ref="FirstInput" for="<#=property.PropertyName#>"><#=property.Label#>:</label>
+                    <label class='text-color' @ref="FirstInput" for="<#=property.PropertyName#>"><#=property.Label#>:</label>
         <#             } else {#>
-                    <label for="<#=property.PropertyName#>"><#=property.Label#>:</label>
+                    <label class='text-color' for="<#=property.PropertyName#>"><#=property.Label#>:</label>
         <#             }                                    
                     if (property.Required) {#>
                         <i class="text-danger fa">*</i>
                     <#  } #>
                     <InputNumber id="<#=property.PropertyName#>" class="form-control" @bind-Value="@<#=ModelName#>DTO.<#=property.PropertyName#>" placeholder="Enter <#=property.Label#>"></InputNumber>
     <#} else {#>
-        <RadzenLabel id="<#=property.PropertyName#>" Style="color: white; display: block;"><#=property.Label#>
+        <RadzenLabel id="<#=property.PropertyName#>" style="color: var(--rz-text-color); width:200px;display:block"><#=property.Label#>
         <# if (property.Required) { #>
                     <RadzenText Style="color:red;font-size:x-large" TextStyle="TextStyle.Caption"> *
                     </RadzenText>
@@ -134,7 +144,7 @@ counter--;
                     <InputCheckbox id="<#=property.PropertyName#>" class="form-checkbox" @bind-Value="@<#=ModelName#>DTO.<#=property.PropertyName#>">
                     </InputCheckbox>
             <#} else {#>
-                <RadzenLabel for="<#=property.PropertyName#>" Style="color: white; display: block;"><#=property.Label#>
+                <RadzenLabel class='text-color' for="<#=property.PropertyName#>" style="color: var(--rz-text-color); width:200px;display:block"><#=property.Label#>
                     <RadzenCheckBox aria-label='<#=property.Label#> Checkbox' id="<#=property.PropertyName#>" 
                         @bind-Value="@<#=ModelName#>DTO.<#=property.PropertyName#>">
                     </RadzenCheckBox>
@@ -156,7 +166,7 @@ counter--;
                                 <InputTextArea rows="2" id="<#=property.PropertyName#>" class="form-control" @bind-Value="@<#=ModelName#>DTO.<#=property.PropertyName#>"
                                placeholder="Enter <#=property.Label#>"></InputTextArea>
         <#             } else {#>        
-            <RadzenLabel for="<#=property.PropertyName#>" Style="color: white; display: block;"><#=property.Label#>
+            <RadzenLabel class='text-color' for="<#=property.PropertyName#>" style="color: var(--rz-text-color); width:200px;display:block"><#=property.Label#>
                 <# if (property.Required) { #>
                 <RadzenText id="<#=property.PropertyName#>" Style="color:red;font-size:x-large" TextStyle="TextStyle.Caption"> *
                 </RadzenText>
@@ -184,7 +194,7 @@ counter--;
                     <InputDate id="<#=property.PropertyName#>" class="form-control" @bind-Value="@<#=ModelName#>DTO.<#=property.PropertyName#>"
                     Placeholder="Enter <#=property.Label#>"></InputDate>
         <#} else {#>
-                    <RadzenLabel id="<#=property.PropertyName#>" Style="color: white; display: block;"><#=property.Label#>
+                    <RadzenLabel id="<#=property.PropertyName#>" style="color: var(--rz-text-color); width:200px;display:block"><#=property.Label#>
                 <# if (property.Required) { #>
                         <RadzenText Style="color:red;font-size:x-large" TextStyle="TextStyle.Caption"> *</RadzenText>
                 <# } #>
@@ -205,9 +215,8 @@ counter--;
                  @* Move here for the next display column if required *@
             </div>
         </div>
-        <hr>
-        <div style="float:right">
         <# if (!UseRadzen) {#>
+        <div style="float:right">
         @if (isSubmitting)
         {
             <div style="display:normal;margin:auto"
@@ -218,17 +227,22 @@ counter--;
             <button type='button' accesskey="c" class="btn btn-lg btn-outline-primary"@onclick="@CloseAsync"><u>C</u>ancel</button>
             <button type='submit' accesskey="s" class="btn btn-lg btn-primary"><u>S</u>ave Record</button>
         }
-        <#} else {#>
-        @if (isSubmitting)
-        {
-            <RadzenProgressBarCircular ProgressBarStyle="ProgressBarStyle.Danger" Value="100" ShowValue="false"
-                Mode="ProgressBarMode.Indeterminate" Style="width: 50px; height: 50px;" />
-        }
-        else
-        {
-            <RadzenButton accesskey="c" ButtonStyle="ButtonStyle.Light" Size="ButtonSize.Large" Icon="close" Text="Cancel (Alt+C)" Click="@CloseAsync" />
-            <RadzenButton accesskey="s" ButtonStyle="ButtonStyle.Primary" Size="ButtonSize.Large" Icon="save" Text="Save Record (Alt+S)" ButtonType="ButtonType.Submit" />
-        }
-        <# }#>
         </div>
+        <#} else {#>
+            <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Center" Gap="0.5rem"
+                class="rz-p-4 rz-border-radius-1" Style="border: var(--rz-grid-cell-border);">
+                @if (isSubmitting)
+                {
+                    <RadzenProgressBarCircular ProgressBarStyle="ProgressBarStyle.Danger" Value="100" ShowValue="false"
+                        Mode="ProgressBarMode.Indeterminate" Style="width: 50px; height: 50px;" />
+                }
+                else
+                {
+                    <RadzenButton accesskey="c" ButtonStyle="ButtonStyle.Light" Size="ButtonSize.Large" Icon="close"
+                        Text="Cancel (Alt+C)" Click="@CloseAsync" />
+                    <RadzenButton AlignItems="AlignItems.Stretch" accesskey="s" ButtonStyle="ButtonStyle.Warning"
+                        Size="ButtonSize.Large" Icon="save" Text="Save Record (Alt+S)" ButtonType="ButtonType.Submit" />
+                }
+            </RadzenStack>
+        <# }#>        
     </EditForm>

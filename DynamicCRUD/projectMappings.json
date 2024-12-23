@@ -89,6 +89,21 @@
                 "DataServiceFolder": "C:\\Users\\MPhil\\source\\repos\\BlazorCRUD_UIGenerator\\SampleApplication\\Services\\",
                 "RepositoryFolder": "C:\\Users\\MPhil\\source\\repos\\BlazorCRUD_UIGenerator\\SampleApplication\\Repositories\\"
             }
+        },
+        {
+            "DatabaseName": "MarvinMeyers",
+            "Namespaces": {
+                "RazorNamespace": "BlazorApp.Template.Components",
+                "DtoNamespace": "BlazorApp.Template",
+                "DataServiceNamespace": "BlazorApp.Template",
+                "RepositoryNamespace": "BlazorApp.Template"
+            },
+            "Folders": {
+                "RazorFolder": "C:\\Users\\MPhil\\source\\repos\\MarvinMeyers\\BlazorApp.Template\\BlazorApp.Template\\Components\\Pages",
+                "DtoFolder": "C:\\Users\\MPhil\\source\\repos\\MarvinMeyers\\BlazorApp.Template\\BlazorApp.Template\\DTO",
+                "DataServiceFolder": "C:\\Users\\MPhil\\source\\repos\\MarvinMeyers\\BlazorApp.Template\\BlazorApp.Template\\Services",
+                "RepositoryFolder": "C:\\Users\\MPhil\\source\\repos\\MarvinMeyers\\BlazorApp.Template\\BlazorApp.Template\\Repositories"
+            }
         }
     ]
 }
