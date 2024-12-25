@@ -245,10 +245,12 @@
                     <# foreach (var property in DatabaseColumns) { #>
                         <# if (property.Sort) { #>
                             <th>
-                                <RadzenButton ButtonStyle="ButtonStyle.Base" Icon="sort_by_alpha"
-                                    Click="@(() => Sort<#=ModelName#>("<#=property.PropertyName#>"))" />
-                                <RadzenButton ButtonStyle="ButtonStyle.Base" Icon="swap_vert"
-                                    Click="@(() => Sort<#=ModelName#>("<#=property.PropertyName#> Desc"))" />
+                                <div style="display: flex; gap: 5px;">
+                                    <RadzenButton Size="ButtonSize.ExtraSmall" ButtonStyle="ButtonStyle.Base" Icon="sort_by_alpha"
+                                        Click="@(() => Sort<#=ModelName#>("<#=property.PropertyName#>"))" />
+                                    <RadzenButton Size="ButtonSize.ExtraSmall" ButtonStyle="ButtonStyle.Base" Icon="swap_vert"
+                                        Click="@(() => Sort<#=ModelName#>("<#=property.PropertyName#> Desc"))" />
+                                </div>
                                 <#=property.Label#>
                             </th>
                         <# } else { #>

@@ -1143,13 +1143,24 @@ counter--;
             
             #line default
             #line hidden
-            this.Write(@"""
-                        @bind-Value=""@ExampleDTO.DateValue"" 
-                        ShowCalendarWeek ShowTime=""true"" HourFormat=""24""
-                        DateFormat=""dd/MM/yyyy h:mm tt"" Style=""width:t 100%"">
-                        </RadzenDatePicker>
-                    </RadzenLabel>
-        ");
+            this.Write("\"\r\n                        @bind-Value=\"@");
+            
+            #line 202 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
+            
+            #line default
+            #line hidden
+            this.Write("DTO.");
+            
+            #line 202 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.PropertyName));
+            
+            #line default
+            #line hidden
+            this.Write("\" \r\n                        ShowCalendarWeek ShowTime=\"true\" HourFormat=\"24\"\r\n   " +
+                    "                     DateFormat=\"dd/MM/yyyy h:mm tt\" Style=\"width:t 100%\">\r\n    " +
+                    "                    </RadzenDatePicker>\r\n                    </RadzenLabel>\r\n   " +
+                    "     ");
             
             #line 207 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
  }

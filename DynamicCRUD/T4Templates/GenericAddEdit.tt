@@ -199,7 +199,7 @@ counter--;
                         <RadzenText Style="color:red;font-size:x-large" TextStyle="TextStyle.Caption"> *</RadzenText>
                 <# } #>
                         <RadzenDatePicker aria-describedby='<#=property.PropertyName#>' Placeholder="Enter Format dd/MM/yyyy" id="<#=property.PropertyName#>"
-                        @bind-Value="@ExampleDTO.DateValue" 
+                        @bind-Value="@<#=ModelName#>DTO.<#=property.PropertyName#>" 
                         ShowCalendarWeek ShowTime="true" HourFormat="24"
                         DateFormat="dd/MM/yyyy h:mm tt" Style="width:t 100%">
                         </RadzenDatePicker>
