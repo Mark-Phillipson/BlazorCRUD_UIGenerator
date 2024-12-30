@@ -58,9 +58,9 @@ namespace <#=Namespace#>.Pages
         <# if (!UseRadzen) {#>
         ElementReference? SearchInput;
         <# } else { #>
-        RadzenTextBox? SearchInput;
+        private RadzenTextBox? SearchInput;
         <# } #>
-        int maximumPages=0;
+        private int maximumPages=0;
 #pragma warning disable 414, 649
         private bool _loadFailed = false;
         private string? searchTerm = null;

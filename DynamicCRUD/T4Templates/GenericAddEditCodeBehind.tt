@@ -61,7 +61,7 @@ public partial class <#= ModelName #>AddEdit : ComponentBase
         [Parameter] public int ParentId { get; set; }
 
 <# if (UseRadzen) { #>
-    RadzenTextBox? FirstInput;
+    private RadzenTextBox? FirstInput;
 <# } else { #>
     ElementReference? FirstInput;
 <# } #>

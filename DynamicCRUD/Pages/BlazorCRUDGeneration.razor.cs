@@ -47,7 +47,7 @@ public partial class BlazorCRUDGeneration : ComponentBase
     public string? LocationRepository { get; set; } = "";
     public string? LocationDataService { get; set; } = "";
     public List<string> Projects { get; set; } = new List<string>();
-    public string SelectedProject { get; set; } = "TemplateDatabase";
+    public string SelectedProject { get; set; } = "MarvinMeyers";
     protected override async Task OnInitializedAsync()
     {
         Projects = GetProjects();

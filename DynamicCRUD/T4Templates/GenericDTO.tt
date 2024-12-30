@@ -18,8 +18,7 @@ namespace <#=Namespace#>.DTOs
 #>
 <# 
         if (property.IsKey || property.PrimaryKeyOverride) {
-#>        [Key]
-<#
+#>        [Key]<#
         }
 #>
 <#
@@ -48,6 +47,9 @@ namespace <#=Namespace#>.DTOs
             }
 else if (property.DataType.ToLower()=="bit") {
 #> bool<#
+            } 
+else if (property.DataType.ToLower()=="double") {
+#> double<#
             } 
             else if (property.DataType.ToLower().Contains("datetime") || property.DataType.ToLower()=="date") {
 #> DateTime<#

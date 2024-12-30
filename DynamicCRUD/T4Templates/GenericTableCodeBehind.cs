@@ -263,14 +263,14 @@ using Microsoft.Extensions.Logging;
             
             #line default
             #line hidden
-            this.Write("        RadzenTextBox? SearchInput;\r\n        ");
+            this.Write("        private RadzenTextBox? SearchInput;\r\n        ");
             
             #line 62 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
  } 
             
             #line default
             #line hidden
-            this.Write(@"        int maximumPages=0;
+            this.Write(@"        private int maximumPages=0;
 #pragma warning disable 414, 649
         private bool _loadFailed = false;
         private string? searchTerm = null;

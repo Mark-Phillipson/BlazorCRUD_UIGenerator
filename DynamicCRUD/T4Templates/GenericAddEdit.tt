@@ -85,7 +85,7 @@
                         Placeholder="Enter <#=property.Label#>">
                     </InputText>
         <#} else {#>
-                        <RadzenLabel class='text-color' for="<#=property.PropertyName#>" style="color: var(--rz-text-color); width:200px;display:block"><#=property.Label#>
+                        <RadzenLabel class='text-color' for="<#=property.PropertyName#>" style="color: var(--rz-text-color); width:100%;display:block"><#=property.Label#>
                     <# if (property.Required) { #>
                             <RadzenText id="<#=property.PropertyName#>" Style="color:red;font-size:x-large" TextStyle="TextStyle.Caption"> *
                             </RadzenText>
@@ -121,7 +121,7 @@ counter--;
                     <#  } #>
                     <InputNumber id="<#=property.PropertyName#>" class="form-control" @bind-Value="@<#=ModelName#>DTO.<#=property.PropertyName#>" placeholder="Enter <#=property.Label#>"></InputNumber>
     <#} else {#>
-        <RadzenLabel id="<#=property.PropertyName#>" style="color: var(--rz-text-color); width:200px;display:block"><#=property.Label#>
+        <RadzenLabel id="<#=property.PropertyName#>" style="color: var(--rz-text-color); width:100%;display:block"><#=property.Label#>
         <# if (property.Required) { #>
                     <RadzenText Style="color:red;font-size:x-large" TextStyle="TextStyle.Caption"> *
                     </RadzenText>
@@ -144,7 +144,7 @@ counter--;
                     <InputCheckbox id="<#=property.PropertyName#>" class="form-checkbox" @bind-Value="@<#=ModelName#>DTO.<#=property.PropertyName#>">
                     </InputCheckbox>
             <#} else {#>
-                <RadzenLabel class='text-color' for="<#=property.PropertyName#>" style="color: var(--rz-text-color); width:200px;display:block"><#=property.Label#>
+                <RadzenLabel class='text-color' for="<#=property.PropertyName#>" style="color: var(--rz-text-color); width:100%;display:block"><#=property.Label#>
                     <RadzenCheckBox aria-label='<#=property.Label#> Checkbox' id="<#=property.PropertyName#>" 
                         @bind-Value="@<#=ModelName#>DTO.<#=property.PropertyName#>">
                     </RadzenCheckBox>
@@ -166,7 +166,7 @@ counter--;
                                 <InputTextArea rows="2" id="<#=property.PropertyName#>" class="form-control" @bind-Value="@<#=ModelName#>DTO.<#=property.PropertyName#>"
                                placeholder="Enter <#=property.Label#>"></InputTextArea>
         <#             } else {#>        
-            <RadzenLabel class='text-color' for="<#=property.PropertyName#>" style="color: var(--rz-text-color); width:200px;display:block"><#=property.Label#>
+            <RadzenLabel class='text-color' for="<#=property.PropertyName#>" style="color: var(--rz-text-color); width:100%;display:block"><#=property.Label#>
                 <# if (property.Required) { #>
                 <RadzenText id="<#=property.PropertyName#>" Style="color:red;font-size:x-large" TextStyle="TextStyle.Caption"> *
                 </RadzenText>
@@ -194,16 +194,16 @@ counter--;
                     <InputDate id="<#=property.PropertyName#>" class="form-control" @bind-Value="@<#=ModelName#>DTO.<#=property.PropertyName#>"
                     Placeholder="Enter <#=property.Label#>"></InputDate>
         <#} else {#>
-                    <RadzenLabel id="<#=property.PropertyName#>" style="color: var(--rz-text-color); width:200px;display:block"><#=property.Label#>
+                    <RadzenLabel id="<#=property.PropertyName#>" style="color: var(--rz-text-color); width:100%;display:block"><#=property.Label#>
                 <# if (property.Required) { #>
                         <RadzenText Style="color:red;font-size:x-large" TextStyle="TextStyle.Caption"> *</RadzenText>
                 <# } #>
-                        <RadzenDatePicker aria-describedby='<#=property.PropertyName#>' Placeholder="Enter Format dd/MM/yyyy" id="<#=property.PropertyName#>"
-                        @bind-Value="@<#=ModelName#>DTO.<#=property.PropertyName#>" 
-                        ShowCalendarWeek ShowTime="true" HourFormat="24"
-                        DateFormat="dd/MM/yyyy h:mm tt" Style="width:t 100%">
-                        </RadzenDatePicker>
                     </RadzenLabel>
+                    <RadzenDatePicker aria-describedby='<#=property.PropertyName#>' Placeholder="Enter Format dd/MM/yyyy" id="<#=property.PropertyName#>"
+                    @bind-Value="@<#=ModelName#>DTO.<#=property.PropertyName#>" 
+                    ShowCalendarWeek ShowTime="true" HourFormat="24"
+                    DateFormat="dd/MM/yyyy h:mm tt" Style="width:t 100%">
+                    </RadzenDatePicker>
         <# }#>
                     <ValidationMessage class='validation-message' For="@(() => <#=ModelName#>DTO.<#=property.PropertyName#>)" />
                 </div>
@@ -229,6 +229,7 @@ counter--;
         }
         </div>
         <#} else {#>
+        <br />
             <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.Center" Gap="0.5rem"
                 class="rz-p-4 rz-border-radius-1" Style="border: var(--rz-grid-cell-border);">
                 @if (isSubmitting)

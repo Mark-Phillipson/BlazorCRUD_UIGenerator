@@ -93,16 +93,16 @@
         {
             "DatabaseName": "MarvinMeyers",
             "Namespaces": {
-                "RazorNamespace": "BlazorApp.Template.Components",
-                "DtoNamespace": "BlazorApp.Template",
-                "DataServiceNamespace": "BlazorApp.Template",
-                "RepositoryNamespace": "BlazorApp.Template"
+                "RazorNamespace": "BlazorApp.MarvinMeyers.Components",
+                "DtoNamespace": "BlazorApp.MarvinMeyers",
+                "DataServiceNamespace": "BlazorApp.MarvinMeyers",
+                "RepositoryNamespace": "BlazorApp.MarvinMeyers"
             },
             "Folders": {
-                "RazorFolder": "C:\\Users\\MPhil\\source\\repos\\MarvinMeyers\\BlazorApp.Template\\BlazorApp.Template\\Components\\Pages",
-                "DtoFolder": "C:\\Users\\MPhil\\source\\repos\\MarvinMeyers\\BlazorApp.Template\\BlazorApp.Template\\DTO",
-                "DataServiceFolder": "C:\\Users\\MPhil\\source\\repos\\MarvinMeyers\\BlazorApp.Template\\BlazorApp.Template\\Services",
-                "RepositoryFolder": "C:\\Users\\MPhil\\source\\repos\\MarvinMeyers\\BlazorApp.Template\\BlazorApp.Template\\Repositories"
+                "RazorFolder": "C:\\Users\\MPhil\\source\\repos\\MarvinMeyers\\BlazorApp.MarvinMeyers\\BlazorApp.MarvinMeyers\\Components\\Pages",
+                "DtoFolder": "C:\\Users\\MPhil\\source\\repos\\MarvinMeyers\\BlazorApp.MarvinMeyers\\BlazorApp.MarvinMeyers\\DTO",
+                "DataServiceFolder": "C:\\Users\\MPhil\\source\\repos\\MarvinMeyers\\BlazorApp.MarvinMeyers\\BlazorApp.MarvinMeyers\\Services",
+                "RepositoryFolder": "C:\\Users\\MPhil\\source\\repos\\MarvinMeyers\\BlazorApp.MarvinMeyers\\BlazorApp.MarvinMeyers\\Repositories"
             }
         }
     ]

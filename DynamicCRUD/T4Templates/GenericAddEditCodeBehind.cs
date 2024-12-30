@@ -233,7 +233,7 @@ using Microsoft.JSInterop;
             
             #line default
             #line hidden
-            this.Write("    RadzenTextBox? FirstInput;\r\n");
+            this.Write("    private RadzenTextBox? FirstInput;\r\n");
             
             #line 65 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEditCodeBehind.tt"
  } else { 

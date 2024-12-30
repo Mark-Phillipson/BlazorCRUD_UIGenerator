@@ -41,7 +41,7 @@
     }
     <# }#>
 </div>
-<div class="col-md-3">
+<div class="col-md-6">
 <h1 class="m-1 fs-4">@Title of @totalRows Page: @pageNumber</h1>
 </div>
 @if (_serverPaging) {
@@ -90,7 +90,7 @@
             </div>*@
         <#} #>
             @if (_serverPaging) {
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <# if (!UseRadzen) {#>
                 <label for='SearchInput' class="sr-only">Type to Filter</label>
                 <input @ref="SearchInput" accesskey="i"
@@ -117,15 +117,15 @@
             </div>
             } else {
                 <# if (!UseRadzen) {#>
-                <div class="col-md-3">
+                <div class="col-md-6">
                     <label for='ClientSearchInput' class="sr-only">Type to Filter</label>
                     <input @ref="SearchInput" class="form-control my-1" style="float:right" @bind="@ClientSearchTerm" id="ClientSearchInput"
                         name="ClientSearchTerm" @bind:event="oninput" placeholder="Filter by <#=FilterColumns#>" />
                 </div>
                 <# } else {#>
-                    <div class="col-md-3">
-                        <label for='ClientSearchInput' class="sr-only">Type to Filter</label>
-                        <RadzenTextBox id="ClientSearchInput" class='rz-my-1' @bind-Value="@ClientSearchTerm"
+                    <div class="col-md-6">
+                        <RadzenLabel for='ClientSearchInput' class="sr-only" Visible="false">Type to Filter</RadzenLabel>
+                        <RadzenTextBox Style="width:100%" id="ClientSearchInput" class='rz-my-1' @bind-Value="@ClientSearchTerm"
                         @oninput=@(args => OnChangeClientSearchTerm(args?.Value?.ToString()))
                             Placeholder="Filter by <#=FilterColumns#>" />
                     </div>
@@ -159,23 +159,23 @@
     else if (Filtered<#=ModelName#>DTO.Count ==
         0)
         {
-        <p>No <#=ModelNameWithSpaces#> match the
-                criteria</p>
         <# if (!UseRadzen) {#>
+        <p class='text-info' >No <#=ModelNameWithSpaces#> match the criteria</p>
         <button type="button" @onclick="AddNew<#=ModelName#>"
             class="btn btn-outline-primary btn-lg">
-            Add Record 
+            Add <#=ModelNameWithSpaces#> 
             <i class="bi bi-plus-square"></i>
         </button>
         <# } else {#>
-            <RadzenButton Shade="Shade.Dark" Text="Add Record" ButtonStyle="ButtonStyle.Dark" Size="ButtonSize.Large"
+            <p class='rz-color-info' >No <#=ModelNameWithSpaces#> match the criteria</p>
+            <RadzenButton Shade="Shade.Dark" Text="Add <#=ModelNameWithSpaces#>" ButtonStyle="ButtonStyle.Dark" Size="ButtonSize.Large"
         Click="@(() => AddNew<#=ModelName#>())" Icon="add_circle"/>
         <# }#>
         }
     else
     {
 <# if (!UseRadzen) {#>
-    <table style="font-size:x-large" class="table table-bordered table-striped table-sm table-responsive-sm">
+    <table style="font-size:large" class="table table-bordered table-striped table-sm table-responsive-sm">
         <thead>
             <tr>
                 <# foreach (var property in DatabaseColumns) { #>
@@ -244,24 +244,24 @@
                 <tr>
                     <# foreach (var property in DatabaseColumns) { #>
                         <# if (property.Sort) { #>
-                            <th>
-                                <div style="display: flex; gap: 5px;">
-                                    <RadzenButton Size="ButtonSize.ExtraSmall" ButtonStyle="ButtonStyle.Base" Icon="sort_by_alpha"
-                                        Click="@(() => Sort<#=ModelName#>("<#=property.PropertyName#>"))" />
-                                    <RadzenButton Size="ButtonSize.ExtraSmall" ButtonStyle="ButtonStyle.Base" Icon="swap_vert"
-                                        Click="@(() => Sort<#=ModelName#>("<#=property.PropertyName#> Desc"))" />
-                                </div>
-                                <#=property.Label#>
-                            </th>
+                    <th>
+                        <div style="display: flex; gap: 5px;">
+                            <RadzenButton Size="ButtonSize.ExtraSmall" ButtonStyle="ButtonStyle.Base" Icon="sort_by_alpha"
+                                Click="@(() => Sort<#=ModelName#>("<#=property.PropertyName#>"))" />
+                            <RadzenButton Size="ButtonSize.ExtraSmall" ButtonStyle="ButtonStyle.Base" Icon="swap_vert"
+                                Click="@(() => Sort<#=ModelName#>("<#=property.PropertyName#> Desc"))" />
+                            <#=property.Label#>
+                        </div>
+                        </th>
                         <# } else { #>
-                            <th>
-                                <#=property.Label#>
-                            </th>
+                        <th>
+                            <#=property.Label#>
+                        </th>
                         <# } #>
                     <# } #>
                     <th>
-                        <RadzenButton Style="color:white" Shade="Shade.Dark" Text="Add Record" ButtonStyle="ButtonStyle.Dark" Size="ButtonSize.Small" Icon="add_circle"
-                            Click="@(() => AddNew<#=ModelName#>())"/>
+                        <RadzenButton Style="color:white" Shade="Shade.Dark" Text="Add <#=ModelNameWithSpaces#>" ButtonStyle="ButtonStyle.Dark" 
+                            Size="ButtonSize.Small" Icon="add_circle" Click="@(() => AddNew<#=ModelName#>())"/>
                     </th>
                 </tr>
             </thead>
@@ -310,28 +310,25 @@
     </div>
 </dialog>
 <# } else { #>
-    <dialog open="true" style="position:absolute;left: 0px;top: 200px;z-index: 900;width:80vw;max-height:650px"
+    <dialog open="true" style="position:absolute;left: 0px;top: 200px;z-index: 900;width:35vw;max-height:600px"
         class="border border-danger rz-layout">
-        <div style="min-width:80vw">
-        <RadzenStack Orientation="Orientation.Vertical">
-                <div class='row'>
-                    <div class='col-md-11'>
-                        <h1>@EditTitle</h1>
-                    </div>
-                    <div class='col-md-1'>
-                        <RadzenButton Text="x" ButtonStyle="ButtonStyle.Secondary" Click="@ToggleModal" />
-                    </div>
-                </div>
-            <<#=ModelName#>AddEdit Title="@EditTitle" <#=PrimaryKeyName#>="@<#=ModelName#>Id" CloseModal="@CloseModalAsync" />
+        <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Normal" JustifyContent="JustifyContent.SpaceBetween">
+            <h1>@EditTitle</h1>
+            <RadzenButton Size="ButtonSize.Small" Text="x" ButtonStyle="ButtonStyle.Secondary" Click="@ToggleModal" />
         </RadzenStack>
-        </div>
+        <br />
+        <RadzenStack Orientation="Orientation.Vertical">
+            <RadzenCard>
+                <<#=ModelName#>AddEdit Title="@EditTitle" <#=PrimaryKeyName#>="@<#=ModelName#>Id" CloseModal="@CloseModalAsync" />
+            </RadzenCard>
+        </RadzenStack>        
     </dialog>    
 <# }#>
 }
 @if (ShowDeleteConfirm)
 {
 <# if (!UseRadzen) {#>
-<dialog open="true" style="position:absolute;left: 0px;top: 200px;z-index: 900;max-height:250px"
+<dialog open="true" style="position:absolute;left: 0px;top: 50px;z-index: 900;max-height:250px"
     <button class="btn btn-outline-secondary m-2" style="float:right" type="button"
         @onclick="@( ( ) => ToggleShowDeleteConfirm(  ) )">x
     </button>
@@ -339,13 +336,13 @@
         Confirm="@CloseConfirmDeletion"
         ButtonColour="danger"
         Icon="bi bi-trash"
-        Message="Please confirm that you wish to delete a record."
+        Message="Please confirm that you wish to delete a record (<#=ModelNameWithSpaces#>)."
         Title="Deletion Confirmation <#=ModelNameWithSpaces#> Table" />
     <form method="dialog">
     </form>
 </dialog>
 <# } else { #>
-<dialog open="true" style="position:absolute;left: 0px;top: 200px;z-index: 900;max-height:250px"
+<dialog open="true" style="position:absolute;left: 0px;top: 50px;z-index: 900;width:50vw;max-height:700px"
         class="border border-danger rz-layout">
         <RadzenStack Orientation="Orientation.Vertical">
             <RadzenStack Orientation="Orientation.Horizontal">

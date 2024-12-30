@@ -343,7 +343,7 @@ namespace DynamicCRUD.T4Templates
             
             #line default
             #line hidden
-            this.Write("\" style=\"color: var(--rz-text-color); width:200px;display:block\">");
+            this.Write("\" style=\"color: var(--rz-text-color); width:100%;display:block\">");
             
             #line 88 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Label));
@@ -586,7 +586,7 @@ counter--;
             
             #line default
             #line hidden
-            this.Write("\" style=\"color: var(--rz-text-color); width:200px;display:block\">");
+            this.Write("\" style=\"color: var(--rz-text-color); width:100%;display:block\">");
             
             #line 124 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Label));
@@ -750,7 +750,7 @@ counter--;
             
             #line default
             #line hidden
-            this.Write("\" style=\"color: var(--rz-text-color); width:200px;display:block\">");
+            this.Write("\" style=\"color: var(--rz-text-color); width:100%;display:block\">");
             
             #line 147 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Label));
@@ -920,7 +920,7 @@ counter--;
             
             #line default
             #line hidden
-            this.Write("\" style=\"color: var(--rz-text-color); width:200px;display:block\">");
+            this.Write("\" style=\"color: var(--rz-text-color); width:100%;display:block\">");
             
             #line 169 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Label));
@@ -1107,7 +1107,7 @@ counter--;
             
             #line default
             #line hidden
-            this.Write("\" style=\"color: var(--rz-text-color); width:200px;display:block\">");
+            this.Write("\" style=\"color: var(--rz-text-color); width:100%;display:block\">");
             
             #line 197 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Label));
@@ -1129,38 +1129,38 @@ counter--;
             
             #line default
             #line hidden
-            this.Write("                        <RadzenDatePicker aria-describedby=\'");
+            this.Write("                    </RadzenLabel>\r\n                    <RadzenDatePicker aria-de" +
+                    "scribedby=\'");
             
-            #line 201 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
+            #line 202 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.PropertyName));
             
             #line default
             #line hidden
             this.Write("\' Placeholder=\"Enter Format dd/MM/yyyy\" id=\"");
             
-            #line 201 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
+            #line 202 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.PropertyName));
             
             #line default
             #line hidden
-            this.Write("\"\r\n                        @bind-Value=\"@");
+            this.Write("\"\r\n                    @bind-Value=\"@");
             
-            #line 202 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
+            #line 203 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("DTO.");
             
-            #line 202 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
+            #line 203 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.PropertyName));
             
             #line default
             #line hidden
-            this.Write("\" \r\n                        ShowCalendarWeek ShowTime=\"true\" HourFormat=\"24\"\r\n   " +
-                    "                     DateFormat=\"dd/MM/yyyy h:mm tt\" Style=\"width:t 100%\">\r\n    " +
-                    "                    </RadzenDatePicker>\r\n                    </RadzenLabel>\r\n   " +
-                    "     ");
+            this.Write("\" \r\n                    ShowCalendarWeek ShowTime=\"true\" HourFormat=\"24\"\r\n       " +
+                    "             DateFormat=\"dd/MM/yyyy h:mm tt\" Style=\"width:t 100%\">\r\n            " +
+                    "        </RadzenDatePicker>\r\n        ");
             
             #line 207 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
  }
@@ -1224,7 +1224,8 @@ counter--;
             
             #line default
             #line hidden
-            this.Write(@"            <RadzenStack Orientation=""Orientation.Horizontal"" JustifyContent=""JustifyContent.Center"" Gap=""0.5rem""
+            this.Write(@"        <br />
+            <RadzenStack Orientation=""Orientation.Horizontal"" JustifyContent=""JustifyContent.Center"" Gap=""0.5rem""
                 class=""rz-p-4 rz-border-radius-1"" Style=""border: var(--rz-grid-cell-border);"">
                 @if (isSubmitting)
                 {
@@ -1241,7 +1242,7 @@ counter--;
             </RadzenStack>
         ");
             
-            #line 247 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
+            #line 248 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
  }
             
             #line default

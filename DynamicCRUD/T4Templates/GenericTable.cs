@@ -127,7 +127,7 @@ namespace DynamicCRUD.T4Templates
             
             #line default
             #line hidden
-            this.Write("</div>\r\n<div class=\"col-md-3\">\r\n<h1 class=\"m-1 fs-4\">@Title of @totalRows Page: @" +
+            this.Write("</div>\r\n<div class=\"col-md-6\">\r\n<h1 class=\"m-1 fs-4\">@Title of @totalRows Page: @" +
                     "pageNumber</h1>\r\n</div>\r\n@if (_serverPaging) {\r\n<div class=\"col-md-4\">\r\n    ");
             
             #line 49 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
@@ -203,7 +203,7 @@ if (!string.IsNullOrWhiteSpace(ForeignKeyName)) {
             
             #line default
             #line hidden
-            this.Write("            @if (_serverPaging) {\r\n            <div class=\"col-md-4\">\r\n          " +
+            this.Write("            @if (_serverPaging) {\r\n            <div class=\"col-md-6\">\r\n          " +
                     "      ");
             
             #line 94 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
@@ -258,7 +258,7 @@ if (!string.IsNullOrWhiteSpace(ForeignKeyName)) {
             
             #line default
             #line hidden
-            this.Write(@"                <div class=""col-md-3"">
+            this.Write(@"                <div class=""col-md-6"">
                     <label for='ClientSearchInput' class=""sr-only"">Type to Filter</label>
                     <input @ref=""SearchInput"" class=""form-control my-1"" style=""float:right"" @bind=""@ClientSearchTerm"" id=""ClientSearchInput""
                         name=""ClientSearchTerm"" @bind:event=""oninput"" placeholder=""Filter by ");
@@ -275,9 +275,9 @@ if (!string.IsNullOrWhiteSpace(ForeignKeyName)) {
             
             #line default
             #line hidden
-            this.Write(@"                    <div class=""col-md-3"">
-                        <label for='ClientSearchInput' class=""sr-only"">Type to Filter</label>
-                        <RadzenTextBox id=""ClientSearchInput"" class='rz-my-1' @bind-Value=""@ClientSearchTerm""
+            this.Write(@"                    <div class=""col-md-6"">
+                        <RadzenLabel for='ClientSearchInput' class=""sr-only"" Visible=""false"">Type to Filter</RadzenLabel>
+                        <RadzenTextBox Style=""width:100%"" id=""ClientSearchInput"" class='rz-my-1' @bind-Value=""@ClientSearchTerm""
                         @oninput=@(args => OnChangeClientSearchTerm(args?.Value?.ToString()))
                             Placeholder=""Filter by ");
             
@@ -364,37 +364,57 @@ if (!string.IsNullOrWhiteSpace(ForeignKeyName)) {
             
             #line default
             #line hidden
-            this.Write("DTO.Count ==\r\n        0)\r\n        {\r\n        <p>No ");
+            this.Write("DTO.Count ==\r\n        0)\r\n        {\r\n        ");
             
             #line 162 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameWithSpaces));
-            
-            #line default
-            #line hidden
-            this.Write(" match the\r\n                criteria</p>\r\n        ");
-            
-            #line 164 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
  if (!UseRadzen) {
             
             #line default
             #line hidden
-            this.Write("        <button type=\"button\" @onclick=\"AddNew");
+            this.Write("        <p class=\'text-info\' >No ");
             
-            #line 165 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
+            #line 163 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameWithSpaces));
+            
+            #line default
+            #line hidden
+            this.Write(" match the criteria</p>\r\n        <button type=\"button\" @onclick=\"AddNew");
+            
+            #line 164 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
-            this.Write("\"\r\n            class=\"btn btn-outline-primary btn-lg\">\r\n            Add Record \r\n" +
-                    "            <i class=\"bi bi-plus-square\"></i>\r\n        </button>\r\n        ");
+            this.Write("\"\r\n            class=\"btn btn-outline-primary btn-lg\">\r\n            Add ");
             
-            #line 170 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
+            #line 166 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameWithSpaces));
+            
+            #line default
+            #line hidden
+            this.Write(" \r\n            <i class=\"bi bi-plus-square\"></i>\r\n        </button>\r\n        ");
+            
+            #line 169 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
  } else {
             
             #line default
             #line hidden
-            this.Write("            <RadzenButton Shade=\"Shade.Dark\" Text=\"Add Record\" ButtonStyle=\"Butto" +
-                    "nStyle.Dark\" Size=\"ButtonSize.Large\"\r\n        Click=\"@(() => AddNew");
+            this.Write("            <p class=\'rz-color-info\' >No ");
+            
+            #line 170 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameWithSpaces));
+            
+            #line default
+            #line hidden
+            this.Write(" match the criteria</p>\r\n            <RadzenButton Shade=\"Shade.Dark\" Text=\"Add ");
+            
+            #line 171 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameWithSpaces));
+            
+            #line default
+            #line hidden
+            this.Write("\" ButtonStyle=\"ButtonStyle.Dark\" Size=\"ButtonSize.Large\"\r\n        Click=\"@(() => " +
+                    "AddNew");
             
             #line 172 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
@@ -415,9 +435,8 @@ if (!string.IsNullOrWhiteSpace(ForeignKeyName)) {
             
             #line default
             #line hidden
-            this.Write("    <table style=\"font-size:x-large\" class=\"table table-bordered table-striped ta" +
-                    "ble-sm table-responsive-sm\">\r\n        <thead>\r\n            <tr>\r\n               " +
-                    " ");
+            this.Write("    <table style=\"font-size:large\" class=\"table table-bordered table-striped tabl" +
+                    "e-sm table-responsive-sm\">\r\n        <thead>\r\n            <tr>\r\n                ");
             
             #line 181 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
  foreach (var property in DatabaseColumns) { 
@@ -683,10 +702,10 @@ if (!string.IsNullOrWhiteSpace(ForeignKeyName)) {
             
             #line default
             #line hidden
-            this.Write(@"                            <th>
-                                <div style=""display: flex; gap: 5px;"">
-                                    <RadzenButton Size=""ButtonSize.ExtraSmall"" ButtonStyle=""ButtonStyle.Base"" Icon=""sort_by_alpha""
-                                        Click=""@(() => Sort");
+            this.Write(@"                    <th>
+                        <div style=""display: flex; gap: 5px;"">
+                            <RadzenButton Size=""ButtonSize.ExtraSmall"" ButtonStyle=""ButtonStyle.Base"" Icon=""sort_by_alpha""
+                                Click=""@(() => Sort");
             
             #line 250 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
@@ -700,9 +719,9 @@ if (!string.IsNullOrWhiteSpace(ForeignKeyName)) {
             
             #line default
             #line hidden
-            this.Write("\"))\" />\r\n                                    <RadzenButton Size=\"ButtonSize.Extra" +
-                    "Small\" ButtonStyle=\"ButtonStyle.Base\" Icon=\"swap_vert\"\r\n                        " +
-                    "                Click=\"@(() => Sort");
+            this.Write("\"))\" />\r\n                            <RadzenButton Size=\"ButtonSize.ExtraSmall\" B" +
+                    "uttonStyle=\"ButtonStyle.Base\" Icon=\"swap_vert\"\r\n                                " +
+                    "Click=\"@(() => Sort");
             
             #line 252 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
@@ -716,29 +735,29 @@ if (!string.IsNullOrWhiteSpace(ForeignKeyName)) {
             
             #line default
             #line hidden
-            this.Write(" Desc\"))\" />\r\n                                </div>\r\n                           " +
-                    "     ");
+            this.Write(" Desc\"))\" />\r\n                            ");
             
-            #line 254 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
+            #line 253 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Label));
             
             #line default
             #line hidden
-            this.Write("\r\n                            </th>\r\n                        ");
+            this.Write("\r\n                        </div>\r\n                        </th>\r\n                " +
+                    "        ");
             
             #line 256 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
  } else { 
             
             #line default
             #line hidden
-            this.Write("                            <th>\r\n                                ");
+            this.Write("                        <th>\r\n                            ");
             
             #line 258 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Label));
             
             #line default
             #line hidden
-            this.Write("\r\n                            </th>\r\n                        ");
+            this.Write("\r\n                        </th>\r\n                        ");
             
             #line 260 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
  } 
@@ -753,9 +772,15 @@ if (!string.IsNullOrWhiteSpace(ForeignKeyName)) {
             #line default
             #line hidden
             this.Write("                    <th>\r\n                        <RadzenButton Style=\"color:whit" +
-                    "e\" Shade=\"Shade.Dark\" Text=\"Add Record\" ButtonStyle=\"ButtonStyle.Dark\" Size=\"But" +
-                    "tonSize.Small\" Icon=\"add_circle\"\r\n                            Click=\"@(() => Add" +
-                    "New");
+                    "e\" Shade=\"Shade.Dark\" Text=\"Add ");
+            
+            #line 263 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameWithSpaces));
+            
+            #line default
+            #line hidden
+            this.Write("\" ButtonStyle=\"ButtonStyle.Dark\" \r\n                            Size=\"ButtonSize.S" +
+                    "mall\" Icon=\"add_circle\" Click=\"@(() => AddNew");
             
             #line 264 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
@@ -987,55 +1012,52 @@ if (!string.IsNullOrWhiteSpace(ForeignKeyName)) {
             
             #line default
             #line hidden
-            this.Write(@"    <dialog open=""true"" style=""position:absolute;left: 0px;top: 200px;z-index: 900;width:80vw;max-height:650px""
+            this.Write(@"    <dialog open=""true"" style=""position:absolute;left: 0px;top: 200px;z-index: 900;width:35vw;max-height:600px""
         class=""border border-danger rz-layout"">
-        <div style=""min-width:80vw"">
+        <RadzenStack Orientation=""Orientation.Horizontal"" AlignItems=""AlignItems.Normal"" JustifyContent=""JustifyContent.SpaceBetween"">
+            <h1>@EditTitle</h1>
+            <RadzenButton Size=""ButtonSize.Small"" Text=""x"" ButtonStyle=""ButtonStyle.Secondary"" Click=""@ToggleModal"" />
+        </RadzenStack>
+        <br />
         <RadzenStack Orientation=""Orientation.Vertical"">
-                <div class='row'>
-                    <div class='col-md-11'>
-                        <h1>@EditTitle</h1>
-                    </div>
-                    <div class='col-md-1'>
-                        <RadzenButton Text=""x"" ButtonStyle=""ButtonStyle.Secondary"" Click=""@ToggleModal"" />
-                    </div>
-                </div>
-            <");
+            <RadzenCard>
+                <");
             
-            #line 325 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
+            #line 322 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("AddEdit Title=\"@EditTitle\" ");
             
-            #line 325 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
+            #line 322 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(PrimaryKeyName));
             
             #line default
             #line hidden
             this.Write("=\"@");
             
-            #line 325 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
+            #line 322 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
-            this.Write("Id\" CloseModal=\"@CloseModalAsync\" />\r\n        </RadzenStack>\r\n        </div>\r\n   " +
-                    " </dialog>    \r\n");
+            this.Write("Id\" CloseModal=\"@CloseModalAsync\" />\r\n            </RadzenCard>\r\n        </Radzen" +
+                    "Stack>        \r\n    </dialog>    \r\n");
             
-            #line 329 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
+            #line 326 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
  }
             
             #line default
             #line hidden
             this.Write("}\r\n@if (ShowDeleteConfirm)\r\n{\r\n");
             
-            #line 333 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
+            #line 330 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
  if (!UseRadzen) {
             
             #line default
             #line hidden
-            this.Write(@"<dialog open=""true"" style=""position:absolute;left: 0px;top: 200px;z-index: 900;max-height:250px""
+            this.Write(@"<dialog open=""true"" style=""position:absolute;left: 0px;top: 50px;z-index: 900;max-height:250px""
     <button class=""btn btn-outline-secondary m-2"" style=""float:right"" type=""button""
         @onclick=""@( ( ) => ToggleShowDeleteConfirm(  ) )"">x
     </button>
@@ -1043,22 +1065,28 @@ if (!string.IsNullOrWhiteSpace(ForeignKeyName)) {
         Confirm=""@CloseConfirmDeletion""
         ButtonColour=""danger""
         Icon=""bi bi-trash""
-        Message=""Please confirm that you wish to delete a record.""
-        Title=""Deletion Confirmation ");
+        Message=""Please confirm that you wish to delete a record (");
             
-            #line 343 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
+            #line 339 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameWithSpaces));
+            
+            #line default
+            #line hidden
+            this.Write(").\"\r\n        Title=\"Deletion Confirmation ");
+            
+            #line 340 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameWithSpaces));
             
             #line default
             #line hidden
             this.Write(" Table\" />\r\n    <form method=\"dialog\">\r\n    </form>\r\n</dialog>\r\n");
             
-            #line 347 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
+            #line 344 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
  } else { 
             
             #line default
             #line hidden
-            this.Write(@"<dialog open=""true"" style=""position:absolute;left: 0px;top: 200px;z-index: 900;max-height:250px""
+            this.Write(@"<dialog open=""true"" style=""position:absolute;left: 0px;top: 50px;z-index: 900;width:50vw;max-height:700px""
         class=""border border-danger rz-layout"">
         <RadzenStack Orientation=""Orientation.Vertical"">
             <RadzenStack Orientation=""Orientation.Horizontal"">
@@ -1066,7 +1094,7 @@ if (!string.IsNullOrWhiteSpace(ForeignKeyName)) {
                     <div class='col-md-10'>
                         <h3>Deletion Confirmation ");
             
-            #line 354 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
+            #line 351 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameWithSpaces));
             
             #line default
@@ -1082,21 +1110,21 @@ if (!string.IsNullOrWhiteSpace(ForeignKeyName)) {
             <BlazoredModalConfirmDialogMVC Confirm=""CloseConfirmDeletion"" ButtonColour=""danger"" Icon=""bi bi-trash""
                 Message=""@message"" Title=""Deletion Confirmation ");
             
-            #line 363 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
+            #line 360 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameWithSpaces));
             
             #line default
             #line hidden
             this.Write(" Table\" />\r\n        </RadzenStack>\r\n</dialog>\r\n");
             
-            #line 366 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
+            #line 363 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
  }
             
             #line default
             #line hidden
             this.Write("}\r\n");
             
-            #line 368 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
+            #line 365 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTable.tt"
  }
             
             #line default
