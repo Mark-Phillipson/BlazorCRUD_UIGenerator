@@ -1086,7 +1086,7 @@ if (!string.IsNullOrWhiteSpace(ForeignKeyName)) {
             
             #line default
             #line hidden
-            this.Write(@"<dialog open=""true"" style=""position:absolute;left: 0px;top: 50px;z-index: 900;width:50vw;max-height:700px""
+            this.Write(@"<dialog open=""true"" style=""position:absolute;left: 0px;top: 50px;z-index: 900;width:29vw;max-height:250px""
         class=""border border-danger rz-layout"">
         <RadzenStack Orientation=""Orientation.Vertical"">
             <RadzenStack Orientation=""Orientation.Horizontal"">

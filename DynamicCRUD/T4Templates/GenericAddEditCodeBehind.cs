@@ -611,31 +611,24 @@ using Microsoft.JSInterop;
             
             #line default
             #line hidden
-            this.Write("                NavigationManager.NavigateTo(\"/");
+            this.Write("            }\r\n        }\r\n        else\r\n        {\r\n            string updateResul" +
+                    "t = await ");
             
-            #line 185 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEditCodeBehind.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
-            
-            #line default
-            #line hidden
-            this.Write("s\");\r\n            }\r\n        }\r\n        else\r\n        {\r\n            string updat" +
-                    "eResult = await ");
-            
-            #line 190 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEditCodeBehind.tt"
+            #line 189 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEditCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("DataService.Update");
             
-            #line 190 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEditCodeBehind.tt"
+            #line 189 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEditCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
             this.Write("(");
             
-            #line 190 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEditCodeBehind.tt"
+            #line 189 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEditCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
@@ -653,28 +646,21 @@ using Microsoft.JSInterop;
                 MessageType = ""success"";
                 ");
             
-            #line 201 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEditCodeBehind.tt"
+            #line 200 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEditCodeBehind.tt"
  if (!UseBlazored) {
             
             #line default
             #line hidden
             this.Write("                await CloseModal.InvokeAsync(true);\r\n                ");
             
-            #line 203 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEditCodeBehind.tt"
+            #line 202 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEditCodeBehind.tt"
  } 
             
             #line default
             #line hidden
-            this.Write("                NavigationManager.NavigateTo(\"/");
-            
-            #line 204 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEditCodeBehind.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
-            
-            #line default
-            #line hidden
-            this.Write("s\");\r\n            }            \r\n        }\r\n        isSubmitting = false;\r\n    }\r" +
-                    "\n    private void HideMessage()\r\n    {\r\n        ApplicationState.Message = \"\";\r\n" +
-                    "    }\r\n}");
+            this.Write("            }            \r\n        }\r\n        isSubmitting = false;\r\n    }\r\n    p" +
+                    "rivate void HideMessage()\r\n    {\r\n        Message = \"\";\r\n        StateHasChanged" +
+                    "();\r\n    }\r\n}");
             return this.GenerationEnvironment.ToString();
         }
     }

@@ -182,7 +182,6 @@ public partial class <#= ModelName #>AddEdit : ComponentBase
                 <# if (!UseBlazored) {#>
                 await CloseModal.InvokeAsync(true);
                 <# } #>
-                NavigationManager.NavigateTo("/<#= ModelName #>s");
             }
         }
         else
@@ -201,13 +200,13 @@ public partial class <#= ModelName #>AddEdit : ComponentBase
                 <# if (!UseBlazored) {#>
                 await CloseModal.InvokeAsync(true);
                 <# } #>
-                NavigationManager.NavigateTo("/<#= ModelName #>s");
             }            
         }
         isSubmitting = false;
     }
     private void HideMessage()
     {
-        ApplicationState.Message = "";
+        Message = "";
+        StateHasChanged();
     }
 }
