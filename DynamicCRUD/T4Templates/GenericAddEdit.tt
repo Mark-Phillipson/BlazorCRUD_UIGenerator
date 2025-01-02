@@ -202,7 +202,7 @@ counter--;
                     <RadzenDatePicker aria-describedby='<#=property.PropertyName#>' Placeholder="Enter Format dd/MM/yyyy" id="<#=property.PropertyName#>"
                     @bind-Value="@<#=ModelName#>DTO.<#=property.PropertyName#>" 
                     ShowCalendarWeek ShowTime="true" HourFormat="24"
-                    DateFormat="dd/MM/yyyy h:mm tt" Style="width:t 100%">
+                    DateFormat="dd/MM/yyyy h:mm tt" Style="width:100%">
                     </RadzenDatePicker>
         <# }#>
                     <ValidationMessage class='validation-message' For="@(() => <#=ModelName#>DTO.<#=property.PropertyName#>)" />

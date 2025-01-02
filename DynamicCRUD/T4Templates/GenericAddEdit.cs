@@ -1159,8 +1159,8 @@ counter--;
             #line default
             #line hidden
             this.Write("\" \r\n                    ShowCalendarWeek ShowTime=\"true\" HourFormat=\"24\"\r\n       " +
-                    "             DateFormat=\"dd/MM/yyyy h:mm tt\" Style=\"width:t 100%\">\r\n            " +
-                    "        </RadzenDatePicker>\r\n        ");
+                    "             DateFormat=\"dd/MM/yyyy h:mm tt\" Style=\"width:100%\">\r\n              " +
+                    "      </RadzenDatePicker>\r\n        ");
             
             #line 207 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericAddEdit.tt"
  }
