@@ -8,7 +8,7 @@
             <div class="col-5 mt-1">
                 <InputSelect title='Project or Database Name' ValueExpression="@(()=>SelectedProject)"
                     Value="@SelectedProject" ValueChanged="@((string value) => SetupDatabaseProperties(value))"
-                    class="form-select">
+                    class="form-select" Style="padding-left: 20px">
                     @foreach (var item in Projects)
                     {
                         if (item == SelectedProject)
@@ -24,9 +24,9 @@
             </div>
             <div class="col-7 mt-1">
                 <button class="btn btn-outline-info m-1" type="button"
-                    @onclick="@( ( ) => OpenConfigurationFile("appsettings.json"  ) )">App Settings</button>
+                    @onclick="@( ( ) => OpenConfigurationFile("appsettings.json"  ) )">-    App Settings</button>
                 <button class="btn btn-outline-info m-1" type="button"
-                    @onclick="@( ( ) => OpenConfigurationFile("projectMappings.json"  ) )">Project Settings</button>
+                    @onclick="@( ( ) => OpenConfigurationFile("projectMappings.json"  ) )">-    Project Settings</button>
             </div>
             <div class="col-12 mt-1">
                 <textarea
@@ -36,14 +36,16 @@
             </div>
             <div class="col-3">
                 <div class="form-group">
-                    <label class="col-form-label col-form-label-sm"><u>T</u>able Filter </label>
-                    <input accesskey="t" class="form-control form-control-sm" type="text" @bind="SearchString"
+                    <label class="col-form-label col-form-label-sm">-    <u>T</u>able Filter </label>
+                    <input accesskey="t" class="form-control form-control-sm" 
+                    Style="padding-left: 20px"
+                    type="text" @bind="SearchString"
                         id="SearchString" @oninput="@(e => CallChangeAsync("SearchString"))" />
                 </div>
             </div>
             <div class="col-6">
-                <label class="col-form-label col-form-label-sm">Select a Table</label>
-                <select id="tables" class="form-select form-select-sm border border-warning" @bind="@Tablename">
+                <label class="col-form-label col-form-label-sm">-    Select a Table</label>
+                <select Style="padding-left: 20px" id="tables" class="form-select form-select-sm border border-warning" @bind="@Tablename">
                     <option value="">-</option>
                     @foreach (var databaseTable in databaseTables)
                     {
@@ -54,36 +56,42 @@
             <div class="col-3">
                 @if (Tablename != null)
                 {
-                    <label class="col-form-label col-form-label-sm">Get Columns</label>
+                    <label class="col-form-label col-form-label-sm">-    Get Columns</label>
                     <button accesskey="p" class="btn btn-sm btn-primary" type="button"
-                        @onclick="@( ( ) => PopulateColumns() )">@PopulateColumnsCaption</button>
+                        @onclick="@( ( ) => PopulateColumns() )">-    @PopulateColumnsCaption</button>
                 }
                 else
                 {
-                    <label class="col-form-label col-form-label-sm">Get Columns</label>
+                    <label class="col-form-label col-form-label-sm">-    Get Columns</label>
                     <button disabled accesskey="p" class="btn btn-sm btn-primary" type="button"
-                        @onclick="@( ( ) => PopulateColumns() )">@PopulateColumnsCaption</button>
+                        @onclick="@( ( ) => PopulateColumns() )">-    @PopulateColumnsCaption</button>
                 }
             </div>
 
             <div class="col-6">
                 <div class="form-group">
-                    <label class="col-form-label col-form-label-sm">Model Name</label>
-                    <input class="form-control form-control-sm" type="text" @bind="ModelName" id="ModelName"
+                    <label class="col-form-label col-form-label-sm">-    Model Name</label>
+                    <input class="form-control form-control-sm" type="text" 
+                    Style="padding-left: 20px"
+                    @bind="ModelName" id="ModelName"
                         @oninput="@(e => CallChangeAsync("ModelName"))" />
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <label class="col-form-label col-form-label-sm">Plural Name</label>
-                    <input class="form-control form-control-sm" type="text" @bind="PluralName" id="PluralName"
+                    <label class="col-form-label col-form-label-sm">-    Plural Name</label>
+                    <input class="form-control form-control-sm" type="text" 
+                    Style="padding-left: 20px"
+                    @bind="PluralName" id="PluralName"
                         @oninput="@(e => CallChangeAsync("PluralName"))" />
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <label class="col-form-label col-form-label-sm my-1">Db Context Name</label>
-                    <input required class="form-control form-control-sm my-1" type="text" @bind="DbContextName"
+                    <label class="col-form-label col-form-label-sm my-1">-    Db Context Name</label>
+                    <input required class="form-control form-control-sm my-1" 
+                    Style="padding-left: 20px"
+                    type="text" @bind="DbContextName"
                         id="DbContextName" @oninput="@(e => CallChangeAsync("DbContextName"))" />
                 </div>
             </div>
@@ -93,51 +101,68 @@
         <div class="row">
             <div class="col-6">
                 <div class="form-group">
-                    <label class="col-form-label col-form-label-sm">Namespaces: </label>
-                    <label class="col-form-label col-form-label-sm"> Razor</label>
-                    <input class="form-control form-control-sm" type="text" @bind="RazorNamespaceName" />
+                    <label class="col-form-label col-form-label-sm">-    Namespaces: </label>
+                    <label class="col-form-label col-form-label-sm">-    Razor</label>
+                    
+                    <input class="form-control form-control-sm" type="text" 
+                    Style="padding-left: 20px"
+                    @bind="RazorNamespaceName" />
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <label class="col-form-label col-form-label-sm">DTO </label>
-                    <input class="form-control form-control-sm" type="text" @bind="DTONamespaceName" />
+                    <label class="col-form-label col-form-label-sm">-    DTO </label>
+                    <input class="form-control form-control-sm" type="text" 
+                    Style="padding-left: 20px"
+                    @bind="DTONamespaceName" />
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <label class="col-form-label col-form-label-sm">Repository </label>
-                    <input class="form-control form-control-sm" type="text" @bind="RepositoryNamespaceName" />
+                    <label class="col-form-label col-form-label-sm">-    Repository </label>
+                    <input class="form-control form-control-sm" type="text" 
+                    Style="padding-left: 20px"
+                    @bind="RepositoryNamespaceName" />
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <label class="col-form-label col-form-label-sm">Data Service </label>
-                    <input class="form-control form-control-sm" type="text" @bind="DataServiceNamespaceName" />
+                    <label class="col-form-label col-form-label-sm">-    Data Service </label>
+                    <input class="form-control form-control-sm" type="text" 
+                    Style="padding-left: 20px"
+                    @bind="DataServiceNamespaceName" />
                 </div>
             </div>
             <div class="col-12">
                 <div class="form-group">
-                    <label class="col-form-label col-form-label-sm">Location Razor Files </label>
-                    <input class="form-control form-control-sm" type="text" @bind="LocationRazor" />
+                    <label class="col-form-label col-form-label-sm">-    Location Razor Files </label>
+                    <input class="form-control form-control-sm" type="text" 
+                    Style="padding-left: 20px"
+                    @bind="LocationRazor" />
                 </div>
             </div>
             <div class="col-12">
                 <div class="form-group">
-                    <label class="col-form-label col-form-label-sm">DTO </label>
-                    <input class="form-control form-control-sm" type="text" @bind="LocationDTO" />
+                    <label class="col-form-label col-form-label-sm">-    DTO </label>
+                    <input class="form-control form-control-sm" type="text" 
+                    Style="padding-left: 20px"
+                    @bind="LocationDTO" />
                 </div>
             </div>
             <div class="col-12">
                 <div class="form-group">
-                    <label class="col-form-label col-form-label-sm">Repository </label>
-                    <input class="form-control form-control-sm" type="text" @bind="LocationRepository" />
+                    <label class="col-form-label col-form-label-sm">-    Repository </label>
+                    <input class="form-control form-control-sm" type="text" 
+                    Style="padding-left: 20px"
+                    @bind="LocationRepository" />
                 </div>
             </div>
             <div class="col-12">
                 <div class="form-group">
-                    <label class="col-form-label col-form-label-sm">Data Service </label>
-                    <input class="form-control form-control-sm" type="text" @bind="LocationDataService" />
+                    <label class="col-form-label col-form-label-sm">-    Data Service </label>
+                    <input class="form-control form-control-sm" type="text" 
+                    Style="padding-left: 20px"
+                    @bind="LocationDataService" />
                 </div>
             </div>
         </div>
@@ -169,7 +194,9 @@
                     {
                         <tr>
                             <td>@column.ColumnName</td>
-                            <td style="font-size:xx-small"><input type="text" class="form-control-sm border border-warning"
+                            <td style="font-size:xx-small"><input type="text" 
+                            Style="padding-left: 20px"
+                            class="form-control-sm border border-warning"
                                     @bind="@column.Label" /></td>
                             <td>@column.DataType</td>
                             <td>@column.ColumnSize</td>
@@ -193,18 +220,18 @@
     }
     <div class="col-3">
         <input @onblur="@(() => SynchronizeUseOptions())" type="checkbox" @bind="@UseBlazored" accesskey="b" />
-        <label class="control-label m-1">Use Blazored Modal & Toast (Alt-B)</label>
+        <label class="control-label m-1">-    Use Blazored Modal & Toast (Alt-B)</label>
     </div>
     <div class="col-3">
         <input @onblur="@(() => SynchronizeUseOptions())" type="checkbox" @bind="@UseRadzen" accesskey="r" />
-        <label class="control-label m-1">Use Radzen Blazor (Alt-R)</label>
+        <label class="control-label m-1">-    Use Radzen Blazor (Alt-R)</label>
     </div>
     @if (ModelName != null)
     {
         <div class="col-6">
             <div class="btn-group">
                 <button accesskey="g" class="btn btn-success" type="button" @onclick="@( ( ) => ShowConfirmDialog( ))">
-                    <u>G</u>enerate C# Classes
+                    -    <u>G</u>enerate C# Classes
                 </button>
             </div>
         </div>

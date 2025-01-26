@@ -296,7 +296,7 @@ namespace <#=Namespace#>.Pages
         {
             <#=ModelName#>Id = <#=PrimaryKeyName#>;
             current<#=ModelName#> = Filtered<#=ModelName#>DTO?.FirstOrDefault(v => v.Id == Id);
-            message = $"Are you sure you want to delete {current<#=ModelName#>?.<#=PrimaryKeyName#>} <#=ModelName#> item?";
+            message = $"Are you sure you want to delete (ID: {current<#=ModelName#>?.<#=PrimaryKeyName#>})  <#=ModelName#> item?";
             ShowDeleteConfirm=true;
         }
 <#           }#>
@@ -360,7 +360,7 @@ namespace <#=Namespace#>.Pages
                 await <#=ModelName#>DataService.Delete<#=ModelName#>(<#=ModelName#>Id);
                 if (ApplicationState != null)
                 {
-                    ApplicationState.Message = $"{<#=ModelName#>Id} <#=ModelNameWithSpaces#> item has been deleted successfully";
+                    ApplicationState.Message = $"ID: {<#=ModelName#>Id}. <#=ModelNameWithSpaces#> item has been deleted successfully";
                     ApplicationState.MessageType = "success";
                 }
                 await LoadData();

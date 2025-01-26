@@ -1110,7 +1110,7 @@ using Microsoft.Extensions.Logging;
             #line default
             #line hidden
             this.Write("DTO?.FirstOrDefault(v => v.Id == Id);\r\n            message = $\"Are you sure you w" +
-                    "ant to delete {current");
+                    "ant to delete (ID: {current");
             
             #line 299 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
@@ -1124,7 +1124,7 @@ using Microsoft.Extensions.Logging;
             
             #line default
             #line hidden
-            this.Write("} ");
+            this.Write("})  ");
             
             #line 299 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
@@ -1331,14 +1331,14 @@ using Microsoft.Extensions.Logging;
             #line default
             #line hidden
             this.Write("Id);\r\n                if (ApplicationState != null)\r\n                {\r\n         " +
-                    "           ApplicationState.Message = $\"{");
+                    "           ApplicationState.Message = $\"ID: {");
             
             #line 363 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelName));
             
             #line default
             #line hidden
-            this.Write("Id} ");
+            this.Write("Id}. ");
             
             #line 363 "C:\Users\MPhil\source\repos\BlazorCRUD_UIGenerator\DynamicCRUD\T4Templates\GenericTableCodeBehind.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNameWithSpaces));
