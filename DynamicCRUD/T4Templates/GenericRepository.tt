@@ -141,8 +141,9 @@ namespace <#=Namespace#>.Repositories
             return <#=ModelNameCamelCase#>DTO;
         }
 
-        public async Task<string> Add<#=ModelName#>Async(<#=ModelName#>DTO <#=ModelNameCamelCase#>DTO)
+        public async Task<CrudRecordResult> Add<#=ModelName#>Async(<#=ModelName#>DTO <#=ModelNameCamelCase#>DTO)
         {
+            CrudRecordResult crudRecordResult = new CrudRecordResult();
             using var context = _contextFactory.CreateDbContext();
             <#=ModelName#> <#=ModelNameCamelCase#> = _mapper.Map<<#=ModelName#>DTO, <#=ModelName#>>(<#=ModelNameCamelCase#>DTO);
             var addedEntity = context.<#=PluralTablename#>.Add(<#=ModelNameCamelCase#>);
@@ -161,13 +162,21 @@ namespace <#=Namespace#>.Repositories
                     innerException = innerException.InnerException;
                 }
                 Console.WriteLine(message);
-                return message;
+                crudRecordResult.<#=PrimaryKeyName#> = <#ModelName#>.<#=PrimaryKeyName#>;
+                crudRecordResult.IsSuccess = false;
+                crudRecordResult.Message = message;
+                return crudRecordResult;
+
             }            
-            return "Record Added Successfully!";
+            crudRecordResult.Message= "Record Added Successfully!";
+            crudRecordResult.<#=PrimaryKeyName#> = <#ModelName#>.<#=PrimaryKeyName#>;
+            crudRecordResult.IsSuccess = true;
+            return crudRecordResult;
         }
 
-        public async Task<string> Update<#=ModelName#>Async(<#=ModelName#>DTO <#=ModelNameCamelCase#>DTO)
+        public async Task<CrudRecordResult> Update<#=ModelName#>Async(<#=ModelName#>DTO <#=ModelNameCamelCase#>DTO)
         {
+            CrudRecordResult crudRecordResult = new CrudRecordResult();
             <#=ModelName#> <#=ModelNameCamelCase#>=_mapper.Map<<#=ModelName#>DTO, <#=ModelName#>>(<#=ModelNameCamelCase#>DTO);
             using (var context = _contextFactory.CreateDbContext())
             {
@@ -192,14 +201,24 @@ namespace <#=Namespace#>.Repositories
                             innerException = innerException.InnerException;
                         }
                         Console.WriteLine(message);
-                        return message;
+                        crudRecordResult.<#=PrimaryKeyName#> = <#ModelName#>.<#=PrimaryKeyName#>;
+                        crudRecordResult.IsSuccess = false;
+                        crudRecordResult.Message = message;
+                        return crudRecordResult;        
                     }
-                    return "Record Updated Successfully!";
+                    crudRecordResult.<#=PrimaryKeyName#> = <#ModelName#>.<#=PrimaryKeyName#>;
+                    crudRecordResult.IsSuccess = true;
+                    crudRecordResult.Message = "Record Updated Successfully!";
+                    return crudRecordResult;
                 }
             }
-            return "Record Not Found!";
+            crudRecordResult.Message= "Record Not Found!";
+            crudRecordResult.<#=PrimaryKeyName#> = <#ModelName#>.<#=PrimaryKeyName#>;
+            crudRecordResult.IsSuccess = false;
+            return crudRecordResult;
+
         }
-        public async Task Delete<#=ModelName#>Async(<#=PrimaryKeyDataType#> <#=PrimaryKeyName#>)
+        public async Task<CrudRecordResult> Delete<#=ModelName#>Async(<#=PrimaryKeyDataType#> <#=PrimaryKeyName#>)
         {
             using var context = _contextFactory.CreateDbContext();
             var found<#=ModelName#> = context.<#=PluralTablename#>.FirstOrDefault(e => e.<#=PrimaryKeyName#> == <#=PrimaryKeyName#>);
@@ -208,7 +227,16 @@ namespace <#=Namespace#>.Repositories
                 return;
             }
             context.<#=PluralTablename#>.Remove(found<#=ModelName#>);
-            await context.SaveChangesAsync();
+                        try
+            {
+                await context.SaveChangesAsync();
+            }
+            catch (System.Exception exception)
+            {
+                System.Console.WriteLine(exception.Message);
+                return new CrudRecordResult { Id = Id, IsSuccess = false, Message = exception.Message };
+            }
+            return new CrudRecordResult { Id = Id, IsSuccess = true, Message = "Record Deleted Successfully!" };
         }
         public async Task<int> GetTotalCountAsync()
         {

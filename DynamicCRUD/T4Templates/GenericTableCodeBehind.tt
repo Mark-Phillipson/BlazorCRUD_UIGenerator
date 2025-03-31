@@ -19,10 +19,12 @@ using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
 using Microsoft.JSInterop;
+<#      if (UseBlazored) {#>        
 using Blazored.Modal;
 using Blazored.Modal.Services;
 using Blazored.Toast;
 using Blazored.Toast.Services;
+<#      }#>
 using System.Security.Claims;
 using Ardalis.GuardClauses;
 using Microsoft.Extensions.Logging;

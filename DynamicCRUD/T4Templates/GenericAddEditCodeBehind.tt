@@ -168,16 +168,16 @@ public partial class <#= ModelName #>AddEdit : ComponentBase
         if ((string.IsNullOrWhiteSpace(<#= PrimaryKeyName #>) || <#= PrimaryKeyName #> == null))
 <# } #>
         {
-            string result = await <#= ModelName #>DataService.Add<#= ModelName #>(<#= ModelName #>DTO);
-            if (result == null || result.ToLower().Contains("success") == false)
+            var result = await <#= ModelName #>DataService.Add<#= ModelName #>(<#= ModelName #>DTO);
+            if (result == null || result.IsSuccess == false)
             {
                 Logger.LogError($"Error adding record {result}");
-                Message = result ?? "Error adding record";
+                Message = result?.Message ?? "Error adding record";
                 MessageType = "danger";
             }
             else
             {
-                Message = result ?? "Record added successfully";
+                Message = result?.Message ?? "Record added successfully";
                 MessageType = "success";
                 <# if (!UseBlazored) {#>
                 await CloseModal.InvokeAsync(true);
@@ -186,16 +186,16 @@ public partial class <#= ModelName #>AddEdit : ComponentBase
         }
         else
         {
-            string updateResult = await <#= ModelName #>DataService.Update<#= ModelName #>(<#= ModelName #>DTO,"TBC");
-            if (updateResult == null || updateResult.ToLower().Contains("success") == false)
+            var updateResult = await <#= ModelName #>DataService.Update<#= ModelName #>(<#= ModelName #>DTO,"TBC");
+            if (updateResult == null || updateResult.IsSuccess == false)
             {
                 Logger.LogError($"Error updating record {updateResult}");
-                Message = updateResult ?? "Error updating record";
+                Message = updateResult?.Message ?? "Error updating record";
                 MessageType = "danger";
             }
             else
             {
-                Message = updateResult ?? "Record updated successfully";
+                Message = updateResult?.Message ?? "Record updated successfully";
                 MessageType = "success";
                 <# if (!UseBlazored) {#>
                 await CloseModal.InvokeAsync(true);

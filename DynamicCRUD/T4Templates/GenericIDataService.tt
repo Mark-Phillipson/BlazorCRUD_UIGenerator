@@ -21,10 +21,10 @@ namespace <#=Namespace#>.Services
         Task<List<<#=ModelName#>DTO>> GetAll<#=PluralTablename#>Async(int pageNumber, int pageSize, string? serverSearchTerm);
 <#      } #>
         Task<List<<#=ModelName#>DTO>> Search<#=PluralTablename#>Async(string serverSearchTerm);
-        Task<string> Add<#=ModelName#>(<#=ModelName#>DTO <#=ModelNameCamelCase#>DTO);
+        Task<CrudRecordResult> Add<#=ModelName#>(<#=ModelName#>DTO <#=ModelNameCamelCase#>DTO);
         Task<<#=ModelName#>DTO?> Get<#=ModelName#>ById(<#=PrimaryKeyDataType#> <#=PrimaryKeyName#>);
-        Task<string> Update<#=ModelName#>(<#=ModelName#>DTO <#=ModelNameCamelCase#>DTO, string? username);
-        Task Delete<#=ModelName#>(<#=PrimaryKeyDataType#> <#=PrimaryKeyName#>);
+        Task<CrudRecordResult> Update<#=ModelName#>(<#=ModelName#>DTO <#=ModelNameCamelCase#>DTO, string? username);
+        Task<CrudRecordResult> Delete<#=ModelName#>(<#=PrimaryKeyDataType#> <#=PrimaryKeyName#>);
         Task<int> GetTotalCount();
     }
 }
